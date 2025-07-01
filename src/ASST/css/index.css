@@ -113,7 +113,6 @@ body {
 .directory .tree-branch-wrapper,
 .directory .tree-node__leaf {
   outline: none;
-  outline: none;
 }
 
 .directory .tree-node {
