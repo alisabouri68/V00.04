@@ -29,8 +29,9 @@ function Index() {
          * - Provides consistent styling for content
          * - Can be used as a base for more complex components
          */
-        <div className="bg-white rounded-xl shadow-md p-6 h-40">
-            jinni Box
+        <div className="bg-white flex items-center justify-center rounded-xl shadow-md p-6 h-40">
+            jinni Box             jinni Box
+
         </div>
     );
 }

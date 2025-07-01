@@ -54,7 +54,7 @@ const AuthProvider: React.FC<{ route: Route }> = ({ route }) => {
                 route.element
             ) : (
                 // Standard layout with optional sidebar and content panel
-                <div className="flex p-3 gap-2 h-full">
+                <div className="flex p-2 gap-2 h-full">
                     {/* Render sidebar if configured */}
                     {showSidebar && (
                         <div className="w-20 bg-white rounded-xl shadow-md">

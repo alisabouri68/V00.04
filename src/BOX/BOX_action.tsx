@@ -8,7 +8,6 @@ import Jinni from './BOX_Jinni';
 import lodash from 'lodash';
 import AbsMan from 'ACTR/RACT_absMan';
 import { add } from 'RDUX/env/SpkSlice';
-import UserAvatar from 'COMP/RCMP_userAvatar_VAR.01_V00.04';
 import IconButton from 'COMP/RCMP_iconButton_VAR.01_V00.04';
 import ServiceTab from 'COMP/RCMP_serviceTab_VAR.01_V00.04';
 import SheetItem from 'COMP/RCMP_sheetItem_VAR.01_V00.04';
@@ -116,10 +115,7 @@ function Action({ children }: any) {
                         {/* User avatars and action buttons */}
                         <div className="flex items-center">
                             <div className="flex gap-2">
-                                <UserAvatar bgColor="bg-red-100" initials="MK" />
-                                <UserAvatar bgColor="bg-blue-100" initials="AL" />
-                                <UserAvatar bgColor="bg-orange-100" initials="BU" />
-                                <UserAvatar bgColor="bg-lime-100" initials="SA" />
+
                             </div>
 
                             <div className="w-1 h-full bg-gray-200 mx-6 rounded-full" />
