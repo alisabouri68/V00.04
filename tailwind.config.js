@@ -13,19 +13,12 @@ module.exports = {
     ],
     important: false,
     darkMode: "class",
-    theme: {
-    extend: {
-      boxShadow: {
-        'vazir-glow': '0px 10px 50px 5px #78C4D6',
-      },
-    },
-  },
+    theme: {},
     plugins: [
         require('@tailwindcss/forms'),
         require('flowbite/plugin'),
         require('tailwind-scrollbar'),
-        // custom theme plugin
-        require('./src/THME/index'),
+   
     ],
 }
 
