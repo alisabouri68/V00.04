@@ -8,11 +8,7 @@ interface Props {
 const AuthProvider = ({ route }: Props) => {
     const { layout } = route
     const shoHeader = layout?.header !== false
-
     const shoAside = layout?.aside !== false
-    console.log("Rendering route:", route.path)
-    console.log("Element:", route.element)
-
     return (
         <div className="flex flex-col w-full">
             {shoHeader && <Header />}

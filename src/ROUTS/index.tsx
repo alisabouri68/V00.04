@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../LAYOUT/home";
+import Comm from "../LAYOUT/comm";
+import Desk from "../LAYOUT/desk";
 import Hot from "../LAYOUT/hot";
 import Cast from "../LAYOUT/cast";
 import NotFound from "../LAYOUT/notFound";
@@ -8,6 +10,8 @@ import type { RoutsType } from "../TYPE";
 
 const routes: RoutsType[] = [
     { path: "/", element: <Home />, auth: true, layout: { header: true, aside: true } },
+    { path: "/comm", element: <Comm />, auth: true, layout: { header: true, aside: true } },
+    { path: "/desk", element: <Desk />, auth: true, layout: { header: true, aside: true } },
     { path: "/hot", element: <Hot />, auth: true, layout: { header: true, aside: true } },
     { path: "/cast", element: <Cast />, auth: true, layout: { header: true, aside: true } },
     { path: "*", element: <NotFound />, auth: true, layout: { header: false, aside: false } },
