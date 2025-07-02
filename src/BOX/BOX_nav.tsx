@@ -45,12 +45,12 @@ const Sidebar = () => {
          * - Uses truncate to handle overflow
          * - Fixed width (implied by layout)
          */
-        <aside className="truncate">
+        <aside className="truncate shadow-lg rounded-lg w-full md:w-20 fixed md:static bottom-0 left-0 right-0 h-20 md:h-full">
             {/* Application Logo */}
             <SidebarLogo />
 
             {/* Navigation Menu */}
-            <nav className="flex flex-col items-center gap-6 mb-6">
+            <nav className="flex md:flex-col items-center justify-evenly  md:justify-start gap-6 md:mb-6 h-full w-full">
                 {dataNav.map((item) => (
                     <ul key={item.title} className="flex items-center" role="menuitem">
                         {/* Active Item Indicator */}

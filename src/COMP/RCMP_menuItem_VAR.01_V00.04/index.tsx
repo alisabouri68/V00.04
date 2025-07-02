@@ -10,7 +10,7 @@ export type MenuItemType = {
 function Index({ icon, title, isActive }: MenuItemType) {
     return (
         <li >
-            <Link to={`${title.toLocaleLowerCase()}`} className="flex flex-col items-center">
+            <Link to={`/${title === "home" ? "" : title.toLocaleLowerCase()}`} className="flex flex-col items-center">
                 <span
                     className={`text-2xl ${isActive ? 'text-[#78C4D6]' : ''}`}
                 >

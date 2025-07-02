@@ -1,7 +1,7 @@
-import React, { useCallback, memo } from 'react';
+import React, { memo } from 'react';
 import { faSun, faGlobe } from '@fortawesome/free-solid-svg-icons';
-import AbsMan from 'ACTR/RACT_absMan';
-import { logout } from 'RDUX/env/HybSlice';
+// import AbsMan from 'ACTR/RACT_absMan';
+// import { logout } from 'RDUX/env/HybSlice';
 import ConsoleSwicher from 'COMP/RCMP_consoleSwitcher_VAR.01_V00.04';
 import IconTextItem from 'COMP/RCMP_iconTextItem_VAR.01_V00.04';
 import UserProfile from 'COMP/RCMP_userProfile_VAR.01_V00.04';
@@ -27,7 +27,7 @@ import avatar from 'ASST/images/avatar.png';
  */
 const Header = () => {
     // Initialize Redux dispatch with typed hook
-    const dispatch = AbsMan.useAppDispatch();
+    // const dispatch = AbsMan.useAppDispatch();*******************
 
     /**
      * Handles user logout process
@@ -35,10 +35,10 @@ const Header = () => {
      * - Dispatches logout action to Redux store
      * - Memoized with useCallback to maintain stable reference
      */
-    const handleLogout = useCallback(() => {
-        window.localStorage.removeItem('access_token');
-        dispatch(logout());
-    }, [dispatch]);
+    // const handleLogout = useCallback(() => {**************************
+    //     window.localStorage.removeItem('access_token');
+    //     dispatch(logout());
+    // }, [dispatch]);
 
     return (
         /** 
@@ -75,7 +75,7 @@ const Header = () => {
                 <div
                     className="pr-8 cursor-pointer"
                     title="logout"
-                    onClick={handleLogout}
+                    // onClick={handleLogout}
                     role="button"
                     tabIndex={0}
                 />
