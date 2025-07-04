@@ -6,20 +6,20 @@ interface Props {
     route: RoutsType
 }
 const AuthProvider = ({ route }: Props) => {
-    const { layout } = route
+    const { layout , element} = route
     const shoHeader = layout?.header !== false
     const shoAside = layout?.aside !== false
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full h-full">
             {shoHeader && <Header />}
-            <div className='flex w-full'>
+            <main className='flex w-full grow p-2'>
                 <Container>
                     {shoAside && <Navigation />}
-                    <div className="">
-                        {route.element}
-                    </div>
+                    <section className="flex-1">
+                        {element}
+                    </section>
                 </Container>
-            </div>
+            </main>
 
         </div>
     )

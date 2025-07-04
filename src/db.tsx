@@ -1,4 +1,4 @@
-import { CiHome } from "react-icons/ci";
+import { LiaHomeSolid } from "react-icons/lia";
 import { LiaPhoneVolumeSolid } from "react-icons/lia";
 import { TbCurrentLocation } from "react-icons/tb";
 import { IoBriefcaseOutline } from "react-icons/io5";
@@ -14,7 +14,7 @@ export const dataNav: DataNav[] = [
   {
     id: '1',
     title: 'home',
-    icon: <CiHome />,
+    icon: <LiaHomeSolid />,
     href: '/',
     
   },

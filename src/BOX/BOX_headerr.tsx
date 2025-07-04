@@ -8,7 +8,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { GrLanguage } from "react-icons/gr";
 const BOX_headerr = () => {
     return (
-        <header className='w-full shadow-md mb-2'>
+        <header className='w-full shadow'>
             <div className="h-16 flex items-center">
                 <Container>
                     <div className='w-full flex items-center justify-between '>

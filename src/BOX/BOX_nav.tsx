@@ -1,68 +1,76 @@
 import React, { memo } from 'react';
-// import {
-//     faBriefcase,
-//     faHome,
-//     faLocationCrosshairs,
-//     faPhoneVolume,
-//     faPodcast,
-// } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types';
 import MenuItem from 'COMP/RCMP_menuItem_VAR.01_V00.04';
-// import ActiveIndicator from 'COMP/RCMP_seperator_VAR.01_V00.04';
 import SidebarLogo from 'COMP/RCMP_sidebarLogo_VAR.01_V00.04';
-import { dataNav } from "../db"
-/**
- * Sidebar Navigation Component
- *
- * A vertical navigation sidebar featuring:
- * - Application logo at the top
- * - Icon-based menu items
- * - Active item indicator
- * - Memoized for performance optimization
- *
- * @component
- * @example
- * <Sidebar />
- */
+import { dataNav } from "../db";
+
 const Sidebar = () => {
-    /**
-     * Menu configuration array
-     * @type {MenuItemType[]}
-     * @property {IconDefinition} icon - FontAwesome icon
-     * @property {string} label - Display text for menu item
-     * @property {boolean} [isActive] - Marks active menu item
-     */
-    // const menuItems: MenuItemType[] = [
-    //     { icon: faHome, label: 'Home' },
-    //     { icon: faPhoneVolume, label: 'Comm' },
-    //     { icon: faBriefcase, label: 'Desk' , isActive: true},
-    //     { icon: faPodcast, label: 'Cast' },
-    //     { icon: faLocationCrosshairs, label: 'Hot' },
-    // ];
+  // تابع انتخاب فعال برای مدیریت وضعیت آیتم‌ها
+  // const handleItemSelect = useCallback((id) => {
+  //   console.log(`Selected item: ${id}`);
+  //   // افزودن لاجیک مربوطه (مثلاً آپدیت state یا روتینگ)
+  // }, []);
 
-    return (
-        /**
-         * Sidebar Container
-         * - Uses truncate to handle overflow
-         * - Fixed width (implied by layout)
-         */
-        <aside className="truncate shadow-lg rounded-lg w-full md:w-20 fixed md:static bottom-0 left-0 right-0 h-20 md:h-full">
-            {/* Application Logo */}
-            <SidebarLogo />
+  // اعتبارسنجی داده‌ها قبل از رندر
+  const isValidNavData = Array.isArray(dataNav) && dataNav.length > 0;
 
-            {/* Navigation Menu */}
-            <nav className="flex md:flex-col items-center justify-evenly  md:justify-start gap-6 md:mb-6 h-full w-full">
-                {dataNav.map((item) => (
-                    <ul key={item.title} className="flex items-center" role="menuitem">
-                        {/* Active Item Indicator */}
-                        {/* {item && <ActiveIndicator />} */}
+  return (
+    <aside 
+      className="bg-white dark:bg-gray-800 shadow-lg md:rounded-xl w-full md:w-24 fixed md:static bottom-0 left-0 right-0 h-16 md:min-h-screen transition-all duration-300 z-50"
+      aria-label="Main navigation"
+    >
+      <div className="hidden md:flex items-center justify-center">
+        <SidebarLogo />
+      </div>
 
-                        {/* Menu Item Component */}
-                        <MenuItem {...item} />
-                    </ul>
-                ))}
-            </nav>
-        </aside>
-    );
+      <nav className="flex md:flex-col items-center h-full">
+        <ul 
+          className="flex md:flex-col items-center gap-2 w-full h-full py-2 md:py-4"
+          role="menubar"
+          aria-orientation="horizontal"
+        >
+          {isValidNavData ? (
+            dataNav.map((item) => (
+              <li 
+                key={item.id} 
+                className="flex items-center justify-center w-full"
+                role="none"
+              >
+                <MenuItem 
+                  {...item} 
+                  // onSelect={handleItemSelect}
+                  // role="menuitem"
+                  // className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                  // activeClass="bg-blue-50 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300"
+                />
+              </li>
+            ))
+          ) : (
+            <li className="text-red-500 text-xs p-2 text-center">
+              Navigation data not available
+            </li>
+          )}
+        </ul>
+      </nav>
+    </aside>
+  );
+};
+
+// اعتبارسنجی props
+Sidebar.propTypes = {
+  dataNav: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      title: PropTypes.string,
+      icon: PropTypes.elementType,
+      path: PropTypes.string,
+    })
+  ),
+};
+
+// مقدار پیش‌فرض برای props
+Sidebar.defaultProps = {
+  dataNav: [],
 };
 
 export default memo(Sidebar);

@@ -1,4 +1,4 @@
 const home = () => {
-    return <div style={{ color: 'red' }}>Home Page Loaded</div>
+    return <div className="bg-xxx text-danger">Home Page Loaded</div>
 }
 export default home

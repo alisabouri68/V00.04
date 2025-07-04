@@ -1,29 +1,73 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../LAYOUT/home";
-import Comm from "../LAYOUT/comm";
-import Desk from "../LAYOUT/desk";
-import Hot from "../LAYOUT/hot";
-import Cast from "../LAYOUT/cast";
-import NotFound from "../LAYOUT/notFound";
+import { lazy, Suspense } from "react";
 import AuthProvider from "../MIDD/authProvider";
+import SuspenseFallback from "../BOX/BOX_loading";
 import type { RoutsType } from "../TYPE";
-
+const Home = lazy(() => import("../LAYOUT/home"));
+const Comm = lazy(() => import("../LAYOUT/comm"));
+const Desk = lazy(() => import("../LAYOUT/desk"));
+const Hot = lazy(() => import("../LAYOUT/hot"));
+const Cast = lazy(() => import("../LAYOUT/cast"));
+const NotFound = lazy(() => import("../LAYOUT/notFound"));
 const routes: RoutsType[] = [
-    { path: "/", element: <Home />, auth: true, layout: { header: true, aside: true } },
-    { path: "/comm", element: <Comm />, auth: true, layout: { header: true, aside: true } },
-    { path: "/desk", element: <Desk />, auth: true, layout: { header: true, aside: true } },
-    { path: "/hot", element: <Hot />, auth: true, layout: { header: true, aside: true } },
-    { path: "/cast", element: <Cast />, auth: true, layout: { header: true, aside: true } },
-    { path: "*", element: <NotFound />, auth: true, layout: { header: false, aside: false } },
+    {
+        id: "home",
+        path: "/",
+        element: <Home />,
+        auth: true,
+        layout: { header: true, aside: true }
+    },
+    {
+        id: "community",
+        path: "/comm",
+        element: <Comm />,
+        auth: true,
+        layout: { header: true, aside: true }
+    },
+    {
+        id: "desktop",
+        path: "/desk",
+        element: <Desk />,
+        auth: true,
+        layout: { header: true, aside: true }
+    },
+    {
+        id: "hot-topics",
+        path: "/hot",
+        element: <Hot />,
+        auth: true,
+        layout: { header: true, aside: true }
+    },
+    {
+        id: "broadcast",
+        path: "/cast",
+        element: <Cast />,
+        auth: true,
+        layout: { header: true, aside: true }
+    },
+    {
+        id: "not-found",
+        path: "*",
+        element: <NotFound />,
+        auth: true,
+        layout: { header: false, aside: false }
+    },
 ];
 
-const initializeRouter = (routes: RoutsType[]) => {
-    const routers = routes.map((route) => ({
+const initializeRouter = () => {
+    const processedRoutes = routes.map((route) => ({
         path: route.path,
-        element: <AuthProvider route={route} />,
+        element: (
+            <Suspense fallback={<SuspenseFallback />}>
+                <AuthProvider route={route} />
+            </Suspense>
+        ),
+        children: route.children,
     }));
-    console.log(routers)
-    return createBrowserRouter(routers);
+    if (process.env.NODE_ENV === "development") {
+        console.debug("[Router] Initialized routes:", processedRoutes);
+    }
+    return createBrowserRouter(processedRoutes);
 };
-
-export default initializeRouter(routes);
+const router = initializeRouter();
+export default router;

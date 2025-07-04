@@ -13,12 +13,25 @@ module.exports = {
     ],
     important: false,
     darkMode: "class",
-    theme: {},
+    theme: {
+        extend: {
+            colors: {
+                primary: 'rgb(var(--color-primary) / <alpha-value>)',
+                secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+                accent: 'rgb(var(--color-accent) / <alpha-value>)',
+                dark: 'rgb(var(--color-dark) / <alpha-value>)',
+                light: 'rgb(var(--color-light) / <alpha-value>)',
+                success: 'rgb(var(--color-success) / <alpha-value>)',
+                warning: 'rgb(var(--color-warning) / <alpha-value>)',
+                danger: 'rgb(var(--color-danger) / <alpha-value>)',
+            },
+        },
+    },
     plugins: [
         require('@tailwindcss/forms'),
         require('flowbite/plugin'),
         require('tailwind-scrollbar'),
-   
+
     ],
 }
 

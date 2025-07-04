@@ -5,8 +5,10 @@ export interface LayoutConfig {
     aside?: boolean;
 }
 export interface RoutsType {
+    id?: string;
     path?: string;
     element?: ReactNode;
     auth?: boolean;
-    layout?: LayoutConfig
+    layout?: LayoutConfig;
+    children?: RoutsType[];
 }
