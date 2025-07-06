@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from 'COMP/RCMP_menuItem_VAR.01_V00.04';
 import SidebarLogo from 'COMP/RCMP_sidebarLogo_VAR.01_V00.04';
@@ -15,33 +15,61 @@ const Sidebar = () => {
   const isValidNavData = Array.isArray(dataNav) && dataNav.length > 0;
 
   return (
-    <aside 
-      className="bg-white dark:bg-gray-800 shadow-lg md:rounded-xl w-full md:w-24 fixed md:static bottom-0 left-0 right-0 h-16 md:min-h-screen transition-all duration-300 z-50"
+    <aside
+      className={`
+        h-16
+        w-full
+        md:min-h-full
+        bg-white
+        dark:bg-gray-800
+        shadow-lg
+        md:rounded-xl
+        md:my-2
+        md:w-24
+        fixed
+        md:static
+        bottom-0
+        left-0
+        right-0
+        z-50
+        transition-all
+        duration-300
+        `}
       aria-label="Main navigation"
     >
-      <div className="hidden md:flex items-center justify-center">
-        <SidebarLogo />
-      </div>
+
 
       <nav className="flex md:flex-col items-center h-full">
-        <ul 
-          className="flex md:flex-col items-center gap-2 w-full h-full py-2 md:py-4"
+        <ul
+          className="flex
+           md:flex-col
+           items-center
+           gap-1
+           w-full
+           h-full
+           py-2
+           md:py-1
+           custom-scrollbar
+           md:overflow-y-auto"
           role="menubar"
           aria-orientation="horizontal"
         >
+          <li className="hidden md:flex items-center justify-center">
+            <SidebarLogo />
+          </li>
           {isValidNavData ? (
             dataNav.map((item) => (
-              <li 
-                key={item.id} 
+              <li
+                key={item.id}
                 className="flex items-center justify-center w-full"
                 role="none"
               >
-                <MenuItem 
-                  {...item} 
-                  // onSelect={handleItemSelect}
-                  // role="menuitem"
-                  // className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-                  // activeClass="bg-blue-50 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300"
+                <MenuItem
+                  {...item}
+                // onSelect={handleItemSelect}
+                // role="menuitem"
+                // className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                // activeClass="bg-blue-50 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300"
                 />
               </li>
             ))

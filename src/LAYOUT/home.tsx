@@ -1,4 +1,5 @@
+import Action from "../BOX/BOX_actionn"
 const home = () => {
-    return <div className="bg-xxx text-danger">Home Page Loaded</div>
+    return <Action />
 }
 export default home

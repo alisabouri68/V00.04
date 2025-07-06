@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import  { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ProgressBar from "../RCMP_progressBar_VAR.01_V00.04"
 import ViewButton from "../RCMP_viewButton_VAR.01_V00.04"

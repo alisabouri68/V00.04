@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import  { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 export type MenuItemProps = {
@@ -21,40 +21,56 @@ const MenuItem = ({ icon, title, path: customPath }: MenuItemProps) => {
         (title.toLowerCase() === 'home' && location.pathname === '/');
 
     return (
-        <li className="flex items-center justify-center w-full">
-            <Link
-                to={path}
-                className="flex flex-col items-center justify-center p-2 w-full group"
-                aria-current={isActive ? 'page' : undefined}
-            >
-                <span
-                    className={`
+        <Link
+            to={path}
+            className={`
+                 ${isActive ? 'md:border-s-primary' : ''}
+                   md:border-4
+                   md:border-transparent
+                   flex
+                   flex-col
+                   items-center
+                   justify-center
+                   p-1
+                   w-full
+                   hover:text-primary
+                   dark:hover:text-primary
+                   `}
+            aria-current={isActive ? 'page' : undefined}
+        >
+            <span
+                className={`
             flex items-center justify-center
-            text-2xl p-2 rounded-full
-            transition-all duration-300
+            text-2xl p-1 rounded-full
+            transition-all duration-300 
             ${isActive
-                            ? 'bg-danger text-white md:bg-transparent md:text-primary'
-                            : 'text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary'
-                        }
+                        ? 'bg-primary text-white md:bg-transparent md:text-primary'
+                        : 'dark:text-gray-300 text-inherit'
+                    }
           `}
-                    aria-hidden="true"
-                >
-                    {icon}
-                </span>
-                <span
-                    className={`
-            mt-1 text-xs md:text-sm font-medium capitalize
-            transition-colors duration-300
+                aria-hidden="true"
+            >
+                {icon}
+            </span>
+            <span
+                className={`
+            text-xs
+            md:text-sm
+            font-medium
+            capitalize
+            transition-colors
+            duration-300
             ${isActive
-                            ? 'text-primary'
-                            : 'text-gray-600 group-hover:text-primary dark:text-gray-300 dark:group-hover:text-primary'
-                        }
+                        ? 'text-primary'
+                        : `
+                     dark:text-gray-300
+                     text-inherit`
+                    }
           `}
-                >
-                    {title}
-                </span>
-            </Link>
-        </li>
+            >
+                {title}
+            </span>
+        </Link>
     );
 };
 

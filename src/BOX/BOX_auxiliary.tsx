@@ -1,4 +1,3 @@
-import React from 'react';
 import { StickyContainer } from 'react-sticky';
 
 /**
@@ -26,7 +25,7 @@ function Index({ children }: any) {
          * - Standard styling for all sticky sections
          * - Padding and rounded corners for visual consistency
          */
-        <StickyContainer className="w-4/12 bg-white rounded-xl shadow-md p-2">
+        <StickyContainer className="w-full h-full bg-white rounded-xl shadow-md">
             {children}
 
             {/* 

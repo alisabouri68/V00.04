@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import  { memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 

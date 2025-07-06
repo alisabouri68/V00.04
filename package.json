@@ -20,6 +20,7 @@
     "@types/node": "^20.3.0",
     "@types/react": "^18.2.11",
     "@types/react-dom": "^18.2.4",
+    "@types/swiper": "^6.0.0",
     "@uiw/react-color-wheel": "^1.4.2",
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
@@ -45,6 +46,8 @@
     "react-sticky": "^6.0.3",
     "react-toastify": "^9.1.2",
     "redux": "^5.0.1",
+    "swiper": "^11.2.10",
+    "swiper-react": "^1.0.0",
     "tailwindest": "^2.0.1",
     "web-vitals": "^2.1.4"
   },

@@ -1,8 +1,9 @@
+import Action from "../BOX/BOX_actionn"
+
 const comm = () => {
     return (
-        <div>
-            comm
-        </div>
+  <Action />
+
     )
 }
 

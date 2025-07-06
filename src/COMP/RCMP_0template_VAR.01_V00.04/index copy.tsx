@@ -33,7 +33,7 @@ Description:    Here ...
 // - useCallback: to memoize functions to avoid unnecessary re-creations.
 // - useMemo: to memoize computed values for performance.
 // - memo: to wrap the component and prevent unnecessary re-renders.
-import React, { useState, useEffect, useCallback, useMemo, memo } from 'react';
+import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 
 /**************************************
  * Step.02:    import dependency - widgets

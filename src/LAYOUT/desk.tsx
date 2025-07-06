@@ -1,9 +1,7 @@
-
+import Action from "../BOX/BOX_actionn"
 const desk = () => {
   return (
-    <div>
-      desk
-    </div>
+<Action />
   )
 }
 

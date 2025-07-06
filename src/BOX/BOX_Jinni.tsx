@@ -1,5 +1,4 @@
-import React from 'react';
-
+import Slider from "../COMP/RCMP_swiper/swiper"
 /**
  * Jinni Box Component
  * 
@@ -29,9 +28,8 @@ function Index() {
          * - Provides consistent styling for content
          * - Can be used as a base for more complex components
          */
-        <div className="bg-white flex items-center justify-center rounded-xl shadow-md p-6 h-40">
-            jinni Box             jinni Box
-
+        <div className="bg-white flex items-center justify-center rounded-t-xl shadow-md h-40 overflow-hidden relative">
+            <Slider />
         </div>
     );
 }

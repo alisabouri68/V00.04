@@ -15,42 +15,42 @@ const routes: RoutsType[] = [
         path: "/",
         element: <Home />,
         auth: true,
-        layout: { header: true, aside: true }
+        layout: { header: true, aside: true , action: true, auxilary: true, jini: true}
     },
     {
         id: "community",
         path: "/comm",
         element: <Comm />,
         auth: true,
-        layout: { header: true, aside: true }
+        layout: { header: true, aside: true, action: true, auxilary: true, jini: true }
     },
     {
         id: "desktop",
         path: "/desk",
         element: <Desk />,
         auth: true,
-        layout: { header: true, aside: true }
+        layout: { header: true, aside: true, action: true, auxilary: true, jini: true }
     },
     {
         id: "hot-topics",
         path: "/hot",
         element: <Hot />,
         auth: true,
-        layout: { header: true, aside: true }
+        layout: { header: true, aside: true, action: true, auxilary: true, jini: true }
     },
     {
         id: "broadcast",
         path: "/cast",
         element: <Cast />,
         auth: true,
-        layout: { header: true, aside: true }
+        layout: { header: true, aside: true, action: true, auxilary: true, jini: true }
     },
     {
         id: "not-found",
         path: "*",
         element: <NotFound />,
         auth: true,
-        layout: { header: false, aside: false }
+        layout: { header: false, aside: false, action: true, auxilary: true, jini: true }
     },
 ];
 

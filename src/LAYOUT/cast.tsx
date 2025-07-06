@@ -1,9 +1,8 @@
+import Action from "../BOX/BOX_actionn"
 
 const cast = () => {
     return (
-        <div>
-            cast
-        </div>
+        <Action />
     )
 }
 
