@@ -8,7 +8,7 @@ import { MdKeyboardArrowDown, MdNotifications } from "react-icons/md";
 import { GrLanguage } from "react-icons/gr";
 import Modal from "../BOX/BOX_modal";
 import { FiLogOut, FiSettings, FiUser, FiMail } from "react-icons/fi";
-
+import HeaderSwitch from "../COMP/RCOM_switch-header"
 const Header = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isThemeOpen, setIsThemeOpen] = useState<boolean>(false);
@@ -155,9 +155,9 @@ const Header = () => {
                                                 <button
                                                     key={theme.id}
                                                     className={`flex items-center w-full px-4 py-2 text-sm text-left ${(darkMode && theme.id === 'dark') ||
-                                                            (!darkMode && theme.id === 'light')
-                                                            ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
-                                                            : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                                                        (!darkMode && theme.id === 'light')
+                                                        ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
+                                                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                                                         }`}
                                                     onClick={() => {
                                                         if (theme.id === 'light') setDarkMode(false);
@@ -195,8 +195,8 @@ const Header = () => {
                                                 <button
                                                     key={lang.id}
                                                     className={`w-full px-4 py-2 text-sm text-left ${lang.id === 'en'
-                                                            ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
-                                                            : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                                                        ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
+                                                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                                                         }`}
                                                     onClick={() => setIsLanguageOpen(false)}
                                                 >
@@ -268,21 +268,9 @@ const Header = () => {
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title="Application Menu"
+                className="custom-styles"
             >
-                <div className="py-4">
-                    <p className="text-gray-700 dark:text-gray-300 mb-4">
-                        Additional application options and settings
-                    </p>
-                    <div className="grid grid-cols-2 gap-4">
-                        {[1, 2, 3, 4].map((item) => (
-                            <div key={item} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 mx-auto mb-2" />
-                                <p className="text-center text-gray-700 dark:text-gray-300">Option {item}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <HeaderSwitch onCloseClick={() => setIsModalOpen(false)} />
             </Modal>
         </>
     );

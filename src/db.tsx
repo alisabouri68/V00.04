@@ -35,7 +35,6 @@ export const dataNav: DataNav[] = [
     title: 'cast',
     icon: <RiVoiceprintFill />,
     href: '/cast',
-    isActive:true
   },
   {
     id: '5',
