@@ -1,5 +1,5 @@
 import { LifeLine } from 'react-loading-indicators';
-import logo from "../ASST/images/logo-dash.png"
+import logo from "../ASST/images/logo-dash.svg"
 // Separate fallback component for better readability and performance
 const BOX_loading = () => (
 

@@ -10,7 +10,7 @@ type ButtonVariant =
     | "ghost"
     | "link";
 
-type ButtonSize = "sm" | "md" | "lg";
+type ButtonSize = "xs" | "sm" | "md" | "lg";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     leftIcon?: ReactNode;
@@ -30,7 +30,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             leftIcon,
             rightIcon,
             title,
-            variant = "primary",
+            variant = "ghost",
             size = "md",
             fullWidth = false,
             isLoading = false,
@@ -56,6 +56,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         // Size styles
         const sizeStyles = {
+            xs: "",
             sm: "py-1 px-2 text-sm",
             md: "py-2 px-3 text-base",
             lg: "py-3 px-4 text-lg",
@@ -89,8 +90,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <button
                 ref={ref}
                 className={twMerge(
-                    "inline-flex items-center justify-center rounded-md font-medium transition-colors",
-                    // "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500",
+                    "flex items-center justify-center gap-3 rounded-md font-medium text-sm transition-colors",
                     "disabled:opacity-50 disabled:cursor-not-allowed",
                     variantStyles[variant],
                     sizeStyles[size],
@@ -108,11 +108,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 ) : (
                     <>
                         {leftIcon && (
-                            <span className={`${title||children?"mr-2":""} flex items-center text-2xl`} >{leftIcon}</span>
+                            <span className={`flex items-center text-2xl`} >{leftIcon}</span>
                         )}
                         {title || children}
                         {rightIcon && (
-                            <span className={`${title||children?"ml-2":""} flex items-center text-2xl`}>{rightIcon}</span>
+                            <span className={`${title || children ? "ml-2" : ""} flex items-center text-2xl`}>{rightIcon}</span>
                         )}
                     </>
                 )}

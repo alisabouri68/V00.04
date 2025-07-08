@@ -105,3 +105,25 @@ body,
 .autoplay-progress svg {
  display: none !important;
 }
+/* فایل styles.css یا هرجایی که استایل‌های global داری */
+
+.custom-scrollbars::-webkit-scrollbar {
+  width: 6px; /* عرض اسکرول بار */
+}
+
+.custom-scrollbars::-webkit-scrollbar-track {
+  background: transparent; /* پس‌زمینه اسکرول بار */
+}
+
+.custom-scrollbars::-webkit-scrollbar-thumb {
+  background-color: rgba(107, 114, 128, 0.6); /* رنگ اسکرول بار */
+  border-radius: 10px;
+  border: 2px solid transparent; /* برای فاصله دادن */
+  background-clip: content-box;
+}
+
+/* برای فایرفاکس */
+.custom-scrollbars {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(107, 114, 128, 0.6) transparent;
+}

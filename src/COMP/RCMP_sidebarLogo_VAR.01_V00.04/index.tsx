@@ -2,7 +2,7 @@ import  { memo } from 'react';
 import PropTypes from 'prop-types';
 
 // Assets
-import logoDash from 'ASST/images/logo-dash.png';
+import logoDash from 'ASST/images/Asset 5.svg';
 
 const SidebarLogo = () => {
     return (
@@ -16,12 +16,6 @@ const SidebarLogo = () => {
                 width={48}
                 height={48}
             />
-
-            {/* عنوان با حروف‌چینی مناسب و حالت hover */}
-            <span className="font-bold text-xs md:text-sm mt-2 md:mt-3 text-gray-800 dark:text-gray-200 tracking-wide hover:text-primary-500 transition-colors">
-                RAAD HL
-            </span>
-
             {/* خط جداکننده با انیمیشن */}
             <div className="w-10/12 h-px bg-gray-200 dark:bg-gray-600 rounded-full mt-2 md:mt-3 transition-all duration-500 group-hover:w-full" />
         </div>

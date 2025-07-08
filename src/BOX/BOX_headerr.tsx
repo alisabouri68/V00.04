@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Container from "../COMP/RCOM_container";
 import { GrMoreVertical } from "react-icons/gr";
-import Logo from "../ASST/images/logo-dash.png";
+import Logo from "../ASST/images/logo-dash.svg";
 import Avatar from "../ASST/images/avatar.png";
 import { GoSun, GoMoon } from "react-icons/go";
 import { MdKeyboardArrowDown, MdNotifications } from "react-icons/md";

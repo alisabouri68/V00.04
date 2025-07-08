@@ -58,12 +58,12 @@ const BOX_modal = ({
             onClick={closeOnOutsideClick ? onClose : undefined}
         >
             <div
-                className={`relative bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto ${className}`}
+                className={`relative bg-white rounded-lg shadow-xl w-full max-w-3xl h-[90vh] overflow-hidden ${className}`}
                 onClick={(e) => e.stopPropagation()}
             >
 
 
-                <div className="">
+                <div className="h-full">
                     {children}
                 </div>
             </div>
