@@ -14,9 +14,9 @@ import Slider from "../COMP/RCMP_swiper/swiper"
  * <Index /> - Renders a styled div with placeholder text
  * 
  * Styling:
- * - bg-white: White background
+ * - : White background
  * - rounded-xl: Large rounded corners (16px radius)
- * - shadow-md: Medium drop shadow
+ * - rounded-md: Medium drop shadow
  * - p-6: Padding of 1.5rem (24px) on all sides
  * - h-40: Fixed height of 10rem (160px)
  */
@@ -28,7 +28,7 @@ function Index() {
          * - Provides consistent styling for content
          * - Can be used as a base for more complex components
          */
-        <div className="bg-white flex items-center justify-center rounded-t-xl shadow-md h-40 overflow-hidden relative">
+        <div className=" flex items-center justify-center rounded-t-xl my-custom-card h-40 overflow-hidden relative">
             <Slider />
         </div>
     );

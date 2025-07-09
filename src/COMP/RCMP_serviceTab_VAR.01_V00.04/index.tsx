@@ -9,7 +9,7 @@ function Index({
     isActive: boolean;
     onClick: () => void;
 }) {
-    const className = `flex items-center w-fit px-5 rounded-lg p-1 cursor-pointer ${
+    const className = `flex items-center w-fit px-5 rounded-md p-1 cursor-pointer ${
         isActive ? 'bg-[#78C4D6] text-white' : 'bg-gray-100 text-black'
     }`;
 

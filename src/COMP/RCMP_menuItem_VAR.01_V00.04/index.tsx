@@ -1,4 +1,4 @@
-import  { memo } from 'react';
+import { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 export type MenuItemProps = {
@@ -34,7 +34,6 @@ const MenuItem = ({ icon, title, path: customPath }: MenuItemProps) => {
                    p-1
                    w-full
                    hover:text-primary
-                   dark:hover:text-primary
                    `}
             aria-current={isActive ? 'page' : undefined}
         >
@@ -45,7 +44,7 @@ const MenuItem = ({ icon, title, path: customPath }: MenuItemProps) => {
             transition-all duration-300 
             ${isActive
                         ? 'bg-primary text-white md:bg-transparent md:text-primary'
-                        : 'dark:text-gray-300 text-inherit'
+                        : 'text-inherit'
                     }
           `}
                 aria-hidden="true"
@@ -63,7 +62,6 @@ const MenuItem = ({ icon, title, path: customPath }: MenuItemProps) => {
             ${isActive
                         ? 'text-primary'
                         : `
-                     dark:text-gray-300
                      text-inherit`
                     }
           `}

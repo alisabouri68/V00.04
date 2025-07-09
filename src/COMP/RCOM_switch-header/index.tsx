@@ -33,10 +33,10 @@ const Header = ({
   return (
     <div className="flex flex-col w-full h-full custom-scrollbar overflow-y-auto"
     >
-      <header className={`sticky top-0 z-10 bg-white shadow-sm ${className}`}>
+      <header className={`sticky top-0 z-10  custom-card ${className}`}>
         <div className="flex flex-col gap-6 sm:flex-row items-center justify-between p-3 border-b-2 border-gray-200">
           <div className="mb-3 sm:mb-0 sm:mr-4">
-            <h6 className="text-xl font-bold text-gray-800">{title}</h6>
+            <h6 className="text-xl font-bold ">{title}</h6>
           </div>
           <div className="flex items-center w-full sm:w-auto">
             <ButtonIcon
@@ -69,7 +69,7 @@ const Header = ({
                 onClick={() => handleViewChange("grid")}
                 leftIcon={
                   <MdOutlineWindow
-                    className={`text-2xl  ${activeView === "grid" ? "text-primary" : "text-gray-600"}`}
+                    className={`text-2xl  ${activeView === "grid" ? "text-primary" : ""}`}
                   />
                 }
               >Icon</ButtonIcon>
@@ -80,7 +80,7 @@ const Header = ({
                 onClick={() => handleViewChange("list")}
                 leftIcon={
                   <TbListCheck
-                    className={`text-2xl ${activeView === "list" ? "text-primary" : "text-gray-600"}`}
+                    className={`text-2xl ${activeView === "list" ? "text-primary" : ""}`}
                   />
                 }
               >List</ButtonIcon>

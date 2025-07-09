@@ -58,7 +58,7 @@ const BOX_modal = ({
             onClick={closeOnOutsideClick ? onClose : undefined}
         >
             <div
-                className={`relative bg-white rounded-lg shadow-xl w-full max-w-3xl h-[90vh] overflow-hidden ${className}`}
+                className={`relative ow-xl w-full max-w-3xl h-[90vh] overflow-hidden my-custom-card rounded-md ${className}`}
                 onClick={(e) => e.stopPropagation()}
             >
 

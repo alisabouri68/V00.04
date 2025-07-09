@@ -20,11 +20,7 @@ const Sidebar = () => {
         h-16
         w-full
         md:min-h-full
-        bg-white
-        dark:bg-gray-800
-        shadow-lg
         md:rounded-xl
-        md:my-2
         md:w-24
         fixed
         md:static
@@ -34,6 +30,7 @@ const Sidebar = () => {
         z-50
         transition-all
         duration-300
+        my-custom-card
         `}
       aria-label="Main navigation"
     >
@@ -66,10 +63,6 @@ const Sidebar = () => {
               >
                 <MenuItem
                   {...item}
-                // onSelect={handleItemSelect}
-                // role="menuitem"
-                // className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-                // activeClass="bg-blue-50 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300"
                 />
               </li>
             ))

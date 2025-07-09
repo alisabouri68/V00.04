@@ -17,7 +17,14 @@
   /* #ff6b6b */
   --color-accent: 78 205 196;
   /* #4ecdc4 */
-
+  --color-white-custom: 255 255 255;
+  /* #e0e0e0 */
+  --color-text-dark-custom: 18 18 18;
+  /* #e0e0e0 */
+  --color-text-light-custom: 204 204 204;
+  /* #e0e0e0 */
+  --color-black-custom: 26 26 26;
+  /* #000000 */
   /* رنگ‌های خنثی */
   --color-dark: 26 26 26;
   /* #1a1a1a */
@@ -33,24 +40,11 @@
   /* #dc3545 */
 }
 
-/* حالت تاریک (Dark Mode) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-primary: 37 163 161;
-    /* #25a3a1 */
-    --color-secondary: 204 86 86;
-    /* #cc5656 */
-    --color-dark: 240 240 240;
-    /* #f0f0f0 */
-    --color-light: 30 30 30;
-    /* #1e1e1e */
-  }
-}
 
 body {
   font-family: 'Roboto';
-  color: rgb(var(--color-dark));
-  background-color: rgb(var(--color-light));
+  /* color: rgb(var(--color-white-custom));
+  background-color: rgb(var(--color-black-custom)); */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -62,7 +56,16 @@ body,
 #root {
   height: 100%;
 }
-
+@layer components {
+  .my-custom-card {
+    @apply rounded-md shadow-sm bg-white-custom text-text-dark-custom dark:bg-black-custom dark:text-text-light-custom dark:shadow-sm-light;
+  }
+}
+@layer components {
+  .custom-card {
+    @apply  bg-white-custom text-text-dark-custom dark:bg-black-custom dark:text-text-light-custom;
+  }
+}
 .custom-scrollbar::-webkit-scrollbar {
   width: 2px;
 }
@@ -103,27 +106,5 @@ body,
 }
 
 .autoplay-progress svg {
- display: none !important;
-}
-/* فایل styles.css یا هرجایی که استایل‌های global داری */
-
-.custom-scrollbars::-webkit-scrollbar {
-  width: 6px; /* عرض اسکرول بار */
-}
-
-.custom-scrollbars::-webkit-scrollbar-track {
-  background: transparent; /* پس‌زمینه اسکرول بار */
-}
-
-.custom-scrollbars::-webkit-scrollbar-thumb {
-  background-color: rgba(107, 114, 128, 0.6); /* رنگ اسکرول بار */
-  border-radius: 10px;
-  border: 2px solid transparent; /* برای فاصله دادن */
-  background-clip: content-box;
-}
-
-/* برای فایرفاکس */
-.custom-scrollbars {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(107, 114, 128, 0.6) transparent;
+  display: none !important;
 }

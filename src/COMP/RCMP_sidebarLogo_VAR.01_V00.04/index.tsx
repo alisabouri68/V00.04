@@ -13,11 +13,11 @@ const SidebarLogo = () => {
                 alt="Dashboard Logo"
                 className="w-10 h-10 md:w-12 md:h-12 object-contain transition-all duration-300 hover:scale-105"
                 loading="lazy"
-                width={48}
-                height={48}
+                width={68}
+                height={68}
             />
             {/* خط جداکننده با انیمیشن */}
-            <div className="w-10/12 h-px bg-gray-200 dark:bg-gray-600 rounded-full mt-2 md:mt-3 transition-all duration-500 group-hover:w-full" />
+            <div className="w-10/12 h-px rounded-full mt-2 md:mt-3 transition-all duration-500 group-hover:w-full" />
         </div>
     );
 };

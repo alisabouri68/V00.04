@@ -19,7 +19,7 @@ const BasketItems = ({ item, activeView }: {
         item.items.length > 0;
 
     return (
-        <div className={`flex flex-col items-center w-full min-h-[60px]`}>
+        <div className={`flex flex-col items-center w-full min-h-[60px] custom-card `}>
             <ButtonIcon fullWidth onClick={toggleOpen}>
                 <div className="flex items-center w-full">
                     <span className="px-5 font-bold min-w-fit">
@@ -28,7 +28,7 @@ const BasketItems = ({ item, activeView }: {
 
                     {isNotFirstItem && (
                         <>
-                            <span className="flex w-full items-center bg-gray-300 h-0.5" />
+                            <span className="flex w-full items-center h-0.5 bg-gray-300 dark:bg-gray-600" />
                             {activeView === "list" && (
                                 <span>
                                     {isOpen

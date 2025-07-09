@@ -377,7 +377,7 @@ import {GlobeProvider} from "src/Lib/Dyna/GlobeProvider";
                          "fontSize":		"text-sm",
                          "fontWeight":	"font-medium",
                          "textColor":	"text-white",
-                         "borderRadius":	"rounded-lg",
+                         "borderRadius":	"rounded-md",
                          "backgroundColor":"bg-blue-700"}
                        }
                      } 
@@ -417,7 +417,7 @@ import {GlobeProvider} from "src/Lib/Dyna/GlobeProvider";
                      "fontSize":			"text-sm",
                      "fontWeight":		"font-medium",
                      "textColor":		"text-white",
-                     "borderRadius":		"rounded-lg",
+                     "borderRadius":		"rounded-md",
                      "backgroundColor":	"bg-blue-700"}
                  }
                  
@@ -453,7 +453,7 @@ import {GlobeProvider} from "src/Lib/Dyna/GlobeProvider";
                      "fontSize":"text-sm",
                      "fontWeight":"font-medium",
                      "textColor":"text-white",
-                     "borderRadius":"rounded-lg",
+                     "borderRadius":"rounded-md",
                      "backgroundColor":"bg-blue-700"}
                    }
                  } />

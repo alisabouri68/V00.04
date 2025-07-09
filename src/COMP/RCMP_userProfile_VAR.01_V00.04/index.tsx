@@ -13,7 +13,7 @@ function Index({
         <div className="flex cursor-pointer items-center">
             <img src={avatarSrc} alt="User avatar" className="h-8 w-8 rounded-full" />
             <div className="flex flex-col pl-2">
-                <span className="font-bold text-gray-600">{name}</span>
+                <span className="font-bold">{name}</span>
                 <span className="text-sm text-gray-400">{location}</span>
             </div>
         </div>

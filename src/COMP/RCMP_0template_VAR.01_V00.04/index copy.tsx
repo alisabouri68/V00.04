@@ -253,11 +253,11 @@ function MyComponent() {
     // - A counter with an "Increment" button.
     // Tailwind CSS classes are used for styling.
     return (
-        <div className="p-4 rounded-xl shadow-md max-w-sm mx-auto bg-white">
+        <div className="p-4 rounded-xl my-custom-card max-w-sm mx-auto ">
             <h2 className="text-xl font-semibold mb-2">React Memo Template</h2>
 
             <div className="mb-4">
-                <label className="block mb-1 text-gray-600">Input</label>
+                <label className="block mb-1">Input</label>
                 <input
                     type="text"
                     value={inputValue}
@@ -278,7 +278,7 @@ function MyComponent() {
                 </p>
                 <button
                     onClick={handleIncrement}
-                    className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600">
+                    className="px-3 py-1 rounded-md">
                     Increment
                 </button>
             </div>

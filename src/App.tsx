@@ -3,6 +3,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 import SuspenseFallback from './BOX/BOX_loading';
 import Routes from './ROUTS';
+import ThemeProvider from 'RDUX/theme/themeProvider';
+import { Provider } from 'react-redux';
+import { store } from 'RDUX/theme/store';
 // import { Provider } from 'react-redux';
 /**
  * Creates a pre-configured QueryClient instance with default options.
@@ -58,13 +61,15 @@ const App = () => {
     * - Implement error boundaries for graceful error handling
     */
     <Suspense fallback={<SuspenseFallback />}>
-      {/* 
+      <Provider store={store}>
+      <ThemeProvider>
+        {/* 
         Provides React Query context to entire application
         - Client instance is stable across re-renders
         - Accessible via useQueryClient() hook anywhere
       */}
-      <QueryClientProvider client={queryClientRef.current}>
-        {/* <Provider store={store}> */}
+        <QueryClientProvider client={queryClientRef.current}>
+          {/* <Provider store={store}> */}
           {/**
          * Router provider configures application routing
          * 
@@ -79,8 +84,10 @@ const App = () => {
          * Consider Remix or Next.js for SSR needs.
          */}
           <RouterProvider router={Routes} />
-        {/* </Provider> */}
-      </QueryClientProvider>
+          {/* </Provider> */}
+        </QueryClientProvider>
+      </ThemeProvider>
+      </Provider>
     </Suspense>
   );
 };

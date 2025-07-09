@@ -50,7 +50,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             danger: "bg-red-600  text-white",              //hover:bg-red-700
             success: "bg-green-600  text-white",              //hover:bg-green-700
             warning: "bg-yellow-500  text-white",              //hover:bg-yellow-600
-            ghost: "bg-transparent  text-gray-800",              //hover:bg-gray-100
+            ghost: "bg-transparent  custom-card",              //hover:bg-gray-100
             link: "bg-transparent  text-blue-600 p-0",              //hover:underline
         };
 

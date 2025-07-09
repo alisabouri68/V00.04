@@ -10,15 +10,18 @@ const AuthProvider = ({ route }: Props) => {
     const shoHeader = layout?.header !== false
     const shoAside = layout?.aside !== false
     return (
-        <div className="flex flex-col w-full h-full pb-1 gap-1">
+        <div className="flex flex-col w-full h-full pb-1 gap-1 bg-zinc-200 dark:bg-zinc-950">
             {shoHeader && <Header />}
-            <main className='flex w-full grow'>
+            <main className='flex w-full grow relative'>
                 <Container>
-                    {shoAside && <Navigation />}
+                   <div className="py-1 h-full">
+                     {shoAside && <Navigation />}
+                   </div>
                     <section className="flex-1 h-full">
                         {element}
                     </section>
                 </Container>
+                
             </main>
             <div id="modal_root"></div>
         </div>

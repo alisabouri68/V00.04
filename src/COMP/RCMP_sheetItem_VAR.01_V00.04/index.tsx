@@ -12,7 +12,7 @@ function Index({
     const className = `px-2 py-1 rounded-md cursor-pointer ${
         isActive
             ? 'bg-gray-50 border-s-4 border-blue-400'
-            : `${sheet?.color || 'bg-white'} border border-gray-100`
+            : `${sheet?.color || ''} border border-gray-100`
     }`;
 
     return (
