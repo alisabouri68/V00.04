@@ -1,0 +1,45 @@
+---glan11
+
+/// Define ANL_oBro_handler  
+
+>>> Def-PANL				//? Defining Panel
+
+# meta
+	. model-id:				bioDemoPanel
+	. model-title:			"BioMate-Panel"
+
+	. model-lastUpdate		"D2024.09.25"	/// date created or modified - default is now
+	. model-owner			"apps48"		/// Unit ID / Hybrid ID - default is current login hybrid
+
+	. model-type			Instance		/// "/i" for instance [Clone | Mutage | Frame | Instance]
+	. origin-model			PANL			/// default is base Model
+	. origin-model-Ver		V00.03			/// default is the last available Version
+											
+	. rem					"OBro-Panel used in Genesis process as a main broker"	 /// default is "FRAME" remark
+
+->>
+
+
+>>> MNGT					//? Setup for Panel Management
+  
+  /// render Management
+
+  # render(1)				RPAN			//? http-express (node) panel
+	. scat:					RPAN			/// Genix Cat
+	. genixID:				bioDemo		/// template for mutage or filename for an instant model
+	. langBase:				react			/// language base
+	. proto:				http			/// communication protocol
+
+
+  /// dependancies  
+  
+  
+	
+->>
+
+>>> LOGIC
+
+
+
+->>
+---
