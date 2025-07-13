@@ -1,10 +1,8 @@
-
-
-
 import { memo } from "react";
 import SidebarLogo from "COMP/RCMP_sidebarLogo_VAR.01_V00.04";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBookOpen,
   faBriefcase,
   faHome,
   faLocationDot,
@@ -54,24 +52,30 @@ const Sidebar = () => {
       icon: <FontAwesomeIcon icon={faLocationDot} />,
       href: "/hot",
     },
+    {
+      id: "6",
+      title: "wikiCnter",
+      icon: <FontAwesomeIcon icon={faBookOpen} />,
+      href: "/mono/wikicntr/desk",
+    },
   ];
 
   return (
     <aside
       className="
         hidden
-        md:block
-        h-16
-        min-h-full
+        md:flex
         rounded-xl
+        overflow-hidden
         w-24
         transition-all
         duration-300
         my-custom-card
+        h-full
       "
       aria-label="Main navigation"
     >
-      <nav className="flex md:flex-col items-center h-full">
+      <nav className="flex w-full md:flex-col items-center overflow-hidden">
         <ul
           className="
             flex
@@ -79,11 +83,10 @@ const Sidebar = () => {
             items-center
             gap-1
             w-full
-            h-full
             py-2
             md:py-1
             custom-scrollbar
-            md:overflow-y-auto
+            overflow-y-auto
           "
           role="menubar"
           aria-orientation="vertical"
