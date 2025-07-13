@@ -1,22 +1,24 @@
+
+
 //@ts-nocheck
 /******************************************
-BioWidget Templates
+Component Templates
 
-Last Update:    2025.04.03
+Last Update:    2025.07.12
 By:             SMRT.00
 
-Description:  This templates is used for developing React Bio-Components according to Dyna-Modeling Architecture
+Description:  This templates is used for developing React Components according to Smart-Comp Architecture
 ******************************************/
 
 /*------------------------------------------------------------
 Meta Data
 
-ID:             RCOM_template 
+ID:             RCMP_template 
 Title:          Component Template - React Version
 Version:        V00.04
 VAR:            01 (remarks ....)
 
-last-update:    D2025.04.04
+last-update:    D2025.07.12
 owner:          SMRT.00
 
 Description:    Here ...
@@ -33,7 +35,12 @@ Description:    Here ...
 // - useCallback: to memoize functions to avoid unnecessary re-creations.
 // - useMemo: to memoize computed values for performance.
 // - memo: to wrap the component and prevent unnecessary re-renders.
+
+
 import { useState, useEffect, useCallback, useMemo, memo } from 'react';
+
+
+
 
 /**************************************
  * Step.02:    import dependency - widgets
