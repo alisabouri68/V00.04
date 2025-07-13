@@ -12,7 +12,7 @@ export default function App() {
           delay: 4000,
           disableOnInteraction: false,
         }}
-        modules={[Autoplay]} // فقط Autoplay اگر می‌خواهید
+        modules={[Autoplay]} 
       >
         {[...Array(9)].map((_, index) => (
           <SwiperSlide key={index}>
