@@ -28,6 +28,7 @@ module.exports = {
                 "black-custom": 'rgb(var(--color-black-custom) / <alpha-value>)',
                 "text-light-custom": 'rgb(var(--color-text-light-custom) / <alpha-value>)',
                 "text-dark-custom": 'rgb(var(--color-text-dark-custom) / <alpha-value>)',
+                "primary-active": 'rgb(var(--color-primary-active) / <alpha-value>)',
             },
         },
     },

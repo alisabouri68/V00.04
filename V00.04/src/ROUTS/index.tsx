@@ -3,121 +3,80 @@ import { lazy, Suspense } from "react";
 import AuthProvider from "../MIDD/authProvider";
 import SuspenseFallback from "../BOX/BOX_loading";
 import type { RoutsType } from "../TYPE";
-const Home = lazy(() => import("../LAYOUT/home"));
-const Comm = lazy(() => import("../LAYOUT/comm"));
-const Desk = lazy(() => import("../LAYOUT/desk"));
-const Hot = lazy(() => import("../LAYOUT/hot"));
-const Cast = lazy(() => import("../LAYOUT/cast"));
-const Mono = lazy(() => import("../LAYOUT/mono"));
-const WikiEditor = lazy(() => import("../LAYOUT/wikiEditor"));
-const WikiManager = lazy(() => import("../LAYOUT/wikiManager"));
-const NotFound = lazy(() => import("../LAYOUT/notFound"));
+const Cover = lazy(() => import("../LAYO/LAYO_Cover_desk_V00.04/index"));
+const Flat = lazy(() => import("LAYO/LAYO_Flat_desk_V00.04/index"));
+const Deep = lazy(() => import("../LAYO/LAYO_DEEP_desk_V00.04/index"));
+const DeepFloat = lazy(() => import("../LAYO/LAYO_DeepFloat_desk_V00.04"));
+const LinearFloat = lazy(() => import("../LAYO/LAYO_LinearFloat_desk_V00.04"));
+const Mono = lazy(() => import("../LAYO/LAYO_MONO_desk_V00.04/index"));
+const NotFound = lazy(() => import("../LAYO/LAYO_NOTFOUND_desk_V00.04/index"));
 const routes: RoutsType[] = [
   {
     id: "home",
     path: "/",
-    element: <Home />,
+    element: <Cover />,
     auth: true,
     layout: {
       header: true,
       aside: true,
-      action: true,
-      auxilary: true,
-      jini: true,
+      screen: true,
     },
   },
   {
-    id: "community",
-    path: "/comm",
-    element: <Comm />,
+    id: "Flat",
+    path: "/Flat",
+    element: <Flat />,
     auth: true,
     layout: {
       header: true,
       aside: true,
-      action: true,
-      auxilary: true,
-      jini: true,
+      screen: true,
     },
   },
   {
-    id: "desktop",
-    path: "/desk",
-    element: <Desk />,
+    id: "Deep",
+    path: "/Deep",
+    element: <Deep />,
     auth: true,
     layout: {
       header: true,
       aside: true,
-      action: true,
-      auxilary: true,
-      jini: true,
+      screen: true,
     },
   },
   {
-    id: "hot-topics",
-    path: "/hot",
-    element: <Hot />,
+    id: "DeepFloat",
+    path: "/DeepFloat",
+    element: <DeepFloat />,
     auth: true,
     layout: {
       header: true,
       aside: true,
-      action: true,
-      auxilary: true,
-      jini: true,
+      screen: true,
     },
   },
   {
-    id: "broadcast",
-    path: "/cast",
-    element: <Cast />,
+    id: "LinearFloat",
+    path: "/LinearFloat",
+    element: <LinearFloat />,
     auth: true,
     layout: {
       header: true,
       aside: true,
-      action: true,
-      auxilary: true,
-      jini: true,
+      screen: true,
     },
   },
   {
     id: "mono",
-    path: "/mono/wikicntr/desk",
+    path: "/Mono",
     element: <Mono />,
     auth: true,
     layout: {
       header: true,
       aside: true,
-      action: true,
-      auxilary: true,
-      jini: true,
+      screen: true,
     },
-    children: [
-      {
-        id: "wikiEditor",
-        path: "wikiEditor/referenceMenu",
-        element: <WikiEditor />,
-        auth: true,
-        layout: {
-          header: false,
-          aside: false,
-          action: false,
-          auxilary: false,
-          jini: false,
-        },
-      },
-      {
-        id: "wikiManager",
-        path: "wikiManager/homeManager",
-        element: <WikiManager />,
-        auth: true,
-        layout: {
-          header: true,
-          aside: true,
-          action: true,
-          auxilary: true,
-          jini: true,
-        },
-      },
-    ],
+    children: [],
   },
   {
     id: "not-found",
@@ -127,44 +86,41 @@ const routes: RoutsType[] = [
     layout: {
       header: false,
       aside: false,
-      action: true,
-      auxilary: true,
-      jini: true,
+      screen: true,
     },
   },
 ];
 
 const wrapWithProviders = (route: RoutsType) => (
-    <Suspense fallback={<SuspenseFallback />}>
-        <AuthProvider route={route} />
-    </Suspense>
+  <Suspense fallback={<SuspenseFallback />}>
+    <AuthProvider route={route} />
+  </Suspense>
 );
 
 const processRoutes = (routes: RoutsType[]): any[] => {
-    return routes.map((route) => {
-        const processedRoute: any = {
-            path: route.path,
-            element: wrapWithProviders(route),
-        };
+  return routes.map((route) => {
+    const processedRoute: any = {
+      path: route.path,
+      element: wrapWithProviders(route),
+    };
 
-        if (route.children) {
-            processedRoute.children = processRoutes(route.children);
-        }
+    if (route.children) {
+      processedRoute.children = processRoutes(route.children);
+    }
 
-        return processedRoute;
-    });
+    return processedRoute;
+  });
 };
 
 const initializeRouter = () => {
-    const processedRoutes = processRoutes(routes);
+  const processedRoutes = processRoutes(routes);
 
-    if (process.env.NODE_ENV === "development") {
-        console.debug("[Router] Initialized routes:", processedRoutes);
-    }
+  if (process.env.NODE_ENV === "development") {
+    console.debug("[Router] Initialized routes:", processedRoutes);
+  }
 
-    return createBrowserRouter(processedRoutes);
+  return createBrowserRouter(processedRoutes);
 };
 
 const router = initializeRouter();
 export default router;
-

@@ -101,12 +101,12 @@
   "include": [
     "src/**/*",
     "declaration.d.ts",
-    "src/COMP/RCMP_iconButton_VAR.01_V00.04",
-    "src/COMP/RCMP_historyItem_VAR.01_V00.04",
-    "src/COMP/RCMP_consoleSwitcher_VAR.01_V00.04",
+    "src/COMP/old/RCMP_iconButton_VAR.01_V00.04",
+    "src/COMP/old/RCMP_historyItem_VAR.01_V00.04",
+    "src/COMP/old/RCMP_consoleSwitcher_VAR.01_V00.04",
     "src/COMP/RCMP_0template_VAR.01_V00.04",
-    "src/COMP/RCMP_iconTextItem_VAR.01_V00.04",
-    "src/COMP/RCMP_menuItem_VAR.01_V00.04",
-    "src/COMP/RCMP_navigator_VAR.01_V00.04"
+    "src/COMP/old/RCMP_iconTextItem_VAR.01_V00.04",
+    "src/COMP/old/RCMP_menuItem_VAR.01_V00.04",
+    "src/COMP/old/RCMP_navigator_VAR.01_V00.04"
   ]
 }

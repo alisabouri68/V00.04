@@ -3,9 +3,7 @@ import type { ReactNode } from "react";
 export interface LayoutConfig {
   header?: boolean;
   aside?: boolean;
-  action?: boolean;
-  auxilary?: boolean;
-  jini?: boolean;
+  screen?: boolean;
 }
 export interface RoutsType {
   id?: string;
@@ -16,15 +14,15 @@ export interface RoutsType {
   children?: RoutsType[];
 }
 export interface DataNav {
-  id: string
-  title: string
-  icon: React.ReactNode
-  href: string
+  id: string;
+  title: string;
+  icon: React.ReactNode;
+  href: string;
 }
 export interface BasketItemType {
   id: string;
   title: string;
-  items: DataNav[]
+  items: DataNav[];
 }
 export interface HeaderProps {
   onSearch?: (query: string) => void;
