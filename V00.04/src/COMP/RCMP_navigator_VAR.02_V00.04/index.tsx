@@ -1,6 +1,6 @@
 /******************************************
  * Component:      Navigation
- * Last Update:    2025.07.14
+ * Last Update:    2025.07.15
  * By:             APPS.00
  * Description:    Sidebar navigation menu (responsive)
  ******************************************/
@@ -11,7 +11,7 @@
  * ID:             RCOM_navigator
  * Title:          Component navigator - React Version
  * Version:        V00.04
- * VAR:            VAR 1 & 2 desktop & mobile
+ * VAR:            VAR 2  mobile
  * Last Update:    D2025.04.04
  * Owner:          APPS.00
  * Description:    Responsive sidebar for page navigation
@@ -31,8 +31,6 @@ import {
   faPhoneVolume,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
-import logoDash from "ASST/images/Asset 5.svg";
-
 /**************************************
  * Step 05 - Define property interface
  * Used to structure the navigation data
@@ -53,49 +51,56 @@ const Sidebar = () => {
 
   // Navigation items for the sidebar
   const dataNav: DataNav[] = [
-    { id: "1", icon: <FontAwesomeIcon icon={faHome} />, href: "/", title: "Home" },
-    { id: "2", icon: <FontAwesomeIcon icon={faPhoneVolume} />, href: "/Flat", title: "Flat" },
-    { id: "3", icon: <FontAwesomeIcon icon={faBriefcase} />, href: "/Deep", title: "Deep" },
-    { id: "4", icon: <FontAwesomeIcon icon={faMicrophone} />, href: "/DeepFloat", title: "DeepFloat" },
-    { id: "5", icon: <FontAwesomeIcon icon={faLocationDot} />, href: "/LinearFloat", title: "LinearFloat" },
-    { id: "6", icon: <FontAwesomeIcon icon={faBookOpen} />, href: "/Mono", title: "Mono" },
+    {
+      id: "1",
+      icon: <FontAwesomeIcon icon={faHome} />,
+      href: "/",
+      title: "Home",
+    },
+    {
+      id: "2",
+      icon: <FontAwesomeIcon icon={faPhoneVolume} />,
+      href: "/Flat",
+      title: "Flat",
+    },
+    {
+      id: "3",
+      icon: <FontAwesomeIcon icon={faBriefcase} />,
+      href: "/Deep",
+      title: "Deep",
+    },
+    {
+      id: "4",
+      icon: <FontAwesomeIcon icon={faMicrophone} />,
+      href: "/DeepFloat",
+      title: "DeepFloat",
+    },
+    {
+      id: "5",
+      icon: <FontAwesomeIcon icon={faLocationDot} />,
+      href: "/LinearFloat",
+      title: "LinearFloat",
+    },
+    {
+      id: "6",
+      icon: <FontAwesomeIcon icon={faBookOpen} />,
+      href: "/Mono",
+      title: "Mono",
+    },
   ];
 
   return (
-    <aside
-      className="
-        flex
-        rounded-xl
-        overflow-hidden
-        w-20
-        transition-all
-        duration-300
-        my-custom-card
-        h-full
-        
-      "
+    <div
+      className="flex rounded-t-md rounded-b-none overflow-hidden w-full transition-all duration-300 my-custom-card fixed bottom-0 left-0 right-0 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.025),inset_0_-2px_4px_rgba(0,0,0,0.05)]
+    dark:shadow-[0_-4px_6px_-1px_rgba(255,255,255,0.05),0_-2px_4px_-1px_rgba(255,255,255,0.025),inset_0_-2px_4px_rgba(255,255,255,0.05)] "
       aria-label="Main navigation"
     >
-      <nav className="flex w-full md:flex-col items-center overflow-hidden">
+      <nav className="flex w-full items-center overflow-hidden">
         <ul
-          className=" flex flex-col items-center gap-1 w-full h-full py-2 md:py-1 custom-scrollbar overflow-y-auto"
+          className=" flex items-center gap-1 w-full h-full py-2  custom-scrollbar overflow-x-auto"
           role="menubar"
           aria-orientation="vertical"
         >
-          <li className="flex items-center justify-center">
-            <div className="hidden md:flex flex-col items-center py-3 select-none">
-              <img
-                src={logoDash}
-                alt="Dashboard Logo"
-                className="w-10 h-10 md:w-12 md:h-12 object-contain transition-all duration-300 hover:scale-105"
-                loading="lazy"
-                width={80}
-                height={80}
-              />
-              <div className="w-10/12 h-px rounded-full mt-2 md:mt-3 transition-all duration-500 group-hover:w-full" />
-            </div>
-          </li>
-
           {/* Navigation items */}
           {dataNav.length > 0 ? (
             dataNav.map((item) => {
@@ -112,16 +117,15 @@ const Sidebar = () => {
                   <Link
                     to={item.href}
                     className={`
-                      ${isActive ? "md:border-s-primary" : ""}
-                      md:border-4
-                      md:border-transparent
                       flex
                       flex-col
                       items-center
                       justify-center
+                      static
                       p-1
                       w-full
-                      text-light-custom
+                      text-text-light-custom
+                      
                       hover:text-primary
                     `}
                     aria-current={isActive ? "page" : undefined}
@@ -133,7 +137,7 @@ const Sidebar = () => {
                         transition-all duration-300 w-10 h-10
                         ${
                           isActive
-                            ? "bg-primary md:bg-transparent md:text-primary text-light-custom"
+                            ? "bg-primary text-white-custom dark:text-text-white-custom hover:text-white-custom dark:hover:text-text-white-custom"
                             : "text-inherit"
                         }
                       `}
@@ -144,7 +148,6 @@ const Sidebar = () => {
                     <span
                       className={`
                         text-xs
-                        md:text-sm
                         font-medium
                         capitalize
                         transition-colors
@@ -165,25 +168,8 @@ const Sidebar = () => {
           )}
         </ul>
       </nav>
-    </aside>
+    </div>
   );
 };
 
 export default memo(Sidebar);
-
-
-
-
-
-
-
-
-
-
-
-// static
-//         fixed
-//         bottom-0
-//         left-0
-//         right-0
-//         z-50

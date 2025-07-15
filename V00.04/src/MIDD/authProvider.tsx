@@ -28,9 +28,12 @@
  * - Header: Top header component
  * - RoutsType: Type definition for route config
  **************************************/
-import Navigation from "../BOX/BOX_nav";
-import Header from "../BOX/BOX_headerr";
+import Header from "BOX/BOX_header";
+import Navigation from "BOX/BOX_nav";
+import NavigationDesktop from "COMP/RCMP_navigator_VAR.01_V00.04/index";
+import NavigationMobile from "COMP/RCMP_navigator_VAR.02_V00.04/index";
 import { type RoutsType } from "../TYPE/index";
+import { useDeviceDetect } from "ROUTS";
 
 /**************************************
  * Step 05 - Define property interface
@@ -50,6 +53,7 @@ interface Props {
  * - Renders corresponding sections conditionally based on route layout config
  **************************************/
 const AuthProvider = ({ route }: Props) => {
+  const isMobile = useDeviceDetect();
   // Destructure layout and page element from the route
   const { layout, element } = route;
 
@@ -59,20 +63,19 @@ const AuthProvider = ({ route }: Props) => {
   const showscreen = layout?.screen !== false;
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] h-screen w-full bg-zinc-200 dark:bg-zinc-950">
+    <div className="w-full h-full">
       {/* Optional Header section */}
-      {showHeader && <Header />}
+      {showHeader && isMobile ? null : <Header />}
 
       {/* Main content area with optional sidebar and screen */}
-      <main className="relative overflow-hidden">
+      <main className="relative overflow-hidden h-[calc(100%-64px)] p-1 bg-zinc-200 dark:bg-zinc-800">
         <div className="2xl:container mx-auto flex w-full h-full">
           {/* Optional Sidebar (Navigation) */}
           {showAside && (
-            <div className="py-1 h-full">
-              <Navigation />
-            </div>
+            <Navigation>
+              {isMobile ? <NavigationMobile /> : <NavigationDesktop />}
+            </Navigation>
           )}
-
           {/* Main Screen content */}
           {showscreen && (
             <section className="flex-1 h-full overflow-y-auto">

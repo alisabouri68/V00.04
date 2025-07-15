@@ -11,7 +11,7 @@
  * ID:             RCOM_navigator
  * Title:          Component navigator - React Version
  * Version:        V00.04
- * VAR:            VAR 1 & 2 desktop & mobile
+ * VAR:            VAR 1 desktop
  * Last Update:    D2025.04.04
  * Owner:          APPS.00
  * Description:    Responsive sidebar for page navigation
@@ -53,53 +53,66 @@ const Sidebar = () => {
 
   // Navigation items for the sidebar
   const dataNav: DataNav[] = [
-    { id: "1", icon: <FontAwesomeIcon icon={faHome} />, href: "/", title: "Home" },
-    { id: "2", icon: <FontAwesomeIcon icon={faPhoneVolume} />, href: "/Flat", title: "Flat" },
-    { id: "3", icon: <FontAwesomeIcon icon={faBriefcase} />, href: "/Deep", title: "Deep" },
-    { id: "4", icon: <FontAwesomeIcon icon={faMicrophone} />, href: "/DeepFloat", title: "DeepFloat" },
-    { id: "5", icon: <FontAwesomeIcon icon={faLocationDot} />, href: "/LinearFloat", title: "LinearFloat" },
-    { id: "6", icon: <FontAwesomeIcon icon={faBookOpen} />, href: "/Mono", title: "Mono" },
+    {
+      id: "1",
+      icon: <FontAwesomeIcon icon={faHome} />,
+      href: "/",
+      title: "Home",
+    },
+    {
+      id: "2",
+      icon: <FontAwesomeIcon icon={faPhoneVolume} />,
+      href: "/Flat",
+      title: "Flat",
+    },
+    {
+      id: "3",
+      icon: <FontAwesomeIcon icon={faBriefcase} />,
+      href: "/Deep",
+      title: "Deep",
+    },
+    {
+      id: "4",
+      icon: <FontAwesomeIcon icon={faMicrophone} />,
+      href: "/DeepFloat",
+      title: "DeepFloat",
+    },
+    {
+      id: "5",
+      icon: <FontAwesomeIcon icon={faLocationDot} />,
+      href: "/LinearFloat",
+      title: "LinearFloat",
+    },
+    {
+      id: "6",
+      icon: <FontAwesomeIcon icon={faBookOpen} />,
+      href: "/Mono",
+      title: "Mono",
+    },
   ];
 
   return (
     <aside
       className="
-        w-full
-        md:flex
+        flex
         rounded-xl
         overflow-hidden
-        md:w-24
+        w-20
         transition-all
         duration-300
         my-custom-card
         h-full
-        md:static
-        fixed
-        bottom-0
-        left-0
-        right-0
-        z-50
+        shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.025),inset_0_-2px_4px_rgba(0,0,0,0.05)]
+    dark:shadow-[0_-4px_6px_-1px_rgba(255,255,255,0.05),0_-2px_4px_-1px_rgba(255,255,255,0.025),inset_0_-2px_4px_rgba(255,255,255,0.05)]
       "
       aria-label="Main navigation"
     >
       <nav className="flex w-full md:flex-col items-center overflow-hidden">
         <ul
-          className="
-            flex
-            md:flex-col
-            items-center
-            gap-1
-            w-full
-            h-full
-            py-2
-            md:py-1
-            custom-scrollbar
-            overflow-y-auto
-          "
+          className=" flex flex-col items-center gap-1 w-full h-full py-2 md:py-1 custom-scrollbar overflow-y-auto"
           role="menubar"
           aria-orientation="vertical"
         >
-          {/* Dashboard Logo (Desktop only) */}
           <li className="flex items-center justify-center">
             <div className="hidden md:flex flex-col items-center py-3 select-none">
               <img
@@ -130,16 +143,16 @@ const Sidebar = () => {
                   <Link
                     to={item.href}
                     className={`
-                      ${isActive ? "md:border-s-primary" : ""}
-                      md:border-4
-                      md:border-transparent
+                      ${isActive ? "border-s-primary" : ""}
+                      border-4
+                      border-transparent
                       flex
                       flex-col
                       items-center
                       justify-center
                       p-1
                       w-full
-                      text-light-custom
+                      text-text-light-custom
                       hover:text-primary
                     `}
                     aria-current={isActive ? "page" : undefined}
@@ -151,7 +164,7 @@ const Sidebar = () => {
                         transition-all duration-300 w-10 h-10
                         ${
                           isActive
-                            ? "bg-primary md:bg-transparent md:text-primary text-light-custom"
+                            ? "bg-primary bg-transparent text-primary text-light-custom"
                             : "text-inherit"
                         }
                       `}
@@ -161,8 +174,7 @@ const Sidebar = () => {
                     </span>
                     <span
                       className={`
-                        text-xs
-                        md:text-sm
+                        text-sm
                         font-medium
                         capitalize
                         transition-colors

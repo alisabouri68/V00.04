@@ -23,8 +23,8 @@
   /* #e0e0e0 */
   --color-text-dark-custom: 18 18 18;
   /* #e0e0e0 */
-  --color-text-light-custom: 204 204 204;
-  /* #e0e0e0 */
+  --color-text-light-custom: 178 178 178;
+  /* ##B2B2B2 */
   --color-black-custom: 26 26 26;
   /* #000000 */
   /* رنگ‌های خنثی */
@@ -60,7 +60,7 @@ body,
 }
 @layer components {
   .my-custom-card {
-    @apply rounded-md shadow-sm bg-white-custom text-text-dark-custom dark:bg-black-custom dark:text-text-light-custom dark:shadow-sm-light;
+    @apply rounded-md  bg-white-custom text-text-dark-custom dark:bg-black-custom dark:text-text-light-custom ;
   }
 }
 @layer components {
