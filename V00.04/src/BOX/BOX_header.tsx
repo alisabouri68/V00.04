@@ -1,67 +1,96 @@
-import { ReactNode } from "react";
-// import { useState, useEffect, useRef } from "react";
-// import { GrMoreVertical } from "react-icons/gr";
-// import Logo from "../ASST/images/logo-dash.svg";
-// import Avatar from "../ASST/images/avatar.png";
-// import { MdKeyboardArrowDown } from "react-icons/md";
-// import { GrLanguage } from "react-icons/gr";
-// import { FiLogOut, FiSettings, FiUser, FiMail } from "react-icons/fi";
-// // import HeaderSwitch from "../COMP/old/RCOM_switch-header";
+import { ReactNode, useState } from "react";
+import ConsoleSwitche from "../COMP/RCMP_consoleSwitcher_VAR.01_V00.04";
+import Dropdown from "COMP/RCMP_dropdown_V00.04";
+import { GoSun, GoMoon } from "react-icons/go";
+import { useAppDispatch, useAppSelector } from "RDUX/theme/hook";
+import { setTheme } from "../RDUX/theme/themeSlice";
+import { HiOutlineComputerDesktop } from "react-icons/hi2";
+import { GrLanguage } from "react-icons/gr";
+import Avatar from "COMP/RCMP_avatar_VAR.01_V00.04";
 
-// // import ThemeSelect from "../COMP/old/RCMP_them-switcher";
+interface DropdownOption {
+  id: string;
+  name: string;
+  icon?: React.ReactNode;
+}
 const Header = ({ children }: { children?: ReactNode }) => {
-  //   // const [isThemeOpen, setIsThemeOpen] = useState<boolean>(false);
-  //   const [isLanguageOpen, setIsLanguageOpen] = useState<boolean>(false);
-  //   const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
-  //   // const [darkMode, setDarkMode] = useState<boolean>(false);
-  //   const languageRef = useRef<HTMLDivElement>(null);
-  //   const profileRef = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
+  const theme = useAppSelector((state) => state.theme.mode);
+  const [selectedTheme, setSelectedTheme] = useState<DropdownOption | null>(
+    null
+  );
+  const [selectedLang, setSelectedLang] = useState<DropdownOption | null>(null);
+  const themeOptions = [
+    { id: "light", name: "Light", icon: <GoSun /> },
+    { id: "dark", name: "Dark", icon: <GoMoon /> },
+    {
+      id: "system",
+      name: "System Default",
+      icon: <HiOutlineComputerDesktop />,
+    },
+  ];
 
-  //   // Close dropdowns when clicking outside
-  //   useEffect(() => {
-  //     const handleClickOutside = (e: MouseEvent) => {
-  //       if (
-  //         languageRef.current &&
-  //         !languageRef.current.contains(e.target as Node)
-  //       ) {
-  //         setIsLanguageOpen(false);
-  //       }
-  //       if (
-  //         profileRef.current &&
-  //         !profileRef.current.contains(e.target as Node)
-  //       ) {
-  //         setIsProfileOpen(false);
-  //       }
-  //     };
-
-  //     document.addEventListener("mousedown", handleClickOutside);
-  //     return () => document.removeEventListener("mousedown", handleClickOutside);
-  //   }, []);
-
-  //   // Close dropdowns when pressing Escape
-  //   useEffect(() => {
-  //     const handleEscape = (e: KeyboardEvent) => {
-  //       if (e.key === "Escape") {
-  //         setIsLanguageOpen(false);
-  //         setIsProfileOpen(false);
-  //       }
-  //     };
-
-  //     document.addEventListener("keydown", handleEscape);
-  //     return () => document.removeEventListener("keydown", handleEscape);
-  //   }, []);
-  //   // Language options
-  //   const languageOptions = [
-  //     { id: "en", name: "English" },
-  //     { id: "fa", name: "فارسی (Persian)" },
-  //     { id: "es", name: "Español (Spanish)" },
-  //     { id: "fr", name: "Français (French)" },
-  //   ];
+  // Language options
+  const languageOptions = [
+    { id: "en", name: "English" },
+    { id: "fa", name: "فارسی (Persian)" },
+    { id: "es", name: "Español (Spanish)" },
+    { id: "fr", name: "Français (French)" },
+  ];
 
   return (
     <>
-      <header className="w-full border custom-card h-16">
-        <div className="2xl:container mx-auto flex w-full h-full ">
+      <header className="w-full custom-card h-16">
+        <div className="2xl:container mx-auto flex w-full h-full px-1 ">
+          <div className="flex items-center justify-between w-full">
+            {/* start header */}
+            <div className="">
+              <ConsoleSwitche />
+            </div>
+            {/* end header */}
+            <div className="flex items-center justify-end grow">
+              <div>
+                <Dropdown
+                  options={themeOptions}
+                  selected={
+                    selectedTheme ||
+                    themeOptions.find((item) => item.id === theme) ||
+                    null
+                  }
+                  onSelect={(selected) => {
+                    setSelectedTheme(selected);
+                    dispatch(
+                      setTheme(selected.id as "light" | "dark" | "system")
+                    );
+                  }}
+                  placeholder={theme}
+                />
+              </div>
+              <div>
+                <Dropdown
+                  options={languageOptions}
+                  selected={
+                    selectedLang || {
+                      id: "1",
+                      icon: <GrLanguage />,
+                      name: "Language",
+                    }
+                  }
+                  onSelect={setSelectedLang}
+                  placeholder="Language"
+                />
+              </div>
+              <div className="flex items- gap-2">
+                <div>
+                  <Avatar alt="user" fallbackText="" />
+                </div>
+                <div className="flex flex-col items-start">
+                  <div><span className=" text-text-light-custom">Hana Rezaei</span></div>
+                  <div><span className=" text-text-light-custom/80">Tehran</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
           {children}
         </div>
       </header>
@@ -70,124 +99,3 @@ const Header = ({ children }: { children?: ReactNode }) => {
 };
 
 export default Header;
-// <Modal
-//     isOpen={isModalOpen}
-//     onClose={() => setIsModalOpen(false)}
-//     className="custom-styles"
-//   >
-//     {/* <HeaderSwitch onCloseClick={() => setIsModalOpen(false)} /> */}
-//   </Modal>
-
-// <div className="flex items-center">
-//           <div className="2xl:container mx-auto flex w-full h-full">
-//             <div className="w-full flex items-center justify-between">
-//               {/* Left Section */}
-//               <div className="flex items-center space-x-4">
-//                 <div className="flex items-center">
-//                   <img
-//                     src={Logo}
-//                     alt="Raad Health Logo"
-//                     className="h-8 w-auto"
-//                   />
-//                 </div>
-//                 <div className="hidden md:flex items-center">
-//                   <span className="font-medium">mono (mono)</span>
-//                 </div>
-//                 <button
-//                   aria-label="More options"
-//                   className="p-1 rounded-md transition-colors"
-//                 >
-//                   <GrMoreVertical className="text-xl" />
-//                 </button>
-//               </div>
-
-//               {/* Right Section */}
-//               <div className="flex items-center space-x-4">
-//                 {/* <ThemeSelect className="cccc" /> */}
-//                 {/* Language Selector */}
-//                 <div className="relative" ref={languageRef}>
-//                   <button
-//                     className="flex items-center space-x-1 p-2 rounded-md transition-colors"
-//                     onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-//                     aria-expanded={isLanguageOpen}
-//                     aria-label="Language selector"
-//                   >
-//                     <GrLanguage className="text-xl" />
-//                     <span className="hidden md:inline text-sm font-medium">
-//                       English
-//                     </span>
-//                     <MdKeyboardArrowDown className="text-xl" />
-//                   </button>
-
-//                   {/* Language Dropdown */}
-//                   {isLanguageOpen && (
-//                     <div className="absolute right-0 mt-2 w-48 rounded-md my-custom-card py-1 z-50 border border-gray-200 dark:border-zinc-800">
-//                       {languageOptions.map((lang) => (
-//                         <button
-//                           key={lang.id}
-//                           className={`w-full px-4 py-2 text-sm text-left ${
-//                             lang.id === "en" ? " text-primary" : ""
-//                           }`}
-//                           onClick={() => setIsLanguageOpen(false)}
-//                         >
-//                           {lang.name}
-//                         </button>
-//                       ))}
-//                     </div>
-//                   )}
-//                 </div>
-
-//                 {/* User Profile */}
-//                 <div className="relative" ref={profileRef}>
-//                   <button
-//                     className="flex items-center space-x-3 p-1 rounded-md transition-colors"
-//                     onClick={() => setIsProfileOpen(!isProfileOpen)}
-//                     aria-expanded={isProfileOpen}
-//                     aria-label="User menu"
-//                   >
-//                     <div className="flex-shrink-0 relative">
-//                       <img
-//                         src={Avatar}
-//                         alt="User avatar"
-//                         className="h-8 w-8 rounded-full object-cover"
-//                       />
-//                       <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full border bg-success"></span>
-//                     </div>
-//                     <div className="hidden md:flex flex-col items-start">
-//                       <span className="text-sm font-semibold">Hana Rezaei</span>
-//                       <span className="text-xs ">Tehran</span>
-//                     </div>
-//                   </button>
-
-//                   {/* Profile Dropdown */}
-//                   {isProfileOpen && (
-//                     <div className="absolute right-0 mt-2 w-56 my-custom-card py-1 z-50 border border-gray-200 dark:border-zinc-800">
-//                       <div className="px-4 py-3 border-b border-b-zinc-500 ">
-//                         <p className="text-sm font-medium">Hana Rezaei</p>
-//                         <p className="text-xs truncate">
-//                           hana.rezaei@example.com
-//                         </p>
-//                       </div>
-//                       <div className="py-1">
-//                         <button className="flex items-center w-full px-4 py-2 text-sm">
-//                           <FiUser className="mr-3" /> Profile
-//                         </button>
-//                         <button className="flex items-center w-full px-4 py-2 text-sm">
-//                           <FiMail className="mr-3" /> Messages
-//                         </button>
-//                         <button className="flex items-center w-full px-4 py-2 text-sm">
-//                           <FiSettings className="mr-3" /> Settings
-//                         </button>
-//                       </div>
-//                       <div className="py-1 border-t border-t-zinc-500 bg-red-100 dark:bg-transparent text-red-500">
-//                         <button className="flex items-center w-full px-4 py-2 text-sm">
-//                           <FiLogOut className="mr-3" /> Sign out
-//                         </button>
-//                       </div>
-//                     </div>
-//                   )}
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>

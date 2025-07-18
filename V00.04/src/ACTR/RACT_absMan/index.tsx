@@ -6,7 +6,7 @@
  */
 
 import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "RDUX/store"
+import { AppDispatch, RootState } from "RDUX/storssssssssss"
 
 class AbsMan {
     /**

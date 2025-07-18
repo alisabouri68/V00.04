@@ -41,7 +41,7 @@ import { Provider } from "react-redux";
 import SuspenseFallback from "./BOX/BOX_loading";
 import Routes from "./ROUTS";
 import ThemeProvider from "RDUX/theme/themeProvider";
-import { store } from "RDUX/theme/store";
+import { store } from "RDUX/store";
 
 /**************************************
  * Step 04 - Create QueryClient instance

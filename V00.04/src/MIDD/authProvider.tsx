@@ -34,6 +34,7 @@ import NavigationDesktop from "COMP/RCMP_navigator_VAR.01_V00.04/index";
 import NavigationMobile from "COMP/RCMP_navigator_VAR.02_V00.04/index";
 import { type RoutsType } from "../TYPE/index";
 import { useDeviceDetect } from "ROUTS";
+import BOX_modal from "BOX/BOX_modal";
 
 /**************************************
  * Step 05 - Define property interface
@@ -63,13 +64,13 @@ const AuthProvider = ({ route }: Props) => {
   const showscreen = layout?.screen !== false;
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full flex flex-col">
       {/* Optional Header section */}
       {showHeader && isMobile ? null : <Header />}
 
       {/* Main content area with optional sidebar and screen */}
-      <main className="relative overflow-hidden h-[calc(100%-64px)] p-1 bg-zinc-200 dark:bg-zinc-800">
-        <div className="2xl:container mx-auto flex w-full h-full">
+      <main className="overflow-hidden h-[calc(100%-64px)] p-1 bg-zinc-200 dark:bg-zinc-800">
+        <div className="2xl:container 2xl:mx-auto flex items-center grow flex-1 w-full h-full">
           {/* Optional Sidebar (Navigation) */}
           {showAside && (
             <Navigation>
@@ -78,7 +79,7 @@ const AuthProvider = ({ route }: Props) => {
           )}
           {/* Main Screen content */}
           {showscreen && (
-            <section className="flex-1 h-full overflow-y-auto">
+            <section className="grow h-full w-full">
               {element}
             </section>
           )}
@@ -86,6 +87,7 @@ const AuthProvider = ({ route }: Props) => {
       </main>
 
       {/* Portal root for modals or overlays */}
+      <BOX_modal />
       <div id="modal_root"></div>
     </div>
   );

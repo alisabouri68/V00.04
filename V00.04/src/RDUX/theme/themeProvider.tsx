@@ -1,6 +1,6 @@
 import  { ReactNode, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../theme/store';
+import { RootState } from '../store';
 const ThemeProvider = ({ children }:{children:ReactNode}) => {
   const { mode, systemTheme } = useSelector((state: RootState) => state.theme);
   

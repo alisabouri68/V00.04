@@ -95,37 +95,43 @@ const Sidebar = () => {
     <aside
       className="
         flex
-        rounded-xl
+        flex-col
+        rounded-lg
         overflow-hidden
         w-20
         transition-all
         duration-300
         my-custom-card
         h-full
-        shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.025),inset_0_-2px_4px_rgba(0,0,0,0.05)]
-    dark:shadow-[0_-4px_6px_-1px_rgba(255,255,255,0.05),0_-2px_4px_-1px_rgba(255,255,255,0.025),inset_0_-2px_4px_rgba(255,255,255,0.05)]
       "
       aria-label="Main navigation"
     >
-      <nav className="flex w-full md:flex-col items-center overflow-hidden">
+      <div className="flex flex-col items-center justify-center py-3 select-none">
+        <img
+          src={logoDash}
+          alt="Dashboard Logo"
+          className="w-10 h-10 md:w-12 md:h-12 object-contain transition-all duration-300 hover:scale-105"
+          loading="lazy"
+          width={80}
+          height={80}
+        />
+        <div className="w-10/12 h-px rounded-full mt-2 md:mt-3 transition-all duration-500 group-hover:w-full" />
+      </div>
+      <nav className="relative flex w-full md:flex-col items-center overflow-hidden">
+        <div className="pointer-events-none absolute top-0 left-0 right-0 h-10 
+            bg-gradient-to-b from-white to-transparent dark:from-stone-900 z-10"></div>
+
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 
+            bg-gradient-to-t from-white to-transparent dark:from-stone-900 z-10"></div>
+
+
         <ul
-          className=" flex flex-col items-center gap-1 w-full h-full py-2 md:py-1 custom-scrollbar overflow-y-auto"
+          className=" flex flex-col items-center gap-1 w-full shadow-inner h-full py-2 md:py-1 custom-scrollbar overflow-y-auto"
           role="menubar"
           aria-orientation="vertical"
         >
-          <li className="flex items-center justify-center">
-            <div className="hidden md:flex flex-col items-center py-3 select-none">
-              <img
-                src={logoDash}
-                alt="Dashboard Logo"
-                className="w-10 h-10 md:w-12 md:h-12 object-contain transition-all duration-300 hover:scale-105"
-                loading="lazy"
-                width={80}
-                height={80}
-              />
-              <div className="w-10/12 h-px rounded-full mt-2 md:mt-3 transition-all duration-500 group-hover:w-full" />
-            </div>
-          </li>
+
+
 
           {/* Navigation items */}
           {dataNav.length > 0 ? (
@@ -162,10 +168,9 @@ const Sidebar = () => {
                         flex items-center justify-center
                         p-2 rounded-full text-2xl
                         transition-all duration-300 w-10 h-10
-                        ${
-                          isActive
-                            ? "bg-primary bg-transparent text-primary text-light-custom"
-                            : "text-inherit"
+                        ${isActive
+                          ? "bg-primary bg-transparent text-primary text-light-custom"
+                          : "text-inherit"
                         }
                       `}
                       aria-hidden="true"

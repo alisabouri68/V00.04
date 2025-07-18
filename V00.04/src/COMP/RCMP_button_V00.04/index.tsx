@@ -71,7 +71,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       leftIcon,
       rightIcon,
       title,
-      variant = "filled",
+      variant = "outlined",
       size = "md",
       fullWidth = false,
       isLoading = false,
@@ -91,11 +91,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const variantStyles = {
       filled: "bg-primary-active text-white-custom rounded rounded-md",
       outlined:
-        "bg-transparent text-dark-custom rounded-md border border-dark-custom",
+        "bg-transparent text-dark-custom rounded-md border border-text-light-custom",
       text: "bg-transparent text-dark-custom border-none",
       filledActive: "bg-primary text-white-custom rounded rounded-md",
       outlinedActive:
-        "bg-transparent text-dark-custom rounded-md border border-primary hover:border-primary hover:text-primary",
+        "bg-transparent text-primary  rounded-md border border-primary hover:border-primary hover:text-primary",
       textActive: "bg-transparent text-primary-active border-none",
     };
 

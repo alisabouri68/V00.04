@@ -1,24 +1,21 @@
-import { ReactNode } from "react";
 import Jini from "../BOX/BOX_Jinni";
 import Auxiliary from "../BOX/BOX_auxiliary";
 
 type Props = {
   jiniChild?: React.ReactNode;
   auxiliaryChild?: React.ReactNode;
-  children?: ReactNode;
 };
-
-const BOX_actionn = ({ jiniChild, auxiliaryChild, children }: Props) => {
+const BOX_actionn = ({ jiniChild, auxiliaryChild }: Props) => {
   return (
-    <div className="w-full min-h-full flex py-1 overflow-hidden">
-      <div className="flex gap-2 w-9/12 ps-1">
-        <Jini>
-          {jiniChild}
-          {children}
-        </Jini>
+    <div className=" flex flex-row w-full h-full ps-1 ">
+      <div className=" relative flex flex-col h-full gap-2 w-9/12 my-custom-card custom-scrollbar overflow-hidden">
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 
+            bg-gradient-to-t from-white to-transparent dark:from-stone-900 z-10">
+        </div>
+        <Jini />
+        {jiniChild}
       </div>
-
-      <div className="flex w-3/12 px-1 overflow-hidden">
+      <div className="flex w-3/12 px-1 h-full">
         <Auxiliary />
         {auxiliaryChild}
       </div>
