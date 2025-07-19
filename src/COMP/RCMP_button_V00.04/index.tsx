@@ -26,7 +26,7 @@
  * - ButtonHTMLAttributes: inherit native button props.
  **************************************/
 import { ReactNode, ButtonHTMLAttributes, forwardRef } from "react";
-
+import Text from "COMP/RCMP_text_VAR.01_v00.04";
 /**************************************
  * Step 02 - Define Component Properties (Props)
  * ------------------------------------
@@ -89,7 +89,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
      **************************************/
 
     const variantStyles = {
-      filled: "bg-primary-active text-white-custom rounded rounded-md",
+      filled: "bg-primary !text-white rounded rounded-md",
       outlined:
         "bg-transparent text-dark-custom rounded-md border border-text-light-custom",
       text: "bg-transparent text-dark-custom border-none",
@@ -100,7 +100,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const sizeStyles = {
-      xs: "",
+      xs: "py-0.5 px-1 text-xs",
       sm: "py-1 px-2 text-sm",
       md: "py-2 px-3 text-base",
       lg: "py-3 px-4 text-lg",
@@ -167,17 +167,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <>
             {leftIcon && (
-              <span className="flex items-center text-2xl">{leftIcon}</span>
+              <Text size="2xl" >{leftIcon}</Text>
             )}
-            {title || children}
+            {title || children && ( <Text size="2xl">{title || children}</Text>)}
             {rightIcon && (
-              <span
+              <Text size="2xl" 
                 className={`${
-                  title || children ? "ml-2" : ""
-                } flex items-center text-2xl`}
+                  title || children ? "ms-2" : ""
+                } `}
               >
                 {rightIcon}
-              </span>
+              </Text>
             )}
           </>
         )}

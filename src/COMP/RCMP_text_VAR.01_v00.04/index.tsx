@@ -99,8 +99,8 @@ export default function Text({
     size = "base",
     weight = "normal",
     align = "left",
-    as = "p",
-    color = "text-gray-800 dark:text-gray-100",
+    as = "span",
+    color = "text-text-light-custom",
     className = "",
 }: TextProps) {
 
