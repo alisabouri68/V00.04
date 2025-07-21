@@ -83,8 +83,6 @@ useEffect(() => {
         container.style.removeProperty('user-select');
         container.addEventListener('wheel', handleWheel, { passive: false }); // فعال‌سازی مجدد
     };
-
-    // تعریف handleWheel خارج از useEffect برای استفاده در remove/add
     const handleWheel = (e: WheelEvent) => {
         e.preventDefault();
         if (e.deltaY > 0) {
@@ -152,7 +150,7 @@ useEffect(() => {
             {/* Scrollable Items */}
             <div
                 ref={scrollContainerRef}
-                className="flex flex-1 mx-2 overflow-x-hidden cursor-grab"
+                className="flex flex-1 mx-2 overflow-x-hidden cursor-grab "
                 style={{ scrollBehavior: 'smooth' }}
             >
                 {/* The transform property is applied here to slide the items */}
@@ -160,7 +158,7 @@ useEffect(() => {
                     {services.map((service, i) => ( // Render all services
                         <div key={service.id} className="flex-shrink-0" style={{ width: '120px' }}>
                             <Button
-                               onClick={() => setCurrentIndex(i)} // 👈 انتخاب آیتم با کلیک
+                               onClick={() => setCurrentIndex(i)} 
     variant={i === currentIndex ? 'filled' : 'outlined'}
     size="sm"
     aria-current={i === currentIndex ? 'true' : 'false'}
@@ -186,6 +184,7 @@ useEffect(() => {
                     aria-label="More options"
                     leftIcon={<CgMoreVertical />}
                     className="text-gray-600 hover:bg-gray-200 p-2 rounded-full transition-all duration-300"
+               
                 />
                 {nextCount > 0 && (
                     <Text className="text-xs text-white bg-primary rounded-full w-6 h-6 flex items-center justify-center shadow-sm">

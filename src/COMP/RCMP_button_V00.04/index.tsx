@@ -26,7 +26,7 @@
  * - ButtonHTMLAttributes: inherit native button props.
  **************************************/
 import { ReactNode, ButtonHTMLAttributes, forwardRef } from "react";
-import Text from "COMP/RCMP_text_VAR.01_v00.04";
+import Text from "../RCMP_text_VAR.01_v00.04";
 /**************************************
  * Step 02 - Define Component Properties (Props)
  * ------------------------------------

@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Button Component",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "Button Title"
+    },
+    "variant": {
+      "type": "string",
+      "enum": [
+        "filled",
+        "outlined",
+        "text",
+        "filledActive",
+        "outlinedActive",
+        "textActive"
+      ],
+      "default": "outlined",
+      "title": "Variant"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["xs", "sm", "md", "lg"],
+      "default": "md",
+      "title": "Size"
+    },
+    "leftIcon": {
+      "type": "string",
+      "title": "Left Icon (Optional)",
+      "description": "Use icon name or component reference"
+    },
+    "rightIcon": {
+      "type": "string",
+      "title": "Right Icon (Optional)",
+      "description": "Use icon name or component reference"
+    },
+    "isLoading": {
+      "type": "boolean",
+      "default": false,
+      "title": "Loading?"
+    },
+    "loadingText": {
+      "type": "string",
+      "title": "Loading Text"
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false,
+      "title": "Full Width?"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "title": "Disabled?"
+    },
+    "className": {
+      "type": "string",
+      "title": "Custom CSS Classes"
+    }
+  },
+  "required": []
+}

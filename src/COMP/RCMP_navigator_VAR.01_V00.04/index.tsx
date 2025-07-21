@@ -98,7 +98,8 @@ const Sidebar = () => {
         flex-col
         rounded-lg
         overflow-hidden
-        w-20
+        min-w-[80px]
+        max-w-[80px]
         transition-all
         duration-300
         my-custom-card
