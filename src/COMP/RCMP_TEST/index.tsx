@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Button from "COMP/RCMP_button_V00.04";
 import {
     MdKeyboardArrowLeft,
@@ -7,139 +7,78 @@ import {
 import { CgMoreVertical } from "react-icons/cg";
 import { CiFileOn } from "react-icons/ci";
 import Text from 'COMP/RCMP_text_VAR.01_v00.04';
-interface ServiceItem {
+import ServiceDropList from "COMP/RCMP_serviceDropList_VAR.01_V00.04"
+export interface ServiceItem {
     id: string;
     title: string;
     icon: JSX.Element;
 }
 function index() {
-
-    const services: ServiceItem[] = useMemo(() =>
-        Array.from({ length: 10 }, (_, i) => ({
+    const [isOpen, setIsOpen] = useState<boolean>(true)
+    const [startIndex, setStartIndex] = useState<number>(0)
+    const [endIndex, setEndIndex] = useState<number>(6)
+    const [selectItem, setSelectItem] = useState<string>("")
+    const allServices = useMemo(() =>
+        Array.from({ length: 20 }, (_, i) => ({
             id: `service-${i + 1}`,
             title: `Service ${i + 1}`,
             icon: <CiFileOn size={16} />,
-        }))
-        , []);
-    const [width, setWidth] = useState<number>(0)
-    const [currentIndex, setCurrentIndex] = useState<number>(0);
-    const previousCount = currentIndex;
-    const nextCount = services.length - currentIndex - 1;
-    const containerRef = useRef<HTMLDivElement>(null)
-    useEffect(() => {
-        let isDragging = false;
-        let startX = 0;
-        const updateWidth = () => {
+        })),
+        []
+    );
 
-            if (containerRef.current) {
-                const newWidth = containerRef.current.clientWidth;
-                setWidth(newWidth);
-            }
-        };
-        const handleWheel = (e: WheelEvent) => {
-            e.preventDefault();
-            const scrollAmount = width / 6 + Math.abs(e.deltaY);
-            if (containerRef.current) {
-                containerRef.current.scrollLeft += e.deltaY > 0 ? scrollAmount : -scrollAmount;
-            }
-        };
-        const handleMouseDown = (e: MouseEvent) => {
-            if (!containerRef.current) return;
+    const prevCount = startIndex
+    const nextCount = allServices.length - endIndex
+    const services: ServiceItem[] = useMemo(() =>
+        allServices.slice(startIndex, endIndex),
+        [startIndex, endIndex, allServices]
+    );
 
-            isDragging = true;
-            startX = e.pageX;
-
-            const container = containerRef.current;
-            container.style.cursor = 'grabbing';
-            container.style.userSelect = 'none';
-            container.removeEventListener('wheel', handleWheel);
-        };
-
-        const handleMouseUp = () => {
-            if (!containerRef.current) return;
-            isDragging = false;
-            const container = containerRef.current;
-            container.style.cursor = 'grab';
-            container.style.removeProperty('user-select');
-            container.addEventListener('wheel', handleWheel, { passive: false });
-        };
-        const handleMouseMove = (e: MouseEvent) => {
-            if (!isDragging) return;
-            e.preventDefault();
-            const currentX = e.pageX;
-            const dragDistance = startX - currentX;
-
-            const threshold = (width / 6) / 2;
-
-            if (dragDistance > threshold) {
-                setCurrentIndex(prev => Math.min(prev + 1, services.length - 0));
-                isDragging = false;
-                startX = currentX;
-            } else if (dragDistance < -threshold) {
-                setCurrentIndex(prev => Math.max(0, prev - 1));
-                isDragging = false;
-                startX = currentX;
-            }
-        };
-        updateWidth();
-        containerRef.current?.addEventListener('wheel', handleWheel, { passive: false });
-        window.addEventListener('resize', updateWidth);
-        containerRef.current?.addEventListener('mousedown', handleMouseDown);
-        containerRef.current?.addEventListener('mouseup', handleMouseUp);
-        containerRef.current?.addEventListener('mouseleave', handleMouseUp);
-        containerRef.current?.addEventListener('mousemove', handleMouseMove);
-
-        return () => {
-            window.removeEventListener('resize', updateWidth);
-            containerRef.current?.removeEventListener('wheel', handleWheel);
-            containerRef.current?.removeEventListener('mousedown', handleMouseDown);
-            containerRef.current?.removeEventListener('mouseup', handleMouseUp);
-            containerRef.current?.removeEventListener('mouseleave', handleMouseUp);
-            containerRef.current?.addEventListener('mousemove', handleMouseMove);
-
-
+    function preveSlide() {
+        if (startIndex > 0) {
+            setEndIndex(p => p - 1);
+            setStartIndex(p => p - 1);
         }
-    }, []);
+    }
+    function nextSlide() {
+        if (endIndex < allServices.length) {
+            setEndIndex(p => p + 1);
+            setStartIndex(p => p + 1);
+        }
+    }
+
     return (
-        <div className="flex items-center justify-between rounded-xl shadow-md" >
+        <div className="flex items-center justify-between rounded-xl shadow-md relative" >
             {/* Left Side */}
-            <div className="inline-flex items-center space-x-2 ">
+            <div className="flex items-center space-x-2 ">
                 <Button
+                    disabled={!prevCount ? true : false}
+                    onClick={preveSlide}
                     variant="text"
                     size="sm"
                     aria-label="Previous item"
-                    // disabled={}
-                    onClick={() => {
-                        if (containerRef.current) {
-                            containerRef.current.scrollLeft -= (width / 6);
-                        }
-                    }}
                     leftIcon={<MdKeyboardArrowLeft />}
                     className="text-gray-700 hover:bg-gray-200 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
                 />
-                {previousCount > 0 && (
-                    <Text className="text-xs text-white bg-primary rounded-full w-6 h-6 flex items-center justify-center shadow-sm">
-                        {previousCount}
+                {
+                    <Text className={`${prevCount ? " opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs  bg-primary rounded-full w-6 h-6 flex items-center justify-center shadow-sm`}>
+                        {prevCount}
                     </Text>
-                )}
+                }
             </div>
-            <div ref={containerRef}
-                className="inline-flex items-center  w-full overflow-x-auto hide-scrollbar relative scroll-smooth ">
-                {/* {/* <div className="pointer-events-none absolute top-0 bottom-0 left-0 h-full  */}
-                {/* bg-gradient-to-r from-white to-transparent dark:from-stone-900 z-10 w-10"></div> */}
+            <div
+                className="flex items-center w-full relative">
 
-                {/* <div className="pointer-events-none absolute top-0 bottom-0 right-0 h-full  */}
-                {/* bg-gradient-to-l from-white to-transparent dark:from-stone-900 z-10 w-10"></div> */}
 
-                {services && services.map((service, i) => (
-                    <div key={service.id} className="flex-shrink-0 px-1" style={{ width: width / 6 + 'px', flexShrink: 0 }}>
+                {services && services.map((service) => (
+                    <div key={service.id} className="flex-1 px-1">
                         <Button
-                            variant={currentIndex === i ? "filled" : 'outlined'}
-                            onClick={() => setCurrentIndex(i)}
+                            variant={selectItem === service.id ? "filled" : "outlined"}
                             size="sm"
+                            onClick={() => setSelectItem(service.id)}
                             leftIcon={service.icon}
                             title={service.title}
-                            className={`w-full truncate text-ellipsis overflow-hidden whitespace-nowrap transition-all duration-300`}
+                            className={`w-full truncate text-ellipsis overflow-hidden whitespace-nowrap transition-all duration-300 text-text-light-custom`}
                         >
                             {service.title}
                         </Button>
@@ -149,33 +88,82 @@ function index() {
             {/* Right Side */}
             <div className="flex items-center space-x-2">
                 <Button
+                    onClick={() => setIsOpen(!isOpen)}
                     variant="outlined"
                     size="xs"
                     aria-label="More options"
                     leftIcon={<CgMoreVertical />}
                     className="text-gray-600 hover:bg-gray-200 p-2 rounded-full transition-all duration-300"
                 />
-                {nextCount && (
-                    <span className={`${nextCount > 0 ? " opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs  bg-primary rounded-full w-6 h-6 flex items-center justify-center shadow-sm`}>
+                {
+                    <Text className={`${nextCount ? " opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs  bg-primary rounded-full w-6 h-6 flex items-center justify-center shadow-sm`}>
                         {nextCount}
-                    </span>
-                )}
+                    </Text>
+                }
                 <Button
+                    disabled={!nextCount ? true : false}
+                    onClick={nextSlide}
                     variant="text"
                     size="sm"
                     aria-label="Next item"
-                    // disabled={}
-                    onClick={() => {
-                        if (containerRef.current) {
-                            containerRef.current.scrollLeft += (width / 6);
-                        }
-                    }}
                     leftIcon={<MdKeyboardArrowRight />}
                     className="text-gray-700 hover:bg-gray-200 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
                 />
             </div>
+            {isOpen &&
+                <ServiceDropList allServices={allServices} services={services} selectItem={selectItem} setSelectItem={setSelectItem} startIndex={startIndex} endIndex={endIndex} />
+            }
         </div>
     )
 }
 
 export default index
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// containerRef.current?.addEventListener('wheel', handleWheel, { passive: false });
+// containerRef.current?.addEventListener('mousedown', handleMouseDown);
+// containerRef.current?.addEventListener('mouseup', handleMouseUp);
+// containerRef.current?.addEventListener('mouseleave', handleMouseUp);
+// containerRef.current?.addEventListener('mousemove', handleMouseMove);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// containerRef.current?.removeEventListener('wheel', handleWheel);
+// containerRef.current?.removeEventListener('mousedown', handleMouseDown);
+// containerRef.current?.removeEventListener('mouseup', handleMouseUp);
+// containerRef.current?.removeEventListener('mouseleave', handleMouseUp);
+// containerRef.current?.addEventListener('mousemove', handleMouseMove);

@@ -100,7 +100,7 @@ export default function Text({
     weight = "normal",
     align = "left",
     as = "span",
-    color = "text-text-light-custom",
+    color = "inherit",
     className = "",
 }: TextProps) {
 

@@ -89,9 +89,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
      **************************************/
 
     const variantStyles = {
-      filled: "bg-primary !text-white rounded rounded-md",
+      filled: "bg-primary text-white rounded rounded-md",
       outlined:
-        "bg-transparent text-dark-custom rounded-md border border-text-light-custom",
+        "bg-transparent text-text-light-custom rounded-md border border-text-light-custom",
       text: "bg-transparent text-dark-custom border-none",
       filledActive: "bg-primary text-white-custom rounded rounded-md",
       outlinedActive:
@@ -169,12 +169,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             {leftIcon && (
               <Text size="2xl" >{leftIcon}</Text>
             )}
-            {title || children && ( <Text size="2xl">{title || children}</Text>)}
+            {title || children && (<Text size="2xl">{title || children}</Text>)}
             {rightIcon && (
-              <Text size="2xl" 
-                className={`${
-                  title || children ? "ms-2" : ""
-                } `}
+              <Text size="2xl"
+                className={`${title || children ? "ms-2" : ""
+                  } `}
               >
                 {rightIcon}
               </Text>
