@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Avatar Props",
+  "description": "Schema for Avatar component props",
+  "type": "object",
+  "properties": {
+    "src": {
+      "type": "string",
+      "format": "uri",
+      "description": "Image source URL for the avatar"
+    },
+    "alt": {
+      "type": "string",
+      "description": "Alternative text for the image"
+    },
+    "size": {
+      "type": "string",
+      "enum": ["sm", "md", "lg"],
+      "default": "md",
+      "description": "Size of the avatar"
+    },
+    "isOnline": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to show the online status indicator"
+    },
+    "fallbackText": {
+      "type": "string",
+      "description": "Text shown when image is not available"
+    },
+    "className": {
+      "type": "string",
+      "description": "Custom class names for styling"
+    }
+  },
+  "required": []
+}
