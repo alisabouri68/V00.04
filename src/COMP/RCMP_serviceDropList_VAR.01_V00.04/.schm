@@ -1,0 +1,75 @@
+{
+  "title": "Service Dropdown List",
+  "description": "A scrollable dropdown list for selecting a service from a larger list.",
+  "type": "object",
+  "properties": {
+    "allServices": {
+      "type": "array",
+      "description": "All available service items.",
+      "items": {
+        "$ref": "#/definitions/ServiceItem"
+      }
+    },
+    "services": {
+      "type": "array",
+      "description": "Subset of services to be shown in the middle (highlighted) section.",
+      "items": {
+        "$ref": "#/definitions/ServiceItem"
+      }
+    },
+    "selectItem": {
+      "type": "string",
+      "description": "The ID of the currently selected service item."
+    },
+    "setSelectItem": {
+      "type": "function",
+      "description": "Function to set the selected item by ID."
+    },
+    "startIndex": {
+      "type": "number",
+      "description": "Index in the full list where the middle services start."
+    },
+    "endIndex": {
+      "type": "number",
+      "description": "Index in the full list where the middle services end."
+    },
+    "setStartIndex": {
+      "type": "function",
+      "description": "Function to update start index of middle section."
+    },
+    "setEndIndex": {
+      "type": "function",
+      "description": "Function to update end index of middle section."
+    }
+  },
+  "required": [
+    "allServices",
+    "services",
+    "selectItem",
+    "setSelectItem",
+    "startIndex",
+    "endIndex",
+    "setStartIndex",
+    "setEndIndex"
+  ],
+  "definitions": {
+    "ServiceItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the service"
+        },
+        "title": {
+          "type": "string",
+          "description": "Display name for the service"
+        },
+        "icon": {
+          "type": "object",
+          "description": "React JSX element representing the icon"
+        }
+      },
+      "required": ["id", "title", "icon"]
+    }
+  }
+}
