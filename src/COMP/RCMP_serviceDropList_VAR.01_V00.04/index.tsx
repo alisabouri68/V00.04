@@ -109,8 +109,6 @@ function Index({
             setStartIndex(findIndex)
             setEndIndex(findIndex + 6)
         }
-
-        console.log("Is item in middle group? ", hasIndex)
     }
 
     /**************************************
@@ -121,7 +119,7 @@ function Index({
             key={item.id}
             ref={ref}
             onClick={() => selectItemHandler(item)}
-            className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent cursor-pointer custom-card transition duration-200
+            className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent text-text-light-custom cursor-pointer transition duration-200
                 ${selectItem === item.id
                     ? "bg-primary/10 border-l-primary text-primary font-semibold"
                     : "hover:bg-gray-100 dark:hover:bg-black-custom"
@@ -144,12 +142,12 @@ function Index({
             ref={scrollContainerRef}
             className="absolute top-10 right-20 w-56 max-h-64 shadow-sm overflow-y-auto text-sm custom-card custom-scrollbar p-2 rounded-md border border-gray-300 dark:border-gray-700"
         >
-            <div className="flex flex-col w-full h-full overflow-hidden">
+            <div className="flex flex-col w-full h-full overflow-hidden custom-card">
                 {/* Top (hidden) services */}
                 {topItems.map(item => renderServiceItem(item))}
 
                 {/* Middle (visible) services */}
-                <div className="border-y border-primary/30 bg-primary/5 shadow-sm rounded-md border border-gray-300">
+                <div className="border-y border-primary/50 bg-primary/7 shadow-sm rounded-md border border-gray-300">
                     {services.map((item, index) => {
                         const isFirst = index === 0
                         return renderServiceItem(item, isFirst ? firstMiddleItemRef : undefined)
