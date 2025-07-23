@@ -121,7 +121,7 @@ function Index({
             key={item.id}
             ref={ref}
             onClick={() => selectItemHandler(item)}
-            className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent cursor-pointer transition duration-200
+            className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent cursor-pointer custom-card transition duration-200
                 ${selectItem === item.id
                     ? "bg-primary/10 border-l-primary text-primary font-semibold"
                     : "hover:bg-gray-100 dark:hover:bg-black-custom"
