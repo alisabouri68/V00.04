@@ -91,11 +91,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const variantStyles = {
       filled: "bg-primary text-white rounded rounded-md",
       outlined:
-        "bg-transparent text-text-light-custom rounded-md border border-text-light-custom",
+        "bg-transparent  text-gray-500 dark:text-gray-400 rounded-md border border-text-light-custom",
       text: "bg-transparent text-dark-custom border-none",
-      filledActive: "bg-primary text-white-custom rounded rounded-md",
+      filledActive: "bg-primary  text-gray-500 dark:text-gray-400 rounded rounded-md",
       outlinedActive:
-        "bg-transparent text-primary  rounded-md border border-primary hover:border-primary hover:text-primary",
+        "bg-transparent text-primary rounded-md border border-primary hover:border-primary hover:text-primary",
       textActive: "bg-transparent text-primary-active border-none",
     };
 

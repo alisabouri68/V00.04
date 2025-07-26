@@ -101,8 +101,7 @@ const Sidebar = () => {
         min-w-[80px]
         max-w-[80px]
         transition-all
-        duration-300
-        my-custom-card
+        bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400
         h-full
       "
       aria-label="Main navigation"
@@ -111,12 +110,12 @@ const Sidebar = () => {
         <img
           src={logoDash}
           alt="Dashboard Logo"
-          className="w-10 h-10 md:w-12 md:h-12 object-contain transition-all duration-300 hover:scale-105"
+          className="w-10 h-10 md:w-12 md:h-12 object-contain hover:scale-105"
           loading="lazy"
           width={80}
           height={80}
         />
-        <div className="w-10/12 h-px rounded-full mt-2 md:mt-3 transition-all duration-500 group-hover:w-full" />
+        <div className="w-10/12 h-px rounded-full mt-2 md:mt-3 group-hover:w-full" />
       </div>
       <nav className="relative flex w-full md:flex-col items-center overflow-hidden">
         <div className="pointer-events-none absolute top-0 left-0 right-0 h-10 
@@ -159,7 +158,7 @@ const Sidebar = () => {
                       justify-center
                       p-1
                       w-full
-                      text-text-light-custom
+                      bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400
                       hover:text-primary
                     `}
                     aria-current={isActive ? "page" : undefined}
@@ -168,7 +167,7 @@ const Sidebar = () => {
                       className={`
                         flex items-center justify-center
                         p-2 rounded-full text-2xl
-                        transition-all duration-300 w-10 h-10
+                        transition-all w-10 h-10
                         ${isActive
                           ? "bg-primary bg-transparent text-primary text-light-custom"
                           : "text-inherit"
@@ -184,7 +183,6 @@ const Sidebar = () => {
                         font-medium
                         capitalize
                         transition-colors
-                        duration-300
                         ${isActive ? "text-primary" : "text-inherit"}
                       `}
                     >

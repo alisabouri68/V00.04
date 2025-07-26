@@ -1,83 +1,98 @@
-{
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Text Component Schema",
-    "description": "Schema for rendering styled text components using the RCMP_text component",
-    "type": "object",
-    "properties": {
-        "children": {
-            "type": "string",
-            "description": "The text content to display"
-        },
-        "size": {
-            "type": "string",
-            "enum": [
-                "xs",
-                "sm",
-                "base",
-                "lg",
-                "xl",
-                "2xl",
-                "3xl",
-                "4xl"
-            ],
-            "default": "base"
-        },
-        "weight": {
-            "type": "string",
-            "enum": [
-                "thin",
-                "light",
-                "normal",
-                "medium",
-                "semibold",
-                "bold",
-                "extrabold",
-                "black"
-            ],
-            "default": "normal"
-        },
-        "align": {
-            "type": "string",
-            "enum": [
-                "left",
-                "center",
-                "right",
-                "justify"
-            ],
-            "default": "left"
-        },
-        "as": {
-            "type": "string",
-            "description": "HTML tag to render",
-            "enum": [
-                "span",
-                "p",
-                "div",
-                "h1",
-                "h2",
-                "h3",
-                "h4",
-                "h5",
-                "h6",
-                "strong",
-                "em",
-                "label",
-                "small"
-            ],
-            "default": "span"
-        },
-        "color": {
-            "type": "string",
-            "description": "Tailwind or custom text color class",
-            "default": "text-text-light-custom"
-        },
-        "className": {
-            "type": "string",
-            "description": "Additional Tailwind or utility classes",
-            "default": ""
-        }
-    },
-    "required": [
-        "children"
-    ]
-}
+ ---glan11
+    
+
+
+/// ---------------------------------------
+/// model:              COMP_template_V00.04
+/// last update:        D2025.07.22
+/// by:                 APPS.00
+/// ---------------------------------------
+
+
+
+
+>>> ID															//? Definition for COMP
+
+    /// step.01 -  Complete Meta Data
+
+    # meta
+        . model_id:					"VAR.01"
+        . model_title:				"text"
+        . model_version:			"V00.04"
+        . model_lastUpgrade:		"D2025.07.00"				/// use the header date
+        . model_owner				"APPS.68"
+
+        . model_type				"Instant"
+        . origin_model				"COMP"						/// Component Mutage Model
+        . origin_model_Ver			"00.04"
+        . model_rem					"Component Remarks here ... "	
+
+	/// Objectives:
+
+	///	1- Template Making for all Component Models
+
+	///	2-
+
+	///	3-
+
+
+
+-->
+
+
+>>> MNG
+
+
+	/// step.02 -  Management - Render
+
+	# render(1)													//? React Render Mngt.
+		. scat:						"RPAN"						/// React Template
+		. langBase:					"react"						/// description
+
+
+	# render(2)							 						//? Reference Render Mngt.
+		. scat:						"LITE"						/// React Template
+		. langBase:					"reachtex"					/// description
+
+
+    /// step.03 - Management - Dependency (Co-Actor)
+
+    # actor(1)                     
+        . id:                       "actrID_V00.04"
+        . default:                  "TRUE"
+        . alias:                    "router"
+
+
+
+    /// step.04 - Management - Dependency (kernels)
+	
+    # kernel(1)                     
+		. id:                       "node"
+		. ver:						"21.01.23"
+		. type:						"exe"
+		. default:                  "TRUE"
+		. alias:                    "Joi"
+
+
+
+    /// step.05 - Management - Dependency (Widgets)
+
+    # kernel(1)                     
+		. id:                       "id"
+		. ver:						"V21.01.23"
+		. default:                  "TRUE"
+		. alias:                    "alias"
+
+
+    /// step.06 - Management - Dependency (Themes)
+
+    # theme(1)                     
+		. id:                       "id"
+		. ver:						"V21.01.23"
+		. default:                  "TRUE"
+		. alias:                    "alias"
+
+
+
+
+-->

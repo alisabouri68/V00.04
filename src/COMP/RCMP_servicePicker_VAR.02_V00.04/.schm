@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Service Picker Schema",
+  "description": "List of services to be shown in the horizontal service picker",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Unique identifier for the service"
+      },
+      "title": {
+        "type": "string",
+        "description": "Service title to display"
+      },
+      "icon": {
+        "type": "string",
+        "description": "Icon name or identifier (used to render icon)"
+      }
+    },
+    "required": ["id", "title", "icon"]
+  }
+}

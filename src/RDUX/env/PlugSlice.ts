@@ -5,7 +5,7 @@ import qs from "qs"
 export const plugSlice = createApi({
     reducerPath: 'plug',
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.REACT_APP_OBRO_ADDRESS + ":" + process.env.REACT_APP_OBRO_PORT + "/",
+        baseUrl: import.meta.env.VITE_OBRO_ADDRESS + ":" + import.meta.env.VITE_OBRO_PORT + "/",
         prepareHeaders: (headers) => {
 
             const accessToken = window.localStorage.getItem('access_token');

@@ -1,8 +1,7 @@
 import { createAppSlice } from "../app/createAppSlice"
 import type { PayloadAction } from "@reduxjs/toolkit"
-import AbsMan from 'ACTR/RACT_absMan';
 
-export interface ConsoleSliceState { absMan?: typeof AbsMan }
+export interface ConsoleSliceState { absMan?: any }
 
 const initialState: ConsoleSliceState = { /*absMan: AbsMan */ }
 

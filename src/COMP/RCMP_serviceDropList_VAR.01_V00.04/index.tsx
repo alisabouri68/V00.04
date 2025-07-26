@@ -58,6 +58,8 @@ type Props = {
     services: ServiceItem[]                 // Services currently in the middle section
     setStartIndex: (index: number) => void  // Setter for startIndex
     setEndIndex: (index: number) => void    // Setter for endIndex
+    onClose: () => void
+    count: number
 }
 
 /**************************************
@@ -71,7 +73,9 @@ function Index({
     endIndex,
     services,
     setStartIndex,
-    setEndIndex
+    setEndIndex,
+    onClose,
+    count
 }: Props) {
 
     /**************************************
@@ -92,6 +96,21 @@ function Index({
             })
         }
     }, [selectItem])
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (
+                scrollContainerRef.current &&
+                !scrollContainerRef.current.contains(event.target as Node)
+            ) {
+                onClose();
+            }
+        }
+
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [onClose]);
 
     /**************************************
      * Step 06.C - Handlers
@@ -102,12 +121,12 @@ function Index({
         setSelectItem(service.id)                                                      // Update selected item
 
         // If not already in visible middle items, adjust window
-        if (allServices.length - findIndex < 6 && !hasIndex) {
-            setStartIndex(allServices.length - 6)
+        if (allServices.length - findIndex < count && !hasIndex) {
+            setStartIndex(allServices.length - count)
             setEndIndex(allServices.length)
         } else if (!hasIndex) {
             setStartIndex(findIndex)
-            setEndIndex(findIndex + 6)
+            setEndIndex(findIndex + count)
         }
     }
 
@@ -119,7 +138,7 @@ function Index({
             key={item.id}
             ref={ref}
             onClick={() => selectItemHandler(item)}
-            className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent text-text-light-custom cursor-pointer transition duration-200
+            className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400 cursor-pointer  
                 ${selectItem === item.id
                     ? "bg-primary/10 border-l-primary text-primary font-semibold"
                     : "hover:bg-gray-100 dark:hover:bg-black-custom"
@@ -140,9 +159,9 @@ function Index({
     return (
         <div
             ref={scrollContainerRef}
-            className="absolute top-10 right-20 w-56 max-h-64 shadow-sm overflow-y-auto text-sm custom-card custom-scrollbar p-2 rounded-md border border-gray-300 dark:border-gray-700"
+            className="absolute top-10 right-20 z-50 w-56 max-h-72 shadow-sm overflow-y-auto text-sm bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400 custom-scrollbar p-2 rounded-md border border-gray-300 dark:border-gray-700"
         >
-            <div className="flex flex-col w-full h-full overflow-hidden custom-card">
+            <div className="flex flex-col w-full h-full overflow-hidden bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400">
                 {/* Top (hidden) services */}
                 {topItems.map(item => renderServiceItem(item))}
 

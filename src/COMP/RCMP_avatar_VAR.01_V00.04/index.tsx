@@ -75,7 +75,7 @@ const Avatar: React.FC<AvatarProps> = ({
         />
       ) : (
         <div
-          className={`flex items-center justify-center rounded-full bg-white text-gray-300 dark:text-gray-500 font-semibold border shadow ${sizeClass}`}
+          className={`flex items-center justify-center rounded-full bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400 font-semibold border shadow ${sizeClass}`}
         >
           {/* Fallback text or icon if no image */}
           {fallbackText ? (

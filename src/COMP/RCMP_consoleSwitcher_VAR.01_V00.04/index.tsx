@@ -72,9 +72,9 @@ const index: React.FC<IndexProps> = ({ console = "mono" }) => {
   };
 
   return (
-    <div className="flex items-center space-x-4 text-text-light-custom">
+    <div className="w-h-f space-x-4 bg-text">
       {/* Company Logo */}
-      <div className="flex items-center">
+      <div className="w-h-f">
         <img src={logo} alt="Raad Health Logo" className="h-8 w-auto" />
       </div>
 

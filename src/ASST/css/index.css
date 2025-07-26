@@ -58,16 +58,31 @@ body,
 #root {
   height: 100%;
 }
+
 @layer components {
   .my-custom-card {
-    @apply rounded-md  bg-white-custom text-text-dark-custom dark:bg-black-custom dark:text-text-light-custom ;
+    @apply rounded-md bg-white-custom text-text-dark-custom dark:bg-black-custom dark:text-text-light-custom;
   }
 }
+
+@layer components {
+  .bg-text {
+    @apply bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400;
+  }
+}
+
+@layer components {
+  .w-h-f {
+    @apply w-full h-full flex items-center;
+  }
+}
+
 @layer components {
   .custom-card {
-    @apply  bg-white-custom text-text-dark-custom dark:bg-black-custom dark:text-text-light-custom;
+    @apply bg-white-custom text-text-dark-custom dark:bg-black-custom dark:text-text-light-custom;
   }
 }
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 2px;
 }
@@ -110,6 +125,7 @@ body,
 .autoplay-progress svg {
   display: none !important;
 }
+
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -118,6 +134,7 @@ body,
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .scroll-smooth {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }

@@ -40,15 +40,15 @@ const Header = ({ children }: { children?: ReactNode }) => {
 
   return (
     <>
-      <header className="w-full custom-card h-16">
+      <header className="w-h-f bg-text">
         <div className="2xl:container mx-auto flex w-full h-full px-1 ">
-          <div className="flex items-center justify-between w-full">
+          <div className="w-h-f justify-between">
             {/* start header */}
             <div className="">
               <ConsoleSwitche />
             </div>
             {/* end header */}
-            <div className="flex items-center justify-end grow">
+            <div className="w-h-f justify-end grow">
               <div>
                 <Dropdown
                   options={themeOptions}
@@ -80,13 +80,13 @@ const Header = ({ children }: { children?: ReactNode }) => {
                   placeholder="Language"
                 />
               </div>
-              <div className="flex items- gap-2">
+              <div className="flex gap-2">
                 <div>
                   <Avatar alt="user" fallbackText="" />
                 </div>
                 <div className="flex flex-col items-start">
-                  <div><span className=" text-text-light-custom">Hana Rezaei</span></div>
-                  <div><span className=" text-text-light-custom/80">Tehran</span></div>
+                  <div><span className="">Hana Rezaei</span></div>
+                  <div><span className="">Tehran</span></div>
                 </div>
               </div>
             </div>

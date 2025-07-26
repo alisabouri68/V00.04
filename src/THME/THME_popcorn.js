@@ -1,4 +1,3 @@
-
 module.exports = {
     colors: {
         "primery": "#219EBB",
