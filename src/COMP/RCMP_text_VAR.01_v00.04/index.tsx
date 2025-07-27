@@ -6,9 +6,6 @@ By:             APSS.00
 
 Description:  This component renders styled text elements based on size, weight, alignment, and semantic HTML tag. It supports theming, customization, and reusable UI design in React applications using Smart-Comp Architecture.
 ******************************************/
-
-import { jsx } from "react/jsx-runtime";
-
 /*------------------------------------------------------------
 Meta Data
 
