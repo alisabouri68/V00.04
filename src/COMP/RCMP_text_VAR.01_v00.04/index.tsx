@@ -7,6 +7,8 @@ By:             APSS.00
 Description:  This component renders styled text elements based on size, weight, alignment, and semantic HTML tag. It supports theming, customization, and reusable UI design in React applications using Smart-Comp Architecture.
 ******************************************/
 
+import { jsx } from "react/jsx-runtime";
+
 /*------------------------------------------------------------
 Meta Data
 
@@ -41,14 +43,12 @@ type Weight =
     | "extrabold"
     | "black";
 type Align = "left" | "center" | "right" | "justify";
-type ElementType = keyof JSX.IntrinsicElements;
-
 interface TextProps {
     children: React.ReactNode;
     size?: Size;
     weight?: Weight;
     align?: Align;
-    as?: ElementType;
+    as?: React.ElementType;
     color?: string;
     className?: string;
 }
