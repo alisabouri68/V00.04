@@ -6,6 +6,7 @@ import BoxAuxilary from "../../BOX/BOX_auxiliary"
 import ActionMenue from "../../BOX/BOX_actiomMenue"
 import ActionContent from "../../BOX/BOX_actionContent"
 import ServicePicker from "../../COMP/RCMP_servicePicker_VAR.01_V00.04"
+import BOX_assistant from "BOX/BOX_assistant"
 const index = () => {
     return (
         <>
@@ -15,7 +16,7 @@ const index = () => {
                     <Navigator />
                 </BoxNav>
                 <div className="flex w-full h-full ">
-                    <div className="relative flex flex-col h-full w-9/12 overflow-x-hidden rounded-md overflow-y-auto custom-scrollbar ms-1 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
+                    <div className="flex flex-col h-full w-9/12 overflow-x-hidden rounded-md overflow-y-auto custom-scrollbar ms-1 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
                         <BoxJinni />
                         <ActionMenue>
                             <ServicePicker />
@@ -32,12 +33,16 @@ const index = () => {
                             Error, consequatur iste distinctio minima eaque placeat sed nihil, aut doloribus fugiat tenetur id labore suscipit omnis consectetur, quod quo. Accusamus unde facere eos maiores dicta ad natus, error tenetur.
                             Deserunt nemo vel quisquam distinctio nam ea omnis porro in, soluta aut mollitia atque eos inventore tenetur. Et similique ut est officia omnis, eligendi consequuntur blanditiis optio mollitia doloribus! Perspiciatis?
                         </ActionContent>
-                        <div className="pointer-events-none fixed bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/90 to-transparent dark:from-gray-900/90 z-10"></div>
+                        <div className="pointer-events-none fixed bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white/90 to-transparent dark:from-gray-900/90 z-10"></div>
                     </div>
 
                     <div className="w-3/12 ps-1">
                         <BoxAuxilary>
                             Auxilary GASMA
+                            <BOX_assistant>
+                                BOX_assistant GASMA
+                                <p className="text-center">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro, possimus.</p>
+                            </BOX_assistant>
                         </BoxAuxilary>
                     </div>
                 </div>

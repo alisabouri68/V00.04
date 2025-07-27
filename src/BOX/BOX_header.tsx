@@ -40,7 +40,7 @@ const Header = ({ children, console }: { children?: ReactNode, console: string }
 
   return (
     <>
-      <header className="w-full h-14 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
+      <header className="w-full h-14 px-5 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
 ">
         <div className="2xl:container mx-auto flex w-full h-full px-1 ">
           <div className="w-h-f justify-between">

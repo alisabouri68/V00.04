@@ -123,13 +123,6 @@ const Sidebar = () => {
         <div className="w-10/12 h-px rounded-full mt-2 md:mt-3 group-hover:w-full" />
       </div>
       <nav className="relative flex w-full h-full md:flex-col items-center">
-        {/* <div className="pointer-events-none absolute -top-10 left-0 right-0 h-10 
-            bg-gradient-to-b from-gray-500 to-transparent dark:from-gray-900 z-50"></div> */}
-
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 
-           bg-gradient-to-t from-white to-transparent dark:from-gray-900 z-10"></div>
-
-
         <ul
           className=" flex flex-col items-center gap-1 w-full shadow-inner h-full py-2 md:py-1 custom-scrollbar overflow-y-auto"
           role="menubar"
@@ -154,9 +147,8 @@ const Sidebar = () => {
                   <Link
                     to={item.href}
                     className={`
-                      ${isActive ? "border-s-primary" : ""}
-                      border-4
-                      border-transparent
+                      ${isActive ? "border-s-primary" : "border-s-transparent"}
+                      border-s-4
                       flex
                       flex-col
                       items-center

@@ -57,6 +57,8 @@ html,
 body,
 #root {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 @layer components {
@@ -85,16 +87,18 @@ body,
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 2px;
+  scroll-behavior: smooth;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #a0aec0;
-  /* gray-400 */
   border-radius: 9999px;
+  scroll-behavior: smooth;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
+  scroll-behavior: smooth;
 }
 
 .swiper-container {
