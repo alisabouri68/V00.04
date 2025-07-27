@@ -59,29 +59,32 @@ interface IndexProps {
 /**************************************
  * Step 06: define functional component
  **************************************/
-const index: React.FC<IndexProps> = ({ console = "mono" }) => {
+const index: React.FC<IndexProps> = ({ console }) => {
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
     dispatch(
       openModal({
         title: "",
-        content: <ConsoleBasket  />,
+        content: <ConsoleBasket />,
       })
     );
   };
 
   return (
-    <div className="w-h-f space-x-4 bg-text">
+    <div className="w-h-f w-max gap-1 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
       {/* Company Logo */}
       <div className="w-h-f">
         <img src={logo} alt="Raad Health Logo" className="h-8 w-auto" />
       </div>
 
       {/* Username Display */}
-      <div className="hidden md:flex items-center">
+      <div className="flex gap-2 items-center">
         <span className="font-medium">
-          {console} ({console})
+          {console}
+        </span>
+        <span className="text-xs">
+          ({console})
         </span>
       </div>
 

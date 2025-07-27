@@ -92,7 +92,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       {/* Trigger */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-h-f justify-center mx-2 gap-2 min-w-[180px] max-w-[180px] py-2 rounded-md bg-text focus:outline-none"
+        className="w-h-f justify-center mx-2 gap-2 min-w-[180px] max-w-[180px] py-2 rounded-md bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300 focus:outline-none"
         aria-expanded={isOpen}
       >
         <span className="flex items-center space-x-2 text-2xl">
@@ -108,12 +108,13 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       {/* Dropdown List */}
       {isOpen && (
-        <div className="absolute z-50 mt-2 w-full bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-zinc-800 rounded-md shadow-md">
+        <div className="absolute z-50 mt-2 w-full bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
+ border border-gray-200 dark:border-zinc-800 rounded-md shadow-md">
           {options.map((option) => (
             <button
               key={option.id}
               className={classNames(
-                "w-full border-4 border-transparent text-left px-4 py-1 hover:bg-gray-100 dark:hover:bg-zinc-800 flex items-center space-x-2 ",
+                "w-full border-4 border-transparent text-left px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center space-x-2 ",
                 {
                   "!text-primary  border-s-primary":
                     selected?.id === option.id,

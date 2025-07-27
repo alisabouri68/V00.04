@@ -13,7 +13,7 @@ interface DropdownOption {
   name: string;
   icon?: React.ReactNode;
 }
-const Header = ({ children }: { children?: ReactNode }) => {
+const Header = ({ children, console }: { children?: ReactNode, console: string }) => {
   const dispatch = useAppDispatch();
   const theme = useAppSelector((state) => state.theme.mode);
   const [selectedTheme, setSelectedTheme] = useState<DropdownOption | null>(
@@ -40,15 +40,16 @@ const Header = ({ children }: { children?: ReactNode }) => {
 
   return (
     <>
-      <header className="w-h-f bg-text">
+      <header className="w-full h-14 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
+">
         <div className="2xl:container mx-auto flex w-full h-full px-1 ">
           <div className="w-h-f justify-between">
             {/* start header */}
             <div className="">
-              <ConsoleSwitche />
+              <ConsoleSwitche console={console} />
             </div>
             {/* end header */}
-            <div className="w-h-f justify-end grow">
+            <div className="flex items-center w-max justify-end">
               <div>
                 <Dropdown
                   options={themeOptions}

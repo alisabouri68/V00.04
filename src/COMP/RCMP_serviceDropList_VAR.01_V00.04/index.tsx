@@ -138,10 +138,10 @@ function Index({
             key={item.id}
             ref={ref}
             onClick={() => selectItemHandler(item)}
-            className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400 cursor-pointer  
+            className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300 cursor-pointer  
                 ${selectItem === item.id
                     ? "bg-primary/10 border-l-primary text-primary font-semibold"
-                    : "hover:bg-gray-100 dark:hover:bg-black-custom"
+                    : "hover:bg-gray-200 dark:hover:bg-gray-800"
                 }`}
         >
             <Text size="xs" as="span">{item.icon}</Text>
@@ -159,9 +159,9 @@ function Index({
     return (
         <div
             ref={scrollContainerRef}
-            className="absolute top-10 right-20 z-50 w-56 max-h-72 shadow-sm overflow-y-auto text-sm bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400 custom-scrollbar p-2 rounded-md border border-gray-300 dark:border-gray-700"
+            className="absolute top-10 right-20 z-50 w-56 max-h-72 shadow-sm overflow-y-auto text-sm bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300 custom-scrollbar p-2 rounded-md border border-gray-300 dark:border-gray-700"
         >
-            <div className="flex flex-col w-full h-full overflow-hidden bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400">
+            <div className="flex flex-col w-full h-full overflow-hidden bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
                 {/* Top (hidden) services */}
                 {topItems.map(item => renderServiceItem(item))}
 

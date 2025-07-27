@@ -60,35 +60,38 @@ const Sidebar = () => {
       title: "Home",
     },
     {
-      id: "2",
-      icon: <FontAwesomeIcon icon={faPhoneVolume} />,
-      href: "/Flat",
-      title: "Flat",
-    },
-    {
-      id: "3",
-      icon: <FontAwesomeIcon icon={faBriefcase} />,
-      href: "/Deep",
-      title: "Deep",
+      id: "5",
+      icon: <FontAwesomeIcon icon={faLocationDot} />,
+      href: "/hot",
+      title: "Hot",
     },
     {
       id: "4",
       icon: <FontAwesomeIcon icon={faMicrophone} />,
-      href: "/DeepFloat",
-      title: "DeepFloat",
+      href: "/cast",
+      title: "cast",
     },
+    // {
+    //   id: "2",
+    //   icon: <FontAwesomeIcon icon={faPhoneVolume} />,
+    //   href: "/Flat",
+    //   title: "Flat",
+    // },
     {
-      id: "5",
-      icon: <FontAwesomeIcon icon={faLocationDot} />,
-      href: "/LinearFloat",
-      title: "LinearFloat",
+      id: "3",
+      icon: <FontAwesomeIcon icon={faBriefcase} />,
+      href: "/gasma",
+      title: "GASMA",
     },
+
+
     {
       id: "6",
       icon: <FontAwesomeIcon icon={faBookOpen} />,
       href: "/Mono",
       title: "Mono",
     },
+
   ];
 
   return (
@@ -101,12 +104,14 @@ const Sidebar = () => {
         min-w-[80px]
         max-w-[80px]
         transition-all
-        bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400
+        dark:border
+        dark:border-gray-950
+        bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
         h-full
       "
       aria-label="Main navigation"
     >
-      <div className="flex flex-col items-center justify-center py-3 select-none">
+      <div className="flex flex-col items-center justify-center py-3 select-none bg-gradient-to-b from-white to-transparent dark:from-gray-900">
         <img
           src={logoDash}
           alt="Dashboard Logo"
@@ -117,12 +122,12 @@ const Sidebar = () => {
         />
         <div className="w-10/12 h-px rounded-full mt-2 md:mt-3 group-hover:w-full" />
       </div>
-      <nav className="relative flex w-full md:flex-col items-center overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-0 right-0 h-10 
-            bg-gradient-to-b from-white to-transparent dark:from-stone-900 z-10"></div>
+      <nav className="relative flex w-full h-full md:flex-col items-center">
+        {/* <div className="pointer-events-none absolute -top-10 left-0 right-0 h-10 
+            bg-gradient-to-b from-gray-500 to-transparent dark:from-gray-900 z-50"></div> */}
 
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 
-            bg-gradient-to-t from-white to-transparent dark:from-stone-900 z-10"></div>
+           bg-gradient-to-t from-white to-transparent dark:from-gray-900 z-10"></div>
 
 
         <ul
@@ -158,7 +163,7 @@ const Sidebar = () => {
                       justify-center
                       p-1
                       w-full
-                      bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400
+                      bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
                       hover:text-primary
                     `}
                     aria-current={isActive ? "page" : undefined}

@@ -99,7 +99,7 @@ function Index() {
     }
 
     return (
-        <div className="flex items-center justify-between bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400 relative">
+        <div className="flex items-center justify-between bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300 relative">
 
             {/* Left Controls */}
             <div className="flex items-center space-x-0.5">

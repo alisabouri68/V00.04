@@ -9,7 +9,7 @@ import ActionContent from "../../BOX/BOX_actionContent"
 const index = () => {
   return (
     <>
-      <BoxHeader console="Home" />
+      <BoxHeader console="HOT" />
       <div className="flex flex-1 h-[calc(100% - 56px)] p-1 overflow-hidden">
         <BoxNav >
           <Navigator />
@@ -18,7 +18,7 @@ const index = () => {
           <div className="flex flex-col h-full w-9/12 rounded-md overflow-y-auto custom-scrollbar ms-1 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
             <BoxJinni />
             <ActionMenue>
-              Action Menu Home
+              Action Menu HOT
             </ActionMenue>
             <ActionContent>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, ducimus accusamus. In nemo ipsam id consectetur, sit earum dolor vitae itaque neque dolore ipsum porro laudantium non corporis animi quo.
@@ -32,12 +32,10 @@ const index = () => {
               Error, consequatur iste distinctio minima eaque placeat sed nihil, aut doloribus fugiat tenetur id labore suscipit omnis consectetur, quod quo. Accusamus unde facere eos maiores dicta ad natus, error tenetur.
               Deserunt nemo vel quisquam distinctio nam ea omnis porro in, soluta aut mollitia atque eos inventore tenetur. Et similique ut est officia omnis, eligendi consequuntur blanditiis optio mollitia doloribus! Perspiciatis?
             </ActionContent>
-            <div className="pointer-events-none fixed bottom-0 left-0 right-0 h-20 
-           bg-gradient-to-t from-white to-transparent dark:from-gray-900 z-10"></div>
           </div>
           <div className="w-3/12 ps-1">
             <BoxAuxilary>
-              Auxilary Home
+              Auxilary HOT
             </BoxAuxilary>
           </div>
         </div>

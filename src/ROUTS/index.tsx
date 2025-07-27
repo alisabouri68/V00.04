@@ -1,29 +1,27 @@
-import { lazy, Suspense } from "react";
+import { lazy } from "react";
 import MiddlewareWrapper from "../MIDD/middlewareWrapper"
 import {
   createBrowserRouter,
   RouteObject,
 } from "react-router";
 
-const HomeDesk = lazy(() => import("../LAYOUT/LAYO_Cover_desk_V00.04"));
-const HomeMobile = lazy(() => import("../LAYOUT/LAYO_Cover_mobile_V00.04"));
+const ConsolHome = lazy(() => import("../CONS/CONS_home/index"));
+const ConsolMono = lazy(() => import("../CONS/CONS_mono/index"));
+const ConsolHot = lazy(() => import("../CONS/CONS_hot/index"));
+const ConsolGasma = lazy(() => import("../CONS/CONS-gasma/index"));
+const ConsolCast = lazy(() => import("../CONS/CONS_cast/index"));
 
-const SuspenseFallback = () => <div>Loading...</div>;
 
-function ResponsiveLayout() {
-  const isMobile = window.innerWidth < 768;
-  const Layout = isMobile ? HomeMobile : HomeDesk;
-  return (
-    <Suspense fallback={<SuspenseFallback />}>
-      <Layout />
-    </Suspense>
-  );
-}
+
 const routes: RouteObject[] = [
   {
     element: <MiddlewareWrapper />,
     children: [
-      { path: "/", element: <ResponsiveLayout /> },
+      { path: "/", element: <ConsolHome /> },
+      { path: "/mono", element: <ConsolMono /> },
+      { path: "/hot", element: <ConsolHot /> },
+      { path: "/gasma", element: <ConsolGasma /> },
+      { path: "/cast", element: <ConsolCast /> },
     ],
   },
 ];
