@@ -28,7 +28,6 @@ import {
   faHome,
   faLocationDot,
   faMicrophone,
-  faPhoneVolume,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import logoDash from "ASST/images/Asset 5.svg";
