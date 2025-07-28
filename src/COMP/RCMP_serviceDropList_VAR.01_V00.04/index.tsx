@@ -30,6 +30,7 @@ Description:    This dropdown component lists all service items with a scrollabl
 import { useEffect, useRef } from "react"
 import { ServiceItem } from "COMP/RCMP_servicePicker_VAR.01_V00.04"
 import Text from "COMP/RCMP_text_VAR.01_v00.04"
+import { Link } from "react-router-dom"
 
 /**************************************
  * Step 02 - import dependencies - Widgets
@@ -81,7 +82,7 @@ function Index({
     /**************************************
      * Step 06.A - Static assignments (Type S)
      **************************************/
-    const firstMiddleItemRef = useRef<HTMLDivElement | null>(null)         // Ref to scroll selected item into view
+    const firstMiddleItemRef = useRef<HTMLAnchorElement | null>(null)         // Ref to scroll selected item into view
     const scrollContainerRef = useRef<HTMLDivElement | null>(null)         // Ref for future scroll handling
 
     /**************************************
@@ -133,9 +134,10 @@ function Index({
     /**************************************
      * Step 06.D - UI Rendering Helpers
      **************************************/
-    const renderServiceItem = (item: ServiceItem, ref?: React.Ref<HTMLDivElement>) => (
-        <div
+    const renderServiceItem = (item: ServiceItem, ref?: React.Ref<HTMLAnchorElement>) => (
+        <Link
             key={item.id}
+            to={item.id}
             ref={ref}
             onClick={() => selectItemHandler(item)}
             className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300 cursor-pointer  
@@ -146,7 +148,7 @@ function Index({
         >
             <Text size="xs" as="span">{item.icon}</Text>
             <Text size="xs" as="span">{item.title}</Text>
-        </div>
+        </Link>
     )
 
     // Top and bottom non-selected items

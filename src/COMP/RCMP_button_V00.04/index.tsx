@@ -1,41 +1,20 @@
 /******************************************
  * Component:      Button
- * Last Update:    2025.07.14
- * By:             APPS.00
- * Description:    This is a flexible and reusable button component with
- *                 support for multiple variants, sizes, icons, loading state, and full-width layout.
+ * Last Update:    2025.07.28
+ * By:             APPS.00 (Edited by ChatGPT)
+ * Description:    دکمه چندحالته قابل استفاده برای دکمه‌های معمولی یا لینک مسیریابی (React Router)
  ******************************************/
 
-/*------------------------------------------------------------
- * Meta Data
- *
- * ID:             RCOM_button
- * Title:          Component button - React Version
- * Version:        V00.04
- * VAR:            Filled Outlined Text
- * Last Update:    D2025.04.04
- * Owner:          APPS.00
- * Description:    A universal button component used across all pages and modules.
- *------------------------------------------------------------*/
+import {
+  ReactNode,
+  ButtonHTMLAttributes,
+  forwardRef,
+} from "react";
+import { Link } from "react-router-dom";
+import Text from "../RCMP_text_VAR.01_v00.04";
 
 /**************************************
- * Step 01 - Import Dependencies
- * ------------------------------------
- * - React core: forwardRef for ref forwarding.
- * - ReactNode: for supporting JSX in props like icons.
- * - ButtonHTMLAttributes: inherit native button props.
- **************************************/
-import { ReactNode, ButtonHTMLAttributes, forwardRef } from "react";
-import Text from "../RCMP_text_VAR.01_v00.04";
-/**************************************
- * Step 02 - Define Component Properties (Props)
- * ------------------------------------
- * - ButtonVariant: defines available visual styles.
- * - ButtonSize: defines spacing and font size.
- * - ButtonProps: complete prop structure for the component.
- **************************************/
-/**************************************
- * Step 05 - define property interface for this BioWidget
+ * تعریف نوع حالت‌های ظاهری و اندازه دکمه
  **************************************/
 type ButtonVariant =
   | "filled"
@@ -47,32 +26,33 @@ type ButtonVariant =
 
 type ButtonSize = "xs" | "sm" | "md" | "lg";
 
+/**************************************
+ * تعریف نوع ویژگی‌های ورودی (Props)
+ **************************************/
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  leftIcon?: ReactNode; // Optional icon on the left
-  rightIcon?: ReactNode; // Optional icon on the right
-  buttunTitle?: ReactNode; // [Typo?] Not used in the code – can be removed or corrected
-  variant?: ButtonVariant; // Visual style variant
-  size?: ButtonSize; // Size variant
-  fullWidth?: boolean; // Stretch to full container width
-  isLoading?: boolean; // Loading state indicator
-  loadingText?: string; // Custom text to show while loading
-  loadingSpinner?: ReactNode; // Custom spinner component
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  buttunTitle?: ReactNode|string; 
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  fullWidth?: boolean;
+  isLoading?: boolean;
+  loadingText?: string;
+  loadingSpinner?: ReactNode;
+  to?: string; 
 }
 
 /**************************************
- * Step 06 - Define Button Component
- * ------------------------------------
- * - Uses forwardRef to support refs passed to <button>
- * - Flexible props to support visual and functional variations
+ * تعریف کامپوننت Button
  **************************************/
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       leftIcon,
       rightIcon,
-      title,
+      buttunTitle,
       variant = "outlined",
-      size = "md",
+      size = "xs",
       fullWidth = false,
       isLoading = false,
       loadingText,
@@ -80,25 +60,25 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className = "",
       disabled,
       children,
+      to,
       ...props
     },
     ref
   ) => {
-    /**************************************
-      Define Class Styles for Variants and Sizes
-     **************************************/
+    // اگر prop مربوط به مسیر (to) وجود داشته باشد، یعنی باید <Link> باشیم
+    const isLink = typeof to === "string";
 
+    // حالت‌های ظاهری دکمه
     const variantStyles = {
-      filled: "bg-primary text-white rounded rounded-md",
-      outlined:
-        "bg-transparent  text-gray-500 dark:text-gray-400 rounded-md border border-text-light-custom",
+      filled: "bg-primary text-white rounded-md",
+      outlined: "bg-transparent text-gray-500 dark:text-gray-400 rounded-md border border-text-light-custom",
       text: "bg-transparent text-dark-custom border-none",
-      filledActive: "bg-primary  text-gray-500 dark:text-gray-400 rounded rounded-md",
-      outlinedActive:
-        "bg-transparent text-primary rounded-md border border-primary hover:border-primary hover:text-primary",
+      filledActive: "bg-primary text-gray-500 dark:text-gray-400 rounded-md",
+      outlinedActive: "bg-transparent text-primary rounded-md border border-primary hover:border-primary hover:text-primary",
       textActive: "bg-transparent text-primary-active border-none",
     };
 
+    // سایزبندی دکمه
     const sizeStyles = {
       xs: "py-0.5 px-1 text-xs",
       sm: "py-1 px-2 text-sm",
@@ -106,9 +86,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       lg: "py-3 px-4 text-lg",
     };
 
-    /**************************************
-      Default Spinner for Loading State
-     **************************************/
+    // اسپینر پیش‌فرض در حالت Loading
     const defaultSpinner = (
       <svg
         className="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
@@ -132,65 +110,66 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       </svg>
     );
 
-    /**************************************
-      Combine All Class Names into One String
-     **************************************/
+    // کلاس نهایی دکمه با توجه به استایل‌ها
     const finalClassName = [
       "flex items-center justify-center gap-3 rounded-md font-medium text-sm transition-colors",
       "disabled:opacity-50 disabled:cursor-not-allowed",
-      variantStyles[variant], // Apply variant style
-      sizeStyles[size], // Apply size style
-      fullWidth ? "w-full" : "", // Stretch if fullWidth is true
-      className, // Custom classes from props
+      variantStyles[variant],
+      sizeStyles[size],
+      fullWidth ? "w-full" : "",
+      className,
     ]
-      .filter(Boolean) // Remove falsy values
-      .join(" "); // Join into a single class string
+      .filter(Boolean)
+      .join(" ");
 
-    /**************************************
-     Render the Button JSX
-     * ------------------------------------
-     * - Shows spinner if loading
-     * - Includes optional icons and children/title
-     **************************************/
-    return (
+    // تابع محتوای داخلی دکمه
+    const renderContent = () => {
+      if (isLoading) {
+        return (
+          <>
+            {loadingSpinner || defaultSpinner}
+            {loadingText || "Processing..."}
+          </>
+        );
+      }
+
+      return (
+        <>
+          {leftIcon && <Text size="2xl">{leftIcon}</Text>}
+          {(buttunTitle || children) && <Text size="sm">{buttunTitle || children}</Text>}
+          {rightIcon && (
+            <Text size="2xl" className={`${buttunTitle || children ? "ms-2" : ""}`}>
+              {rightIcon}
+            </Text>
+          )}
+        </>
+      );
+    };
+
+    // رندر نهایی دکمه یا لینک
+    return isLink ? (
+      <Link
+        to={to}
+        className={finalClassName}
+        {...(props as any)} 
+      >
+        {renderContent()}
+      </Link>
+    ) : (
       <button
         ref={ref}
         className={finalClassName}
         disabled={disabled || isLoading}
         {...props}
       >
-        {isLoading ? (
-          <>
-            {loadingSpinner || defaultSpinner}
-            {loadingText || "Processing..."}
-          </>
-        ) : (
-          <>
-            {leftIcon && (
-              <Text size="2xl" >{leftIcon}</Text>
-            )}
-            {title || children && (<Text size="2xl">{title || children}</Text>)}
-            {rightIcon && (
-              <Text size="2xl"
-                className={`${title || children ? "ms-2" : ""
-                  } `}
-              >
-                {rightIcon}
-              </Text>
-            )}
-          </>
-        )}
+        {renderContent()}
       </button>
     );
   }
 );
 
-/**************************************
-Set Display Name (for debugging/dev tools)
- **************************************/
+// نام قابل نمایش برای دیباگینگ
 Button.displayName = "Button";
 
-/**************************************
-Export Component
- **************************************/
+// خروجی نهایی کامپوننت
 export default Button;

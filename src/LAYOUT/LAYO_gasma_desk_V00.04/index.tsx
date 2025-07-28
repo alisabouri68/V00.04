@@ -7,7 +7,11 @@ import ActionMenue from "../../BOX/BOX_actiomMenue"
 import ActionContent from "../../BOX/BOX_actionContent"
 import ServicePicker from "../../COMP/RCMP_servicePicker_VAR.01_V00.04"
 import BOX_assistant from "BOX/BOX_assistant"
+import { Outlet, useMatches } from "react-router-dom"
 const index = () => {
+    const matches = useMatches();
+    const hasChildRoutes = matches.length > 2
+    console.log(matches)
     return (
         <>
             <BoxHeader console="GASMA" />
@@ -22,16 +26,8 @@ const index = () => {
                             <ServicePicker />
                         </ActionMenue>
                         <ActionContent>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, ducimus accusamus. In nemo ipsam id consectetur, sit earum dolor vitae itaque neque dolore ipsum porro laudantium non corporis animi quo.
-                            Nam error fugit dolores nesciunt cupiditate earum autem iusto repudiandae laborum eveniet assumenda, reprehenderit sunt minus consequuntur doloremque voluptate dolore aperiam voluptates accusantium. Iste excepturi architecto et aliquid, fugit dolore?
-                            Saepe suscipit incidunt error velit id nam deleniti totam quisquam impedit? Nihil aliquid unde nisi, consequuntur mollitia alias suscipit labore et consectetur illum fugiat asperiores architecto tenetur maxime distinctio quas.
-                            Dolores qui obcaecati harum accusamus, molestiae adipisci cum, consequatur voluptatem perferendis, rerum neque. Enim eum neque quia molestias illo laboriosam aut delectus, dolor, ratione rem laborum pariatur sapiente eos recusandae?
-                            Ipsa ducimus dicta, atque est fugit quidem, doloribus sunt iste alias facere, quibusdam odio reiciendis voluptatum necessitatibus ab culpa pariatur error! At esse voluptates nobis excepturi in distinctio eos quis.
-                            Possimus aperiam officiis, veniam, explicabo nobis eos, asperiores voluptates dicta quos quis eveniet perspiciatis. Modi veniam vero quae error. Itaque aut ratione ipsam voluptates error dolorum veniam adipisci eum vero.
-                            Maxime rerum id quos nulla eius amet consequatur qui expedita, sunt deserunt nam laborum inventore in hic. Natus nemo qui magni et impedit quos, ut ab odio provident hic culpa.
-                            Distinctio rem reiciendis, eveniet esse beatae aspernatur cum nulla, quidem assumenda debitis quia. Sed obcaecati quo dignissimos, corporis, harum, ipsum nemo laudantium ipsa consequatur laborum aperiam! Odit minima aliquam adipisci!
-                            Error, consequatur iste distinctio minima eaque placeat sed nihil, aut doloribus fugiat tenetur id labore suscipit omnis consectetur, quod quo. Accusamus unde facere eos maiores dicta ad natus, error tenetur.
-                            Deserunt nemo vel quisquam distinctio nam ea omnis porro in, soluta aut mollitia atque eos inventore tenetur. Et similique ut est officia omnis, eligendi consequuntur blanditiis optio mollitia doloribus! Perspiciatis?
+                            {hasChildRoutes ? <Outlet /> : <p>please select a service</p>}
+
                         </ActionContent>
                         <div className="pointer-events-none fixed bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white/90 to-transparent dark:from-gray-900/90 z-10"></div>
                     </div>
