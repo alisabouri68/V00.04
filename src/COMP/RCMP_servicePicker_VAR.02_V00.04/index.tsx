@@ -77,7 +77,7 @@ function Index() {
         );
     };
 
-    const count = 6
+    const count = 3
     const [isOpen, setIsOpen] = useState<boolean>(false);                     // Toggle dropdown
     const [startIndex, setStartIndex] = useState<number>(0);                // Start index of visible carousel
     const [endIndex, setEndIndex] = useState<number>(count);                    // End index of visible carousel
@@ -86,10 +86,10 @@ function Index() {
      * Step 06.B - Generate All Services (Type S)
      **************************************/
     const allServices = useMemo(() =>
-        Array.from({ length: 10 }, (_, i) => ({
-            id: `service-${i + 1}`,
-            title: `Service ${i + 1}`,
-            icon: <CiFileOn size={16} />,
+        Array.from({ length: 3 }, (_, i) => ({
+            id: `Content-${i + 1}`,
+            title: `Content ${i + 1}`,
+            icon: <CiFileOn size={16} />
         })),
         []
     );

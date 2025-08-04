@@ -31,13 +31,40 @@ export interface ServiceItem {
  * Step 02 - Component
  **************************************/
 function Index() {
-    const count = 7
+    const [count, setCount] = useState<number>(3)
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [startIndex, setStartIndex] = useState<number>(0);
     const [endIndex, setEndIndex] = useState<number>(count);
     const [selectItem, setSelectItem] = useState<string>("");
 
     const dropRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        const handleResize = () => {
+            const width = window.innerWidth;
+            let newCount = 3;
+            if (width <= 768) {
+                newCount = 3;
+            } else if (width > 768) {
+                newCount = 5;
+            } else if (width > 1300) {
+                newCount = 7;
+            }
+            setCount(prevCount => {
+                if (prevCount !== newCount) {
+                    setStartIndex(0);
+                    setEndIndex(newCount);
+                }
+                return newCount;
+            });
+        };
+
+        handleResize(); // مقداردهی اولیه
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Handle outside click to close dropdown
     useEffect(() => {

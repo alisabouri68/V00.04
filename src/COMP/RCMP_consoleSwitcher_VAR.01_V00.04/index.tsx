@@ -83,7 +83,7 @@ const index: React.FC<IndexProps> = ({ console }) => {
         <span className="font-medium">
           {console}
         </span>
-        <span className="text-xs">
+        <span className="text-xs hidden lg:flex">
           ({console})
         </span>
       </div>

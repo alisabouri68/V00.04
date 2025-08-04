@@ -70,12 +70,6 @@ const Sidebar = () => {
       href: "/cast",
       title: "cast",
     },
-    // {
-    //   id: "2",
-    //   icon: <FontAwesomeIcon icon={faPhoneVolume} />,
-    //   href: "/Flat",
-    //   title: "Flat",
-    // },
     {
       id: "3",
       icon: <FontAwesomeIcon icon={faBriefcase} />,

@@ -28,7 +28,6 @@ import {
   faHome,
   faLocationDot,
   faMicrophone,
-  faPhoneVolume,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 /**************************************
@@ -58,28 +57,22 @@ const Sidebar = () => {
       title: "Home",
     },
     {
-      id: "2",
-      icon: <FontAwesomeIcon icon={faPhoneVolume} />,
-      href: "/Flat",
-      title: "Flat",
-    },
-    {
-      id: "3",
-      icon: <FontAwesomeIcon icon={faBriefcase} />,
-      href: "/Deep",
-      title: "Deep",
+      id: "5",
+      icon: <FontAwesomeIcon icon={faLocationDot} />,
+      href: "/hot",
+      title: "Hot",
     },
     {
       id: "4",
       icon: <FontAwesomeIcon icon={faMicrophone} />,
-      href: "/DeepFloat",
-      title: "DeepFloat",
+      href: "/cast",
+      title: "cast",
     },
     {
-      id: "5",
-      icon: <FontAwesomeIcon icon={faLocationDot} />,
-      href: "/LinearFloat",
-      title: "LinearFloat",
+      id: "3",
+      icon: <FontAwesomeIcon icon={faBriefcase} />,
+      href: "/gasma",
+      title: "GASMA",
     },
     {
       id: "6",
@@ -88,16 +81,15 @@ const Sidebar = () => {
       title: "Mono",
     },
   ];
-
   return (
     <div
-      className="flex rounded-t-md rounded-b-none overflow-hidden w-full transition-all duration-300 my-custom-card fixed bottom-0 left-0 right-0 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.025),inset_0_-2px_4px_rgba(0,0,0,0.05)]
+      className="flex overflow-hidden w-full transition-all border border-gray-300 dark:border-gray-900 duration-300 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300   shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.025),inset_0_-2px_4px_rgba(0,0,0,0.05)]
     dark:shadow-[0_-4px_6px_-1px_rgba(255,255,255,0.05),0_-2px_4px_-1px_rgba(255,255,255,0.025),inset_0_-2px_4px_rgba(255,255,255,0.05)] "
       aria-label="Main navigation"
     >
       <nav className="flex w-full items-center overflow-hidden">
         <ul
-          className=" flex items-center gap-1 w-full h-full py-2  custom-scrollbar overflow-x-auto"
+          className=" flex items-center gap-1 w-full h-full py-2 custom-scrollbar overflow-x-auto"
           role="menubar"
           aria-orientation="vertical"
         >
@@ -135,10 +127,9 @@ const Sidebar = () => {
                         flex items-center justify-center
                         p-2 rounded-full text-2xl
                         transition-all duration-300 w-10 h-10
-                        ${
-                          isActive
-                            ? "bg-primary text-white-custom dark:text-text-white-custom hover:text-white-custom dark:hover:text-text-white-custom"
-                            : "text-inherit"
+                        ${isActive
+                          ? "bg-primary text-white-custom dark:text-text-white-custom hover:text-white-custom dark:hover:text-text-white-custom"
+                          : "text-inherit"
                         }
                       `}
                       aria-hidden="true"
