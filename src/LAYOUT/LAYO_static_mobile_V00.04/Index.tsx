@@ -1,8 +1,8 @@
 import { ReactNode } from "react"
 
-const Index = ({ children }: { children: ReactNode }) => {
+const Index = ({ children,staticMobileStyle }: { children: ReactNode;staticMobileStyle:string }) => {
   return (
-    <div>
+    <div className={staticMobileStyle}>
       {children}
     </div>
   )

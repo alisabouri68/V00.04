@@ -15,6 +15,7 @@ interface LayoutComponentProps {
   floatLMobileStyle?: string;
   floatMobileStyle?: string;
   floatDDeskStyle?: string;
+  staticMobileStyle?:string;
 }
 
 interface BoxComponentProps {
@@ -75,7 +76,7 @@ const LAYER_CONFIG: FullLayerConfig = {
       { minWidth: 0, layout: Mobile_Static, box: Header }
     ],
     navigator: [
-      { minWidth: 0, layout: Mobile_Float_Linear, box: BoxNav, children: NavMobile }
+      { minWidth: 0, layout: Mobile_Static, box: BoxNav, children: NavMobile }
     ],
     screen: {
       action: {
@@ -238,21 +239,21 @@ const LayoutComposer = ({ console, actionChild, auxilaryChild, assistantChild }:
   return (
     <Suspense fallback={<LoadingIndicator />}>
       <BaseLayout>
-        <HeaderLayout>
+        <HeaderLayout staticMobileStyle="h-[9%]" >
           {HeaderBox && <HeaderBox console={console} />}
         </HeaderLayout>
 
-        <div className="flex flex-1 h-[calc(100vh-56px)] p-1 overflow-hidden ">
-          <NavigatorLayout floatLMobileStyle="fixed bottom-0 left-0 right-0 z-50" >
+        <div className="flex flex-1 p-1 overflow-hidden flex-col-reverse lg:flex-row ">
+          <NavigatorLayout   staticMobileStyle="h-[13%]" >
             {NavigatorBox && (
-              <NavigatorBox >
+              <NavigatorBox>
                 {NavigatorChildren && <NavigatorChildren />}
               </NavigatorBox>
             )}
           </NavigatorLayout>
 
 
-          <main className="flex-1 flex items-center ">
+          <main className="flex-1 flex items-center h-[78%] lg:h-full ">
             {/* Action Section */}
             <section className="relative flex flex-col h-full w-full lg:w-9/12 rounded-md overflow-y-auto custom-scrollbar lg:ms-1 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
               <div className="">
