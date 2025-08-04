@@ -1,0 +1,277 @@
+---glan11
+
+
+/// ---------------------------------------
+/// model:              Actor_template_V00.04
+/// last update:        D2025.07.27
+/// by:                 APPS.00
+/// ---------------------------------------
+
+
+
+>>> ID															//? Defining Actor
+
+    /// step.01 -  Complete Meta Data
+
+    # meta
+        . model_id:				"actorID"
+        . model_title:			"Actor Title"
+        . model_version:		"V00.04"
+        . model_lastUpgrade:	"D2025.07.00"	      			/// use the header date
+        . model_owner			"apps00"
+
+        . model_type			"Instant"	      							
+        . origin_model			"ACTR"							/// Actor Mutage Model
+        . origin_model_Ver		"00.04"
+        . model_rem				"Remarks here ... "	
+
+	/// Objectives:
+
+	///	1- Main Task for this Actor
+
+	///	2-
+
+	///	3-
+
+
+
+-->
+
+
+
+>>> MNG
+
+    /// step.02 -  Management - Render
+
+    # render(1)                                                 /// description
+        . scat:                     "NACT"                      /// description
+        . langBase:                 "node"                      /// description
+		. universal-url:			"gRepo/ACTR/...."			/// 
+
+
+    /// step.03 - Management - Dependency (kernels)
+
+    # kernel(1)                     
+        . id:                       "express"
+        . default:                  false
+        . named:                    ["Express", "Request", "Response"]
+
+    # kernel(2)                     
+        . id:                       "express"
+        . default:                  true
+
+    # kernel(3)                     
+        . id:                       "body-parser"
+        . default:                  true
+        . alias:                    "bodyParser"
+
+    # kernel(4)                     
+        . id:                       "express-query-parser"
+        . default:                  false
+        . named:                    ["parse"]
+
+    # kernel(5)                     
+        . id:                       "mongoose"
+        . default:                  true
+
+    # kernel(6)                     
+        . id:                       "joi"
+        . default:                  true
+        . alias:                    "Joi"
+
+    # kernel(7)                     
+        . id:                       "multer"
+        . default:                  true
+
+    # kernel(8)                     
+        . id:                       "multer"
+        . default:                  false
+        . named:                    ["Multer"]
+
+    # kernel(9)                     
+        . id:                       "uuid"
+        . default:                  false
+        . named:                    ["v4 as uuidv4"]
+
+    # kernel(10)                     
+        . id:                       "fs"
+        . default:                  true
+
+    # kernel(11)                     
+        . id:                       "path"
+        . default:                  false
+
+    # kernel(12)                    
+        . id:                       "express-serve-static-core"
+        . default:                  false
+        . named:                    ["ParamsDictionary"]
+
+    # kernel(13)                    
+        . id:                       "qs"
+        . default:                  false
+        . named:                    ["ParsedQs"]
+
+    # kernel(14)                    
+        . id:                       "qs"
+        . default:                  true
+
+    /// step.04 - Management Dependencies (co-act)
+
+    # coact(1)                     
+        . id:                       "@/routes/routers"
+        . default:                  true
+        . alias:                    "router"
+
+    # coact(2)                     
+        . id:                       "@/index"
+        . default:                  true
+        . alias:                    "bootstrap"
+
+    # coact(3)                     
+        . id:                       "@/actors/NACT_logman"
+        . default:                  true
+        . alias:                    "logman"
+
+    # coact(4)                     
+        . id:                       "@/actors/NACT_plug"
+        . default:                  true
+        . alias:                    "Plug"
+
+-->
+
+
+>>> LOGIC
+
+    /// Step.05  - Global Variable (only in ACTRs)
+
+    # gvar(1)  /g                     
+        . id:                       "app"
+        . value:                    null
+
+    /// Step.06 - Local Variable Define
+
+    # mvar(1)                       
+        . id:                       "app"
+        . value:                    null
+
+
+
+    /// step.07 - Script List
+	
+		/// Script Group.01 - default
+	
+		//init Script sequence define
+
+		$ init()                        
+			. config:                   "await"
+
+
+
+		/// Script Group.02 - index
+
+
+		$ config()                                                   		/// Initializes the Express application
+
+		$ generalSetup()                                           		    /// Configures middleware and routes
+
+		$ mongoSetup()                                             		    /// Connects to the MongoDB database.
+
+
+		/// Script Group.03 - helper
+
+
+    $ pick()                                                  		     /// Picks specified keys from an object
+        . object                                                		 /// Source object
+        . keys                                               			 /// Keys to pick
+
+    # validateToken()                                   				 /// Validates a token with session broker API
+        . token                                                 		 /// Token to validate
+
+    # info()                                            				 /// Retrieves user info by ID
+        . id                                                  			 /// User ID
+
+    # BaseGuard()                                            			 /// Error-handling guard
+        . descriptor                                					 /// Method descriptor
+        . callback                                            			 /// Callback function
+
+    # CheckMethods()                                          		     /// Ensures request method matches expected type
+        . descriptor                               						 /// Method descriptor
+        . type                                                 			 /// Expected HTTP method (GET, POST, etc.)
+
+    # Validate()                                              		/// Validates request against a Joi schema
+        . schema                                               				/// Joi validation schema
+        . req                                                  				/// Express request object
+
+    # Authentication()                                   				/// Middleware for token authentication
+        . req                                                  				/// Express request object
+
+    # HelperUploader()                                        		/// Configures Multer uploader
+        . options                                              				/// Configuration options
+
+
+
+		/// Script Group.04 - decorators
+
+
+    # GET()                                                      		/// Enforces GET HTTP method
+        . target:                                                   		/// Class or object where method is applied
+        . key:                                                   			/// Method name
+        . descriptor:                                						/// Method descriptor
+
+    # POST()                                                     		/// Enforces POST HTTP method
+        . target:                                                   		/// Class or object where method is applied
+        . key:                                                   			/// Method name
+        . descriptor:                                						/// Method descriptor
+
+    # PUT()                                                      		/// Enforces PUT HTTP method
+        . target:                                                   		/// Class or object where method is applied
+        . key:                                                   			/// Method name
+        . descriptor:                                						/// Method descriptor
+
+    # DELETE()                                                   		/// Enforces DELETE HTTP method
+        . target:                                                   		/// Class or object where method is applied
+        . key:                                                   			/// Method name
+        . descriptor:                                						/// Method descriptor
+
+    # AllowedOptions()                                            	/// Enforces allowed options for a class constructor
+        . options:                                         					/// Allowed options for the constructor
+
+    # Guard()                                                    		/// Adds a custom guard to a class method
+        . callback:                                            				/// Guard callback function
+
+    # AuthGuard()                                                		/// Enforces authentication guard
+        . target:                                                   		/// Class or object where method is applied
+        . key:                                                   			/// Method name
+        . descriptor:                                						/// Method descriptor
+
+    # UploadGuard()                                              		/// Configures an upload guard with dynamic options
+        . options:                                              	 		/// Configuration options for the upload guard
+
+    # ValGuard()                                                 		/// Enforces validation guard for a method
+        . schema:                                                			/// Joi validation schema
+
+		/// Script Group.05 - validations
+
+    # sortOrder()
+
+    # select()
+
+    # match()
+
+    # sort()
+
+    # populate()
+
+    # indexVal()
+
+    # showVal()
+
+    # storeVal()
+
+    # updateVal()
+
+    # destroyVal()
+
+-->
+
+---
