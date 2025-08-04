@@ -253,7 +253,7 @@ const LayoutComposer = ({ console, actionChild, auxilaryChild, assistantChild }:
           </NavigatorLayout>
 
 
-          <main className="flex-1 flex items-center h-[78%] lg:h-full flex-grow flex-1">
+          <main className="flex items-center h-[100%] lg:h-full ">
             {/* Action Section */}
             <section className="relative flex flex-col h-full w-full lg:w-9/12 rounded-md overflow-y-auto custom-scrollbar lg:ms-1 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
               <div className="">
