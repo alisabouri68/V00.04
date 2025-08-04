@@ -139,9 +139,11 @@ function Index() {
                     leftIcon={<MdKeyboardArrowLeft />}
                     className="text-gray-700 dark:hover:bg-gray-900 hover:bg-gray-300 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
                 />
-                <Text className={`${prevCount ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs bg-primary rounded-full w-6 h-6 flex items-center justify-center shadow-sm`}>
-                    {prevCount}
-                </Text>
+                {count > 3 && (
+                    <Text className={`${prevCount ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs bg-primary rounded-full w-6 h-6 flex items-center justify-center shadow-sm`}>
+                        {prevCount}
+                    </Text>
+                )}
             </div>
 
             {/* Middle Carousel Items */}
@@ -153,7 +155,7 @@ function Index() {
                             variant={selectItem === service.id ? "filled" : "outlined"}
                             size="sm"
                             onClick={() => selectItemHandler(service)}
-                            leftIcon={service.icon}
+                            leftIcon={count > 3 ? service.icon : null}
                             title={service.title}
                             className="w-full truncate text-xs text-ellipsis overflow-hidden whitespace-nowrap transition-all duration-300"
                         >
@@ -176,9 +178,11 @@ function Index() {
                     leftIcon={<CgMoreVertical />}
                     className={`${isOpen ? "pointer-events-none" : ""} text-gray-700 dark:hover:bg-gray-900 hover:bg-gray-300 p-2 rounded-full transition-all duration-300`}
                 />
-                <Text className={`${nextCount > 0 ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs bg-primary rounded-full w-6 h-6 flex items-center justify-center shadow-sm`}>
-                    {nextCount}
-                </Text>
+                {count > 3 && (
+                    <Text className={`${nextCount > 0 ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs bg-primary rounded-full w-6 h-6 flex items-center justify-center shadow-sm`}>
+                        {nextCount}
+                    </Text>
+                )}
                 <Button
                     disabled={!nextCount}
                     onClick={nextSlide}
