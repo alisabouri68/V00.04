@@ -61,12 +61,12 @@ function Index() {
             });
         };
 
-        handleResize(); // مقداردهی اولیه
+        handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Handle outside click to close dropdown
+
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (isOpen && dropRef.current && !dropRef.current.contains(event.target as Node)) {
@@ -145,7 +145,7 @@ function Index() {
             </div>
 
             {/* Middle Carousel Items */}
-            <div className="flex items-center w-full">
+            <div className="flex items-center w-full ms-1">
                 {services.map((service) => (
                     <div key={service.id} className="px-0.5 grow">
                         <Button
@@ -164,19 +164,19 @@ function Index() {
             </div>
 
             {/* Right Controls */}
-            <div className="flex items-center space-x-0.5">
+            <div className="flex items-center space-x-2">
                 <Button
                     onClick={(e) => {
                         e.stopPropagation()
                         setIsOpen(prev => !prev);
                     }}
                     variant="outlined"
-                    size="xs"
+                    size="md"
                     aria-label="More options"
-                    leftIcon={<CgMoreVertical />}
+                    leftIcon={<CgMoreVertical className='text-xs' />}
                     className={`${isOpen ? "pointer-events-none" : ""} text-gray-700 dark:hover:bg-gray-900 hover:bg-gray-300 p-2 rounded-full transition-all duration-300`}
                 />
-                <Text className={`${nextCount > 0 ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs bg-primary rounded-full w-4 h-4 flex items-center justify-center shadow-sm`}>
+                <Text className={`${nextCount > 0 ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs ms-2 bg-primary rounded-full w-4 h-4 flex items-center justify-center shadow-sm`}>
                     {nextCount}
                 </Text>
                 <Button

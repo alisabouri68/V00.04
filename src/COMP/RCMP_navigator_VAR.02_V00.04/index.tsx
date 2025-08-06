@@ -83,7 +83,7 @@ const Sidebar = () => {
   ];
   return (
     <div
-      className="flex overflow-hidden w-full transition-all border border-gray-300 dark:border-gray-900 duration-300 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300   shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.025),inset_0_-2px_4px_rgba(0,0,0,0.05)]
+      className="flex overflow-hidden w-full h-22 transition-all border border-gray-300 dark:border-gray-900 duration-300 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300   shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.025),inset_0_-2px_4px_rgba(0,0,0,0.05)]
     dark:shadow-[0_-4px_6px_-1px_rgba(255,255,255,0.05),0_-2px_4px_-1px_rgba(255,255,255,0.025),inset_0_-2px_4px_rgba(255,255,255,0.05)] "
       aria-label="Main navigation"
     >
