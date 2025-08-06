@@ -7,7 +7,10 @@ export default function Index() {
   return (
     <PanelMan
       actionChild={<p>{value}</p>}
-      assistantChild={<p>{value}</p>}
+      assistantChild={<>
+        <p>{value}</p>
+        <input className='text-black rounded-lg' type="text" value={value} onChange={onChange} />
+      </>}
       console={value}
       auxilaryChild={<p>{value}</p>}
     />
