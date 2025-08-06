@@ -2,7 +2,7 @@ import PanelMan from '../../ACTR/RACT_panelman/index';
 import { useInputContext } from 'Context'
 
 export default function Index() {
-  const { value } = useInputContext();
+  const { value,onChange } = useInputContext();
 
   return (
     <PanelMan
