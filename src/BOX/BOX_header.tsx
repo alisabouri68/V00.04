@@ -42,7 +42,7 @@ const Header = ({ children, console }: { children?: ReactNode, console?: string 
     <>
       <header className="w-full h-14 px-5 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
 ">
-        <div className="2xl:container mx-auto flex w-full h-full px-1 ">
+        <div className="2xl:container mx-auto flex w-full h-full border border-red-600 px-1 ">
           <div className="w-h-f justify-between">
             {/* start header */}
             <div className="">
