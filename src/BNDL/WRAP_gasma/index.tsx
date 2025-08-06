@@ -16,21 +16,6 @@ export default function Index() {
         illum aliquam? Itaque sapiente voluptatem laboriosam eveniet perspiciatis est iste quas animi
         consectetur nihil. Dolorem veniam illo neque. Eos nemo porro, vel eligendi beatae odio libero
         rerum hic? Rem molestiae suscipit quos!
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae eveniet voluptates praesentium
-        deleniti non sunt harum suscipit ad, alias ex quas ab ratione ea odio iure iusto cupiditate
-        illum aliquam? Itaque sapiente voluptatem laboriosam eveniet perspiciatis est iste quas animi
-        consectetur nihil. Dolorem veniam illo neque. Eos nemo porro, vel eligendi beatae odio libero
-        rerum hic? Rem molestiae suscipit quos!
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae eveniet voluptates praesentium
-        deleniti non sunt harum suscipit ad, alias ex quas ab ratione ea odio iure iusto cupiditate
-        illum aliquam? Itaque sapiente voluptatem laboriosam eveniet perspiciatis est iste quas animi
-        consectetur nihil. Dolorem veniam illo neque. Eos nemo porro, vel eligendi beatae odio libero
-        rerum hic? Rem molestiae suscipit quos!
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae eveniet voluptates praesentium
-        deleniti non sunt harum suscipit ad, alias ex quas ab ratione ea odio iure iusto cupiditate
-        illum aliquam? Itaque sapiente voluptatem laboriosam eveniet perspiciatis est iste quas animi
-        consectetur nihil. Dolorem veniam illo neque. Eos nemo porro, vel eligendi beatae odio libero
-        rerum hic? Rem molestiae suscipit quos!
       </Text>
     </div>
   );

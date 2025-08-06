@@ -1,11 +1,20 @@
-import PanelMan from '../../ACTR/RACT_panelman/index'
+import PanelMan from '../../ACTR/RACT_panelman/index';
+import { useInputContext } from 'Context'
 
-export default function index() {
+export default function Index() {
+  const { value, onChange } = useInputContext();
+
   return (
     <PanelMan
-      actionChild={<p>action child content HOME</p>}
-      assistantChild={<p>assistant child content HOME</p>}
-      console='HOME'
-      auxilaryChild={<p>assistant child content HOME</p>} />
-  )
+      actionChild={
+        <>
+          <p>{value}</p>
+          <input type="text" value={value} onChange={onChange} />
+        </>
+      }
+      assistantChild={<p>{value}</p>}
+      console={value}
+      auxilaryChild={<p>{value}</p>}
+    />
+  );
 }

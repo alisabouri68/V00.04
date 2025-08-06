@@ -163,12 +163,12 @@ function Index({
             ref={scrollContainerRef}
             className="absolute top-10 right-20 z-50 w-56 max-h-72 shadow-sm overflow-y-auto text-sm bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300 custom-scrollbar p-2 rounded-md border border-gray-300 dark:border-gray-700"
         >
-            <div className="flex flex-col w-full h-full overflow-hidden bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
+            <div className="flex flex-col w-full h-full bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
                 {/* Top (hidden) services */}
                 {topItems.map(item => renderServiceItem(item))}
 
                 {/* Middle (visible) services */}
-                <div className="border-y border-primary/50 bg-primary/7 shadow-sm rounded-md border border-gray-300">
+                <div className="bg-primary/7 shadow-sm rounded-md border border-gray-300">
                     {services.map((item, index) => {
                         const isFirst = index === 0
                         return renderServiceItem(item, isFirst ? firstMiddleItemRef : undefined)
