@@ -84,21 +84,21 @@ body,
     @apply bg-white-custom text-text-dark-custom dark:bg-black-custom dark:text-text-light-custom;
   }
 }
-
 .custom-scrollbar::-webkit-scrollbar {
-  width: 2px;
-  scroll-behavior: smooth;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #a0aec0;
-  border-radius: 9999px;
-  scroll-behavior: smooth;
+  width: 8px;
+  margin-right: 9px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
-  scroll-behavior: smooth;
+  border-radius: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.3);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 .swiper-container {
@@ -150,4 +150,19 @@ body,
 .animate-fade-in {
   opacity: 0;
   animation: fadeIn 0.7s ease-in 0.4s forwards;
+}
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+  margin-right: 8px; 
+}
+.scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.3);
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-clip: content-box;
 }

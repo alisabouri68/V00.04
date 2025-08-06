@@ -15,7 +15,7 @@ interface LayoutComponentProps {
   floatLMobileStyle?: string;
   floatMobileStyle?: string;
   floatDDeskStyle?: string;
-  staticMobileStyle?:string;
+  staticMobileStyle?: string;
 }
 
 interface BoxComponentProps {
@@ -244,7 +244,7 @@ const LayoutComposer = ({ console, actionChild, auxilaryChild, assistantChild }:
         </HeaderLayout>
 
         <div className="flex flex-1 p-1 overflow-hidden flex-col-reverse lg:flex-row ">
-          <NavigatorLayout   staticMobileStyle="h-[13%]" >
+          <NavigatorLayout staticMobileStyle="fixed bottom-0 left-0 right-0 z-50" >
             {NavigatorBox && (
               <NavigatorBox>
                 {NavigatorChildren && <NavigatorChildren />}
@@ -253,7 +253,7 @@ const LayoutComposer = ({ console, actionChild, auxilaryChild, assistantChild }:
           </NavigatorLayout>
 
 
-          <main className="flex-1 flex items-center h-[78%] lg:h-full ">
+          <main className="flex-1 flex items-center h-[78%] lg:h-full pb-1 lg:pb-0 ">
             {/* Action Section */}
             <section className="relative flex flex-col h-full w-full lg:w-9/12 rounded-md overflow-y-auto custom-scrollbar lg:ms-1 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
               <div className="">
