@@ -303,28 +303,3 @@ const LoadingIndicator = () => (
 
 export default LayoutComposer;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// {
-//         auxilaryMenu: [
-//           { minWidth: 768, layout: Desktop_Flat }
-//         ],
-//         auxilaryContent: [
-//           { minWidth: 768, layout: Desktop_Deep_MultipleSubject }
-//         ],
-//       }

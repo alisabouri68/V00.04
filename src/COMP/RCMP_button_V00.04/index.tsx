@@ -1,20 +1,70 @@
+//@ts-nocheck
 /******************************************
  * Component:      Button
- * Last Update:    2025.07.28
- * By:             APPS.00 (Edited by ChatGPT)
- * Description:    دکمه چندحالته قابل استفاده برای دکمه‌های معمولی یا لینک مسیریابی (React Router)
+ * Last Update:    2025.08.09
+ * By:             apps.68
+ *
+ * Description:
+ *   A multi-variant React button component supporting:
+ *     - Different visual variants (filled, outlined, text, etc.)
+ *     - Multiple sizes
+ *     - Optional icons on left/right
+ *     - Loading states with spinner
+ *     - Full-width option
+ *     - Link integration with React Router
  ******************************************/
 
+/*------------------------------------------------------------
+ * Meta Data
+ * ID:             RCMP_button 
+ * Title:          Component Button - React Version
+ * Version:        V00.04
+ * VAR:            01
+ * last-update:    D2025.08.09
+ * owner:          apps.68
+ * Description:    React-based button component with variant, size,
+ *                 icon, loading, and link support.
+ ------------------------------------------------------------*/
+
+/**************************************
+ * Step 01: Import core dependencies
+ *   - ReactNode: Type for valid React children
+ *   - ButtonHTMLAttributes: Native button attribute support
+ *   - forwardRef: Forwarding refs for DOM access
+ *   - Link: React Router link component for navigation
+ **************************************/
 import {
   ReactNode,
   ButtonHTMLAttributes,
   forwardRef,
 } from "react";
 import { Link } from "react-router-dom";
-import Text from "../RCMP_text_VAR.01_v00.04";
 
 /**************************************
- * تعریف نوع حالت‌های ظاهری و اندازه دکمه
+ * Step 02: Import widget dependencies
+ *   - Text: Unified typography component
+ *   - Icon: Icon rendering component
+ **************************************/
+import Text from "../../WIDG/RWID_text_v00.04";
+import Icon from "../../WIDG/RWID_icon_v00.04/index";
+
+/**************************************
+ * Step 03: Co-actor dependencies
+ *   - None for this component
+ **************************************/
+
+/**************************************
+ * Step 05: Define property interface
+ *
+ * ButtonVariant:
+ *   - Defines the visual style of the button.
+ *
+ * ButtonSize:
+ *   - Defines the padding and font size of the button.
+ *
+ * ButtonProps:
+ *   - Extends native HTML button attributes
+ *   - Adds custom props for variant, size, icons, loading state, etc.
  **************************************/
 type ButtonVariant =
   | "filled"
@@ -26,24 +76,30 @@ type ButtonVariant =
 
 type ButtonSize = "xs" | "sm" | "md" | "lg";
 
-/**************************************
- * تعریف نوع ویژگی‌های ورودی (Props)
- **************************************/
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
-  buttunTitle?: ReactNode|string; 
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  fullWidth?: boolean;
-  isLoading?: boolean;
-  loadingText?: string;
-  loadingSpinner?: ReactNode;
-  to?: string; 
+  leftIcon?: ReactNode;         // Optional icon before text
+  rightIcon?: ReactNode;        // Optional icon after text
+  buttunTitle?: ReactNode | string; // Main button label (note: typo in "button")
+  variant?: ButtonVariant;      // Visual style of the button
+  size?: ButtonSize;            // Size preset
+  fullWidth?: boolean;          // Expands button to container width
+  isLoading?: boolean;          // Displays loading spinner and disables interaction
+  loadingText?: string;         // Text to display while loading
+  loadingSpinner?: ReactNode;   // Custom loading spinner
+  to?: string;                  // If provided, renders as <Link>
 }
 
 /**************************************
- * تعریف کامپوننت Button
+ * Step 06: Calculation / Logic helpers
+ *   - None in this component
+ **************************************/
+
+/**************************************
+ * Step 07: Component definition
+ *   - forwardRef used to expose DOM element ref
+ *   - Dynamically renders either <button> or <Link>
+ *   - Applies variant & size styles
+ *   - Supports loading and icons
  **************************************/
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -65,10 +121,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    // اگر prop مربوط به مسیر (to) وجود داشته باشد، یعنی باید <Link> باشیم
+    /******************************************
+     * Step 07-1: Static assignments
+     *   - isLink: Determines rendering type
+     *   - variantStyles: Predefined Tailwind style sets
+     *   - sizeStyles: Predefined padding & font size sets
+     ******************************************/
     const isLink = typeof to === "string";
 
-    // حالت‌های ظاهری دکمه
     const variantStyles = {
       filled: "bg-primary text-white rounded-md",
       outlined: "bg-transparent text-gray-500 dark:text-gray-400 rounded-md border border-gray-300 dark:border-gray-800",
@@ -78,7 +138,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       textActive: "bg-transparent text-primary-active border-none",
     };
 
-    // سایزبندی دکمه
     const sizeStyles = {
       xs: "py-0.5 px-1 text-xs",
       sm: "py-1 px-2 text-sm",
@@ -86,7 +145,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       lg: "py-3 px-4 text-lg",
     };
 
-    // اسپینر پیش‌فرض در حالت Loading
     const defaultSpinner = (
       <svg
         className="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
@@ -110,7 +168,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       </svg>
     );
 
-    // کلاس نهایی دکمه با توجه به استایل‌ها
     const finalClassName = [
       "flex items-center justify-center gap-3 rounded-md font-medium text-sm transition-colors",
       "disabled:opacity-50 disabled:cursor-not-allowed",
@@ -122,7 +179,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       .filter(Boolean)
       .join(" ");
 
-    // تابع محتوای داخلی دکمه
+    /******************************************
+     * Step 07-2: Content rendering logic
+     *   - Loading state: spinner + loading text
+     *   - Default state: left icon + text + right icon
+     ******************************************/
     const renderContent = () => {
       if (isLoading) {
         return (
@@ -132,26 +193,25 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           </>
         );
       }
-
       return (
         <>
-          {leftIcon && <Text size="2xl">{leftIcon}</Text>}
+          {leftIcon && (<Icon size="base">{leftIcon}</Icon>)}
           {(buttunTitle || children) && <Text size="sm">{buttunTitle || children}</Text>}
-          {rightIcon && (
-            <Text size="2xl" className={`${buttunTitle || children ? "ms-2" : ""}`}>
-              {rightIcon}
-            </Text>
-          )}
+          {rightIcon && (<Icon size="base">{rightIcon}</Icon>)}
         </>
       );
     };
 
-    // رندر نهایی دکمه یا لینک
+    /******************************************
+     * Step 07-3: Component rendering
+     *   - If `to` is provided: render as <Link>
+     *   - Else: render as <button>
+     ******************************************/
     return isLink ? (
       <Link
         to={to}
         className={finalClassName}
-        {...(props as any)} 
+        {...(props as any)}
       >
         {renderContent()}
       </Link>
@@ -168,8 +228,5 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-// نام قابل نمایش برای دیباگینگ
 Button.displayName = "Button";
-
-// خروجی نهایی کامپوننت
 export default Button;

@@ -31,7 +31,7 @@ import { useMemo, useState } from 'react';
  * Step 02 - import dependencies - Widgets
 **************************************/
 import Button from "COMP/RCMP_button_V00.04";
-import Text from 'COMP/RCMP_text_VAR.01_v00.04';
+import Text from 'WIDG/RWID_text_v00.04';
 import ServiceDropList from "COMP/RCMP_serviceDropList_VAR.01_V00.04";
 
 /**************************************

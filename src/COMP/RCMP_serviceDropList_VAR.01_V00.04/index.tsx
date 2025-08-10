@@ -1,7 +1,7 @@
 /******************************************
 Component serviceDropList
 
-Last Update:    2025.07.12
+Last Update:    2025.08.09
 By:             APPS.68
 
 Description:    This component renders a scrollable dropdown of services,
@@ -29,7 +29,7 @@ Description:    This dropdown component lists all service items with a scrollabl
  **************************************/
 import { useEffect, useRef } from "react"
 import { ServiceItem } from "COMP/RCMP_servicePicker_VAR.01_V00.04"
-import Text from "COMP/RCMP_text_VAR.01_v00.04"
+import Text from "WIDG/RWID_text_v00.04"
 import { Link } from "react-router-dom"
 
 /**************************************

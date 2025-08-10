@@ -98,8 +98,8 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
       onClick={() => dispatch(closeModal())}
     >
       <div
-        className={`relative w-full max-w-3xl rounded-lg h-[90vh] overflow-hidden custom-card shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.025),inset_0_-2px_4px_rgba(0,0,0,0.05)]
-    dark:shadow-[0_-4px_6px_-1px_rgba(255,255,255,0.05),0_-2px_4px_-1px_rgba(255,255,255,0.025),inset_0_-2px_4px_rgba(255,255,255,0.05)] ${className}`}
+        className={`relative w-full max-w-3xl rounded-lg h-[90vh] overflow-hidden bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
+     ${className}`}
         onClick={(e) => e.stopPropagation()} // Prevent outside click from closing
       >
         {content}

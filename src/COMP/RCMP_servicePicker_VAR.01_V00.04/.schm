@@ -1,24 +1,208 @@
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Service Picker Schema",
-  "description": "List of services to be shown in the horizontal service picker",
-  "type": "array",
-  "items": {
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "string",
-        "description": "Unique identifier for the service"
-      },
-      "title": {
-        "type": "string",
-        "description": "Service title to display"
-      },
-      "icon": {
-        "type": "string",
-        "description": "Icon name or identifier (used to render icon)"
-      }
-    },
-    "required": ["id", "title", "icon"]
-  }
-}
+---glan11
+
+
+
+/// ---------------------------------------
+/// model:              COMP_servicePicker_VAR.01_V00.04
+/// last update:        D2025.08.09
+/// by:                 APPS.68
+/// ---------------------------------------
+
+
+
+>>> ID															//? Definition for COMP
+
+    /// step.01 -  Complete Meta Data
+
+    # meta
+        . model_id:					"RCMP_servicePicker_VAR.01_V00.04"
+        . model_title:				"servicePicker"
+        . model_version:			"V00.04"
+        . model_lastUpgrade:		"D2025.08.09"				/// use the header date
+        . model_owner				"APPS.68"
+
+        . model_type				"Instant"
+        . origin_model				"COMP"						/// Component Mutage Model
+        . origin_model_Ver			"00.04"
+        . model_rem					"Component Remarks here ... "	
+
+	/// Objectives:
+
+       ///   1-Provide a horizontal carousel of service buttons that users can scroll through.
+       ///   2-Allow selection of a service button, highlighting the selected one.
+       ///   3-Responsive layout: number of visible buttons changes based on screen width.
+       ///   4-Include navigation controls to scroll left/right through the list.
+       ///   5-Offer a dropdown list for quick access to all services.
+       ///   6-Automatically close dropdown when clicking outside.
+       ///   7-Manage state efficiently to synchronize carousel and dropdown selection.
+
+
+
+-->
+
+
+>>> MNG
+
+
+	/// step.02 -  Management - Render
+
+	# render(1)													//? React Render Mngt.
+		. scat:						"RCMP"						/// React Template
+		. langBase:					"react"						/// description
+
+
+	# render(2)							 						//? Reference Render Mngt.
+		. scat:						"LITE"						/// Litrature Template
+		. langBase:					"reachtex"					/// description
+
+
+    /// step.04 - Management - Dependency (kernels)
+	
+    # kernel(1)                     
+		. id:                       "react"
+		. ver:						"19.02.00"
+		. type:						"exe"
+		. default:                  "TRUE"
+		. alias:                    "react"
+
+    /// step.05 - Management - Dependency (Widgets)
+
+    # widget(1)                     
+		. id:                       "text"
+		. ver:						"V00.04"
+		. default:                  "TRUE"
+		. alias:                    "text"
+
+   
+
+
+
+
+
+
+    /// step.06 - Management - Dependency (Themes)
+
+    # theme(1)                     
+		. id:                       "popcorn"
+		. ver:						"V00.04
+		. default:                  "TRUE"
+		. alias:                    "popcorn"
+
+    # theme(2)                     
+		. id:                       "nightwish"
+		. ver:						"V00.04
+		. default:                  "TRUE"
+		. alias:                    "nightwish"
+
+
+
+
+
+
+-->
+
+
+>>> LOGIC
+
+
+
+# style															/// Style Attrib.
+	. bgCollor:					"@(@this.#them(1))_V00.04.#colors.bgCollor"
+	.
+
+
+
+
+
+
+
+
+
+-->
+
+
+
+>>> BODY
+
+	@square(1)
+	
+		# geo
+			. baseXCoord
+			. baseYCoord
+			. widthBody1
+			. heightBody1
+
+		# style
+			.selected
+		
+
+
+	@WIDG_dropdown(1)
+
+		# geo															/// Geometric Attrib.
+
+			. baseXCoord
+			. baseYCoord
+			. widthBody1
+			. heightBody1
+
+		# style
+			.selected
+	
+		
+		
+		# event
+			.onclick
+			.textenter
+
+
+	@COMP_id
+
+		.# geo															/// Geometric Attrib.
+
+		.	. baseXCoord
+		.	. baseYCoord
+		.	. widthBody1
+		.	. heightBody1
+
+		.	. deltaXCoord2
+		.	. deltaYCoord2
+		.	. widthBody2
+		.	. heightBody2
+
+		.	. deltaXCoord3
+		.	. deltaYCoord3
+			. widthBody3
+			. heightBody3
+
+			. iconXCoord()
+			. iconYCoord()
+			. iconRedius()
+			
+
+
+		.# log															/// Logical Attrib.
+
+		.	.iconUrl()
+		.	.iconTitle()
+		.	.iconImage():/conf /reconf				"def.value"
+
+
+
+
+		.# style															/// Style Attrib.
+		.	. bgCollor:					"@(@this.#them(1))_V00.04.#colors.bgCollor"
+		.	.
+
+
+
+
+
+
+
+
+
+-->
+
+
+---
