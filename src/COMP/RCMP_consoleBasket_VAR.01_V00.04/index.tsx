@@ -183,7 +183,7 @@ const BasketItems = () => {
                       {item.lock && <Button leftIcon={<CiLock />} />}
 
                       {/* pin button (stopPropagation prevents collapsing/expanding on pin click) */}
-                      {item.pin && (
+                      {item.pin && isEdit && (
                         <Button
                           onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
