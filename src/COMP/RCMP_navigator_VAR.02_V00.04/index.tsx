@@ -154,7 +154,6 @@ const Sidebar = () => {
             })
           ) : (
             <li className="text-red-500 text-xs p-2 text-center">
-              Navigation data not available
             </li>
           )}
         </ul>

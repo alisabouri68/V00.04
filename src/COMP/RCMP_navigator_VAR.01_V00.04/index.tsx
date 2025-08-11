@@ -1,91 +1,55 @@
-/******************************************
- * Component:      Navigation
- * Last Update:    2025.07.14
- * By:             APPS.00
- * Description:    Sidebar navigation menu (responsive)
- ******************************************/
-
-/*------------------------------------------------------------
- * Meta Data
- *
- * ID:             RCOM_navigator
- * Title:          Component navigator - React Version
- * Version:        V00.04
- * VAR:            VAR 1 desktop
- * Last Update:    D2025.04.04
- * Owner:          APPS.00
- * Description:    Responsive sidebar for page navigation
- *------------------------------------------------------------*/
-
-/**************************************
- * Step 01 - Import Dependencies
- **************************************/
-import { memo } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBookOpen,
-  faBriefcase,
-  faHome,
-  faLocationDot,
-  faMicrophone,
-} from "@fortawesome/free-solid-svg-icons";
+import { memo, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../RDUX/store";
+import { loadQuickAccessFromLocalStorage } from "../../RDUX/quickAccessSlice/initQuickAccess";
 import logoDash from "ASST/images/Asset 5.svg";
-
-/**************************************
- * Step 05 - Define property interface
- * Used to structure the navigation data
- **************************************/
-interface DataNav {
+import { MdOutlineLocalFireDepartment } from "react-icons/md";
+import { GoHome } from "react-icons/go";
+import { iconMap } from "COMP/RCMP_consoleBasket_VAR.01_V00.04";
+export interface DataNav {
   id: string;
   title: string;
   icon: React.ReactNode;
   href: string;
+  para?: boolean;
+  lock?: boolean;
+  pin?: boolean;
 }
-
-/**************************************
- * Step 06 - Define Sidebar Navigation Component
- **************************************/
 const Sidebar = () => {
-  // Current route info
   const location = useLocation();
-
-  // Navigation items for the sidebar
-  const dataNav: DataNav[] = [
+  const dispatch = useDispatch<AppDispatch>();
+  const quickAccessItems = useSelector((state: RootState) => state.quickAccess.items);
+  const defaultDataNav: DataNav[] = [
     {
       id: "1",
-      icon: <FontAwesomeIcon icon={faHome} />,
+      icon: <GoHome />,
       href: "/",
       title: "Home",
     },
     {
       id: "5",
-      icon: <FontAwesomeIcon icon={faLocationDot} />,
+      icon: <MdOutlineLocalFireDepartment />,
       href: "/hot",
       title: "Hot",
     },
-    {
-      id: "4",
-      icon: <FontAwesomeIcon icon={faMicrophone} />,
-      href: "/cast",
-      title: "cast",
-    },
-    {
-      id: "3",
-      icon: <FontAwesomeIcon icon={faBriefcase} />,
-      href: "/gasma",
-      title: "GASMA",
-    },
-
-
-    {
-      id: "6",
-      icon: <FontAwesomeIcon icon={faBookOpen} />,
-      href: "/Mono",
-      title: "Mono",
-    },
-
   ];
+  const dataNav: DataNav[] = quickAccessItems.length > 0
+    ? quickAccessItems
+      .filter(item => item.title)
+      .map(item => {
+        return {
+          id: item.id,
+          href: item.href,
+          title: item.title,
+          icon: iconMap[item.icon] ?? <GoHome />,
+        };
+      })
+    : defaultDataNav;
+
+  useEffect(() => {
+    dispatch(loadQuickAccessFromLocalStorage());
+  }, [dispatch]);
 
   return (
     <aside
@@ -117,14 +81,10 @@ const Sidebar = () => {
       </div>
       <nav className="relative flex w-full h-full md:flex-col items-center">
         <ul
-          className=" flex flex-col items-center gap-1 w-full shadow-inner h-full py-2 md:py-1 custom-scrollbar overflow-y-auto"
+          className="flex flex-col items-center gap-1 w-full shadow-inner h-full py-2 md:py-1 custom-scrollbar overflow-y-auto"
           role="menubar"
           aria-orientation="vertical"
         >
-
-
-
-          {/* Navigation items */}
           {dataNav.length > 0 ? (
             dataNav.map((item) => {
               const isActive =
@@ -184,7 +144,6 @@ const Sidebar = () => {
             })
           ) : (
             <li className="text-red-500 text-xs p-2 text-center">
-              Navigation data not available
             </li>
           )}
         </ul>
