@@ -9,7 +9,7 @@ import { FcMenu } from "react-icons/fc";
 import { TiPinOutline } from "react-icons/ti";
 import { HiOutlineHome } from "react-icons/hi2";
 import { MdMyLocation, MdOutlineLocalFireDepartment, MdKeyboardArrowDown } from "react-icons/md";
-import { closeModal , openModal } from "../../RDUX/modal/modalSlice";
+import { closeModal} from "../../RDUX/modal/modalSlice";
 import Text from "WIDG/RWID_text_v00.04";
 import { useDispatch } from "react-redux";
 import { setItems } from "../../RDUX/quickAccessSlice/quickAccessSlice";
