@@ -21,7 +21,7 @@ import { JSX } from 'react/jsx-runtime';
  * Step 02 - Import component dependencies
  **************************************/
 import Button from "COMP/RCMP_button_V00.04";
-import Text from '../../WIDG/RWID_text_V00.04';
+import Text from '../../WIDG/RWID_text_V00.04/index';
 import ServiceDropList from "COMP/RCMP_serviceDropList_VAR.01_V00.04";
 
 /**************************************

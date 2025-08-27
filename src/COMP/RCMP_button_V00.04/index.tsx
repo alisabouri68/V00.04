@@ -45,7 +45,7 @@ import { Link } from "react-router-dom";
  *   - Text: Unified typography component
  *   - Icon: Icon rendering component
  **************************************/
-import Text from "../../../../WIDG/RWID_text_V00.04";
+import Text from "../../WIDG/RWID_text_V00.04/index";
 import Icon from "../../WIDG/RWID_icon_V00.04/index";
 
 /**************************************
