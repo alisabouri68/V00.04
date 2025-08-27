@@ -1,4 +1,4 @@
-import Text from "WIDG/RWID_text_V00.04";
+import Text from "../../WIDG/RWID_text_V00.04";
 import { useParams } from "react-router-dom";
 
 export default function Index() {
