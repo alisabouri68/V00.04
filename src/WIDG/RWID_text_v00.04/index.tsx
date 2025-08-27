@@ -1,10 +1,10 @@
 /******************************************
-Component TEXT with Enhanced Shimmer Loading
+Component TEXT (Clean Version)
 
-Last Update:    2025.07.19
+Last Update:    2025.08.27
 By:             APSS.00
 
-Description:  Enhanced text component with professional shimmer loading effect
+Description:  Simple text component with size, weight, align and color
 ******************************************/
 
 import { CSSProperties } from "react";
@@ -24,7 +24,6 @@ type Weight =
   | "extrabold"
   | "black";
 type Align = "left" | "center" | "right" | "justify";
-type ShimmerType = "single" | "multi" | "paragraph" | "responsive";
 
 interface TextProps {
   children: React.ReactNode;
@@ -32,14 +31,9 @@ interface TextProps {
   weight?: Weight;
   align?: Align;
   as?: React.ElementType;
-  color?: string;
+  color?: string; // hex, rgb یا اسم رنگ
   className?: string;
-  isLoading?: boolean;
-  shimmerType?: ShimmerType;
-  shimmerLines?: number;
-  shimmerColor?: string;
-  shimmerToColor?: string;
-  shimmerHeight?: string;
+  style?: CSSProperties;
 }
 
 /**************************************
@@ -56,9 +50,6 @@ const sizeMap: Record<Size, string> = {
   "4xl": "text-4xl",
 };
 
-/**************************************
- * Step 03 Define weight mappings
- **************************************/
 const weightMap: Record<Weight, string> = {
   thin: "font-thin",
   light: "font-light",
@@ -70,9 +61,6 @@ const weightMap: Record<Weight, string> = {
   black: "font-black",
 };
 
-/**************************************
- * Step 04 Define alignment mappings
- **************************************/
 const alignMap: Record<Align, string> = {
   left: "text-left",
   center: "text-center",
@@ -81,7 +69,7 @@ const alignMap: Record<Align, string> = {
 };
 
 /**************************************
- * Step 05 Component Declaration
+ * Step 03 Component Declaration
  **************************************/
 function Text({
   children,
@@ -91,134 +79,29 @@ function Text({
   as = "span",
   color = "inherit",
   className = "",
-  isLoading = false,
-  shimmerType = "responsive",
-  shimmerLines = 3,
-  shimmerColor = "#f5f5f5",
-  shimmerToColor = "#eaeaea",
-  shimmerHeight = "1em",
+  style,
   ...props
 }: TextProps) {
-  /**************************************
-   * Step 06 Define the element tag
-   **************************************/
   const Comp = as;
 
-  /**************************************
-   * Step 07 Build className string
-   **************************************/
   const combinedClassName = [
     sizeMap[size],
     weightMap[weight],
     alignMap[align],
-    color,
     className,
   ]
     .filter(Boolean)
     .join(" ");
 
-  /**************************************
-   * Step 08 Calculate shimmer styles
-   **************************************/
-  const shimmerBaseStyle: CSSProperties = {
-    background: `linear-gradient(90deg, ${shimmerColor} 8%, ${shimmerToColor} 18%, ${shimmerColor} 33%)`,
-    backgroundSize: "1200% 100%",
-    animation: "shimmer 1.5s infinite linear",
-    borderRadius: "4px",
-    display: "inline-block",
-    verticalAlign: "middle",
-    height: shimmerHeight,
-  };
-
-  /**************************************
-   * Step 09 Render shimmer effect
-   **************************************/
-  const renderShimmer = () => {
-    // Responsive shimmer automatically adapts to content
-    if (shimmerType === "responsive") {
-      return (
-        <span
-          className="w-full h-full block shimmer-mask"
-          style={{
-            ...shimmerBaseStyle,
-            maxWidth: "100%",
-            minWidth: "50%",
-          }}
-        />
-      );
-    }
-
-    // Single line shimmer
-    if (shimmerType === "single") {
-      return (
-        <span
-          style={{
-            ...shimmerBaseStyle,
-            width: "100%",
-          }}
-        />
-      );
-    }
-
-    // Multi-line shimmer
-    if (shimmerType === "multi") {
-      return (
-        <div className="w-full flex flex-col gap-2">
-          {Array.from({ length: shimmerLines }).map((_, index) => (
-            <div
-              key={index}
-              style={{
-                ...shimmerBaseStyle,
-                width: index === shimmerLines - 1 ? "80%" : "100%",
-                height: shimmerHeight,
-              }}
-            />
-          ))}
-        </div>
-      );
-    }
-
-    // Paragraph-style shimmer
-    return (
-      <div className="w-full flex flex-col gap-2">
-        <div
-          style={{ ...shimmerBaseStyle, width: "100%", height: shimmerHeight }}
-        />
-        <div
-          style={{ ...shimmerBaseStyle, width: "100%", height: shimmerHeight }}
-        />
-        <div
-          style={{ ...shimmerBaseStyle, width: "95%", height: shimmerHeight }}
-        />
-        <div
-          style={{ ...shimmerBaseStyle, width: "92%", height: shimmerHeight }}
-        />
-        <div
-          style={{ ...shimmerBaseStyle, width: "85%", height: shimmerHeight }}
-        />
-      </div>
-    );
-  };
-
-  /**************************************
-   * Step 10 Render element with styles
-   **************************************/
   return (
-    <>
-      {isLoading ? (
-        <Comp
-          className={`${combinedClassName} inline-block shimmer-container`}
-          aria-busy="true"
-          {...props}
-        >
-          {renderShimmer()}
-        </Comp>
-      ) : (
-        <Comp className={combinedClassName} {...props}>
-          {children}
-        </Comp>
-      )}
-    </>
+    <Comp
+      className={combinedClassName}
+      style={{ color, ...style }}
+      {...props}
+    >
+      {children}
+    </Comp>
   );
 }
+
 export default Text;
