@@ -42,7 +42,8 @@
     "react-spinners": "^0.15.0",
     "react-sticky": "^6.0.3",
     "react-terminal-ui": "^1.4.0",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "tailwind-scrollbar": "^4.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
