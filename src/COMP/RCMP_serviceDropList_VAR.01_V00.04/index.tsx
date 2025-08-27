@@ -29,7 +29,7 @@ Description:    This dropdown component lists all service items with a scrollabl
  **************************************/
 import { useEffect, useRef } from "react"
 import { ServiceItem } from "COMP/RCMP_servicePicker_VAR.01_V00.04"
-import Text from "WIDG/RWID_text_v00.04"
+import Text from "WIDG/RWID_text_V00.04"
 import { Link } from "react-router-dom"
 
 /**************************************
@@ -140,10 +140,10 @@ function Index({
             to={item.id}
             ref={ref}
             onClick={() => selectItemHandler(item)}
-            className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent duration-300   text-gray-500 dark:text-gray-300 cursor-pointer  
+            className={`flex items-center gap-2 px-3 py-2 border-l-4 border-transparent duration-300  bg-light text-dark cursor-pointer  
                 ${selectItem === item.id
-                    ? "bg-gray-100 dark:bg-gray-900 border-l-primary text-primary font-semibold"
-                    : "hover:bg-gray-100 dark:hover:bg-gray-900 bg-white dark:bg-gray-950"
+                    ? "bg-light text-dark border-l-primary text-primary font-semibold"
+                    : "hover:bg-secendory bg-light text-dark"
                 }`}
         >
             <Text size="xs" as="span">{item.icon}</Text>
@@ -161,14 +161,14 @@ function Index({
     return (
         <div
             ref={scrollContainerRef}
-            className="absolute top-10 right-20 z-50 w-56 max-h-72  overflow-y-auto text-sm shadow-md bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300 custom-scrollbar p-2 rounded-md border border-gray-300 dark:border-gray-700"
+            className="absolute top-10 right-20 z-50 w-56 max-h-72  overflow-y-auto text-sm shadow-md bg-light text-dark custom-scrollbar p-2 rounded-md border border-stone-300 dark:border-stone-700"
         >
-            <div className="flex flex-col w-full h-full bg-white dark:bg-gray-950 text-gray-800 dark:text-gray-300">
+            <div className="flex flex-col w-full h-full bg-white dark:bg-stone-950 text-stone-800 dark:text-stone-300">
                 {/* Top (hidden) services */}
                 {topItems.map(item => renderServiceItem(item))}
 
                 {/* Middle (visible) services */}
-                <div className="bg-primary/7 shadow-md rounded-md border border-gray-300 dark:border-gray-700 overflow-hidden">
+                <div className="bg-primary/7 shadow-md rounded-md border border-stone-300 dark:border-stone-700 overflow-hidden">
                     {services.map((item, index) => {
                         const isFirst = index === 0
                         return renderServiceItem(item, isFirst ? firstMiddleItemRef : undefined)

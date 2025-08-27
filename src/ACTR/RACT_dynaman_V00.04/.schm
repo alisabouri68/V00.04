@@ -1,0 +1,214 @@
+---glan11
+
+  /// Meta : 				actor dyna
+  /// 
+  /// Last update:			2025.08.22
+  /// by:					apps48
+
+>>> ID			
+  #meta ACTR_id /i			"title"				//? remarks...
+	.model-id:				"id"
+	.model-title:			"title"		
+	.model-lastUpgrade:		"D2025.08.22"
+	.model-owner:			"APPS.28"	
+
+	.model-type:			"INST"		
+	.origin-model:			"ACTR"		
+	.origin-model-Ver:		"00.00"
+	.model-rem:				"remarks..."	
+
+-->
+
+
+>>> Management
+  
+  #render(1)				PPAN				//? http-python panel
+	.scat:					"PPAN"				/// genix SCat
+	.langBase:				"python"			/// language base
+	.param:					"value"				/// comments
+
+
+  #dependancy(1)
+  
+  ///	redux
+  ///	express
+  ///	...
+  
+
+  #kernel(1)
+	.id: 					"@KRNL_express"
+	
+-->
+
+>>> Logic
+  
+
+	/// Attribute LIst:
+	/// -------------------------------------
+
+	# DEFAULT_GLOBAL_STATE /g
+		. theme: 'light'
+		. language: 'fa'
+		. direction: 'rtl'
+		. userPreferences:
+		.	. fontSize: 'medium'
+		.	. reduceAnimations: false
+		.	. highContrast: false
+
+		. notifications:
+		.	. enabled: true
+		.	. sound: true
+		.	. vibration: false
+
+		. privacy: 
+		.	. analytics: false
+		.	. cookies: false
+		.	. tracking: false
+
+
+
+	
+>>>	GRP.01 	default			/// initialize the environment
+	
+	/// script.11 	dynaSetup()		start node ACRT_dyna.dyansetup()
+	$dynaSetup()	"Dyna Setup"	//? start node ACRT_dyna.dyansetup()
+		-par1 :		"0"
+		-Par2*:		"0"
+		-mode
+		/g							/// gloabl switch
+
+		{
+				//-	stages:
+			------------
+			call KRNL_express + ... 
+			....
+
+
+			import ACRT_panelman
+			panelman.routersetup
+			panelman.spiderlist
+			
+			dyna.loadplaylist()
+			dyna.loadactor()
+			dyna.loadkernel()
+
+			panelman.listen() { run index }
+
+			....
+			call dyna.dynamnge()
+
+				--/ }
+
+
+	/// script.12   dynamanage       description
+
+	$dynaManage()
+			/// main loop (hook management / ....)
+
+			/// or main deamon 
+
+
+	/// script.13 - description
+
+	$init-main()
+		-par1 :		""
+		-Par2*:		""
+		-mode
+		/g							/// gloabl switch
+		{ 
+		
+	/// spider setup (add .schm-dyna any new actor/kernel/play)
+
+	/// init registries for each Actors
+
+	/// Activate necessary Actor (such as panelMan to start listening) and other event management Actors
+
+
+		}
+	
+	
+	/// script.13 - description
+	
+	$help()
+		-par1 :		""
+		-Par2*:		""
+		-mode
+		/g							/// gloabl switch
+		{ }
+	
+	
+	/// script.13 - description
+	
+	$signature()
+		-par1 :		""
+		-Par2*:		""
+		-mode
+		/g							/// gloabl switch
+		{ }
+	
+	
+	/// script.13 - description
+	
+	$serialize()
+		-par1 :		""
+		-Par2*:		""
+		-mode
+		/g							/// gloabl switch
+		{ }
+	
+	
+	/// script.13 - description
+	
+	$stringify()
+		-par1 :		""
+		-Par2*:		""
+		-mode
+		/g							/// gloabl switch
+		{ }
+	
+	
+	/// script.13 - description
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->
+
+>>>	GRP.02:	evniStat			/// provide all status for dyna environment
+
+  $ signatur(schm)  	/// --> json  - actor, player, kernel, component, widget, wrapper
+
+
+
+  $ script					title				//? rem
+	- par:
+	- optionalPar:*
+	- option
+
+	/ switch
+
+
+
+
+
+-->
+
+
+
+---
+
+
+
+

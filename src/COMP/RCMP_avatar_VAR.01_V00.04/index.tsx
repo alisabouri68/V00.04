@@ -28,6 +28,7 @@ Description:     This component is used to render a user avatar with optional im
  **************************************/
 import React from "react";
 import { FaCircleUser } from "react-icons/fa6";
+import Image from "WIDG/RWID_image_V00.04";
 
 /**************************************
  * Step 02: Define Props interface
@@ -68,14 +69,13 @@ const Avatar: React.FC<AvatarProps> = ({
     <div className={`relative ${sizeClass} ${className}`}>
       {/* Render image if 'src' is provided, else fallback */}
       {src ? (
-        <img
-          src={src}
-          alt={alt}
+        <Image src={src}
           className="rounded-full object-cover w-full h-full border shadow"
-        />
+          alt={alt}
+          lazy />
       ) : (
         <div
-          className={`flex items-center justify-center rounded-full bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400 font-semibold border shadow ${sizeClass}`}
+          className={`flex items-center justify-center rounded-full bg-white dark:bg-stone-900 text-stone-500 dark:text-stone-400 font-semibold border shadow ${sizeClass}`}
         >
           {/* Fallback text or icon if no image */}
           {fallbackText ? (

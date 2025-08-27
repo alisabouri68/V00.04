@@ -28,10 +28,8 @@ Description:     Modal component rendered via portal into #modal_root with backd
  **************************************/
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../RDUX/store";
-import { closeModal } from "../RDUX/modal/modalSlice";
-
+import { useGlobalState } from "RDUX/dynamanContext";
+import ConsoleBasket from "../COMP/RCMP_consoleBasket_VAR.01_V00.04";
 /**************************************
  * Step 02: Define optional component props
  **************************************/
@@ -43,15 +41,17 @@ interface ModalProps {
  * Step 03: Component definition
  **************************************/
 const BOX_modal = ({ className = "" }: ModalProps) => {
+  const { globalState, updateGlobalState } = useGlobalState();
+
   /**************************************
    * Step 04: Access Redux modal state
    **************************************/
-  const { isOpen, content } = useSelector((state: RootState) => state.modal);
-  const dispatch = useDispatch();
 
   /**************************************
    * Step 05: Scroll lock on open
    **************************************/
+  const isOpen = globalState.modal.isOpen;
+  const content = globalState.modal.content;
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -68,7 +68,7 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
    **************************************/
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") dispatch(closeModal());
+      if (e.key === "Escape") updateGlobalState(!isOpen);
     };
 
     if (isOpen) {
@@ -78,7 +78,7 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
     return () => {
       document.removeEventListener("keydown", handleEsc);
     };
-  }, [isOpen, dispatch]);
+  }, [isOpen]);
 
   /**************************************
    * Step 07: Portal target
@@ -95,14 +95,16 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm  "
-      onClick={() => dispatch(closeModal())}
+      onClick={() => updateGlobalState({modal:{
+        isOpen:false
+      }})}
     >
       <div
-        className={`relative w-full max-w-3xl rounded-lg h-[90vh] overflow-hidden bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
+        className={`relative w-full max-w-3xl rounded-lg h-[90vh] overflow-hidden  bg-light text-dark
      ${className}`}
-        onClick={(e) => e.stopPropagation()} // Prevent outside click from closing
+        onClick={(e) => e.stopPropagation()}
       >
-        {content}
+        {content === "ConsoleBasket" ? <ConsoleBasket /> : null}
       </div>
     </div>,
     modalRoot

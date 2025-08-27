@@ -34,9 +34,9 @@ import classNames from "classnames";
 /**************************************
  * Step 02 declare types/interfaces
  **************************************/
-interface DropdownOption {
-  id: string;
-  name: string;
+export interface DropdownOption {
+  id?: string;
+  name?: string;
   icon?: React.ReactNode;
 }
 
@@ -86,13 +86,16 @@ const Dropdown: React.FC<DropdownProps> = ({
    **************************************/
   return (
     <div
-      className={classNames("relative inline-block", className)}
+      className={classNames(
+        "relative inline-block cursor-pointer mx-2",
+        className
+      )}
       ref={dropdownRef}
     >
       {/* Trigger */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-h-f justify-center mx-2 gap-2 min-w-[180px] max-w-[180px] py-2 rounded-md bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300 focus:outline-none"
+        className="flex items-center justify-center gap-2 min-w-[180px] max-w-[180px] cursor-pointer text-dark"
         aria-expanded={isOpen}
       >
         <span className="flex items-center space-x-2 text-2xl">
@@ -100,7 +103,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           <span className="text-base">{selected?.name || placeholder}</span>
         </span>
         <MdKeyboardArrowDown
-          className={classNames("text-xl transition-transform duration-200", {
+          className={classNames("text-xl transition-transform", {
             "rotate-180": isOpen,
           })}
         />
@@ -108,16 +111,17 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       {/* Dropdown List */}
       {isOpen && (
-        <div className="absolute z-50 mt-2 w-full bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
- border border-gray-200 dark:border-zinc-800 rounded-md shadow-md">
+        <div
+          className="absolute z-50 mt-2 w-full bg-light text-dark
+ border border-stone-200 dark:border-zinc-800 rounded-md shadow-md"
+        >
           {options.map((option) => (
             <button
               key={option.id}
               className={classNames(
-                "w-full border-4 border-transparent text-left px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center space-x-2 ",
+                "w-full border-4 border-transparent text-left px-4 py-1 hover:bg-secendory flex items-center space-x-2 ",
                 {
-                  "!text-primary  border-s-primary":
-                    selected?.id === option.id,
+                  "!text-primary  border-s-primary": selected?.id === option.id,
                 }
               )}
               onClick={() => {

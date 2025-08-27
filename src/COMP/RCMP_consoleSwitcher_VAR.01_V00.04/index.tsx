@@ -1,107 +1,46 @@
-/******************************************
-Component Templates
-
-Last Update:    2025.07.15
-By:             Apps.00
-
-Description:    This template is used for developing React Components 
-                according to Smart-Comp Architecture
-******************************************/
-
-/*------------------------------------------------------------
-Meta Data
-
-ID:             RCMP_consoleSwitcher
-Title:          Component 
-Version:        00.04
-VAR:            01 (initial stable)
-
-last-update:    D2025.07.15
-owner:          Apps.00
-
-Description:    Displays a compact profile section with logo, username, 
-                and a dropdown trigger.
-
-------------------------------------------------------------*/
-
-/**************************************
- * Step 01: import dependencies - kernels
- **************************************/
-import React, { memo } from "react";
-import logo from "../../ASST/images/logo-dash.svg";
+import { memo } from "react";
+import Button from "COMP/RCMP_button_V00.04";
+import Image from "WIDG/RWID_image_V00.04";
+import Text from "WIDG/RWID_text_V00.04";
 import { CgMoreVertical } from "react-icons/cg";
-import { useDispatch } from "react-redux";
-import { openModal } from "../../RDUX/modal/modalSlice";
-import BOX_modal from "BOX/BOX_modal";
-import ConsoleBasket from "COMP/RCMP_consoleBasket_VAR.01_V00.04/index";
-/**************************************
- * Step 02: import dependency - widgets
- **************************************/
-// (optional future sub-widgets)
-
-/**************************************
- * Step 03: co-actor dependencies
- **************************************/
-// (Redux, Router, Context, etc)
-
-/**************************************
- * Step 04: define static constants
- **************************************/
-// (No static needed here yet)
-
-/**************************************
- * Step 05: define props interface
- **************************************/
-interface IndexProps {
-  console?: string; // optional for flexibility
-}
-
-/**************************************
- * Step 06: define functional component
- **************************************/
-const index: React.FC<IndexProps> = ({ console }) => {
-  const dispatch = useDispatch();
-
-  const handleOpenModal = () => {
-    dispatch(
-      openModal({
-        title: "",
-        content: <ConsoleBasket />,
-      })
-    );
-  };
-
+import logo from "../../ASST/images/logo-dash.svg";
+import { useGlobalState } from "../../RDUX/dynamanContext"
+const Index = memo(() => {
+  const { globalState, updateGlobalState } = useGlobalState();
+  const handleMoreClick = () => {
+   
+updateGlobalState({
+  modal: {
+    isOpen: true,
+    content: "ConsoleBasket"
+  }
+  
+}); console.log(globalState.modal.isOpen)  };
   return (
-    <div className="w-h-f w-max gap-1 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300">
-      {/* Company Logo */}
-      <div className="w-h-f">
-        <img src={logo} alt="Raad Health Logo" className="h-8 w-auto" />
-      </div>
+    <div className="flex items-center gap-2">
+      <Image
+        src={logo}
+        alt="Raad Health Logo"
+        width={30}
+        height={30}
+        shimmerColor="#111827"
+        shimmerToColor="#ffffff"
+        className="rounded-full"
+      />
 
-      {/* Username Display */}
-      <div className="flex gap-2 items-center">
-        <span className="font-medium">
-          {console}
-        </span>
-        <span className="text-xs hidden lg:flex">
-          ({console})
-        </span>
-      </div>
+      <Text className="font-medium" children={globalState.modal.isOpen} />
 
-      {/* More Options Icon */}
-      <button
+      <Button
+        variant="text"
+        size="xs"
+        onClick={handleMoreClick}
+        leftIcon={<CgMoreVertical />}
         aria-label="More options"
-        className="p-1 rounded-md transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
-        onClick={handleOpenModal}
-      >
-        <CgMoreVertical className="text-xl" />
-      </button>
-      <BOX_modal />
+      />
     </div>
   );
-};
+});
 
-/**************************************
- * Step 07: export component with memo
- **************************************/
-export default memo(index);
+Index.displayName = "ConsoleHeader";
+
+export default Index;

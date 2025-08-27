@@ -1,29 +1,25 @@
 import { RouterProvider } from "react-router-dom";
 import router from "ROUTS";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import DynaCtrl from "./MIDD/RMID_dynaCtrl_V00.04";
 import { Provider } from "react-redux";
-import { store } from "RDUX/store";
-import ThemeProvider from "RDUX/theme/themeProvider";
+import { store } from "./RDUX/store"; 
+
 function App() {
   // Create a client
   const queryClient = new QueryClient();
 
   return (
     <>
-      {/* Redux global state provider */}
-      < Provider store={store} >
-        {/* Theme configuration provider (Redux-based) */}
-        <ThemeProvider>
-          {/* React Query provider for API data caching */}
+      <Provider store={store}>
+        <DynaCtrl>
           <QueryClientProvider client={queryClient}>
-            {/* Routing provider (entry point for all routes) */}
             <RouterProvider router={router} />
           </QueryClientProvider>
-        </ThemeProvider >
-      </Provider >
+        </DynaCtrl>
+      </Provider>
     </>
   );
-};
+}
 
 export default App;

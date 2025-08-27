@@ -8,7 +8,7 @@ function BOX_assistant({ children }: { children?: ReactNode }) {
   return (
     <div
       style={{ height: "calc(100% - 60px)" }}
-      className={`w-full lg:w-[23.4%] flex rounded-md z-10 bg-gray-100 dark:bg-gray-900 text-gray-500 dark:text-gray-300 absolute bottom-0 right-0 transform transition-transform duration-1000 ease-in-out pointer-events-auto ${
+      className={`w-full lg:w-[23.4%] flex rounded-md z-10 bg-light text-dark absolute bottom-0 right-0 transform transition-transform duration-1000 ease-in-out pointer-events-auto ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
     >

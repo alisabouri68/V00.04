@@ -21,7 +21,7 @@ import { JSX } from 'react/jsx-runtime';
  * Step 02 - Import component dependencies
  **************************************/
 import Button from "COMP/RCMP_button_V00.04";
-import Text from 'WIDG/RWID_text_v00.04';
+import Text from 'WIDG/RWID_text_V00.04';
 import ServiceDropList from "COMP/RCMP_serviceDropList_VAR.01_V00.04";
 
 /**************************************
@@ -174,7 +174,7 @@ function Index() {
      * Render: Component layout
      ******************************************/
     return (
-        <div className="flex items-center justify-between w-full bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300 relative">
+        <div className="flex items-center justify-between w-full bg-light text-dark relative">
 
             {/* Left Controls */}
             <div className="flex items-center space-x-0.5">
@@ -185,9 +185,9 @@ function Index() {
                     size="sm"
                     aria-label="Previous item"
                     leftIcon={<MdKeyboardArrowLeft />}
-                    className="text-gray-700 dark:hover:bg-gray-900 hover:bg-gray-300 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
+                    className="text-stone-700 dark:hover:bg-stone-900 hover:bg-stone-300 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
                 />
-                <Text className={`${prevCount ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs bg-primary rounded-full w-4 h-4 flex items-center justify-center shadow-sm`}>
+                <Text className={`${prevCount ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} hidden text-xs bg-primary rounded-full w-4 h-4 lg:flex items-center justify-center shadow-sm`}>
                     {prevCount}
                 </Text>
             </div>
@@ -201,7 +201,7 @@ function Index() {
                             variant={selectItem === service.id ? "filled" : "outlined"}
                             size="sm"
                             onClick={() => selectItemHandler(service)}
-                            leftIcon={service.icon}
+                            leftIcon={count > 3 ? service.icon : null}
                             title={service.title}
                             className="w-full truncate text-xs text-ellipsis overflow-hidden whitespace-nowrap transition-all duration-300"
                         >
@@ -222,9 +222,9 @@ function Index() {
                     size="md"
                     aria-label="More options"
                     leftIcon={<CgMoreVertical className='text-xs' />}
-                    className={`${isOpen ? "pointer-events-none" : ""} text-gray-700 dark:hover:bg-gray-900 hover:bg-gray-300 p-2 rounded-full transition-all duration-300`}
+                    className={`${isOpen ? "pointer-events-none" : ""} text-stone-700 dark:hover:bg-stone-900 hover:bg-stone-300 p-2 rounded-full transition-all duration-300`}
                 />
-                <Text className={`${nextCount > 0 ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} text-xs ms-2 bg-primary rounded-full w-4 h-4 flex items-center justify-center shadow-sm`}>
+                <Text className={`${nextCount > 0 ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"} hidden lg:flex text-xs ms-2 bg-primary rounded-full w-4 h-4 items-center justify-center shadow-sm`}>
                     {nextCount}
                 </Text>
                 <Button
@@ -234,7 +234,7 @@ function Index() {
                     size="sm"
                     aria-label="Next item"
                     leftIcon={<MdKeyboardArrowRight />}
-                    className="text-gray-700 dark:hover:bg-gray-900 hover:bg-gray-300 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
+                    className="text-stone-700 dark:hover:bg-stone-900 hover:bg-stone-300 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
                 />
             </div>
 

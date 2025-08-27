@@ -83,13 +83,12 @@ const Sidebar = () => {
   ];
   return (
     <div
-      className="flex overflow-hidden w-full h-22 transition-all border border-gray-300 dark:border-gray-900 duration-300 bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300   shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.025),inset_0_-2px_4px_rgba(0,0,0,0.05)]
-    dark:shadow-[0_-4px_6px_-1px_rgba(255,255,255,0.05),0_-2px_4px_-1px_rgba(255,255,255,0.025),inset_0_-2px_4px_rgba(255,255,255,0.05)] "
+      className="flex overflow-hidden w-full h-full transition-all border border-stone-300 dark:border-stone-900 duration-300 bg-light text-dark"
       aria-label="Main navigation"
     >
       <nav className="flex w-full items-center overflow-hidden">
         <ul
-          className=" flex items-center gap-1 w-full h-full py-2 custom-scrollbar overflow-x-auto"
+          className=" flex items-center gap-1 w-full h-full py-2"
           role="menubar"
           aria-orientation="vertical"
         >
@@ -128,7 +127,7 @@ const Sidebar = () => {
                         p-2 rounded-full text-2xl
                         transition-all duration-300 w-10 h-10
                         ${isActive
-                          ? "bg-primary text-white-custom dark:text-text-white-custom hover:text-white-custom dark:hover:text-text-white-custom"
+                          ? "bg-primary text-light dark:text-text-white-custom hover:text-white-custom dark:hover:text-text-white-custom"
                           : "text-inherit"
                         }
                       `}

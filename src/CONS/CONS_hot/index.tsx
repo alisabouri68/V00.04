@@ -1,16 +1,16 @@
-import PanelMan from '../../ACTR/RACT_panelman/index';
-export default function Index() {
+import Auxilary from "../../BOX/BOX_auxiliary";
+import Action from "../../BOX/BOX_action";
+const Index = () => {
   return (
-    <PanelMan
-      actionChild={
-        <>
-
-          <p>HOT</p>
-        </>
-      }
-      assistantChild={<p>HOT</p>}
-      console="HOT"
-      auxilaryChild={<p>HOT</p>}
-    />
+    <>
+      <main className="flex w-full lg:w-9/12 h-full py-0 px-0.5 lg:py-1">
+        <Action />
+      </main>
+      <div className="w-full hidden lg:flex lg:w-3/12 px-0.5 py-1">
+        <Auxilary />
+      </div>
+    </>
   );
-}
+};
+
+export default Index;

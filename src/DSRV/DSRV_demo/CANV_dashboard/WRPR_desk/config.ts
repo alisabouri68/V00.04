@@ -10,7 +10,7 @@ export default {
     slug: "dashboard",
 
     // Tailwind class for background color of service button
-    color: "bg-gray-100",
+    color: "bg-stone-100",
 
     // Order in which this service should appear in the list
     order: 1,

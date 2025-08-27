@@ -31,7 +31,7 @@ import { useMemo, useState } from 'react';
  * Step 02 - import dependencies - Widgets
 **************************************/
 import Button from "COMP/RCMP_button_V00.04";
-import Text from 'WIDG/RWID_text_v00.04';
+import Text from 'WIDG/RWID_text_V00.04';
 import ServiceDropList from "COMP/RCMP_serviceDropList_VAR.01_V00.04";
 
 /**************************************
@@ -145,7 +145,7 @@ function Index() {
      **************************************/
     return (
         <div className='flex items-center'>
-            <div className="flex items-center w-80%] bg-white dark:bg-stone-900 text-gray-500 dark:text-gray-400 relative ">
+            <div className="flex items-center w-80%] bg-white dark:bg-stone-900 text-stone-500 dark:text-stone-400 relative ">
                 {/* Left Controls */}
                 <div className="flex items-center">
                     <Button
@@ -155,7 +155,7 @@ function Index() {
                         size="sm"
                         aria-label="Previous item"
                         leftIcon={<MdKeyboardArrowLeft />}
-                        className="text-gray-700 hover:bg-gray-200 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
+                        className="text-stone-700 hover:bg-stone-200 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
                     />
                     <Text
                         className={`${prevCount ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"
@@ -174,7 +174,7 @@ function Index() {
                                 onClick={() => selectItemHandler(service)}
                                 leftIcon={service.icon}
                                 title={service.title}
-                                className="w-full text-xs truncate text-ellipsis overflow-hidden whitespace-nowrap transition-all duration-300 text-gray-500 dark:text-gray-400"
+                                className="w-full text-xs truncate text-ellipsis overflow-hidden whitespace-nowrap transition-all duration-300 text-stone-500 dark:text-stone-400"
                             >
                                 {service.title}
                             </Button>
@@ -193,7 +193,7 @@ function Index() {
                         size="xs"
                         aria-label="More options"
                         leftIcon={<CgMoreVertical />}
-                        className={`${isOpen ? "pointer-events-none" : ""} text-gray-600 hover:bg-gray-200 p-2 rounded-full transition-all duration-300`}
+                        className={`${isOpen ? "pointer-events-none" : ""} text-stone-600 hover:bg-stone-200 p-2 rounded-full transition-all duration-300`}
                     />
                     <Text
                         className={`${nextCount > 0 ? "opacity-100 visible text-white" : "opacity-0 invisible !text-transparent"
@@ -207,7 +207,7 @@ function Index() {
                         size="sm"
                         aria-label="Next item"
                         leftIcon={<MdKeyboardArrowRight />}
-                        className="text-gray-700 hover:bg-gray-200 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
+                        className="text-stone-700 hover:bg-stone-200 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
                     />
                 </div>
 

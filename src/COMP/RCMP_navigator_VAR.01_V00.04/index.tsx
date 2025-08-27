@@ -1,12 +1,9 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../RDUX/store";
-import { loadQuickAccessFromLocalStorage } from "../../RDUX/quickAccessSlice/initQuickAccess";
 import logoDash from "ASST/images/Asset 5.svg";
-import { MdOutlineLocalFireDepartment } from "react-icons/md";
-import { GoHome } from "react-icons/go";
-import { iconMap } from "COMP/RCMP_consoleBasket_VAR.01_V00.04";
+import { iconMap,initialData } from "COMP/RCMP_consoleBasket_VAR.01_V00.04";
+import { useGlobalState } from "RDUX/dynamanContext";
+
 export interface DataNav {
   id: string;
   title: string;
@@ -16,63 +13,80 @@ export interface DataNav {
   lock?: boolean;
   pin?: boolean;
 }
+
+interface ConsoleItem {
+  homeServiceGeneral: boolean;
+  hotserviceGeneral: boolean;
+  Cast: boolean;
+  Gasma: boolean;
+  wikiCnter: boolean;
+}
+
 const Sidebar = () => {
   const location = useLocation();
-  const dispatch = useDispatch<AppDispatch>();
-  const quickAccessItems = useSelector((state: RootState) => state.quickAccess.items);
-  const defaultDataNav: DataNav[] = [
-    {
-      id: "1",
-      icon: <GoHome />,
-      href: "/",
-      title: "Home",
-    },
-    {
-      id: "5",
-      icon: <MdOutlineLocalFireDepartment />,
-      href: "/hot",
-      title: "Hot",
-    },
-  ];
-  const dataNav: DataNav[] = quickAccessItems.length > 0
-    ? quickAccessItems
-      .filter(item => item.title)
-      .map(item => {
-        return {
-          id: item.id,
-          href: item.href,
-          title: item.title,
-          icon: iconMap[item.icon] ?? <GoHome />,
-        };
-      })
-    : defaultDataNav;
+  const { globalState } = useGlobalState();
+  const [filteredNav, setFilteredNav] = useState<DataNav[]>([]);
+
+  // تابع برای گرفتن آیکون از iconMap
+  const getIconComponent = (iconName: string, title: string) => {
+    return iconMap[iconName] || <div>{title.charAt(0)}</div>; // fallback با حرف اول عنوان
+  };
 
   useEffect(() => {
-    dispatch(loadQuickAccessFromLocalStorage());
-  }, [dispatch]);
+    // ترکیب تمام آیتم‌های نویگیشن از تمام بخش‌های initialData
+    const allNavItems = [
+      ...initialData.General,
+      ...initialData.Community,
+      ...initialData["Mono Service"]
+    ];
+
+    // تبدیل به فرمت DataNav و فیلتر کردن
+    const navItems = allNavItems
+      .map(item => ({
+        id: item.id,
+        title: item.title,
+        icon: getIconComponent(item.icon, item.title),
+        href: item.href,
+        para: item.para,
+        lock: item.lock,
+        pin: item.pin
+      }))
+      .filter(item => {
+        // بررسی وجود consoleItem در globalState
+        if (!globalState.consoleItem) return false;
+        
+        // اگر آیتم در consoleItem وجود دارد، بر اساس مقدار آن فیلتر شود
+        if (item.id in globalState.consoleItem) {
+          return globalState.consoleItem[item.id as keyof ConsoleItem] === true;
+        }
+        
+        // اگر آیتم در consoleItem وجود ندارد، نشان داده نشود
+        return false;
+      });
+
+    setFilteredNav(navItems);
+  }, [globalState.consoleItem]);
 
   return (
     <aside
       className="
-        flex
-        flex-col
-        rounded-lg
-        overflow-hidden
-        min-w-[80px]
-        max-w-[80px]
-        transition-all
-        dark:border
-        dark:border-gray-950
-        bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
-        h-full
-      "
+       w-full
+         flex
+         flex-col
+         rounded-lg
+         overflow-hidden
+         dark:border
+         dark:border-stone-950
+          bg-light text-dark
+         h-full
+       "
       aria-label="Main navigation"
     >
-      <div className="flex flex-col items-center justify-center py-3 select-none bg-gradient-to-b from-white to-transparent dark:from-gray-900">
+      <div className="flex flex-col items-center justify-center py-3 select-none bg-gradient-to-b from-light to-transparent ">
         <img
           src={logoDash}
           alt="Dashboard Logo"
-          className="w-10 h-10 md:w-12 md:h-12 object-contain hover:scale-105"
+          className="w-10 h-10 md:w-12 md:h-12 hover:scale-105"
           loading="lazy"
           width={80}
           height={80}
@@ -85,12 +99,11 @@ const Sidebar = () => {
           role="menubar"
           aria-orientation="vertical"
         >
-          {dataNav.length > 0 ? (
-            dataNav.map((item) => {
+          {filteredNav.length > 0 ? (
+            filteredNav.map((item) => {
               const isActive =
                 location.pathname === item.href ||
                 (item.href === "/" && location.pathname === "/");
-
               return (
                 <li
                   key={item.id}
@@ -100,41 +113,41 @@ const Sidebar = () => {
                   <Link
                     to={item.href}
                     className={`
-                      ${isActive ? "border-s-primary" : "border-s-transparent"}
-                      border-s-4
-                      flex
-                      flex-col
-                      items-center
-                      justify-center
-                      p-1
-                      w-full
-                      bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-300
-                      hover:text-primary
-                    `}
+                       ${isActive ? "border-s-primary" : "border-s-transparent"}
+                       border-s-4
+                       flex
+                       flex-col
+                       items-center
+                       justify-center
+                       p-1
+                       w-full
+                        bg-light text-dark
+                       hover:text-primary
+                     `}
                     aria-current={isActive ? "page" : undefined}
                   >
                     <span
                       className={`
-                        flex items-center justify-center
-                        p-2 rounded-full text-2xl
-                        transition-all w-10 h-10
-                        ${isActive
-                          ? "bg-primary bg-transparent text-primary text-light-custom"
-                          : "text-inherit"
-                        }
-                      `}
+                         flex items-center justify-center
+                         p-2 rounded-full text-2xl
+                         transition-all w-10 h-10
+                         ${
+                           isActive
+                             ? "bg-transparent text-primary"
+                             : "text-inherit"
+                         }
+                       `}
                       aria-hidden="true"
                     >
                       {item.icon}
                     </span>
                     <span
                       className={`
-                        text-sm
-                        font-medium
-                        capitalize
-                        transition-colors
-                        ${isActive ? "text-primary" : "text-inherit"}
-                      `}
+                         text-sm
+                         font-medium
+                         capitalize
+                         ${isActive ? "text-primary" : "text-inherit"}
+                       `}
                     >
                       {item.title}
                     </span>
@@ -144,6 +157,7 @@ const Sidebar = () => {
             })
           ) : (
             <li className="text-red-500 text-xs p-2 text-center">
+              No navigation items available
             </li>
           )}
         </ul>

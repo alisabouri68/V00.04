@@ -45,8 +45,8 @@ import { Link } from "react-router-dom";
  *   - Text: Unified typography component
  *   - Icon: Icon rendering component
  **************************************/
-import Text from "../../WIDG/RWID_text_v00.04";
-import Icon from "../../WIDG/RWID_icon_v00.04/index";
+import Text from "../../WIDG/RWID_text_V00.04";
+import Icon from "../../WIDG/RWID_icon_V00.04/index";
 
 /**************************************
  * Step 03: Co-actor dependencies
@@ -131,9 +131,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantStyles = {
       filled: "bg-primary text-white rounded-md",
-      outlined: "bg-transparent text-gray-500 dark:text-gray-400 rounded-md border border-gray-300 dark:border-gray-800",
+      outlined: "bg-transparent text-dark rounded-md border border-stone-300 dark:border-stone-800",
       text: "bg-transparent text-dark-custom border-none",
-      filledActive: "bg-primary text-gray-500 dark:text-gray-400 rounded-md",
+      filledActive: "bg-primary text-dark rounded-md",
       outlinedActive: "bg-transparent text-primary rounded-md border border-primary hover:border-primary hover:text-primary",
       textActive: "bg-transparent text-primary-active border-none",
     };
