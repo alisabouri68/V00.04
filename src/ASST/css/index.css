@@ -45,3 +45,11 @@ body,
   /* 'auto' | 'thin' | 'none' */
   scrollbar-color: rgba(100, 100, 100, 0.3) transparent;
 }
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
