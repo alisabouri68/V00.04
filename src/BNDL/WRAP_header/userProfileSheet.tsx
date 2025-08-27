@@ -5,7 +5,7 @@ import ImageUser from "../../ASST/images/avatar.png";
 import { useGlobalState } from "RDUX/dynamanContext";
 
 export default function IndexUserProfile() {
-  const { globalState, updateGlobalState, resetGlobalState } = useGlobalState();
+  const { resetGlobalState } = useGlobalState();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

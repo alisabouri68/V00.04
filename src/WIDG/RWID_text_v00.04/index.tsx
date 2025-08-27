@@ -7,7 +7,7 @@ By:             APSS.00
 Description:  Enhanced text component with professional shimmer loading effect
 ******************************************/
 
-import {CSSProperties} from 'react';
+import { CSSProperties } from "react";
 
 /**************************************
  * Step 01 Define types and interfaces
@@ -83,7 +83,7 @@ const alignMap: Record<Align, string> = {
 /**************************************
  * Step 05 Component Declaration
  **************************************/
-export default function Text({
+function Text({
   children,
   size = "base",
   weight = "normal",
@@ -122,11 +122,11 @@ export default function Text({
    **************************************/
   const shimmerBaseStyle: CSSProperties = {
     background: `linear-gradient(90deg, ${shimmerColor} 8%, ${shimmerToColor} 18%, ${shimmerColor} 33%)`,
-    backgroundSize: '1200% 100%',
-    animation: 'shimmer 1.5s infinite linear',
-    borderRadius: '4px',
-    display: 'inline-block',
-    verticalAlign: 'middle',
+    backgroundSize: "1200% 100%",
+    animation: "shimmer 1.5s infinite linear",
+    borderRadius: "4px",
+    display: "inline-block",
+    verticalAlign: "middle",
     height: shimmerHeight,
   };
 
@@ -137,12 +137,12 @@ export default function Text({
     // Responsive shimmer automatically adapts to content
     if (shimmerType === "responsive") {
       return (
-        <span 
+        <span
           className="w-full h-full block shimmer-mask"
           style={{
             ...shimmerBaseStyle,
-            maxWidth: '100%',
-            minWidth: '50%',
+            maxWidth: "100%",
+            minWidth: "50%",
           }}
         />
       );
@@ -151,15 +151,15 @@ export default function Text({
     // Single line shimmer
     if (shimmerType === "single") {
       return (
-        <span 
+        <span
           style={{
             ...shimmerBaseStyle,
-            width: '100%',
+            width: "100%",
           }}
         />
       );
     }
-    
+
     // Multi-line shimmer
     if (shimmerType === "multi") {
       return (
@@ -169,7 +169,7 @@ export default function Text({
               key={index}
               style={{
                 ...shimmerBaseStyle,
-                width: index === shimmerLines - 1 ? '80%' : '100%',
+                width: index === shimmerLines - 1 ? "80%" : "100%",
                 height: shimmerHeight,
               }}
             />
@@ -177,15 +177,25 @@ export default function Text({
         </div>
       );
     }
-    
+
     // Paragraph-style shimmer
     return (
       <div className="w-full flex flex-col gap-2">
-        <div style={{ ...shimmerBaseStyle, width: '100%', height: shimmerHeight }} />
-        <div style={{ ...shimmerBaseStyle, width: '100%', height: shimmerHeight }} />
-        <div style={{ ...shimmerBaseStyle, width: '95%', height: shimmerHeight }} />
-        <div style={{ ...shimmerBaseStyle, width: '92%', height: shimmerHeight }} />
-        <div style={{ ...shimmerBaseStyle, width: '85%', height: shimmerHeight }} />
+        <div
+          style={{ ...shimmerBaseStyle, width: "100%", height: shimmerHeight }}
+        />
+        <div
+          style={{ ...shimmerBaseStyle, width: "100%", height: shimmerHeight }}
+        />
+        <div
+          style={{ ...shimmerBaseStyle, width: "95%", height: shimmerHeight }}
+        />
+        <div
+          style={{ ...shimmerBaseStyle, width: "92%", height: shimmerHeight }}
+        />
+        <div
+          style={{ ...shimmerBaseStyle, width: "85%", height: shimmerHeight }}
+        />
       </div>
     );
   };
@@ -196,8 +206,8 @@ export default function Text({
   return (
     <>
       {isLoading ? (
-        <Comp 
-          className={`${combinedClassName} inline-block shimmer-container`} 
+        <Comp
+          className={`${combinedClassName} inline-block shimmer-container`}
           aria-busy="true"
           {...props}
         >
@@ -211,3 +221,4 @@ export default function Text({
     </>
   );
 }
+export default Text;
