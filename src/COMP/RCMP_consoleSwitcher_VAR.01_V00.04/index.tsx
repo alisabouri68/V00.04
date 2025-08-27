@@ -1,7 +1,7 @@
 import { memo } from "react";
 import Button from "COMP/RCMP_button_V00.04";
 import Image from "WIDG/RWID_image_V00.04";
-import Text from "../../WIDG/RWID_text_V00.04/index";
+import Text from "../../WIDG/RWID_TEXT_V0004/index";
 import { CgMoreVertical } from "react-icons/cg";
 import logo from "../../ASST/images/logo-dash.svg";
 import { useGlobalState } from "../../RDUX/dynamanContext"
