@@ -105,12 +105,12 @@ const Index = () => {
         />
       </main>
 
-      <div className="w-full hidden lg:flex lg:w-3/12 px-0.5 py-1">
+      <div className="w-full hidden lg:flex lg:w-3/12 px-0.5 py-1 border">
         <Auxilary>
           <Dropdown
             options={objDropDown}
             onSelect={selectItem}
-            placeholder={selectedItem ? selectedItem.name : "select ENVI"}
+            placeholder={selectedItem ? selectedItem.name : "انتخاب کنید"}
           />
         </Auxilary>
       </div>
