@@ -7,7 +7,7 @@ By:             APSS.00
 Description:  Enhanced text component with professional shimmer loading effect
 ******************************************/
 
-import { useState, useEffect, CSSProperties } from 'react';
+import {CSSProperties} from 'react';
 
 /**************************************
  * Step 01 Define types and interfaces

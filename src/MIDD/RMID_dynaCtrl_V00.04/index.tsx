@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  GlobalStateProvider,
-  useGlobalState,
-} from "../../RDUX/dynamanContext";
-import lz from 'lz-string';
-
-// تمیز کردن state قبل از ذخیره (مثل قبل)
+import { GlobalStateProvider, useGlobalState } from "../../RDUX/dynamanContext";
 export function cleanStateForStorage(state: any): any {
   if (state === null || typeof state !== "object") return state;
   if (Array.isArray(state)) return state.map(cleanStateForStorage);
@@ -21,7 +15,8 @@ export function cleanStateForStorage(state: any): any {
       key.includes("Fiber") ||
       key.includes("Node") ||
       key === "stateNode"
-    ) continue;
+    )
+      continue;
 
     const value = state[key];
 
@@ -42,21 +37,19 @@ export function cleanStateForStorage(state: any): any {
 // کامپوننت اصلی DynaCtrl
 const DynaCtrl: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   try {
-    localStorage.setItem('testKey', 'testValue');
-    console.log(localStorage.getItem('testKey')); // باید 'testValue' باشه
+    localStorage.setItem("testKey", "testValue");
+    console.log(localStorage.getItem("testKey")); // باید 'testValue' باشه
   } catch (e) {
-    console.error('localStorage is not available:', e);
+    console.error("localStorage is not available:", e);
   }
 
-  return (
-    <GlobalStateProvider>
-      {children}
-    </GlobalStateProvider>
-  );
+  return <GlobalStateProvider>{children}</GlobalStateProvider>;
 };
 
 // کامپوننت برای اعمال تم بر اساس state
-export const GlobalStateApplier: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const GlobalStateApplier: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { globalState } = useGlobalState();
 
   React.useEffect(() => {

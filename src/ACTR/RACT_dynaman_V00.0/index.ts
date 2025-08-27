@@ -1,8 +1,7 @@
 /************************************
  * Step 01 import dependencies - kernels
  **************************************/
-import lodash from "lodash";
-import lz from "lz-string";
+
 /************************************
  * Step.02: import dependencies - co-actors
  **************************************/
