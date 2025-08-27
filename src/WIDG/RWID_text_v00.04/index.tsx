@@ -1,11 +1,4 @@
-/******************************************
-Component TEXT (Ultra Simple Version)
 
-Last Update:    2025.08.27
-By:             APSS.00
-
-Description:  Minimal text component with Tailwind classes only
-******************************************/
 
 type Size = "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 type Weight =
