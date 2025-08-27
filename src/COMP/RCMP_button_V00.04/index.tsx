@@ -46,7 +46,7 @@ import { Link } from "react-router-dom";
  *   - Icon: Icon rendering component
  **************************************/
 import Text from "../../WIDG/RWID_TEXT_V0004/index";
-import Icon from "../../WIDG/RWID_icon_V00.04/index";
+import Icon from "../../WIDG/RWID_icon_V0004/index";
 
 /**************************************
  * Step 03: Co-actor dependencies
