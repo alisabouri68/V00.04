@@ -1,17 +1,11 @@
 /******************************************
-Component TEXT (Clean Version)
+Component TEXT (Ultra Simple Version)
 
 Last Update:    2025.08.27
 By:             APSS.00
 
-Description:  Simple text component with size, weight, align and color
+Description:  Minimal text component with Tailwind classes only
 ******************************************/
-
-import { CSSProperties } from "react";
-
-/**************************************
- * Step 01 Define types and interfaces
- **************************************/
 
 type Size = "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 type Weight =
@@ -31,14 +25,9 @@ interface TextProps {
   weight?: Weight;
   align?: Align;
   as?: React.ElementType;
-  color?: string; // hex, rgb یا اسم رنگ
   className?: string;
-  style?: CSSProperties;
 }
 
-/**************************************
- * Step 02 Define style maps
- **************************************/
 const sizeMap: Record<Size, string> = {
   xs: "text-xs",
   sm: "text-sm",
@@ -68,18 +57,13 @@ const alignMap: Record<Align, string> = {
   justify: "text-justify",
 };
 
-/**************************************
- * Step 03 Component Declaration
- **************************************/
 function Text({
   children,
   size = "base",
   weight = "normal",
   align = "left",
   as = "span",
-  color = "inherit",
   className = "",
-  style,
   ...props
 }: TextProps) {
   const Comp = as;
@@ -94,11 +78,7 @@ function Text({
     .join(" ");
 
   return (
-    <Comp
-      className={combinedClassName}
-      style={{ color, ...style }}
-      {...props}
-    >
+    <Comp className={combinedClassName} {...props}>
       {children}
     </Comp>
   );
