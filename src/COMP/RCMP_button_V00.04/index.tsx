@@ -1,71 +1,17 @@
 //@ts-nocheck
 /******************************************
  * Component:      Button
- * Last Update:    2025.08.09
+ * Last Update:    2025.08.30
  * By:             apps.68
- *
- * Description:
- *   A multi-variant React button component supporting:
- *     - Different visual variants (filled, outlined, text, etc.)
- *     - Multiple sizes
- *     - Optional icons on left/right
- *     - Loading states with spinner
- *     - Full-width option
- *     - Link integration with React Router
  ******************************************/
 
-/*------------------------------------------------------------
- * Meta Data
- * ID:             RCMP_button 
- * Title:          Component Button - React Version
- * Version:        V00.04
- * VAR:            01
- * last-update:    D2025.08.09
- * owner:          apps.68
- * Description:    React-based button component with variant, size,
- *                 icon, loading, and link support.
- ------------------------------------------------------------*/
-
-/**************************************
- * Step 01: Import core dependencies
- *   - ReactNode: Type for valid React children
- *   - ButtonHTMLAttributes: Native button attribute support
- *   - forwardRef: Forwarding refs for DOM access
- *   - Link: React Router link component for navigation
- **************************************/
-import {
-  ReactNode,
-  ButtonHTMLAttributes,
-  forwardRef,
-} from "react";
+import schmRaw from ".schm.json?raw"; // ✅ همیشه همراه کامپوننت
+import { ReactNode, ButtonHTMLAttributes, forwardRef } from "react";
 import { Link } from "react-router-dom";
-
-/**************************************
- * Step 02: Import widget dependencies
- *   - Text: Unified typography component
- *   - Icon: Icon rendering component
- **************************************/
+import { useGlobalState } from "RDUX/dynamanContext";
 import Text from "../../WIDG/RWID_TEXT_V0004/index";
 import Icon from "../../WIDG/RWID_icon_V0004/index";
 
-/**************************************
- * Step 03: Co-actor dependencies
- *   - None for this component
- **************************************/
-
-/**************************************
- * Step 05: Define property interface
- *
- * ButtonVariant:
- *   - Defines the visual style of the button.
- *
- * ButtonSize:
- *   - Defines the padding and font size of the button.
- *
- * ButtonProps:
- *   - Extends native HTML button attributes
- *   - Adds custom props for variant, size, icons, loading state, etc.
- **************************************/
 type ButtonVariant =
   | "filled"
   | "outlined"
@@ -76,31 +22,30 @@ type ButtonVariant =
 
 type ButtonSize = "xs" | "sm" | "md" | "lg";
 
+type JsonFile = {
+  head: {
+    id: string;
+    title: string;
+    type: string;
+    ver: string;
+    rem: string;
+    create: string;
+  };
+};
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  leftIcon?: ReactNode;         // Optional icon before text
-  rightIcon?: ReactNode;        // Optional icon after text
-  buttunTitle?: ReactNode | string; // Main button label (note: typo in "button")
-  variant?: ButtonVariant;      // Visual style of the button
-  size?: ButtonSize;            // Size preset
-  fullWidth?: boolean;          // Expands button to container width
-  isLoading?: boolean;          // Displays loading spinner and disables interaction
-  loadingText?: string;         // Text to display while loading
-  loadingSpinner?: ReactNode;   // Custom loading spinner
-  to?: string;                  // If provided, renders as <Link>
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  buttunTitle?: ReactNode | string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  fullWidth?: boolean;
+  isLoading?: boolean;
+  loadingText?: string;
+  loadingSpinner?: ReactNode;
+  to?: string;
 }
 
-/**************************************
- * Step 06: Calculation / Logic helpers
- *   - None in this component
- **************************************/
-
-/**************************************
- * Step 07: Component definition
- *   - forwardRef used to expose DOM element ref
- *   - Dynamically renders either <button> or <Link>
- *   - Applies variant & size styles
- *   - Supports loading and icons
- **************************************/
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -117,24 +62,33 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       children,
       to,
+      onClick,
       ...props
     },
     ref
   ) => {
-    /******************************************
-     * Step 07-1: Static assignments
-     *   - isLink: Determines rendering type
-     *   - variantStyles: Predefined Tailwind style sets
-     *   - sizeStyles: Predefined padding & font size sets
-     ******************************************/
+    const { updateGlobalState } = useGlobalState();
+
+    const schmJson: JsonFile = JSON.parse(schmRaw);
+
+    const handleClick = (
+      e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+    ) => {
+      console.log(schmJson);
+      updateGlobalState({ filed6: {head:schmJson.head} });
+      if (onClick) onClick(e);
+    };
+
     const isLink = typeof to === "string";
 
     const variantStyles = {
       filled: "bg-primary text-white rounded-md",
-      outlined: "bg-transparent text-dark rounded-md border border-stone-300 dark:border-stone-800",
+      outlined:
+        "bg-transparent text-dark rounded-md border border-stone-300 dark:border-stone-800",
       text: "bg-transparent text-dark-custom border-none",
       filledActive: "bg-primary text-dark rounded-md",
-      outlinedActive: "bg-transparent text-primary rounded-md border border-primary hover:border-primary hover:text-primary",
+      outlinedActive:
+        "bg-transparent text-primary rounded-md border border-primary hover:border-primary hover:text-primary",
       textActive: "bg-transparent text-primary-active border-none",
     };
 
@@ -179,11 +133,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       .filter(Boolean)
       .join(" ");
 
-    /******************************************
-     * Step 07-2: Content rendering logic
-     *   - Loading state: spinner + loading text
-     *   - Default state: left icon + text + right icon
-     ******************************************/
     const renderContent = () => {
       if (isLoading) {
         return (
@@ -195,22 +144,20 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       }
       return (
         <>
-          {leftIcon && (<Icon size="base">{leftIcon}</Icon>)}
-          {(buttunTitle || children) && <Text size="sm">{buttunTitle || children}</Text>}
-          {rightIcon && (<Icon size="base">{rightIcon}</Icon>)}
+          {leftIcon && <Icon size="base">{leftIcon}</Icon>}
+          {(buttunTitle || children) && (
+            <Text size="sm">{buttunTitle || children}</Text>
+          )}
+          {rightIcon && <Icon size="base">{rightIcon}</Icon>}
         </>
       );
     };
 
-    /******************************************
-     * Step 07-3: Component rendering
-     *   - If `to` is provided: render as <Link>
-     *   - Else: render as <button>
-     ******************************************/
     return isLink ? (
       <Link
         to={to}
         className={finalClassName}
+        onClick={handleClick}
         {...(props as any)}
       >
         {renderContent()}
@@ -220,6 +167,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={finalClassName}
         disabled={disabled || isLoading}
+        onClick={handleClick}
         {...props}
       >
         {renderContent()}

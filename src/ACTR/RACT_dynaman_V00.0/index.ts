@@ -1,7 +1,8 @@
 /************************************
  * Step 01 import dependencies - kernels
  **************************************/
-
+import lodash from "lodash";
+import lz from "lz-string";
 /************************************
  * Step.02: import dependencies - co-actors
  **************************************/
@@ -17,27 +18,12 @@ import { G1 } from "./g1";
  * Step.05: Envi Setups
  **************************************/
 export const DEFAULT_GLOBAL_STATE = {
-abcd:{
-    id:"",
-    name:"",
-    value:""
-  },
   theme: "light",
   language: "en",
-  direction: "rtl",
+  dir: "ltr",
   modal: {
     isOpen: false,
     content: "ConsoleBasket",
-  },
-  userPreferences: {
-    fontSize: "medium",
-    reduceAnimations: false,
-    highContrast: false,
-  },
-  notifications: {
-    enabled: true,
-    sound: true,
-    vibration: false,
   },
   consoleItem: {
     homeServiceGeneral: true,
@@ -46,10 +32,15 @@ abcd:{
     Gasma: false,
     wikiCnter: false,
   },
-  privacy: {
-    analytics: false,
-    cookies: false,
-    tracking: false,
+  filed6: {
+    head: {
+      id: "",
+      title: "",
+      type: "",
+      ver: "",
+      rem: "",
+      create: ""
+    },
   },
 };
 /************************************

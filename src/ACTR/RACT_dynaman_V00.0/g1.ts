@@ -1,8 +1,8 @@
 /************************************
  * Step 01: import dependencies
  ************************************/
-import lodash from 'lodash';
-import { DEFAULT_GLOBAL_STATE } from './index';
+import lodash from "lodash";
+import { DEFAULT_GLOBAL_STATE } from "./index";
 
 /************************************
  * Step 02: Class Definition
@@ -14,14 +14,11 @@ export class G1 {
     const savedState = this.loadFromLocalStorage();
 
     if (savedState) {
-      // اگر state ذخیره‌شده وجود داشت، همونو لود کن
       this._state = { ...DEFAULT_GLOBAL_STATE, ...savedState };
     } else if (initialState) {
-      // اگر state اولیه پاس داده شد
       this._state = { ...DEFAULT_GLOBAL_STATE, ...initialState };
       this.saveToLocalStorage();
     } else {
-      // در غیر این صورت از default استفاده کن
       this._state = this.deepClone(DEFAULT_GLOBAL_STATE);
       this.saveToLocalStorage();
     }
@@ -38,15 +35,15 @@ export class G1 {
    * Safe load from localStorage (only in browser)
    */
   private loadFromLocalStorage(): any {
-    if (typeof window === 'undefined' || !window.localStorage) return null;
+    if (typeof window === "undefined" || !window.localStorage) return null;
 
     try {
-      const jsonStr = localStorage.getItem('globalAppState');
+      const jsonStr = localStorage.getItem("globalAppState");
       if (!jsonStr) return null;
 
       return JSON.parse(jsonStr);
     } catch (error) {
-      console.error('Failed to load state from localStorage:', error);
+      console.error("Failed to load state from localStorage:", error);
       return null;
     }
   }
@@ -55,13 +52,13 @@ export class G1 {
    * Save to localStorage
    */
   private saveToLocalStorage(): void {
-    if (typeof window === 'undefined' || !window.localStorage) return;
+    if (typeof window === "undefined" || !window.localStorage) return;
 
     try {
       const serializableState = this.cleanStateForStorage(this._state);
-      localStorage.setItem('globalAppState', JSON.stringify(serializableState));
+      localStorage.setItem("globalAppState", JSON.stringify(serializableState));
     } catch (error) {
-      console.error('Failed to save state to localStorage:', error);
+      console.error("Failed to save state to localStorage:", error);
     }
   }
 
@@ -70,7 +67,7 @@ export class G1 {
    */
   public cleanStateForStorage(state: any): any {
     const cleanDeep = (obj: any): any => {
-      if (obj === null || typeof obj !== 'object') return obj;
+      if (obj === null || typeof obj !== "object") return obj;
       if (Array.isArray(obj)) return obj.map(cleanDeep);
 
       const cleaned: any = {};
@@ -78,17 +75,17 @@ export class G1 {
         if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
 
         if (
-          key.startsWith('__react') ||
-          key.startsWith('_react') ||
-          key.includes('Fiber') ||
-          key.includes('Node')
+          key.startsWith("__react") ||
+          key.startsWith("_react") ||
+          key.includes("Fiber") ||
+          key.includes("Node")
         )
           continue;
 
         const value = obj[key];
         if (
           value instanceof HTMLElement ||
-          typeof value === 'function' ||
+          typeof value === "function" ||
           value instanceof Event
         ) {
           continue;
