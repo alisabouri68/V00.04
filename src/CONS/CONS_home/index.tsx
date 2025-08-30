@@ -6,7 +6,7 @@ import Button from "COMP/RCMP_button_V00.04";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 const Index = () => {
-  const { globalState, updateGlobalState } = useGlobalState();
+  const { globalState} = useGlobalState();
   const [selectepara, setSelectepara] = useState<string>("paraAssistant");
   const [paraAssistant, setParaAssistant] = useState<string>("meta");
   // const [assistant, setassistant] = useState<string>("");

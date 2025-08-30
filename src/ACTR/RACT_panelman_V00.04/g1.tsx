@@ -18,7 +18,10 @@ export interface CustomRouteConfig {
 }
 
 // ✅ Helper function to wrap element with Middleware
-const wrapWithMiddleware = (element: ReactNode, protectedRoute?: boolean): ReactNode => {
+const wrapWithMiddleware = (
+  element: ReactNode,
+  protectedRoute?: boolean
+): ReactNode => {
   return (
     <MiddlewareWrapper isAuthenticated={!!protectedRoute}>
       {element}
@@ -26,37 +29,39 @@ const wrapWithMiddleware = (element: ReactNode, protectedRoute?: boolean): React
   );
 };
 
-export const convertToRouteObject = (config: CustomRouteConfig): RouteObject => {
+export const convertToRouteObject = (
+  config: CustomRouteConfig
+): RouteObject => {
   return {
     path: config.path,
     element: wrapWithMiddleware(config.element, config.protected),
-    children: config.children?.map(convertToRouteObject)
+    children: config.children?.map(convertToRouteObject),
   };
 };
 
 export const DEFAULT_ROUTE_CONFIG: CustomRouteConfig[] = [
-  { 
+  {
     name: "home",
     path: "/",
-    element: <ConsoleHome />, 
-    protected: true 
+    element: <ConsoleHome />,
+    protected: true,
   },
-  { 
+  {
     name: "mono",
     path: "/mono",
-    element: <ConsoleMono />, 
-    protected: true 
+    element: <ConsoleMono />,
+    protected: true,
   },
-  { 
+  {
     name: "hot",
     path: "/hot",
-    element: <ConsoleHot />, 
-    protected: true 
+    element: <ConsoleHot />,
+    protected: true,
   },
-  { 
+  {
     name: "gasma",
     path: "/gasma",
-    element: <ConsoleGasma />, 
+    element: <ConsoleGasma />,
     protected: true,
     children: [
       {
@@ -64,21 +69,21 @@ export const DEFAULT_ROUTE_CONFIG: CustomRouteConfig[] = [
         path: ":id",
         element: <ConsoleGasmaDetail />,
         protected: true,
-      }
-    ]
+      },
+    ],
   },
-  { 
+  {
     name: "cast",
     path: "/cast",
-    element: <ConsoleCast />, 
-    protected: true 
+    element: <ConsoleCast />,
+    protected: true,
   },
-  { 
+  {
     name: "notFound",
     path: "/*",
-    element: <div>notFound</div>, 
-    protected: true 
-  }
+    element: <div>notFound</div>,
+    protected: true,
+  },
 ];
 
 console.log("DEFAULT_ROUTE_CONFIG:", DEFAULT_ROUTE_CONFIG);
