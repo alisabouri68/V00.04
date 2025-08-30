@@ -5,7 +5,7 @@
  * By:             apps.68
  ******************************************/
 
-import schmRaw from ".schm.json?raw"; // ✅ همیشه همراه کامپوننت
+import schmRaw from ".schm.json?raw";
 import { ReactNode, ButtonHTMLAttributes, forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalState } from "RDUX/dynamanContext";
@@ -44,6 +44,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loadingText?: string;
   loadingSpinner?: ReactNode;
   to?: string;
+  jsonAdd?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -61,6 +62,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className = "",
       disabled,
       children,
+      jsonAdd,
       to,
       onClick,
       ...props
@@ -74,8 +76,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const handleClick = (
       e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     ) => {
-      console.log(schmJson);
-      updateGlobalState({ filed6: {head:schmJson.head} });
+      if (jsonAdd) {
+        updateGlobalState({ filed6: { head: schmJson.head } });
+      }
       if (onClick) onClick(e);
     };
 

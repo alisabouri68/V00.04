@@ -6,24 +6,33 @@ import Button from "COMP/RCMP_button_V00.04";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 const Index = () => {
-  const { globalState} = useGlobalState();
+  const { globalState } = useGlobalState();
   const [selectepara, setSelectepara] = useState<string>("paraAssistant");
   const [paraAssistant, setParaAssistant] = useState<string>("meta");
   // const [assistant, setassistant] = useState<string>("");
-  const codeString = `// meta
-.model_id:          ${globalState.filed6.head.id}
-.model_title:       ${globalState.filed6.head.title}
-.model_type:        ${globalState.filed6.head.type}
-.model_version:     ${globalState.filed6.head.ver}
-.model_owner:       ${globalState.filed6.head.rem}
-.model_lastUpgrade: ${globalState.filed6.head.create}`;
+  const codeString = `
+>>> ID
+ # meta
+   .model_id:          ${globalState.filed6.head.id}
+   .model_title:       ${globalState.filed6.head.title}
+   .model_type:        ${globalState.filed6.head.type}
+   .model_version:     ${globalState.filed6.head.ver}
+   .model_owner:       ${globalState.filed6.head.rem}
+   .model_lastUpgrade: ${globalState.filed6.head.create}
+
+-->
+`;
   return (
     <>
       <main className="flex w-full lg:w-9/12 h-full py-0 px-0.5 lg:py-1">
         <Action
           ActionContent={
             <>
-              <Button buttunTitle="کامپوننت دکمه" variant="filled" />
+              <Button
+                jsonAdd={true}
+                buttunTitle="کامپوننت دکمه"
+                variant="filled"
+              />
             </>
           }
         />
@@ -82,25 +91,24 @@ const Index = () => {
             </div>
           )}
 
-          {paraAssistant === "meta" &&
-            selectepara ==="paraAssistant" &&(
-                <div className="rounded-xl overflow-hidden shadow-lg">
-                  <SyntaxHighlighter
-                    language="javascript"
-                    style={vscDarkPlus}
-                    className="custom-scrollbar h-full"
-                    customStyle={{
-                      margin: 0,
-                      padding: "16px",
-                      fontSize: "14px",
-                      borderRadius: "12px",
-                      minHeight:"75vh"
-                    }}
-                  >
-                    {codeString}
-                  </SyntaxHighlighter>
-                </div>
-              )}
+          {paraAssistant === "meta" && selectepara === "paraAssistant" && (
+            <div className="rounded-xl overflow-hidden shadow-lg">
+              <SyntaxHighlighter
+                language="javascript"
+                style={vscDarkPlus}
+                className="custom-scrollbar h-full"
+                customStyle={{
+                  margin: 0,
+                  padding: "16px",
+                  fontSize: "14px",
+                  borderRadius: "12px",
+                  minHeight: "75vh",
+                }}
+              >
+                {codeString}
+              </SyntaxHighlighter>
+            </div>
+          )}
         </Auxilary>
       </div>
     </>
