@@ -10,7 +10,7 @@ const Index = () => {
   const [selectepara, setSelectepara] = useState<string>("paraAssistant");
   const [paraAssistant, setParaAssistant] = useState<string>("meta");
   // const [assistant, setassistant] = useState<string>("");
-  const codeString = `
+  const metaString = `
 >>> ID
  # meta
    .model_id:          ${globalState.filed6.head.id}
@@ -19,7 +19,25 @@ const Index = () => {
    .model_version:     ${globalState.filed6.head.ver}
    .model_owner:       ${globalState.filed6.head.rem}
    .model_lastUpgrade: ${globalState.filed6.head.create}
+-->
+`;
 
+  const geoString = `
+>>> LOGIC
+ # geo
+ 
+-->
+`;
+  const logicString = `
+>>> LOGIC
+ # log
+ 
+-->
+`;
+  const styleString = `
+>>> LOGIC
+ # style
+ 
 -->
 `;
   return (
@@ -105,7 +123,61 @@ const Index = () => {
                   minHeight: "75vh",
                 }}
               >
-                {codeString}
+                {metaString}
+              </SyntaxHighlighter>
+            </div>
+          )}
+          {paraAssistant === "geo" && selectepara === "paraAssistant" && (
+            <div className="rounded-xl overflow-hidden shadow-lg">
+              <SyntaxHighlighter
+                language="javascript"
+                style={vscDarkPlus}
+                className="custom-scrollbar h-full"
+                customStyle={{
+                  margin: 0,
+                  padding: "16px",
+                  fontSize: "14px",
+                  borderRadius: "12px",
+                  minHeight: "75vh",
+                }}
+              >
+                {geoString}
+              </SyntaxHighlighter>
+            </div>
+          )}
+          {paraAssistant === "logic" && selectepara === "paraAssistant" && (
+            <div className="rounded-xl overflow-hidden shadow-lg">
+              <SyntaxHighlighter
+                language="javascript"
+                style={vscDarkPlus}
+                className="custom-scrollbar h-full"
+                customStyle={{
+                  margin: 0,
+                  padding: "16px",
+                  fontSize: "14px",
+                  borderRadius: "12px",
+                  minHeight: "75vh",
+                }}
+              >
+                {logicString}
+              </SyntaxHighlighter>
+            </div>
+          )}
+          {paraAssistant === "style" && selectepara === "paraAssistant" && (
+            <div className="rounded-xl overflow-hidden shadow-lg">
+              <SyntaxHighlighter
+                language="javascript"
+                style={vscDarkPlus}
+                className="custom-scrollbar h-full"
+                customStyle={{
+                  margin: 0,
+                  padding: "16px",
+                  fontSize: "14px",
+                  borderRadius: "12px",
+                  minHeight: "75vh",
+                }}
+              >
+                {styleString}
               </SyntaxHighlighter>
             </div>
           )}
