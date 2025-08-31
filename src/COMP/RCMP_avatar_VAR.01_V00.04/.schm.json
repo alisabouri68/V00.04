@@ -1,0 +1,46 @@
+{
+  "head": {
+    "model": "COMP_avatar_V00.04",
+    "by": "APPS.68",
+    "last update": "D2025.08.09"
+  },
+  "sections": {
+    "id": {
+      "meta": {
+        "id": "RCMP_avatar",
+        "title": "Component avatar - React Version",
+        "type": "SCHM",
+        "ver": "00.04",
+        "rem": "1",
+        "create": "D2025.08.09"
+      }
+    },
+    "MNGT": {},
+    "LOGIC": {
+      "geo": {
+        "baseXCoord": "1",
+        "baseYCoord": "1",
+        "widthBody1": "1",
+        "heightBody1": "1",
+        "deltaXCoord2": "1",
+        "deltaYCoord2": "1",
+        "widthBody2": "1",
+        "heightBody2": "1",
+        "deltaXCoord3": "1",
+        "deltaYCoord3": "1",
+        "widthBody3": "1",
+        "heightBody3": "1",
+        "iconXCoord()": "1",
+        "iconYCoord()": "1",
+        "iconRedius()": ""
+      },
+      "log": {
+        "iconUrl()": "1",
+        "iconTitle()": "1",
+        "iconImage()": ""
+      },
+      "style": { "bgCollor": "" }
+    },
+    "BODY": {}
+  }
+}

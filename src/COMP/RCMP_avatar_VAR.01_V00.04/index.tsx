@@ -26,20 +26,23 @@ Description:     This component is used to render a user avatar with optional im
 /**************************************
  * Step 01: Import dependencies - kernels
  **************************************/
+import schmRaw from ".schm.json?raw";
 import React from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import Image from "WIDG/RWID_image_V00.04";
-
+import { useGlobalState } from "RDUX/dynamanContext";
 /**************************************
  * Step 02: Define Props interface
  **************************************/
 interface AvatarProps {
-  src?: string; // Image source URL
-  alt?: string; // Alt text for image
-  size?: "sm" | "md" | "lg"; // Size variant
-  isOnline?: boolean; // Show online status dot
-  fallbackText?: string; // Text shown if no image
-  className?: string; // Additional custom classes
+  src?: string;
+  alt?: string;
+  size?: "sm" | "md" | "lg";
+  isOnline?: boolean;
+  fallbackText?: string;
+  className?: string;
+  jsonAdd?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 /**************************************
@@ -54,6 +57,7 @@ const sizeClasses = {
 /**************************************
  * Step 04: Component Definition
  **************************************/
+type JsonFile = Record<string, any>;
 const Avatar: React.FC<AvatarProps> = ({
   src,
   alt = "Avatar",
@@ -61,18 +65,37 @@ const Avatar: React.FC<AvatarProps> = ({
   isOnline = false,
   fallbackText = "?",
   className = "",
+  onClick, // دریافت onClick از props
+  jsonAdd,
+  ...rest
 }) => {
-  // Determine size class based on 'size' prop
+  const { updateGlobalState } = useGlobalState();
   const sizeClass = sizeClasses[size];
+  const schmJson: JsonFile = JSON.parse(schmRaw);
 
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    console.log("Avatar clicked!");
+    if (jsonAdd) {
+      updateGlobalState({ filed6: schmJson });
+    }
+    if (onClick) {
+      onClick(e);
+    }
+  };
   return (
-    <div className={`relative ${sizeClass} ${className}`}>
+    <div
+      onClick={handleClick}
+      {...rest}
+      className={`relative ${sizeClass} ${className}`}
+    >
       {/* Render image if 'src' is provided, else fallback */}
       {src ? (
-        <Image src={src}
+        <Image
+          src={src}
           className="rounded-full object-cover w-full h-full border shadow"
           alt={alt}
-          lazy />
+          lazy
+        />
       ) : (
         <div
           className={`flex items-center justify-center rounded-full bg-white dark:bg-stone-900 text-stone-500 dark:text-stone-400 font-semibold border shadow ${sizeClass}`}

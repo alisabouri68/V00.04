@@ -1,6 +1,6 @@
 import Dropdown from "../../COMP/RCMP_dropdown_V00.04";
 import { useState, useEffect } from "react";
-import { useGlobalState } from "RDUX/dynamanContext"; 
+import { useGlobalState } from "../../RDUX/dynamanContext"; 
 import { DropdownOption } from "../../COMP/RCMP_dropdown_V00.04";
 
 
@@ -21,7 +21,6 @@ function LanguageSelector() {
     if (currentLanguage) {
       setSelectedLanguage(currentLanguage);
     } else {
-      // مقدار پیش‌فرض اگر language در globalState وجود نداشت
       setSelectedLanguage(languageOptions[0]);
     }
   }, [globalState.language]);

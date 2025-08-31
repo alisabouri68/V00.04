@@ -1,0 +1,46 @@
+{
+  "head": {
+    "model": "WIDG_text_V00.04",
+    "by": "APPS.68",
+    "last update": "D2025.08.09"
+  },
+  "sections": {
+    "id": {
+      "meta": {
+        "id": "RWID_text",
+        "title": "Component text - React Version",
+        "type": "SCHM",
+        "ver": "00.04",
+        "rem": "",
+        "create": "D2025.08.09"
+      }
+    },
+    "MNGT": {},
+    "LOGIC": {
+      "geo": {
+        "baseXCoord": "888",
+        "baseYCoord": "888",
+        "widthBody1": "888",
+        "heightBody1": "888",
+        "deltaXCoord2": "888",
+        "deltaYCoord2": "888",
+        "widthBody2": "888",
+        "heightBody2": "888",
+        "deltaXCoord3": "888",
+        "deltaYCoord3": "888",
+        "widthBody3": "888",
+        "heightBody3": "888",
+        "iconXCoord()": "888",
+        "iconYCoord()": "888",
+        "iconRedius()": "888"
+      },
+      "log": {
+        "iconUrl()": "",
+        "iconTitle()": "",
+        "iconImage()": ""
+      },
+      "style": { "bgCollor": "red" }
+    },
+    "BODY": {}
+  }
+}

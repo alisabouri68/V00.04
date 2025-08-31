@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Image from "WIDG/RWID_image_V00.04";
+import Image from "../WIDG/RWID_image_V00.04";
 import Pic from "../ASST/images/blossom2.jpg";
 
 function Index() {

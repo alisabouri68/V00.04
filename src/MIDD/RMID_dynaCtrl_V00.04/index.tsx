@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GlobalStateProvider, useGlobalState } from "../../RDUX/dynamanContext";
 export function cleanStateForStorage(state: any): any {
   if (state === null || typeof state !== "object") return state;
@@ -52,7 +52,7 @@ export const GlobalStateApplier: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { globalState } = useGlobalState();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (globalState.theme === "dark") {
       document.documentElement.classList.add("dark");
       document.documentElement.classList.remove("light");

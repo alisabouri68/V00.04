@@ -9,8 +9,8 @@ import schmRaw from ".schm.json?raw";
 import { ReactNode, ButtonHTMLAttributes, forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalState } from "RDUX/dynamanContext";
-import Text from "../../WIDG/RWID_TEXT_V0004/index";
-import Icon from "../../WIDG/RWID_icon_V0004/index";
+import Text from "../../WIDG/RWID_TEXT_V0004";
+import Icon from "../../WIDG/RWID_icon_V0004";
 
 type ButtonVariant =
   | "filled"
@@ -21,18 +21,6 @@ type ButtonVariant =
   | "textActive";
 
 type ButtonSize = "xs" | "sm" | "md" | "lg";
-
-type JsonFile = {
-  head: {
-    id: string;
-    title: string;
-    type: string;
-    ver: string;
-    rem: string;
-    create: string;
-  };
-};
-
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -72,12 +60,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const { updateGlobalState } = useGlobalState();
 
     const schmJson: JsonFile = JSON.parse(schmRaw);
-
     const handleClick = (
       e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     ) => {
       if (jsonAdd) {
-        updateGlobalState({ filed6: { head: schmJson.head } });
+        updateGlobalState({ filed6: schmJson} );
       }
       if (onClick) onClick(e);
     };

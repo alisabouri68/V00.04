@@ -1,5 +1,5 @@
-
-
+import { useGlobalState } from "../../RDUX/dynamanContext";
+import schmRaw from ".schm.json?raw";
 type Size = "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 type Weight =
   | "thin"
@@ -11,7 +11,7 @@ type Weight =
   | "extrabold"
   | "black";
 type Align = "left" | "center" | "right" | "justify";
-
+type JsonFile = Record<string, any>;
 interface TextProps {
   children: React.ReactNode;
   size?: Size;
@@ -19,6 +19,8 @@ interface TextProps {
   align?: Align;
   as?: React.ElementType;
   className?: string;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  jsonAdd?: boolean; // اضافه کردن jsonAdd به interface
 }
 
 const sizeMap: Record<Size, string> = {
@@ -57,8 +59,22 @@ function Text({
   align = "left",
   as = "span",
   className = "",
-  ...props
+  onClick,
+  jsonAdd, // اضافه کردن jsonAdd به پارامترهای تابع
+  ...props // دریافت سایر props
 }: TextProps) {
+  const { updateGlobalState } = useGlobalState();
+  const schmJson: JsonFile = JSON.parse(schmRaw);
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    console.log("Text clicked!");
+    if (jsonAdd) {
+      updateGlobalState({ filed6: schmJson });
+    }
+    if (onClick) {
+      onClick(e);
+    }
+  };
   const Comp = as;
 
   const combinedClassName = [
@@ -71,7 +87,11 @@ function Text({
     .join(" ");
 
   return (
-    <Comp className={combinedClassName} {...props}>
+    <Comp 
+      className={combinedClassName} 
+      onClick={handleClick} 
+      {...props} 
+    >
       {children}
     </Comp>
   );
