@@ -32,9 +32,9 @@
       "log": {},
       "style": { 
         "borderRadius": "10px",
-        "border": "5px",
-        "borderColor": "blue",
-        "backgroundColor": "red"
+        "border": "5px solid",
+        "borderColor": "red",
+        "backgroundColor": "#1D9EBD"
       }
     },
     "BODY": {}
