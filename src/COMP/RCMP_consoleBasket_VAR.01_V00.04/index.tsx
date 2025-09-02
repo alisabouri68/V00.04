@@ -272,7 +272,7 @@ const BasketItems = () => {
           <Button
             onClick={() => setIsEdit((s) => !s)}
             leftIcon={<IoFilterOutline className="text-2xl" />}
-            size="md"
+            size="small"
             variant="outlined"
           />
           <div className="mx-2">
@@ -284,13 +284,13 @@ const BasketItems = () => {
           </div>
           <Button
             leftIcon={<VscChecklist className="text-2xl" />}
-            size="md"
+            size="small"
             title="List"
-            variant="textActive"
+            variant="filled"
           />
           <Button
             leftIcon={<CiGrid41 className="text-2xl" />}
-            size="md"
+            size="small"
             title="Icon"
             variant="text"
           />
@@ -333,7 +333,7 @@ const BasketItems = () => {
                     <>
                       <div className="border border-dashed border-stone-300 dark:border-stone-900 flex flex-1"></div>
                       <Button
-                        size="lg"
+                        size="large"
                         variant="text"
                         leftIcon={
                           <MdKeyboardArrowDown

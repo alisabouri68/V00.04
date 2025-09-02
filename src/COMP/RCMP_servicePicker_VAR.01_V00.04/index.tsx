@@ -229,7 +229,7 @@ function Index() {
             setIsOpen((prev) => !prev);
           }}
           variant="outlined"
-          size="md"
+          size="small"
           aria-label="More options"
           leftIcon={<CgMoreVertical className="text-xs" />}
           className={`${
