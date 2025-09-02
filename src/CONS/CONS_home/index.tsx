@@ -308,7 +308,7 @@ const DynamicComponentInspector = () => {
                     <SyntaxHighlighter
                       language="javascript"
                       style={vscDarkPlus}
-                      className="h-full"
+                      className="h-full custom-scrollbar"
                       customStyle={{
                         margin: 0,
                         padding: "16px",
