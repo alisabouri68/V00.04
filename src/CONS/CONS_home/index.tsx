@@ -8,8 +8,6 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Text from "../../WIDG/RWID_TEXT_V0004";
 import Avatar from "../../COMP/RCMP_avatar_VAR.01_V00.04";
-import { values } from "lodash";
-
 // Define TypeScript interfaces for the component data structure
 interface ComponentHead {
   model?: string;
