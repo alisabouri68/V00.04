@@ -405,7 +405,7 @@ const BasketItems = () => {
                         </Link>
 
                         <Text
-                          size="sm"
+                          size="mini"
                           className={`${
                             isEmpty ? "text-stone-400 italic" : ""
                           }`}
@@ -413,7 +413,7 @@ const BasketItems = () => {
                           {isEmpty ? "Empty slot — Not available" : item.title}
                         </Text>
                         <div className="flex flex-1 border border-dashed border-stone-200 dark:border-stone-900"></div>
-                        <Text size="sm" className="truncate">
+                        <Text size="mini" className="truncate">
                           {isEmpty
                             ? "This slot is empty"
                             : "Lorem ipsum dolor sit amet consectetur adipisicing"}

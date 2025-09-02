@@ -149,7 +149,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <>
           {leftIcon && <Icon size="base">{leftIcon}</Icon>}
           {(buttunTitle || children) && (
-            <Text size="sm">{buttunTitle || children}</Text>
+            <Text size="mini">{buttunTitle || children}</Text>
           )}
           {rightIcon && <Icon size="base">{rightIcon}</Icon>}
         </>
