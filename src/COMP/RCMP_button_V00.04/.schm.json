@@ -18,28 +18,11 @@
     "MNGT": {},
     "LOGIC": {
       "geo": {
-        "baseXCoord": "",
-        "baseYCoord": "",
-        "widthBody1": "",
-        "heightBody1": "",
-        "deltaXCoord2": "",
-        "deltaYCoord2": "",
-        "widthBody2": "",
-        "heightBody2": "",
-        "deltaXCoord3": "",
-        "deltaYCoord3": "",
-        "widthBody3": "",
-        "heightBody3": "",
-        "iconXCoord()": "",
-        "iconYCoord()": "",
-        "iconRedius()": ""
       },
       "log": {
-        "iconUrl()": "",
-        "iconTitle()": "",
-        "iconImage()": ""
+   
       },
-      "style": { "bgCollor": "" }
+      "style": {  }
     },
     "BODY": {}
   }

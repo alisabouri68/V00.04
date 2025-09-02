@@ -1,40 +1,66 @@
 //@ts-nocheck
 /******************************************
  * Component:      Button
- * Last Update:    2025.08.30
- * By:             apps.68
+ * Last Update:    2025.08.31
+ * By:             apps.68 + ChatGPT
+ *
+ * Description:
+ *   A multi-variant React button component supporting:
+ *     - Different visual variants (filled, outlined, text, etc.)
+ *     - Multiple sizes
+ *     - Optional icons on left/right
+ *     - Loading states with spinner (keeps button width)
+ *     - Full-width option
+ *     - Link integration with React Router
  ******************************************/
 
-import schmRaw from ".schm.json?raw";
+/*------------------------------------------------------------
+ * Meta Data
+ * ID:             RCMP_button 
+ * Title:          Component Button - React Version
+ * Version:        V00.05
+ * VAR:            01
+ * last-update:    D2025.08.31
+ * owner:          apps.68
+ * Description:    React-based button component with variant, size,
+ *                 icon, loading, and link support.
+ ------------------------------------------------------------*/
+
+/**************************************
+ * Step 01: Import core dependencies
+ **************************************/
 import { ReactNode, ButtonHTMLAttributes, forwardRef } from "react";
 import { Link } from "react-router-dom";
-import { useGlobalState } from "RDUX/dynamanContext";
+import { PuffLoader } from "react-spinners";
+
+/**************************************
+ * Step 02: Import widget dependencies
+ **************************************/
 import Text from "../../WIDG/RWID_TEXT_V0004";
 import Icon from "../../WIDG/RWID_icon_V0004";
 
-type ButtonVariant =
-  | "filled"
-  | "outlined"
-  | "text"
-  | "filledActive"
-  | "outlinedActive"
-  | "textActive";
+/**************************************
+ * Step 05: Define property interface
+ **************************************/
+type ButtonVariant = "filled" | "outlined" | "text";
 
-type ButtonSize = "xs" | "sm" | "md" | "lg";
+type ButtonSize = "mini" | "small" | "default" | "large" | "xlarge";
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
-  buttunTitle?: ReactNode | string;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  fullWidth?: boolean;
-  isLoading?: boolean;
-  loadingText?: string;
-  loadingSpinner?: ReactNode;
-  to?: string;
-  jsonAdd?: boolean;
+  leftIcon?: ReactNode; // Optional icon before text
+  rightIcon?: ReactNode; // Optional icon after text
+  buttunTitle?: ReactNode | string; // Main button label (note: typo in "button")
+  variant?: ButtonVariant; // Visual style of the button
+  size?: ButtonSize; // Size preset
+  fullWidth?: boolean; // Expands button to container width
+  isLoading?: boolean; // Displays loading spinner and disables interaction
+  loadingText?: string; // Text to display while loading
+  to?: string; // If provided, renders as <Link>
 }
 
+/**************************************
+ * Step 07: Component definition
+ **************************************/
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -42,7 +68,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       rightIcon,
       buttunTitle,
       variant = "outlined",
-      size = "xs",
+      size = "default",
       fullWidth = false,
       isLoading = false,
       loadingText,
@@ -50,106 +76,88 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className = "",
       disabled,
       children,
-      jsonAdd,
       to,
-      onClick,
       ...props
     },
     ref
   ) => {
-    const { updateGlobalState } = useGlobalState();
-
-    const schmJson: JsonFile = JSON.parse(schmRaw);
-    const handleClick = (
-      e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-    ) => {
-      if (jsonAdd) {
-        updateGlobalState({ filed6: schmJson} );
-      }
-      if (onClick) onClick(e);
-    };
-
+    /******************************************
+     * Step 07-1: Static assignments
+     ******************************************/
     const isLink = typeof to === "string";
 
     const variantStyles = {
-      filled: "bg-primary text-white rounded-md",
+      filled: "bg-primary text-light rounded-small shadow-small shadow-primary",
       outlined:
-        "bg-transparent text-dark rounded-md border border-stone-300 dark:border-stone-800",
-      text: "bg-transparent text-dark-custom border-none",
-      filledActive: "bg-primary text-dark rounded-md",
-      outlinedActive:
-        "bg-transparent text-primary rounded-md border border-primary hover:border-primary hover:text-primary",
-      textActive: "bg-transparent text-primary-active border-none",
+        "bg-transparent text-dark rounded-small border border-primary shadow-small shadow-primary",
+      text: "bg-transparent text-dark border-none",
     };
 
     const sizeStyles = {
-      xs: "py-0.5 px-1 text-xs",
-      sm: "py-1 px-2 text-sm",
-      md: "py-2 px-3 text-base",
-      lg: "py-3 px-4 text-lg",
+      mini: "py-mini px-mini text-h1",
+      small: "py-small px-small text-h1",
+      default: "py-small px-default text-h1",
+      large: "py-small px-large text-h1",
+      xlarge: "py-small px-xlarge text-h1",
     };
 
-    const defaultSpinner = (
-      <svg
-        className="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        ></circle>
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        ></path>
-      </svg>
-    );
+    const defaultSpinner = <PuffLoader size={15} color="#58a6b7"/>;
+    const interactiveClasses = !isLoading && variant !== "text"
+      ? "transition-all duration-200 ease-in-out hover:scale-[1.02] active:scale-[0.98] hover:shadow-default"
+      : "";
 
     const finalClassName = [
-      "flex items-center justify-center gap-3 rounded-md font-medium text-sm transition-colors",
+      "flex items-center justify-center gap-3 rounded-small font-medium text-sm relative",
       "disabled:opacity-50 disabled:cursor-not-allowed",
       variantStyles[variant],
       sizeStyles[size],
       fullWidth ? "w-full" : "",
+      interactiveClasses,
       className,
     ]
       .filter(Boolean)
       .join(" ");
 
+    /******************************************
+     * Step 07-2: Content rendering logic
+     ******************************************/
     const renderContent = () => {
-      if (isLoading) {
-        return (
-          <>
-            {loadingSpinner || defaultSpinner}
-            {loadingText || "Processing..."}
-          </>
-        );
-      }
       return (
-        <>
-          {leftIcon && <Icon size="base">{leftIcon}</Icon>}
-          {(buttunTitle || children) && (
-            <Text size="sm">{buttunTitle || children}</Text>
+        <div className="flex items-center justify-center gap-2 w-full relative">
+          {isLoading && (
+            <span className="absolute left-1/2 -translate-x-1/2">
+              {defaultSpinner}
+            </span>
           )}
-          {rightIcon && <Icon size="base">{rightIcon}</Icon>}
-        </>
+
+          {leftIcon && (
+            <Icon size="base" className={isLoading ? "opacity-0" : ""}>
+              {leftIcon}
+            </Icon>
+          )}
+
+          {(buttunTitle || children) && (
+            <Text size="sm" className={isLoading ? "opacity-0" : ""}>
+              {isLoading
+                ? loadingText || buttunTitle || children
+                : buttunTitle || children}
+            </Text>
+          )}
+
+          {rightIcon && (
+            <Icon size="base" className={isLoading ? "opacity-0" : ""}>
+              {rightIcon}
+            </Icon>
+          )}
+        </div>
       );
     };
 
+    /******************************************
+     * Step 07-3: Component rendering
+     ******************************************/
     return isLink ? (
-      <Link
-        to={to}
-        className={finalClassName}
-        onClick={handleClick}
-        {...(props as any)}
-      >
+      <Link to={to} className={finalClassName} {...(props as any)}>
         {renderContent()}
       </Link>
     ) : (
@@ -157,7 +165,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={finalClassName}
         disabled={disabled || isLoading}
-        onClick={handleClick}
         {...props}
       >
         {renderContent()}

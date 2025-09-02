@@ -3,11 +3,14 @@ import Auxilary from "../../BOX/BOX_auxiliary";
 import Action from "../../BOX/BOX_action";
 import { useGlobalState } from "../../RDUX/dynamanContext";
 import Button from "../../COMP/RCMP_button_V00.04";
+import Buttons from "../../COMP/RCMP_buttonTest_V00.04";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Text from "../../WIDG/RWID_TEXT_V0004";
 import Avatar from "../../COMP/RCMP_avatar_VAR.01_V00.04";
+import { values } from "lodash";
 
+// Define TypeScript interfaces for the component data structure
 interface ComponentHead {
   model?: string;
   by?: string;
@@ -104,7 +107,9 @@ const DynamicComponentInspector = () => {
       id: "button",
       name: "Button",
       icon: "🔘",
-      component: <Button jsonAdd={true} buttunTitle="Sample Button" data-component="true" />,
+      component:<div>
+       <Buttons jsonAdd={true}  buttunTitle="Sample Button" data-component="true"  />
+      </div>,
     },
     {
       id: "avatar",
@@ -187,7 +192,7 @@ const DynamicComponentInspector = () => {
                 handleSelectComponent(e.target.value);
               }
             }}
-            className="w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md border  appearance-none"
+            className="w-full pl-3 pr-10 py-2 bg-light text-dark text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md border  appearance-none"
           >
             <option value="" disabled>Select a component to display</option>
             {availableComponents.map((comp) => (
@@ -288,12 +293,12 @@ const DynamicComponentInspector = () => {
               </div>
 
               {/* Content */}
-              <div className="flex-1 overflow-auto p-4">
+              <div className="flex-1 overflow-auto p-4 custom-scrollbar">
                 {previewMode === "design" ? (
                   <div className="h-full">
                     {renderComponentDropdown()}
 
-                    <div className="bg-light text-dark rounded-xl shadow-sm p-4 h-3/4 overflow-y-auto">
+                    <div className="bg-light text-dark rounded-xl shadow-sm p-4 h-3/4 overflow-y-auto custom-scrollbar">
                       <h3 className="font-medium mb-4">
                         Component Display
                       </h3>
@@ -357,7 +362,7 @@ const DynamicComponentInspector = () => {
 
           {selectedPanel === "paraAssistant" && (
             <>
-              <div className="flex items-center w-full *:flex-1 mb-4">
+              <div className="flex items-center gap-1 w-full *:flex-1 mb-4">
                 {tabs.map((tab) => (
                   <div key={tab.id}>
                     <Button
@@ -374,7 +379,7 @@ const DynamicComponentInspector = () => {
                 <SyntaxHighlighter
                   language="javascript"
                   style={vscDarkPlus}
-                  className="custom-scrollbar h-full"
+                  className="custom-scrollbar h-full overflow-auto"
                   customStyle={{
                     margin: 0,
                     padding: "16px",
@@ -392,13 +397,22 @@ const DynamicComponentInspector = () => {
           {selectedPanel === "paraEditor" && (
             <div className="p-4 border rounded-lg">
               <h3 className="font-medium mb-3">Raw JSON Editor</h3>
-              <textarea
-                className="w-full h-64 p-3 border rounded text-sm font-mono"
-                defaultValue={JSON.stringify(componentData, null, 2)}
-              />
+    <textarea
+  className="w-full h-64 p-3 border rounded text-sm font-mono bg-light text-dark custom-scrollbar"
+  value={JSON.stringify(componentData, null, 2)}
+  onChange={(e) => {
+    try {
+      const parsed = JSON.parse(e.target.value);
+      updateGlobalState({ filed6: parsed });
+    } catch (err) {
+      console.error("JSON parse error:", err);
+    }
+  }}
+/>
+
               <div className="flex gap-2 mt-3">
                 <Button
-                  buttunTitle="Apply Changes"
+                  buttunTitle="Apply"
                   variant="filled"
                   fullWidth
                 />

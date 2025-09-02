@@ -1,11 +1,11 @@
 module.exports = {
     colors: {
-        "primary": "#219ebc",
-        "secendory": "#aaafb5",
+        "primery": "#1D9EBD",
+        "secendory": "#6B7280",
         "success": "#6C757D",
-        "danger": "#DC3545",
+        "danger": "#6C757D",
         "warning": "#6C757D",
         "dark": "#ffffff",
-        "light": "#0b0d14",
+        "light": "#111827",
     }
 }
