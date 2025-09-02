@@ -32,7 +32,7 @@ updateGlobalState({
 
       <Button
         variant="text"
-        size="xs"
+        size="m"
         onClick={handleMoreClick}
         leftIcon={<CgMoreVertical />}
         aria-label="More options"

@@ -137,7 +137,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           )}
 
           {(buttunTitle || children) && (
-            <Text size="mini" className={isLoading ? "opacity-0" : ""}>
+            <Text size="sm" className={isLoading ? "opacity-0" : ""}>
               {isLoading
                 ? loadingText || buttunTitle || children
                 : buttunTitle || children}
