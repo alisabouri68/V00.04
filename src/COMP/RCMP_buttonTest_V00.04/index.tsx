@@ -18,15 +18,9 @@ import { useGlobalState } from "RDUX/dynamanContext";
 import Text from "../../WIDG/RWID_TEXT_V0004";
 import Icon from "../../WIDG/RWID_icon_V0004";
 
-type ButtonVariant =
-  | "filled"
-  | "outlined"
-  | "text"
-  | "filledActive"
-  | "outlinedActive"
-  | "textActive";
+type ButtonVariant = "filled" | "outlined" | "text";
 
-type ButtonSize = "xs" | "sm" | "md" | "lg";
+type ButtonSize = "mini" | "small" | "default" | "large" | "xlarge";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -65,10 +59,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const { globalState, updateGlobalState } = useGlobalState();
     const schmJsona: JsonFile = JSON.parse(schmRaw);
-    const [finalStyle, setFinalStyle] = useState<any>({
-      width: "auto",
-      height: "auto",
-    });
+    const [finalStyle, setFinalStyle] = useState<any>({});
     const handleClick = (
       e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     ) => {
@@ -78,29 +69,28 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       if (onClick) onClick(e);
     };
     useEffect(() => {
-      if (!globalState?.filed6?.sections?.LOGIC) return;
-      const geo = globalState?.filed6?.sections?.LOGIC?.geo ?? {};
-      const style = globalState?.filed6?.sections?.LOGIC?.style ?? {};
-      const combined = { ...geo, ...style };
-      setFinalStyle(combined);
+      const logic = globalState?.filed6?.sections?.LOGIC;
+      if (!logic) return;
 
-      console.log("finalStyle updated:", combined);
-    }, [globalState]);
+      const sizeStyles = logic.geo?.sizeStyles ?? {};
+      const variantStyles = logic.style?.variantStyles ?? {};
+      const generalStyle = logic.style?.generalStyle ?? "";
+      const fullWidthClass = logic.geo?.fullWidth ?? "";
+
+      const finalClass = [
+        generalStyle,
+        variantStyles[variant],
+        sizeStyles[size],
+        fullWidth ? fullWidthClass : "",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ");
+
+      setFinalStyle(finalClass);
+    }, [globalState, variant, size, fullWidth, className]);
 
     const isLink = typeof to === "string";
-
-    const variantStyles = {
-      filled: "bg-primary text-white rounded-md",
-      outlined: `bg-transparent text-dark rounded-md border border-stone-300 dark:border-stone-800`,
-      text: "bg-transparent text-dark-custom border-none",
-    };
-
-    const sizeStyles = {
-      xs: "py-0.5 px-1 text-xs",
-      sm: "py-1 px-2 text-sm",
-      md: "py-2 px-3 text-base",
-      lg: "py-3 px-4 text-lg",
-    };
 
     const defaultSpinner = (
       <svg
@@ -125,17 +115,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       </svg>
     );
 
-    const finalClassName = [
-      "flex items-center justify-center gap-3 rounded-md font-medium text-sm transition-colors",
-      "disabled:opacity-50 disabled:cursor-not-allowed",
-      variantStyles[variant],
-      sizeStyles[size],
-      fullWidth ? "w-full" : "",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
     const renderContent = () => {
       if (isLoading) {
         return (
@@ -158,9 +137,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     return isLink ? (
       <Link
-        style={finalStyle && finalStyle}
         to={to}
-        className={finalClassName}
+        className={finalStyle}
         onClick={handleClick}
         {...(props as any)}
       >
@@ -168,9 +146,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       </Link>
     ) : (
       <button
-        style={finalStyle || {}}
         ref={ref}
-        className={finalClassName}
+        className={finalStyle}
         disabled={disabled || isLoading}
         onClick={handleClick}
         {...props}

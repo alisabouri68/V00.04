@@ -87,9 +87,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const isLink = typeof to === "string";
 
     const variantStyles = {
-      filled: "bg-primary text-light rounded-small shadow-small shadow-primary",
+      filled: "bg-primary text-light rounded-small shadow-mini shadow-primary",
       outlined:
-        "bg-transparent text-dark rounded-small border border-primary shadow-small shadow-primary",
+        "bg-transparent text-dark rounded-small border border-primary shadow-mini shadow-primary",
       text: "bg-transparent text-dark border-none",
     };
 

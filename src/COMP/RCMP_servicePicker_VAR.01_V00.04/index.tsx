@@ -186,7 +186,7 @@ function Index() {
           disabled={!prevCount}
           onClick={preveSlide}
           variant="text"
-          size="mini"
+          size="none"
           aria-label="Previous item"
           leftIcon={<MdKeyboardArrowLeft />}
           className="text-stone-700 dark:hover:bg-stone-900 hover:bg-stone-300 p-2 rounded-full transition-all duration-300 disabled:opacity-30"
@@ -209,7 +209,7 @@ function Index() {
             <Button
               to={service.id}
               variant={selectItem === service.id ? "filled" : "outlined"}
-              size="mini"
+              size="none"
               onClick={() => selectItemHandler(service)}
               leftIcon={count > 3 ? service.icon : null}
               title={service.title}
@@ -249,7 +249,7 @@ function Index() {
           disabled={!nextCount}
           onClick={nextSlide}
           variant="text"
-          size="mini"
+          size="none"
           aria-label="Next item"
           leftIcon={<MdKeyboardArrowRight />}
           className="text-stone-700 dark:hover:bg-stone-900 hover:bg-stone-300 p-2 rounded-full transition-all duration-300 disabled:opacity-30"

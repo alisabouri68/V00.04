@@ -1,10 +1,11 @@
 module.exports = {
-    colors: {
-        "Red": "#ee4337",
-        "Pink": "#e91b63",
-        "Purple": "#8f3d96",
-        "Blue": "#418ecc",
-        "Green": "#48b04f",
-        "Yellow": "#faec37",
-    },
-}
+  colors: {
+    "primary": "#1D9EBD",
+    "secendory": "#6B7280",
+    "success": "#198754",
+    "danger": "blue",
+    "warning": "#FFC107",
+    "dark": "#111827",
+    "light": "#ffffff",
+  },
+};

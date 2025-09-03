@@ -18,25 +18,25 @@
     "MNGT": {},
     "LOGIC": {
       "geo": {
-        "width": "200px",
-        "height": "50px",
-        "paddingTop": "0px",
-        "paddingRight": "0px",
-        "paddingBottom": "0px",
-        "paddingLeft": "0px",
-        "marginTop": "0px",
-        "marginRight": "0px",
-        "marginBottom": "0px",
-        "marginLeft": "0px"
+        "sizeStyles": {
+          "mini": "py-mini px-mini text-h1",
+          "small": "py-small px-small text-h1",
+          "default": "py-small px-default text-h1",
+          "large": "py-small px-large text-h1",
+          "xlarge": "py-small px-xlarge text-h1"
+        },
+        "fullWidth": "w-full"
       },
       "log": {},
-      "style": { 
-        "borderRadius": "10px",
-        "border": "5px solid",
-        "borderColor": "red",
-        "backgroundColor": "#1D9EBD"
-      }
-    },
-    "BODY": {}
+      "style": {
+        "variantStyles": {
+          "filled": "bg-primary text-light rounded-small shadow-mini shadow-primary",
+          "outlined": "bg-transparent text-dark rounded-small border border-primary shadow-mini shadow-primary",
+          "text": "bg-transparent text-dark border-none"
+        },
+        "generalStyle": "flex items-center justify-center gap-3 rounded-small font-medium text-sm relative disabled:opacity-50 disabled:cursor-not-allowed"
+      },
+      "BODY": {}
+    }
   }
 }
