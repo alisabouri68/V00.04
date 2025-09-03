@@ -16,7 +16,7 @@ function BOX_assistant({ children }: { children?: ReactNode }) {
         <Button
           onClick={() => setIsOpen(!isOpen)}
           variant="filled"
-          size="none"
+          size="mini"
           leftIcon={<IoMdSettings className="animate-spin" />}
           className={`absolute lg:top-0.5 top-[75%] start-0 transform transition-transform duration-1000 ease-in-out ${
             isOpen ? "translate-x-0" : "-translate-x-12"
