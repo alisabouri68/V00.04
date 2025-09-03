@@ -1,0 +1,175 @@
+---glan11
+
+
+
+/// ---------------------------------------
+/// model:              COMP_avatar_V00.04
+/// last update:        D2025.08.16
+/// by:                 APPS.68
+/// ---------------------------------------
+
+
+
+>>> ID															//? Definition for COMP
+
+    /// step.01 -  Complete Meta Data
+
+    # meta
+        . model_id:					"RCMP_avatar_VAR.01_V00.04"
+        . model_title:				"avatar"
+        . model_version:			"V00.04"
+        . model_lastUpgrade:		"D2025.08.16"				/// use the header date
+        . model_owner				"APPS.68"
+
+        . model_type				"Instant"
+        . origin_model				"COMP"						/// Component Mutage Model
+        . origin_model_Ver			"00.04"
+        . model_rem					"Component Remarks here ... "	
+
+	/// Objectives:
+
+	///	1- Template Making for all Component Models
+
+	///	2-
+
+	///	3-
+
+
+
+-->
+
+
+>>> MNG
+
+
+	/// step.02 -  Management - Render
+
+	# render(1)													//? React Render Mngt.
+		. scat:						"RCMP"						/// React Template
+		. langBase:					"react"						/// description
+
+
+	# render(2)							 						//? Reference Render Mngt.
+		. scat:						"LITE"						/// Litrature Template
+		. langBase:					"reachtex"					/// description
+
+
+    /// step.03 - Management - Dependency (Co-Actor)
+
+
+    /// step.04 - Management - Dependency (kernels)
+	
+
+    /// step.05 - Management - Dependency (Widgets)
+
+    # widget(2)                     
+		. id:                       "icon"
+		. ver:						"V00.04"
+		. default:                  "TRUE"
+		. alias:                    "icon"
+
+    # widget(3)                     
+		. id:                       "image"
+		. ver:						"V00.04"
+		. default:                  "TRUE"
+		. alias:                    "image"
+
+
+
+
+    /// step.06 - Management - Dependency (Themes)
+
+    # theme(1)                     
+		. id:                       "popcorn"
+		. ver:						"V00.04
+		. default:                  "TRUE"
+		. alias:                    "popcorn"
+
+    # theme(2)                     
+		. id:                       "nightwish"
+		. ver:						"V00.04
+		. default:                  "TRUE"
+		. alias:                    "nightwish"
+
+
+
+
+
+
+-->
+
+
+>>> LOGIC
+
+
+-->
+
+
+
+>>> BODY
+
+	@square(1)
+	
+		# geo
+
+
+		# style
+			
+		
+
+
+	@WIDG_dropdown(1)
+
+		# geo															/// Geometric Attrib.
+
+
+
+		# style
+
+		
+		# action
+
+		
+		
+		# event
+
+
+
+
+
+	@WIDG_mosaic
+
+	
+	@WIDG_grid
+		.cell (1,1)
+		.  . image
+
+		
+
+	@COMP_id
+
+		.# geo															/// Geometric Attrib.
+
+			
+
+
+		.# log															/// Logical Attrib.
+
+
+
+
+		.# style															/// Style Attrib.
+
+
+
+
+
+
+
+
+
+
+-->
+
+
+---

@@ -27,7 +27,7 @@ Description:     This component is used to render a user avatar with optional im
  * Step 01: Import dependencies - kernels
  **************************************/
 import schmRaw from ".schm.json?raw";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import Image from "WIDG/RWID_image_V00.04";
 import { useGlobalState } from "RDUX/dynamanContext";
@@ -69,24 +69,35 @@ const Avatar: React.FC<AvatarProps> = ({
   jsonAdd,
   ...rest
 }) => {
-  const { updateGlobalState } = useGlobalState();
-  const sizeClass = sizeClasses[size];
-  const schmJson: JsonFile = JSON.parse(schmRaw);
-
+  const { globalState, updateGlobalState } = useGlobalState();
+  const schmJsona: JsonFile = JSON.parse(schmRaw);
+  const [finalStyle, setFinalStyle] = useState<any>({
+    width: "auto",
+    height: "auto",
+  });
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log("Avatar clicked!");
     if (jsonAdd) {
-      updateGlobalState({ filed6: schmJson });
+      updateGlobalState({ filed6: schmJsona });
     }
-    if (onClick) {
-      onClick(e);
-    }
+    if (onClick) onClick(e);
   };
+  useEffect(() => {
+    if (!globalState?.filed6?.sections?.LOGIC) return;
+    const geo = globalState?.filed6?.sections?.LOGIC?.geo ?? {};
+    const style = globalState?.filed6?.sections?.LOGIC?.style ?? {};
+    const combined = { ...geo, ...style };
+    setFinalStyle(combined);
+
+    console.log("finalStyle updated:", combined);
+  }, [globalState]);
+  const sizeClass = sizeClasses[size];
+
   return (
     <div
       onClick={handleClick}
       {...rest}
       className={`relative ${sizeClass} ${className}`}
+      style={finalStyle || {}}
     >
       {/* Render image if 'src' is provided, else fallback */}
       {src ? (

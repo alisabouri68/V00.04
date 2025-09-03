@@ -6,8 +6,7 @@ import Button from "../../COMP/RCMP_button_V00.04";
 import Buttons from "../../COMP/RCMP_buttonTest_V00.04";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
-import Text from "../../WIDG/RWID_TEXT_V0004";
-import Avatar from "../../COMP/RCMP_avatar_VAR.01_V00.04";
+import Avatar from "../../COMP/avatar";
 // Define TypeScript interfaces for the component data structure
 interface ComponentHead {
   model?: string;
@@ -115,12 +114,6 @@ const DynamicComponentInspector = () => {
       icon: "👤",
       component: <Avatar jsonAdd={true} data-component="true" />,
     },
-    {
-      id: "text",
-      name: "Text",
-      icon: "📝",
-      component: <Text jsonAdd={true} children="Sample Text" data-component="true" />,
-    }
   ];
 
   // Function to handle selecting a component
