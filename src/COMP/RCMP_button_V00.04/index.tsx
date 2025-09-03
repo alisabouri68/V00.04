@@ -103,7 +103,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const defaultSpinner = <PuffLoader size={15} color="#58a6b7"/>;
     const interactiveClasses = !isLoading && variant !== "text"
-      ? "transition-all duration-200 ease-in-out hover:scale-[1.01] active:scale-[0.10]"
+      ? "transition-all duration-200 ease-in-out hover:scale-[1.02]"
       : "";
 
     const finalClassName = [

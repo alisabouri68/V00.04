@@ -42,7 +42,7 @@ const weightMap: Record<Weight, string> = {
   semibold: "font-semibold",
   bold: "font-bold",
   extrabold: "font-extrabold",
-  black: "font-black",
+  black: "font-black text-danger",
 };
 
 const alignMap: Record<Align, string> = {

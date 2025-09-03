@@ -105,6 +105,7 @@ module.exports = plugin(
     theme: {
       extend: {
         ...defaultTheme,
+        ...nighWish,
         ...popcorn,
         fontSize: {
           h1: "10px",

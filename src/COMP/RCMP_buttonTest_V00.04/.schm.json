@@ -32,8 +32,9 @@
         "variantStyles": {
           "filled": "bg-primary text-light rounded-small shadow-mini shadow-primary",
           "outlined": "bg-transparent text-dark rounded-small border border-primary shadow-mini shadow-primary",
-          "text": "bg-transparent text-dark border-none"
+          "text": "bg-danger text-danger border-none"
         },
+        "inline": {},
         "generalStyle": "flex items-center justify-center gap-3 rounded-small font-medium text-sm relative disabled:opacity-50 disabled:cursor-not-allowed"
       },
       "BODY": {}

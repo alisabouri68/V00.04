@@ -41,8 +41,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       leftIcon,
       rightIcon,
       buttunTitle,
-      variant = "outlined",
-      size = "xs",
+      variant = "filled",
+      size = "xlarge",
       fullWidth = false,
       isLoading = false,
       loadingText,
@@ -60,6 +60,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const { globalState, updateGlobalState } = useGlobalState();
     const schmJsona: JsonFile = JSON.parse(schmRaw);
     const [finalStyle, setFinalStyle] = useState<any>({});
+    const [inLineStyles, setInLineStyles] = useState<any>({});
     const handleClick = (
       e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     ) => {
@@ -76,6 +77,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       const variantStyles = logic.style?.variantStyles ?? {};
       const generalStyle = logic.style?.generalStyle ?? "";
       const fullWidthClass = logic.geo?.fullWidth ?? "";
+      const styleInline = logic?.style?.inline ?? "";
 
       const finalClass = [
         generalStyle,
@@ -86,12 +88,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ]
         .filter(Boolean)
         .join(" ");
-
+      setInLineStyles({ ...styleInline });
       setFinalStyle(finalClass);
     }, [globalState, variant, size, fullWidth, className]);
 
     const isLink = typeof to === "string";
-
+console.log(inLineStyles)
     const defaultSpinner = (
       <svg
         className="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
@@ -127,9 +129,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <>
           {leftIcon && <Icon size="base">{leftIcon}</Icon>}
-          {(buttunTitle || children) && (
-            <Text size="sm">{buttunTitle || children}</Text>
-          )}
+          {(buttunTitle || children) && <span>{buttunTitle || children}</span>}
           {rightIcon && <Icon size="base">{rightIcon}</Icon>}
         </>
       );
@@ -137,6 +137,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     return isLink ? (
       <Link
+        style={inLineStyles || {}}
         to={to}
         className={finalStyle}
         onClick={handleClick}
@@ -146,6 +147,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       </Link>
     ) : (
       <button
+        style={inLineStyles || {}}
         ref={ref}
         className={finalStyle}
         disabled={disabled || isLoading}

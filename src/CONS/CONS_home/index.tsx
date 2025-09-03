@@ -25,11 +25,10 @@ interface ComponentGeo {
 interface ComponentLog {
   [key: string]: string | undefined;
 }
-
 interface ComponentStyle {
-  [key: string]: string | undefined;
+  inline?: Record<string, string>;
+  [key: string]: any; 
 }
-
 interface ComponentSections {
   id?: {
     meta?: ComponentMeta;
@@ -56,7 +55,6 @@ const DynamicComponentInspector = () => {
   const [currentComponent, setCurrentComponent] = useState<string | null>(null);
   const componentRef = useRef<HTMLDivElement>(null);
 
-  // Update global state when no component is selected
   useEffect(() => {
     if (!currentComponent) {
       updateGlobalState({ filed6: {} });
@@ -85,7 +83,9 @@ const DynamicComponentInspector = () => {
       LOGIC: {
         geo: {},
         log: {},
-        style: {},
+        style: {
+          inline:{}
+        },
       },
       BODY: {},
     },
@@ -322,10 +322,6 @@ const DynamicComponentInspector = () => {
                   ID: {componentData.sections?.id?.meta?.id || "N/A"} • Version:{" "}
                   {componentData.sections?.id?.meta?.ver || "N/A"}
                 </div>
-                <div className="flex gap-2">
-                  <Button buttunTitle="Save" variant="filled" />
-                  <Button buttunTitle="Reset" variant="outlined" />
-                </div>
               </div>
             </div>
           }
@@ -385,32 +381,60 @@ const DynamicComponentInspector = () => {
             </>
           )}
 
-          {selectedPanel === "paraEditor" && (
-            <div className="p-4 border rounded-lg">
-              <h3 className="font-medium mb-3">Raw JSON Editor</h3>
-    <textarea
-  className="w-full h-64 p-3 border rounded text-sm font-mono bg-light text-dark custom-scrollbar"
-  value={JSON.stringify(componentData, null, 2)}
-  onChange={(e) => {
-    try {
-      const parsed = JSON.parse(e.target.value);
-      updateGlobalState({ filed6: parsed });
-    } catch (err) {
-      console.error("JSON parse error:", err);
-    }
-  }}
-/>
+{selectedPanel === "paraEditor" && (
+  <div className="p-4 border rounded-lg">
+    <h3 className="font-medium mb-3">Raw JSON Editor</h3>
 
-              <div className="flex gap-2 mt-3">
-                <Button
-                  buttunTitle="Apply"
-                  variant="filled"
-                  fullWidth
-                />
-                <Button buttunTitle="Reset" variant="outlined" fullWidth />
-              </div>
-            </div>
-          )}
+    
+    <textarea
+      className="w-full h-64 p-3 border rounded text-sm font-mono bg-light text-dark custom-scrollbar"
+      value={JSON.stringify(componentData, null, 2)}
+      onChange={(e) => {
+        try {
+          const parsed = JSON.parse(e.target.value);
+          updateGlobalState({ filed6: parsed });
+        } catch (err) {
+          console.error("JSON parse error:", err);
+        }
+      }}
+    />
+
+   
+    <div className="mt-4">
+      <Button
+      variant="filled"
+      buttunTitle="add style"
+      fullWidth={true}
+        onClick={() => {
+          const currentInline = componentData.sections?.LOGIC?.style?.inline || {};
+          const newKey = `key${Object.keys(currentInline).length + 1}`;
+          const newValue = "value";
+
+          updateGlobalState({
+            filed6: {
+              ...componentData,
+              sections: {
+                ...componentData.sections,
+                LOGIC: {
+                  ...componentData.sections?.LOGIC,
+                  style: {
+                    ...componentData.sections?.LOGIC?.style,
+                    inline: {
+                      ...currentInline,
+                      [newKey]: newValue,
+                    },
+                  },
+                },
+              },
+            },
+          });
+        }}
+      />
+        
+    </div>
+  </div>
+)}
+
         </Auxilary>
       </div>
     </>
