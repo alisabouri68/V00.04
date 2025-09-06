@@ -12,7 +12,7 @@ export default function index({ children }: { children: ReactNode }) {
           <nav className="min-w-20 max-w-20 hidden lg:flex h-full px-0.5 py-1 ">
             <NavigatorVar1 />
           </nav>
-          <div className="w-full h-full flex overflow-hidden">{children}</div>
+          <div className="w-full h-full flex overflow-hidden p-1">{children}</div>
         </div>
         <nav className="w-full lg:hidden flex min-h-20 max-h-20">
           <NavigatorVar2 />
