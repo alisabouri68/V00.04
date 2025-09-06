@@ -19,14 +19,12 @@ function globalStateReducer(state: any, action: any) {
   }
 }
 
-// provider component
 export const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(globalStateReducer, initialState);
   const dynamanRef = React.useRef<Dynaman | null>(null);
 
-  // مقداردهی اولیه
   useEffect(() => {
     dynamanRef.current = new Dynaman();
     const savedState = dynamanRef.current.init();
@@ -37,15 +35,9 @@ export const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-  useEffect(() => {
-    if (state.theme === "dark") {
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-    } else {
-      document.documentElement.classList.add("light");
-      document.documentElement.classList.remove("dark");
-    }
-  }, [state.theme]);
+
+
+
 
   const updateGlobalState = (newState: any) => {
     const mergedState = { ...state, ...newState };
@@ -56,7 +48,6 @@ export const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  // تابع ریست state
   const resetGlobalState = () => {
     if (dynamanRef.current) {
       const resetState = dynamanRef.current.resetToDefault();
@@ -78,7 +69,6 @@ export const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-// هوک دسترسی به context
 export const useGlobalState = () => {
   const context = useContext(GlobalStateContext);
   if (!context) {

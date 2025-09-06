@@ -1,35 +1,48 @@
 import Dropdown from "../../COMP/RCMP_dropdown_V00.04";
 import { useState, useEffect } from "react";
-import { useGlobalState } from "../../RDUX/dynamanContext"; 
+import { useGlobalState } from "RDUX/dynamanContext";
 import { DropdownOption } from "../../COMP/RCMP_dropdown_V00.04";
-
 
 function LanguageSelector() {
   const { globalState, updateGlobalState } = useGlobalState();
-  const [selectedLanguage, setSelectedLanguage] = useState<DropdownOption | null>(null);
+  const [selectedLanguage, setSelectedLanguage] =
+    useState<DropdownOption | null>(null);
 
   const languageOptions = [
     { id: "en", name: "English", icon: <span className="text-sm">EN</span> },
     { id: "fa", name: "Persian", icon: <span className="text-sm">FA</span> },
   ];
 
-  // مقداردهی اولیه selectedLanguage بر اساس language فعلی
+  const language = globalState?.packet_1?.filed_2?.value;
   useEffect(() => {
     const currentLanguage = languageOptions.find(
-      (item) => item.id === globalState.language
+      (item) => item.id === language
     );
     if (currentLanguage) {
       setSelectedLanguage(currentLanguage);
     } else {
       setSelectedLanguage(languageOptions[0]);
     }
-  }, [globalState.language]);
-
+  }, [language]);
+  useEffect(() => {
+    if (language === "en") {
+      document.documentElement.setAttribute("lang", "en");
+      document.documentElement.setAttribute("dir", "ltr");
+    } else if (language === "fa") {
+      document.documentElement.setAttribute("lang", "fa");
+      document.documentElement.setAttribute("dir", "rtl");
+    }
+  }, [language]);
   const handleLanguageChange = (selected: DropdownOption) => {
     setSelectedLanguage(selected);
-    updateGlobalState({ language: selected.id });
-    
-    // تغییر جهت متن برای زبان‌های RTL
+    updateGlobalState({
+      packet_1: {
+        filed_2: {
+          value: selected.id,
+        },
+      },
+    });
+
     if (selected.id === "fa" || selected.id === "ar") {
       document.documentElement.dir = "rtl";
     } else {

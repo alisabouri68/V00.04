@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { FiEdit3, FiSettings, FiLogOut } from "react-icons/fi";
-import Avatar from "../../COMP/RCMP_avatar_VAR.01_V00.04";
+import Avatar from "COMP/RCMP_avatar_VAR.01_V00.04";
 import ImageUser from "../../ASST/images/avatar.png";
-import { useGlobalState } from "../../RDUX/dynamanContext";
+import { useGlobalState } from "RDUX/dynamanContext";
 
 export default function IndexUserProfile() {
-  const { resetGlobalState } = useGlobalState();
+  const { globalState, updateGlobalState, resetGlobalState } = useGlobalState();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -21,10 +21,7 @@ export default function IndexUserProfile() {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
     };
@@ -35,21 +32,14 @@ export default function IndexUserProfile() {
 
   return (
     <div className="flex items-center gap-2 relative" ref={dropdownRef}>
-      <div
-        className="flex gap-2 items-center cursor-pointer"
-        onClick={toggleDropdown}
-      >
+      <div className="flex gap-2 items-center cursor-pointer" onClick={toggleDropdown}>
         <Avatar alt="user" fallbackText="" src={ImageUser} />
         <div className="flex flex-col items-start">
           <div className="hidden lg:flex">
-            <span className="text-dark dark:text-white font-medium">
-              Hana Rezaei
-            </span>
+            <span className="text-dark dark:text-white font-medium">Hana Rezaei</span>
           </div>
           <div className="hidden lg:flex">
-            <span className="text-gray-500 dark:text-gray-400 text-sm">
-              Tehran
-            </span>
+            <span className="text-gray-500 dark:text-gray-400 text-sm">Tehran</span>
           </div>
         </div>
       </div>
