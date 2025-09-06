@@ -87,7 +87,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div
       className={classNames(
-        "relative inline-block cursor-pointer mx-2",
+        "relative inline-block cursor-pointer ",
         className
       )}
       ref={dropdownRef}
