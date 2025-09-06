@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logoDash from "ASST/images/Asset 5.svg";
-import { iconMap,initialData } from "COMP/RCMP_consoleBasket_VAR.01_V00.04";
+import { iconMap, initialData } from "COMP/RCMP_consoleBasket_VAR.01_V00.04";
 import { useGlobalState } from "RDUX/dynamanContext";
 
 export interface DataNav {
@@ -14,74 +14,81 @@ export interface DataNav {
   pin?: boolean;
 }
 
-interface ConsoleItem {
-  homeServiceGeneral: boolean;
-  hotserviceGeneral: boolean;
-  Cast: boolean;
-  Gasma: boolean;
-  wikiCnter: boolean;
+// هر filed در packet_2
+interface PacketItem {
+  id: string;
+  value: boolean;
 }
+
+// packet_2: { filed_1: PacketItem; filed_2: PacketItem; ... }
+type Packet2 = Record<string, PacketItem>;
 
 const Sidebar = () => {
   const location = useLocation();
   const { globalState } = useGlobalState();
+  const packet_2: Packet2 | undefined = globalState?.packet_2;
+
   const [filteredNav, setFilteredNav] = useState<DataNav[]>([]);
 
-  // تابع برای گرفتن آیکون از iconMap
+  // گرفتن آیکون از iconMap
   const getIconComponent = (iconName: string, title: string) => {
-    return iconMap[iconName] || <div>{title.charAt(0)}</div>; // fallback با حرف اول عنوان
+    return iconMap[iconName] || <div>{title.charAt(0)}</div>; // fallback
+  };
+
+  // تبدیل packet_2 به map ساده { id: value }
+  const normalizePacket = (packet: Packet2 | undefined): Record<string, boolean> => {
+    if (!packet) return {};
+    return Object.values(packet).reduce<Record<string, boolean>>((acc, filed) => {
+      acc[filed.id] = filed.value;
+      return acc;
+    }, {});
   };
 
   useEffect(() => {
-    // ترکیب تمام آیتم‌های نویگیشن از تمام بخش‌های initialData
+    if (!packet_2) {
+      setFilteredNav([]);
+      return;
+    }
+
+    const consoleMap = normalizePacket(packet_2);
+
+    // ترکیب همه آیتم‌ها
     const allNavItems = [
       ...initialData.General,
       ...initialData.Community,
-      ...initialData["Mono Service"]
+      ...initialData["Mono Service"],
     ];
 
-    // تبدیل به فرمت DataNav و فیلتر کردن
+    // مپ و فیلتر کردن
     const navItems = allNavItems
-      .map(item => ({
+      .map((item) => ({
         id: item.id,
         title: item.title,
         icon: getIconComponent(item.icon, item.title),
         href: item.href,
         para: item.para,
         lock: item.lock,
-        pin: item.pin
+        pin: item.pin,
       }))
-      .filter(item => {
-        // بررسی وجود consoleItem در globalState
-        if (!globalState.consoleItem) return false;
-        
-        // اگر آیتم در consoleItem وجود دارد، بر اساس مقدار آن فیلتر شود
-        if (item.id in globalState.consoleItem) {
-          return globalState.consoleItem[item.id as keyof ConsoleItem] === true;
-        }
-        
-        // اگر آیتم در consoleItem وجود ندارد، نشان داده نشود
-        return false;
-      });
+      .filter((item) => consoleMap[item.id] === true);
 
     setFilteredNav(navItems);
-  }, [globalState.consoleItem]);
+  }, [packet_2]);
 
   return (
     <aside
       className="
        w-full
-         flex
-         flex-col
-         rounded-lg
-         overflow-hidden
-         dark:border
-         dark:border-stone-950
-          bg-light text-dark
-         h-full
-       "
+       flex flex-col
+       rounded-lg
+       overflow-hidden
+       dark:border dark:border-stone-950
+       bg-light text-dark
+       h-full
+      "
       aria-label="Main navigation"
     >
+      {/* logo */}
       <div className="flex flex-col items-center justify-center py-3 select-none bg-gradient-to-b from-light to-transparent ">
         <img
           src={logoDash}
@@ -93,6 +100,8 @@ const Sidebar = () => {
         />
         <div className="w-10/12 h-px rounded-full mt-2 md:mt-3 group-hover:w-full" />
       </div>
+
+      {/* nav list */}
       <nav className="relative flex w-full h-full md:flex-col items-center">
         <ul
           className="flex flex-col items-center gap-1 w-full shadow-inner h-full py-2 md:py-1 custom-scrollbar overflow-y-auto"
@@ -114,15 +123,10 @@ const Sidebar = () => {
                     to={item.href}
                     className={`
                        ${isActive ? "border-s-primary" : "border-s-transparent"}
-                       border-s-4
-                       flex
-                       flex-col
-                       items-center
-                       justify-center
-                       p-1
-                       w-full
-                        bg-light text-dark
-                       hover:text-primary
+                       border-s-4 flex flex-col
+                       items-center justify-center
+                       p-1 w-full
+                       bg-light text-dark hover:text-primary
                      `}
                     aria-current={isActive ? "page" : undefined}
                   >
@@ -143,9 +147,7 @@ const Sidebar = () => {
                     </span>
                     <span
                       className={`
-                         text-sm
-                         font-medium
-                         capitalize
+                         text-sm font-medium capitalize
                          ${isActive ? "text-primary" : "text-inherit"}
                        `}
                     >

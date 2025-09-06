@@ -120,7 +120,6 @@ const BasketItems = () => {
   const [openCategory, setOpenCategory] =
     useState<keyof BasketData>("Community");
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
   useEffect(() => {
     const filteredData: BasketData = {
       "Quick Access": [...initialData["Quick Access"]],
@@ -129,12 +128,16 @@ const BasketItems = () => {
       General: [...initialData.General],
     };
 
-    // پر کردن Quick Access با آیتم‌های فعال از globalState
     const updatedQuickAccess = [...filteredData["Quick Access"]];
 
-    Object.entries(globalState.consoleItem).forEach(([itemId, isActive]) => {
-      if (isActive) {
-        // پیدا کردن آیتم در بخش‌های اصلی
+    // حالا از packet_2 استفاده می‌کنیم
+    (
+      Object.values(globalState?.packet_2 ?? {}) as {
+        id: string;
+        value: boolean;
+      }[]
+    ).forEach(({ id, value }) => {
+      if (value) {
         let itemToAdd: BasketItem | undefined;
 
         for (const [category, items] of Object.entries(initialData) as [
@@ -143,12 +146,13 @@ const BasketItems = () => {
         ][]) {
           if (category === "Quick Access") continue;
 
-          const item = items.find((i) => i.id === itemId);
+          const item = items.find((i) => i.id === id);
           if (item) {
             itemToAdd = item;
             break;
           }
         }
+
         if (itemToAdd) {
           const emptyIndex = updatedQuickAccess.findIndex(
             (item) => !item.title
@@ -162,8 +166,8 @@ const BasketItems = () => {
 
     filteredData["Quick Access"] = updatedQuickAccess;
     setBasketData(filteredData);
-  }, [globalState.consoleItem]);
-  console.log(basketData);
+  }, [globalState?.packet_2]);
+
   const pinnedItems: Record<string, boolean> = {};
   (Object.values(basketData) as BasketItem[][]).flat().forEach((item) => {
     pinnedItems[item.id] = !!item.pin;
@@ -177,13 +181,12 @@ const BasketItems = () => {
     (id: string) => {
       if (!isEdit) return;
 
-      // بررسی آیا آیتم در Quick Access است یا نه
       const isCurrentlyPinned = basketData["Quick Access"].some(
         (item) => item.id === id && item.title !== ""
       );
 
       if (isCurrentlyPinned) {
-        // Unpin کردن - حذف از Quick Access
+        // --- Unpin ---
         const emptyIndex = basketData["Quick Access"].findIndex(
           (i) => i.id === id
         );
@@ -199,32 +202,27 @@ const BasketItems = () => {
               lock: false,
               pin: false,
             };
-
-            return {
-              ...prev,
-              "Quick Access": newQuickAccess,
-            };
+            return { ...prev, "Quick Access": newQuickAccess };
           });
 
-          // آپدیت globalState برای غیرفعال کردن آیتم در consoleItem
           updateGlobalState({
-            consoleItem: {
-              ...globalState.consoleItem,
-              [id]: false,
+            packet_2: {
+              ...globalState.packet_2,
+              [Object.keys(globalState.packet_2).find(
+                (key) => globalState.packet_2[key].id === id
+              )!]: { id, value: false },
             },
           });
         }
       } else {
-        // Pin کردن - اضافه به Quick Access
+        // --- Pin ---
         let itemToPin: BasketItem | undefined;
 
-        // پیدا کردن آیتم در بخش‌های دیگر
         for (const [category, items] of Object.entries(basketData) as [
           keyof BasketData,
           BasketItem[]
         ][]) {
           if (category === "Quick Access") continue;
-
           const item = items.find((i) => i.id === id);
           if (item) {
             itemToPin = item;
@@ -240,18 +238,15 @@ const BasketItems = () => {
             setBasketData((prev) => {
               const newQuickAccess = [...prev["Quick Access"]];
               newQuickAccess[emptyIndex] = { ...itemToPin!, pin: true };
-
-              return {
-                ...prev,
-                "Quick Access": newQuickAccess,
-              };
+              return { ...prev, "Quick Access": newQuickAccess };
             });
 
-            // آپدیت globalState برای فعال کردن آیتم در consoleItem
             updateGlobalState({
-              consoleItem: {
-                ...globalState.consoleItem,
-                [id]: true,
+              packet_2: {
+                ...globalState.packet_2,
+                [Object.keys(globalState.packet_2).find(
+                  (key) => globalState.packet_2[key].id === id
+                )!]: { id, value: true },
               },
             });
           } else {
@@ -260,8 +255,9 @@ const BasketItems = () => {
         }
       }
     },
-    [isEdit, basketData, globalState.consoleItem, updateGlobalState]
+    [isEdit, basketData, globalState.packet_2, updateGlobalState]
   );
+
   return (
     <div className="flex flex-col items-center w-full rounded-lg bg-light text-dark h-full">
       <div className="w-full flex py-3 items-center justify-between border-b px-4">

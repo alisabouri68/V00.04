@@ -50,8 +50,8 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
   /**************************************
    * Step 05: Scroll lock on open
    **************************************/
-  const isOpen = globalState.modal.isOpen;
-  const content = globalState.modal.content;
+  const isOpen = globalState?.packet_3?.filed_1?.value;
+  const content1 = globalState?.packet_3?.filed_2?.value;
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -95,16 +95,20 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm  "
-      onClick={() => updateGlobalState({modal:{
-        isOpen:false
-      }})}
+      onClick={() =>
+        updateGlobalState({
+          packet_3: {
+            filed_1: { id: "modal", value: false },
+          },
+        })
+      }
     >
       <div
         className={`relative w-full max-w-3xl rounded-lg h-[90vh] overflow-hidden  bg-light text-dark
      ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
-        {content === "ConsoleBasket" ? <ConsoleBasket /> : null}
+        {content1 === "ConsoleBasket" ? <ConsoleBasket /> : null}
       </div>
     </div>,
     modalRoot
