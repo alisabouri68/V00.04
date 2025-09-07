@@ -1,0 +1,204 @@
+{
+  "head": {
+    "model": "Actor_dynaman_V00.04",
+    "by": "D2025.08.23",
+    "last update": "APPS.68"
+  },
+  "sections": {
+    "id": {
+      "meta": {
+        "id": "ACTR_dynaman",
+        "title": "Dyna Manager",
+        "type": "SCHM",
+        "ver": "00.04",
+        "rem": "1",
+        "create": "D2025.08.23"
+      }
+    },
+    "MNGT": {},
+    "LOGIC": {
+      "ENVI_glob": {
+        "glob_Packet_1": {
+          "filed_1": { "id": "theme", "value": "light" },
+          "filed_2": { "id": "language", "value": "en" },
+          "filed_3": { "id": "dir", "value": "ltr" }
+        },
+        "glob_Packet_2": {
+          "filed_1": { "id": "homeServiceGeneral", "value": true },
+          "filed_2": { "id": "hotserviceGeneral", "value": true },
+          "filed_3": { "id": "Cast", "value": true },
+          "filed_4": { "id": "Gasma", "value": true },
+          "filed_5": { "id": "wikiCnter", "value": true }
+        },
+        "glob_Packet_3": {
+          "filed_1": { "id": "modal", "value": false },
+          "filed_2": { "id": "content1", "value": "" }
+        },
+        "glob_Packet_4": {
+          "filed_1": { "id": "1", "value": "value_1" },
+          "filed_2": { "id": "2", "value": "value_2" },
+          "filed_3": { "id": "3", "value": "value_3" },
+          "filed_4": { "id": "4", "value": "value_4" },
+          "filed_5": { "id": "5", "value": "value_5" }
+        },
+        "glob_Packet_5": {
+          "filed_1": { "id": "1", "value": "value_1" },
+          "filed_2": { "id": "2", "value": "value_2" },
+          "filed_3": { "id": "3", "value": "value_3" },
+          "filed_4": { "id": "4", "value": "value_4" },
+          "filed_5": { "id": "5", "value": "value_5" }
+        }
+      },
+      "ENVI_consol": {
+        "console_Packet_1": {
+          "filed_1": {
+            "id": "1",
+            "value": "value_1"
+          },
+          "filed_2": {
+            "id": "2",
+            "value": "value_2"
+          },
+          "filed_3": {
+            "id": "3",
+            "value": "value_3"
+          },
+          "filed_4": {
+            "id": "4",
+            "value": "value_4"
+          },
+          "filed_5": {
+            "id": "5",
+            "value": "value_5"
+          }
+        },
+        "console_Packet_2": {
+          "filed_1": {
+            "id": "1",
+            "value": "value_1"
+          },
+          "filed_2": {
+            "id": "2",
+            "value": "value_2"
+          },
+          "filed_3": {
+            "id": "3",
+            "value": "value_3"
+          },
+          "filed_4": {
+            "id": "4",
+            "value": "value_4"
+          },
+          "filed_5": {
+            "id": "5",
+            "value": "value_5"
+          }
+        },
+        "console_Packet_3": {
+          "filed_1": {
+            "id": "1",
+            "value": "value_1"
+          },
+          "filed_2": {
+            "id": "2",
+            "value": "value_2"
+          },
+          "filed_3": {
+            "id": "3",
+            "value": "value_3"
+          },
+          "filed_4": {
+            "id": "4",
+            "value": "value_4"
+          },
+          "filed_5": {
+            "id": "5",
+            "value": "value_5"
+          }
+        },
+        "console_Packet_4": {
+          "filed_1": {
+            "id": "1",
+            "value": "value_1"
+          },
+          "filed_2": {
+            "id": "2",
+            "value": "value_2"
+          },
+          "filed_3": {
+            "id": "3",
+            "value": "value_3"
+          },
+          "filed_4": {
+            "id": "4",
+            "value": "value_4"
+          },
+          "filed_5": {
+            "id": "5",
+            "value": "value_5"
+          }
+        },
+        "console_Packet_5": {
+          "filed_1": {
+            "id": "1",
+            "value": "value_1"
+          },
+          "filed_2": {
+            "id": "2",
+            "value": "value_2"
+          },
+          "filed_3": {
+            "id": "3",
+            "value": "value_3"
+          },
+          "filed_4": {
+            "id": "4",
+            "value": "value_4"
+          },
+          "filed_5": {
+            "id": "5",
+            "value": "value_5"
+          }
+        }
+      },
+      "ENVI_spk": {
+        "spk_Packet_1": {
+          "filed_1": { "id": "1", "value": "value_1" },
+          "filed_2": { "id": "2", "value": "value_2" },
+          "filed_3": { "id": "3", "value": "value_3" },
+          "filed_4": { "id": "4", "value": "value_4" },
+          "filed_5": { "id": "5", "value": "value_5" }
+        },
+        "spk_Packet_2": {
+          "filed_1": { "id": "1", "value": "value_1" },
+          "filed_2": { "id": "2", "value": "value_2" },
+          "filed_3": { "id": "3", "value": "value_3" },
+          "filed_4": { "id": "4", "value": "value_4" },
+          "filed_5": { "id": "5", "value": "value_5" }
+        },
+        "spk_Packet_3": {
+          "filed_1": { "id": "1", "value": "value_1" },
+          "filed_2": { "id": "2", "value": "value_2" },
+          "filed_3": { "id": "3", "value": "value_3" },
+          "filed_4": { "id": "4", "value": "value_4" },
+          "filed_5": { "id": "5", "value": "value_5" }
+        },
+        "spk_Packet_4": {
+          "filed_1": { "id": "1", "value": "value_1" },
+          "filed_2": { "id": "2", "value": "value_2" },
+          "filed_3": { "id": "3", "value": "value_3" },
+          "filed_4": { "id": "4", "value": "value_4" },
+          "filed_5": { "id": "5", "value": "value_5" }
+        },
+        "spk_Packet_5": {
+          "filed_1": { "id": "1", "value": "value_1" },
+          "filed_2": { "id": "2", "value": "value_2" },
+          "filed_3": { "id": "3", "value": "value_3" },
+          "filed_4": { "id": "4", "value": "value_4" },
+          "filed_5": { "id": "5", "value": "value_5" }
+        }
+      }
+    },
+    "BODY": {}
+  }
+}

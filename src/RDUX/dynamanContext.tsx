@@ -30,7 +30,6 @@ export const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
     const savedState = dynamanRef.current.init();
 
     if (savedState) {
-      console.log(savedState);
       dispatch({ type: "INIT_STATE", payload: savedState });
     }
   }, []);
@@ -39,14 +38,18 @@ export const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
 
 
 
-  const updateGlobalState = (newState: any) => {
-    const mergedState = { ...state, ...newState };
-    dispatch({ type: "UPDATE_STATE", payload: newState });
+const updateGlobalState = (newStateOrFn: any) => {
+  const newState =
+    typeof newStateOrFn === "function" ? newStateOrFn(state) : newStateOrFn;
 
-    if (dynamanRef.current) {
-      dynamanRef.current.reconfig(mergedState);
-    }
-  };
+  const mergedState = lodash.merge(lodash.cloneDeep(state), newState);
+  dispatch({ type: "UPDATE_STATE", payload: mergedState });
+
+  if (dynamanRef.current) {
+    dynamanRef.current.reconfig(mergedState);
+  }
+};
+
 
   const resetGlobalState = () => {
     if (dynamanRef.current) {

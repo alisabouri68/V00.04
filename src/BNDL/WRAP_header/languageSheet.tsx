@@ -13,7 +13,7 @@ function LanguageSelector() {
     { id: "fa", name: "Persian", icon: <span className="text-sm">FA</span> },
   ];
 
-  const language = globalState?.packet_1?.filed_2?.value;
+  const language = globalState?.ENVI_glob?.glob_Packet_1?.filed_2?.value;
   useEffect(() => {
     const currentLanguage = languageOptions.find(
       (item) => item.id === language
@@ -35,15 +35,17 @@ function LanguageSelector() {
   }, [language]);
   const handleLanguageChange = (selected: DropdownOption) => {
     setSelectedLanguage(selected);
-    updateGlobalState({
-      packet_1: {
-        filed_2: {
-          value: selected.id,
-        },
-      },
-    });
+updateGlobalState({
+  ENVI_glob:{
+    glob_Packet_1:{
+      filed_2: { id: "language", value: selected.id },
+    }
+  }
+})
 
-    if (selected.id === "fa" || selected.id === "ar") {
+
+
+    if (language === "fa" || language === "ar") {
       document.documentElement.dir = "rtl";
     } else {
       document.documentElement.dir = "ltr";

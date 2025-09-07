@@ -3,12 +3,7 @@ import { GoSun, GoMoon } from "react-icons/go";
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
 import { useState, useEffect } from "react";
 import { useGlobalState } from "RDUX/dynamanContext";
-interface DropdownOption {
-  id?: string;
-  name?: string;
-  icon?: React.ReactNode;
-}
-
+import { DropdownOption } from "../../COMP/RCMP_dropdown_V00.04";
 function themeSheet() {
   const [selectedTheme, setSelectedTheme] = useState<DropdownOption | null>(
     null
@@ -23,7 +18,7 @@ function themeSheet() {
       icon: <HiOutlineComputerDesktop />,
     },
   ];
-  const theme = globalState?.packet_1?.filed_1?.value;
+  const theme = globalState?.ENVI_glob?.glob_Packet_1?.filed_1?.value ?? "dark";
   useEffect(() => {
     const currentTheme = themeOptions.find((item) => item.id === theme);
     if (currentTheme) {
@@ -35,7 +30,7 @@ function themeSheet() {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
       document.documentElement.classList.remove("light");
-    } else {
+    } else if (theme === "light") {
       document.documentElement.classList.add("light");
       document.documentElement.classList.remove("dark");
     }
@@ -44,15 +39,18 @@ function themeSheet() {
   const handleThemeChange = (selected: DropdownOption) => {
     setSelectedTheme(selected);
 
-    updateGlobalState({
-      packet_1: {
-        filed_1: { id: "theme", value: selected.id },
-        filed_2: { id: "language", value: "en" },
-        filed_3: { id: "dir", value: "ltr" },
-      },
-    });
-  };
+updateGlobalState((prev:any) => ({
+  ...prev,
+  ENVI_glob: {
+    ...prev.ENVI_glob,
+    glob_Packet_1: {
+      ...(prev.ENVI_glob.glob_Packet_1 ?? {}),  
+      filed_1: { id: "theme", value: selected.id },
+    },
+  },
+}));
 
+  };
   return (
     <div className="flex">
       <Dropdown

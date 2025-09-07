@@ -1,41 +1,41 @@
 {
   "head": {
-    "model": "COMP_button_V00.04",
-    "by": "APPS.68",
-    "last update": "D2025.08.09"
+    "model": "COMP_component_V00.00",
+    "by": "APPS.00",
+    "last update": "D0000.00.00"
   },
   "sections": {
     "id": {
       "meta": {
-        "id": "RCMP_button",
-        "title": "Component Button - React Version",
+        "id": "RCMP_component",
+        "title": "Component component - React Version",
         "type": "SCHM",
-        "ver": "00.04",
+        "ver": "00.00",
         "rem": "",
-        "create": "D2025.08.09"
+        "create": "D2025.00.00"
       }
     },
     "MNGT": {},
     "LOGIC": {
       "geo": {
         "sizeStyles": {
-          "mini": "py-mini px-mini text-h1",
-          "small": "py-small px-small text-h1",
-          "default": "py-small px-default text-h1",
-          "large": "py-small px-large text-h1",
-          "xlarge": "py-small px-xlarge text-h1"
+          "mini": "0",
+          "small": "1",
+          "default": "2",
+          "large": "3",
+          "xlarge": "4"
         },
-        "fullWidth": "w-full"
+        "fullWidth": "5"
       },
-      "log": {},
+      "log": {"کامپوننت شماره ":"2"},
       "style": {
         "variantStyles": {
-          "filled": "bg-primary text-light rounded-small shadow-mini shadow-primary",
-          "outlined": "bg-transparent text-dark rounded-small border border-primary shadow-mini shadow-primary",
-          "text": "bg-danger text-danger border-none"
+          "filled": "6",
+          "outlined": "7",
+          "text": "8"
         },
         "inline": {},
-        "generalStyle": "flex items-center justify-center gap-3 rounded-small font-medium text-sm relative disabled:opacity-50 disabled:cursor-not-allowed"
+        "generalStyle": "9"
       },
       "BODY": {}
     }
