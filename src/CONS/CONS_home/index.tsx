@@ -1,60 +1,37 @@
-import BOX_actionn from "../../BOX/BOX_action";
-import Auxiliary from "../../BOX/BOX_auxiliary";
-import Component_1 from "../../COMP/RCMP_component_1";
-import Component_2 from "../../COMP/RCMP_component_2";
-import EnviMngr from "../../COMP/RCMP_envimngr_v00.04";
+import BOX_action from "BOX/BOX_action";
+import BOX_actionMenu from "BOX/BOX_actiomMenue";
+import BOX_actionContent from "BOX/BOX_actionContent";
+import { SiHomeassistant } from "react-icons/si";
+import BOX_Assistant from "BOX/BOX_assistant";
 import { useState } from "react";
-import Button from "../../COMP/RCMP_button_V00.04";
-
+import Button from "COMP/RCMP_button_V00.04";
+import ComponentX from "COMP/RCMP_component_1/index";
+import ComponentY from "COMP/RCMP_component_2/index";
+import ComponentZ from "COMP/RCMP_component_3/index";
 function index() {
-  const [assistant, setAssistant] = useState<string>("Assistant");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <>
-      <main className="flex w-full lg:w-9/12 h-full py-0 px-0.5 lg:py-1">
-        <BOX_actionn
-          ActionContent={
-            <div className="flex items-center justify-center gap-4">
-              <Button
-                size="xlarge"
-                buttunTitle="Component_1"
-                variant="filled"
-                onClick={() => setAssistant("Component_1")}
-              />
-              <Button
-                size="xlarge"
-                buttunTitle="Component_2"
-                variant="filled"
-                onClick={() => setAssistant("Component_2")}
-              />
-              <Button
-                size="xlarge"
-                buttunTitle="ENVI_Mngr"
-                variant="filled"
-                onClick={() => setAssistant("Envi_mngr")}
-              />
-            </div>
-          }
-        />
-      </main>
-      <div className="w-full hidden lg:flex lg:w-3/12 px-0.5 py-1">
-        <Auxiliary
-          children={
-            <div>
-              <span className="border rounded-md mb-4 flex items-center justify-center border-primary">
-                {assistant && assistant}
-              </span>
+      <BOX_action>
+        <BOX_actionMenu>
+          <div className="flex justify-end px-3 w-full ">
+            <Button
+              onClick={() => setIsOpen(!isOpen)}
+              leftIcon={<SiHomeassistant />}
+              buttunTitle="ENVI_mnge"
+              variant={isOpen ? "filled" : "outlined"}
+            />
+          </div>
+          <div className="flex items-center gap-3 justify-center px-3 w-full">
+            <ComponentX />
+            <ComponentY />
+            <ComponentZ />
+          </div>
+        </BOX_actionMenu>
+        <BOX_actionContent>َAction Content</BOX_actionContent>
+      </BOX_action>
 
-              {assistant === "Envi_mngr" ? (
-                <EnviMngr />
-              ) : assistant === "Component_1" ? (
-                <Component_1 />
-              ) : assistant === "Component_2" ? (
-                <Component_2 />
-              ) : null}
-            </div>
-          }
-        />
-      </div>
+      <BOX_Assistant isOpen={isOpen}></BOX_Assistant>
     </>
   );
 }

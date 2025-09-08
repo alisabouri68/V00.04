@@ -8,7 +8,7 @@ function Index() {
 
   return (
     <div className="w-full flex">
-      <Button fullWidth={true} variant="filled" buttunTitle="X" />
+            <Button fullWidth={true} variant="filled" buttunTitle="Z" />
     </div>
   );
 }

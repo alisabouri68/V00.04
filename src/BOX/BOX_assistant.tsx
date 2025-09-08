@@ -1,31 +1,84 @@
-import Button from "COMP/RCMP_button_V00.04"
-import { ReactNode, useState } from "react"
-import { IoMdSettings } from "react-icons/io"
+import Button from "COMP/RCMP_button_V00.04";
+import { ReactNode, useState } from "react";
+import { SiHomeassistant } from "react-icons/si";
+import { AiFillEdit } from "react-icons/ai";
+import { IoMdSettings } from "react-icons/io";
+import Text from "WIDG/RWID_TEXT_V0004";
 
-function BOX_assistant({ children }: { children?: ReactNode }) {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+function BOX_assistant({
+  children,
+  isOpen,
+}: {
+  children?: ReactNode;
+  isOpen: boolean;
+}) {
+  const [isEdit, setIsEdit] = useState<string>("");
+  const [logic, setLogic] = useState<string>("meta");
 
   return (
-    <div
-      style={{ height: "calc(100% - 60px)" }}
-      className={`w-full lg:w-[23.4%] flex rounded-md z-10 bg-light text-dark absolute bottom-0 right-0 transform transition-transform duration-1000 ease-in-out pointer-events-auto ${
-        isOpen ? "translate-x-0" : "translate-x-full"
-      }`}
-    >
-      <div className="w-full h-full flex flex-col items-center justify-center relative p-2">
-        <Button
-          onClick={() => setIsOpen(!isOpen)}
-          variant="filled"
-          size="mini"
-          leftIcon={<IoMdSettings className="animate-spin" />}
-          className={`absolute lg:top-0.5 top-[75%] start-0 transform transition-transform duration-1000 ease-in-out ${
-            isOpen ? "translate-x-0" : "-translate-x-12"
-          }`}
-        />
-        {children}
+    <div className="relative w-3/12 h-full flex-col gap-3 overflow-y-auto custom-scrollbar rounded-md bg-light text-dark flex p-3 text-center">
+      <div className="flex items-center gap-3">
+        <Text size="2xl">
+          <SiHomeassistant />
+        </Text>
+        <Text>Assistant</Text>
       </div>
+
+      {/* دکمه‌های اصلی */}
+      <div
+        className={`flex items-center gap-1 *:flex-1 transition-all duration-500 ease-in-out overflow-hidden ${
+          isOpen ? "opacity-100 max-h-40" : "opacity-0 max-h-0"
+        }`}
+      >
+        <Button
+          variant={isEdit === "assistant" ? "filled" : "outlined"}
+          leftIcon={<IoMdSettings />}
+          onClick={() => setIsEdit("assistant")}
+          size="xlarge"
+        />
+        <Button
+          variant={isEdit === "edit" ? "filled" : "outlined"}
+          leftIcon={<AiFillEdit />}
+          onClick={() => setIsEdit("edit")}
+          size="xlarge"
+        />
+      </div>
+
+      {/* دکمه‌های لاجیک – همیشه رندر میشه ولی با ترنزیشن باز/بسته میشه */}
+      <div
+        className={`flex items-center gap-2 transition-all duration-500 ease-in-out overflow-hidden ${
+          isEdit === "edit" && isOpen ? "opacity-100 max-h-40" : "opacity-0 max-h-0"
+        }`}
+      >
+        <Button
+          fullWidth={true}
+          onClick={() => setLogic("meta")}
+          variant={logic === "meta" ? "filled" : "outlined"}
+          buttunTitle="meta"
+        />
+        <Button
+          fullWidth={true}
+          onClick={() => setLogic("geo")}
+          variant={logic === "geo" ? "filled" : "outlined"}
+          buttunTitle="geo"
+        />
+        <Button
+          fullWidth={true}
+          onClick={() => setLogic("log")}
+          variant={logic === "log" ? "filled" : "outlined"}
+          buttunTitle="log"
+        />
+        <Button
+          fullWidth={true}
+          onClick={() => setLogic("style")}
+          variant={logic === "style" ? "filled" : "outlined"}
+          buttunTitle="style"
+        />
+      </div>
+
+      {children}
     </div>
-  )
+  );
 }
 
-export default BOX_assistant
+export default BOX_assistant;

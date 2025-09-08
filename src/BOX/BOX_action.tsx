@@ -1,14 +1,10 @@
+import { ReactNode } from "react";
 import Jini from "./BOX_Jinni";
-type Props = {
-  ActionMenu?: React.ReactNode;
-  ActionContent?: React.ReactNode;
-};
-const BOX_actionn = ({ ActionMenu, ActionContent }: Props) => {
+const BOX_actionn = ({ children }: { children?: ReactNode }) => {
   return (
-    <div className=" flex flex-col w-full h-full bg-light text-dark lg:rounded-md custom-scrollbar overflow-y-auto ">
+    <div className=" flex flex-col w-9/12 h-full bg-light text-dark lg:rounded-md custom-scrollbar overflow-y-auto ">
       <Jini />
-      {ActionMenu}
-      {ActionContent}
+      {children}
     </div>
   );
 };
