@@ -38,7 +38,7 @@ function Index() {
         <BOX_actionContent>َAction Content</BOX_actionContent>
       </BOX_action>
 
-      <BOX_Assistant setIsOpen={setIsOpen} isOpen={isOpen}>
+      <BOX_Assistant  isOpen={isOpen}>
         {assistantContent?.value && (
           <StylePanel 
             currentStyle={assistantContent.style || {}}
