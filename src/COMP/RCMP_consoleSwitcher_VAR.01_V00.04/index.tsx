@@ -5,7 +5,7 @@ import { CgMoreVertical } from "react-icons/cg";
 import logo from "../../ASST/images/logo-dash.svg";
 import { useGlobalState } from "../../RDUX/dynamanContext";
 const Index = memo(() => {
-  const {updateGlobalState } = useGlobalState();
+  const { updateGlobalState } = useGlobalState();
   const handleMoreClick = () => {
     updateGlobalState({
       packet_3: {
@@ -17,13 +17,13 @@ const Index = memo(() => {
   return (
     <div className="flex items-center gap-2">
       <Image
-        src={logo}
-        alt="Raad Health Logo"
-        width={30}
-        height={30}
-        shimmerColor="#111827"
-        shimmerToColor="#ffffff"
-        className="rounded-full"
+        styles={{
+          borderRadius: "0%",
+          objectFit: "cover",
+          boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+        }}
+        logic={{ src: logo, alt: "logo", lazy: true }}
+        geo={{ width: "100", height: "100" }}
       />
       <Button
         variant="text"

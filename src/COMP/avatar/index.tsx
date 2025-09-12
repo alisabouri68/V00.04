@@ -102,10 +102,13 @@ const Avatar: React.FC<AvatarProps> = ({
       {/* Render image if 'src' is provided, else fallback */}
       {src ? (
         <Image
-          src={src}
-          className="rounded-full object-cover w-full h-full border shadow"
-          alt={alt}
-          lazy
+           styles={{
+              borderRadius: "0%",
+              objectFit: "cover",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+            }}
+            logic={{ src: src, alt: "slider",lazy:true }}
+            geo={{ width: "100", height: "400" }}
         />
       ) : (
         <div

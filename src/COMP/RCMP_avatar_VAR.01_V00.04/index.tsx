@@ -74,7 +74,6 @@ const Avatar: React.FC<AvatarProps> = ({
   const schmJson: JsonFile = JSON.parse(schmRaw);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log("Avatar clicked!");
     if (jsonAdd) {
       updateGlobalState({ filed6: schmJson });
     }
@@ -91,10 +90,13 @@ const Avatar: React.FC<AvatarProps> = ({
       {/* Render image if 'src' is provided, else fallback */}
       {src ? (
         <Image
-          src={src}
-          className="rounded-full object-cover w-full h-full border shadow"
-          alt={alt}
-          lazy
+         styles={{
+              borderRadius: "50%",
+              objectFit: "cover",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+            }}
+            logic={{ src: src, alt: "slider",lazy:true }}
+            geo={{ width: "100", height: "100" }}
         />
       ) : (
         <div
