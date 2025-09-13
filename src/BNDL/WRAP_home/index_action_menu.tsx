@@ -36,7 +36,7 @@ function index_action_menu({
               boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
             }}
             logic={{ src: Logo, alt: "logo",lazy:true }}
-            geo={{ width: "100", height: "100" }}
+            geo={{ width: "100px", height: "100px" }}
           />
           Image{" "}
         </div>
