@@ -25,7 +25,7 @@ function index_action_menu({
       <div className="flex items-end justify-around gap-3 px-3 w-full">
         <div className="flex flex-col gap-5 cursor-pointer">
           {" "}
-          <Image styles={{ borderRadius: "10%", boxShadow: "", objectFit: "cover" }} logic={{ src: Pic, alt :"logo", lazy:true}} geo={{width:"50px",height:"50px"}} />
+          <Image styles={{ borderRadius: "0%", boxShadow: "", objectFit: "contain" }} logic={{ src: Pic, alt :"email", lazy:true}} geo={{width:"50px",height:"50px"}} />
           image 1
         </div>
         <div className="flex flex-col gap-5 cursor-pointer">
