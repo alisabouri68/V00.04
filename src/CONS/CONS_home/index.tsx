@@ -1,5 +1,5 @@
 import BOX_action from "BOX/BOX_action";
-import BOX_actiomMenu from "BOX/BOX_actionMenue";
+import BOX_actionMenu from "BOX/BOX_actiomMenue";
 import BOX_actionContent from "BOX/BOX_actionContent";
 import BOX_Assistant from "BOX/BOX_assistant";
 import BndlActionMenu from "../../BNDL/WRAP_home/index_action_menu";
@@ -21,7 +21,7 @@ function Index() {
   return (
     <>
       <BOX_action>
-        <BOX_actiomMenu>
+        <BOX_actionMenu>
           <BndlActionMenu />
         </BOX_actionMenu>
         <BOX_actionContent>Action Content</BOX_actionContent>
