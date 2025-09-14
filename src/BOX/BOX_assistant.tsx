@@ -39,7 +39,7 @@ const BOXAssistant = ({ children, setActiveView, selectedTab, setSelectedTab }: 
           leftIcon={<IoMdSettings className="text-2xl" />}
           onClick={() => handlePanelClick("assistant")}
           fullWidth={true}
-          buttunTitle="Para Assistant"
+          buttunTitle="Assistant"
         />
         <Button
           size="xlarge"
@@ -47,7 +47,7 @@ const BOXAssistant = ({ children, setActiveView, selectedTab, setSelectedTab }: 
           leftIcon={<AiFillEdit className="text-2xl" />}
           onClick={() => handlePanelClick("editor")}
           fullWidth={true}
-          buttunTitle="Para Editor"
+          buttunTitle="Editor"
         />
       </div>
 
