@@ -63,7 +63,7 @@ const ParaEditor: React.FC<ParaEditorProps> = ({ meta, geo, logic, style, select
           readOnly
           className="w-full border border-gray-300 rounded bg-light text-dark font-mono text-sm resize-y custom-scrollbar"
           value={formatData(data)}
-          rows={5}
+          rows={10}
         />
       </div>
     );
