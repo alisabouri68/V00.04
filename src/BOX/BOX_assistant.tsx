@@ -5,18 +5,25 @@ import { AiFillEdit } from "react-icons/ai";
 import { IoMdSettings } from "react-icons/io";
 import Text from "WIDG/RWID_TEXT_V0004";
 
-function BOX_assistant({
-  children,
-  isOpen,
-}: {
+interface AssistantProps {
   children?: ReactNode;
-  isOpen: boolean;
-}) {
-  const [isEdit, setIsEdit] = useState<string>("");
-  const [logic, setLogic] = useState<string>("meta");
+  activeView: "assistant" | "editor";
+  setActiveView: (view: "assistant" | "editor") => void;
+  selectedTab: "meta" | "geo" | "log" | "style";
+  setSelectedTab: (tab: "meta" | "geo" | "log" | "style") => void;
+}
+
+const BOXAssistant = ({ children, setActiveView, selectedTab, setSelectedTab }: AssistantProps) => {
+  const [activePanel, setActivePanel] = useState<"assistant" | "editor">("assistant");
+
+  const handlePanelClick = (panel: "assistant" | "editor") => {
+    setActivePanel(panel);
+    setActiveView(panel);
+  };
 
   return (
-    <div className="relative w-3/12 h-full flex-col gap-3 overflow-y-auto custom-scrollbar rounded-md bg-light text-dark flex p-3 text-center">
+    <div className="relative w-3/12 h-full flex flex-col gap-3 overflow-y-auto custom-scrollbar rounded-md bg-light text-dark p-3 text-center">
+      {/* Header */}
       <div className="flex items-center gap-3">
         <Text size="2xl">
           <SiHomeassistant />
@@ -24,61 +31,47 @@ function BOX_assistant({
         <Text>Assistant</Text>
       </div>
 
-      {/* دکمه‌های اصلی */}
-      <div
-        className={`flex items-center gap-1 *:flex-1 transition-all duration-500 ease-in-out overflow-hidden ${
-          isOpen ? "opacity-100 max-h-40" : "opacity-0 max-h-0"
-        }`}
-      >
+      {/* Main Panel Buttons */}
+      <div className="flex items-center p-2 gap-2 transition-all duration-500 ease-in-out overflow-hidden">
         <Button
-          variant={isEdit === "assistant" ? "filled" : "outlined"}
-          leftIcon={<IoMdSettings />}
-          onClick={() => setIsEdit("assistant")}
           size="xlarge"
+          variant={activePanel === "assistant" ? "filled" : "outlined"}
+          leftIcon={<IoMdSettings className="text-2xl" />}
+          onClick={() => handlePanelClick("assistant")}
+          fullWidth={true}
+          buttunTitle="Para Assistant"
         />
         <Button
-          variant={isEdit === "edit" ? "filled" : "outlined"}
-          leftIcon={<AiFillEdit />}
-          onClick={() => setIsEdit("edit")}
           size="xlarge"
+          variant={activePanel === "editor" ? "filled" : "outlined"}
+          leftIcon={<AiFillEdit className="text-2xl" />}
+          onClick={() => handlePanelClick("editor")}
+          fullWidth={true}
+          buttunTitle="Para Editor"
         />
       </div>
 
-      {/* دکمه‌های لاجیک – همیشه رندر میشه ولی با ترنزیشن باز/بسته میشه */}
+      {/* Editor Sub-Tabs */}
       <div
-        className={`flex items-center gap-2 transition-all duration-500 ease-in-out overflow-hidden ${
-          isEdit === "edit" && isOpen ? "opacity-100 max-h-40" : "opacity-0 max-h-0"
-        }`}
+        className={`flex flex-col items-center gap-2 p-2 transition-all duration-500 ease-in-out overflow-hidden ${activePanel === "editor" ? "opacity-100 max-h-40"
+          : "opacity-0 max-h-0"
+          }`}
       >
-        <Button
-          fullWidth={true}
-          onClick={() => setLogic("meta")}
-          variant={logic === "meta" ? "filled" : "outlined"}
-          buttunTitle="meta"
-        />
-        <Button
-          fullWidth={true}
-          onClick={() => setLogic("geo")}
-          variant={logic === "geo" ? "filled" : "outlined"}
-          buttunTitle="geo"
-        />
-        <Button
-          fullWidth={true}
-          onClick={() => setLogic("log")}
-          variant={logic === "log" ? "filled" : "outlined"}
-          buttunTitle="log"
-        />
-        <Button
-          fullWidth={true}
-          onClick={() => setLogic("style")}
-          variant={logic === "style" ? "filled" : "outlined"}
-          buttunTitle="style"
-        />
+        {(["meta", "geo", "log", "style"] as const).map((tab) => (
+          <Button
+            key={tab}
+            size="xlarge"
+            fullWidth={true}
+            variant={selectedTab === tab ? "filled" : "outlined"}
+            buttunTitle={tab}
+            onClick={() => setSelectedTab(tab)}
+          />
+        ))}
       </div>
 
+      {/* Children */}
       {children}
     </div>
   );
-}
-
-export default BOX_assistant;
+};
+export default BOXAssistant;
