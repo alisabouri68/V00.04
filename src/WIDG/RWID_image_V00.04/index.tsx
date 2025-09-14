@@ -113,7 +113,7 @@ const Image = ({ geo = {}, logic, styles = {} }: ImageProps) => {
             borderRadius: currentStyles.borderRadius,
             boxShadow: currentStyles.boxShadow,
             objectFit: currentStyles.objectFit,
-            cursor: "pointer",
+            cursor: "wait",
           }}
         />
       </div>
