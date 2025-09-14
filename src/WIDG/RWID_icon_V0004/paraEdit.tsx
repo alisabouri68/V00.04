@@ -71,7 +71,6 @@ const ParaEditor: React.FC<ParaEditorProps> = ({ meta, geo, logic, style, select
 
   return (
     <div className=" bg-light text-dark rounded-lg font-sans">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center"> schm.JSON Editor</h2>
       {renderSection(selectedTab)}
     </div>
   );
