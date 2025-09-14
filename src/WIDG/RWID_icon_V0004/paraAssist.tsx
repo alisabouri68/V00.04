@@ -75,7 +75,7 @@ const Section = memo(({
 
 Section.displayName = 'Section';
 
-const StylePanel = ({ geo, logic, style }: AssistantProps) => {
+const StylePanel = ({logic }: AssistantProps) => {
   const { globalState, updateGlobalState } = useGlobalState();
   const id = logic?.id || "";
 
