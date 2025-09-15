@@ -35,7 +35,7 @@ import classNames from "classnames";
  * Step 02 declare types/interfaces
  **************************************/
 export interface DropdownOption {
-  id?: string;
+  id: string;
   name?: string;
   icon?: React.ReactNode;
 }
