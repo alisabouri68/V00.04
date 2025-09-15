@@ -80,12 +80,12 @@ const StylePanel = ({logic }: AssistantProps) => {
   const id = logic?.id || "";
 
   const assistant = useMemo(() =>
-    globalState?.ENVI_glob?.glob_Packet_4?.[id]?.content?.logic?.isAssistant,
+    globalState?.ENVI_glob?.glob_Packet_4?.[id]?.logic?.isAssistant,
     [globalState, id]
   );
 
   const content = useMemo(() => {
-    const contentData = globalState?.ENVI_glob?.glob_Packet_4?.[id]?.content;
+    const contentData = globalState?.ENVI_glob?.glob_Packet_4?.[id];
     return {
       geo: contentData?.geo || {},
       logic: contentData?.logic || {},
@@ -104,12 +104,9 @@ const StylePanel = ({logic }: AssistantProps) => {
             ...prev?.ENVI_glob?.glob_Packet_4,
             [id]: {
               ...prev?.ENVI_glob?.glob_Packet_4?.[id],
-              content: {
-                ...prev?.ENVI_glob?.glob_Packet_4?.[id]?.content,
                 [section]: {
-                  ...prev?.ENVI_glob?.glob_Packet_4?.[id]?.content?.[section],
+                  ...prev?.ENVI_glob?.glob_Packet_4?.[id]?.[section],
                   [key]: newValue,
-                },
               },
             },
           },
