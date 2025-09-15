@@ -1,5 +1,5 @@
 import BOX_action from "BOX/BOX_action";
-import BOX_actionMenu from "BOX/BOX_actionMenue";
+import BOX_actionMenu from "BOX/BOX_actiomMenue";
 import BOX_actionContent from "BOX/BOX_actionContent";
 import BOX_Assistant from "BOX/BOX_assistant";
 import BndlActionMenu from "../../BNDL/WRAP_home/index_action_menu";
