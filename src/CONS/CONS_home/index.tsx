@@ -1,5 +1,5 @@
 import BOX_action from "BOX/BOX_action";
-import BOX_actionMenu from "BOX/BOX_actiomMenue";
+import BOX_actionMenu from "BOX/BOX_actionMenue";
 import BOX_actionContent from "BOX/BOX_actionContent";
 import BOX_Assistant from "BOX/BOX_assistant";
 import BndlActionMenu from "../../BNDL/WRAP_home/index_action_menu";
@@ -15,8 +15,8 @@ function Index() {
   const [selectedTab, setSelectedTab] = useState<"meta" | "geo" | "log" | "style">("meta");
 
   const iconId = globalState?.ENVI_glob?.glob_Packet_4?.filed_1?.id;
-  const isAssistantOpen = globalState?.ENVI_glob?.glob_Packet_4?.[iconId]?.content?.logic?.isAssistant;
-  const content = globalState?.ENVI_glob?.glob_Packet_4?.[iconId]?.content;
+  const isAssistantOpen = globalState?.ENVI_glob?.glob_Packet_4?.[iconId]?.logic?.isAssistant;
+  const content = globalState?.ENVI_glob?.glob_Packet_4?.[iconId];
   
   return (
     <>
