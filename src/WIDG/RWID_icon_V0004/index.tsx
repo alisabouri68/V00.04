@@ -9,18 +9,17 @@ export interface IconProps {
 
 const IconComponent = ({ geo, logic, style, children }: IconProps) => {
   const parsJson = JSON.parse(schmJson)?.sections?.id?.meta || {}
-  console.log(parsJson)
   const { globalState, updateGlobalState } = useGlobalState();
   const id = logic?.id || "";
-  const isLocall = globalState?.ENVI_glob?.glob_Packet_4?.[id]?.content?.logic?.addToLocall
-  const assistant = globalState?.ENVI_glob?.glob_Packet_4?.[id]?.content?.logic?.isAssistant;
+  const isLocall = globalState?.ENVI_glob?.glob_Packet_4?.[id]?.logic?.addToLocall
+  const assistant = globalState?.ENVI_glob?.glob_Packet_4?.[id]?.logic?.isAssistant;
 
   const storedData = id
     ? globalState?.ENVI_glob?.glob_Packet_4?.[id]
     : undefined;
 
-  const storedGeo = storedData?.content?.geo || {};
-  const storedStyle = storedData?.content?.style || {};
+  const storedGeo = storedData?.geo || {};
+  const storedStyle = storedData?.style || {};
 
   const combinedStyle: React.CSSProperties = {
     ...style,
@@ -32,7 +31,7 @@ const IconComponent = ({ geo, logic, style, children }: IconProps) => {
 
     if (!assistant && !isLocall) {
       updateGlobalState((prevState: any) => {
-        const currentContent = prevState.ENVI_glob?.glob_Packet_4?.[id]?.content || {};
+        const currentContent = prevState.ENVI_glob?.glob_Packet_4?.[id] || {};
 
         return {
           ...prevState,
@@ -42,16 +41,15 @@ const IconComponent = ({ geo, logic, style, children }: IconProps) => {
               ...prevState.ENVI_glob?.glob_Packet_4,
               [id]: {
                 ...prevState.ENVI_glob?.glob_Packet_4?.[id],
-                content: {
-                  meta:{...parsJson},
-                  geo: { ...currentContent.geo, ...geo },
-                  logic: { ...currentContent.logic, ...logic, isAssistant: true, addToLocall: true },
-                  style: { ...currentContent.style, ...style },
-                },
+                meta: { ...parsJson },
+                geo: { ...currentContent.geo, ...geo },
+                logic: { ...currentContent.logic, ...logic, isAssistant: true, addToLocall: true },
+                style: { ...currentContent.style, ...style },
               },
               filed_1: {
                 ...prevState.ENVI_glob?.glob_Packet_4?.filed_1,
                 id,
+                envimng: false
               },
             },
           },
@@ -66,17 +64,15 @@ const IconComponent = ({ geo, logic, style, children }: IconProps) => {
             ...prevState.ENVI_glob?.glob_Packet_4,
             [id]: {
               ...prevState.ENVI_glob?.glob_Packet_4?.[id],
-              content: {
-                ...prevState.ENVI_glob?.glob_Packet_4?.[id]?.content,
-                logic: {
-                  ...prevState.ENVI_glob?.glob_Packet_4?.[id]?.content?.logic,
-                  isAssistant: false,
-                },
+              logic: {
+                ...prevState.ENVI_glob?.glob_Packet_4?.[id]?.logic,
+                isAssistant: false,
               },
             },
             filed_1: {
               ...prevState.ENVI_glob?.glob_Packet_4?.filed_1,
               id,
+              envimng: false
             },
           },
         },
@@ -90,17 +86,17 @@ const IconComponent = ({ geo, logic, style, children }: IconProps) => {
             ...prevState.ENVI_glob?.glob_Packet_4,
             [id]: {
               ...prevState.ENVI_glob?.glob_Packet_4?.[id],
-              content: {
-                ...prevState.ENVI_glob?.glob_Packet_4?.[id]?.content,
-                logic: {
-                  ...prevState.ENVI_glob?.glob_Packet_4?.[id]?.content?.logic,
-                  isAssistant: true,
-                },
+              ...prevState.ENVI_glob?.glob_Packet_4?.[id],
+              logic: {
+                ...prevState.ENVI_glob?.glob_Packet_4?.[id]?.logic,
+                isAssistant: true,
+
               },
             },
             filed_1: {
               ...prevState.ENVI_glob?.glob_Packet_4?.filed_1,
               id,
+              envimng: false
             },
           },
         },
