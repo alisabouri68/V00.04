@@ -36,8 +36,8 @@ import { PuffLoader } from "react-spinners";
 /**************************************
  * Step 02: Import widget dependencies
  **************************************/
-import Text from "../../WIDG/RWID_TEXT_V0004";
-import Icon from "../../WIDG/RWID_icon_V0004";
+import Text from "../RCMP_biotext_V00.04";
+import Icon from "../RCMP_bioicon_V0004";
 
 /**************************************
  * Step 05: Define property interface
@@ -86,26 +86,44 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
      ******************************************/
     const isLink = typeof to === "string";
 
-    const variantStyles = {
-      filled: "bg-primary text-light rounded-small shadow-mini shadow-primary",
-      outlined:
-        "bg-transparent text-dark rounded-small border border-primary shadow-mini shadow-primary",
-      text: "bg-transparent text-dark border-none",
-    };
+const variantStyles = {
+  filled: `
+    bg-gradient-to-r from-primary to-primary/80 
+    text-white font-semibold 
+    shadow-md hover:shadow-lg 
+    rounded-xl
+  `,
+  outlined: `
+    bg-transparent 
+    border border-primary text-primary 
+    hover:bg-primary/10 
+    rounded-xl
+    transition-colors
+  `,
+  text: `
+    bg-transparent 
+    text-primary 
+    hover:underline 
+    rounded-lg
+  `,
+};
 
-    const sizeStyles = {
-      mini: "py-mini px-mini text-h1",
-      small: "py-small px-small text-h1",
-      default: "py-small px-default text-h1",
-      large: "py-small px-large text-h1",
-      xlarge: "py-small px-xlarge text-h1",
-    };
+const sizeStyles = {
+  mini: "px-2 py-1 text-xs rounded-md",
+  small: "px-3 py-1.5 text-sm rounded-lg",
+  default: "px-4 py-2 text-base rounded-xl",
+  large: "px-5 py-2.5 text-lg rounded-2xl",
+  xlarge: "px-6 py-3 text-xl rounded-2xl",
+};
+
+
 
     const defaultSpinner = <PuffLoader size={15} color="#58a6b7"/>;
-    const interactiveClasses = !isLoading && variant !== "text"
-      ? "transition-all duration-200 ease-in-out hover:scale-[1.02]"
-      : "";
 
+const interactiveClasses =
+  !isLoading && variant !== "text"
+    ? "transition-all duration-200 ease-in-out hover:scale-[1.03] active:scale-[0.97]"
+    : "";
     const finalClassName = [
       "flex items-center justify-center gap-3 rounded-small font-medium text-sm relative",
       "disabled:opacity-50 disabled:cursor-not-allowed",
