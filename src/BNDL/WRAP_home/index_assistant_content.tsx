@@ -1,5 +1,5 @@
-import StylePanel from "COMP/RCMP_bioicon_V0004/paraAssist";
-import ParaEditor from "../../COMP/RCMP_bioicon_V0004/paraEdit";
+import StylePanel from "COMP/RCMP_bioicon_V00.04/paraAssist";
+import ParaEditor from "../../COMP/RCMP_bioicon_V00.04/paraEdit";
 import { initDyna } from "RDUX/dynamanContext";
 function index_assistant_content({ activeView, selectedTab, }: { activeView: "assistant" | "editor"; selectedTab: "meta" | "geo" | "log" | "style" }) {
 
@@ -31,5 +31,6 @@ function index_assistant_content({ activeView, selectedTab, }: { activeView: "as
     </>
   )
 }
+
 
 export default index_assistant_content
