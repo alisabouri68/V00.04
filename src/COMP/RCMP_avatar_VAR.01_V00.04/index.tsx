@@ -29,7 +29,7 @@ Description:     This component is used to render a user avatar with optional im
 import schmRaw from ".schm.json?raw";
 import React from "react";
 import { FaCircleUser } from "react-icons/fa6";
-import Image from "WIDG/RWID_image_V00.04";
+import Image from "COMP/RCMP_bioimage_V00.04";
 import { useGlobalState } from "RDUX/dynamanContext";
 /**************************************
  * Step 02: Define Props interface
