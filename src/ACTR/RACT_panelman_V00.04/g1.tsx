@@ -1,6 +1,6 @@
 import { lazy, ReactNode } from "react";
 import { RouteObject } from "react-router-dom";
-import MiddlewareWrapper from "../../MIDD/middlewareWrapper"; // ✅ PascalCase
+import MiddlewareWrapper from "PLAY/middlewareWrapper";
 
 const ConsoleHome = lazy(() => import("../../CONS/CONS_home"));
 const ConsoleMono = lazy(() => import("../../CONS/CONS_mono"));
