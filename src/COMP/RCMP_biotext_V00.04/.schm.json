@@ -1,0 +1,39 @@
+{
+  "head": {
+    "model": "WIDG_image_V00.04",
+    "by": "APPS.68",
+    "last update": "D2025.09.09"
+  },
+  "sections": {
+    "id": {
+      "meta": {
+        "id": "WIDG_image_V00",
+        "title": "Component WIDG_image_V00 - React Version",
+        "type": "SCHM",
+        "ver": "00.04",
+        "rem": "1",
+        "create": "D2025.09.09"
+      }
+    },
+    "MNGT": {},
+    "LOGIC": {
+      "geo": {
+        "width": "400px",
+        "height": "400px"
+      },
+      "logic": {
+        "onClick": "0",
+        "alt": "",
+        "src": "./xxx/xxx",
+        "fallbackSrc": "./xxx/xxx",
+        "lazy": false
+      },
+      "style": {
+        "borderRadius": "50%",
+        "objectFit": "cover",
+        "boxShadow": "0 4px 10px rgba(0,0,0,0.3)"
+      }
+    },
+    "BODY": {}
+  }
+}
