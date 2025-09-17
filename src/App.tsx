@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import router from "ROUTS";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import DynaCtrl from "./MIDD/RMID_dynaCtrl_V00.04";
+import DynaCtrl from "PLAY/RPLY_dynaCtrl_V00.04";
 import { Provider } from "react-redux";
 import { store } from "./RDUX/store"; 
 
