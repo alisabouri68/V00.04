@@ -1,6 +1,6 @@
 
 import { SiHomeassistant } from "react-icons/si";
-import Icon from "COMP/RCMP_bioicon_V0004";
+import Icon from "COMP/RCMP_bioicon_V00.04";
 import { CgAnchor } from "react-icons/cg";
 import { CgEyeAlt } from "react-icons/cg";
 import { CgWindows } from "react-icons/cg";
@@ -62,5 +62,6 @@ function index_action_menu() {
         </>
     )
 }
+
 
 export default index_action_menu
