@@ -37,7 +37,7 @@ import { PuffLoader } from "react-spinners";
  * Step 02: Import widget dependencies
  **************************************/
 import Text from "../RCMP_biotext_V00.04";
-import Icon from "../RCMP_bioicon_V0004";
+import Icon from "../RCMP_bioicon_V00.04";
 
 /**************************************
  * Step 05: Define property interface
