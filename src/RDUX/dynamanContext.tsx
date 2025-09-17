@@ -19,7 +19,7 @@ function globalStateReducer(state: any, action: any) {
   }
 }
 
-export const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
+const DynamanProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(globalStateReducer, initialState);
@@ -38,7 +38,7 @@ export const GlobalStateProvider: React.FC<{ children: React.ReactNode }> = ({
 
 
 
-const updateGlobalState = (newStateOrFn: any) => {
+const reconfigDyna = (newStateOrFn: any) => {
   const newState =
     typeof newStateOrFn === "function" ? newStateOrFn(state) : newStateOrFn;
 
@@ -51,7 +51,7 @@ const updateGlobalState = (newStateOrFn: any) => {
 };
 
 
-  const resetGlobalState = () => {
+  const resetDyna = () => {
     if (dynamanRef.current) {
       const resetState = dynamanRef.current.resetToDefault();
       dispatch({ type: "RESET_STATE", payload: resetState });
@@ -60,9 +60,9 @@ const updateGlobalState = (newStateOrFn: any) => {
   };
 
   const value = {
-    globalState: state,
-    updateGlobalState,
-    resetGlobalState,
+    envi: state,
+    reconfigDyna,
+    resetDyna,
   };
 
   return (
@@ -72,13 +72,13 @@ const updateGlobalState = (newStateOrFn: any) => {
   );
 };
 
-export const useGlobalState = () => {
+export const initDyna = () => {
   const context = useContext(GlobalStateContext);
   if (!context) {
-    throw new Error("useGlobalState must be used within a GlobalStateProvider");
+    throw new Error("initDyna must be used within a GlobalStateProvider");
   }
   return context;
 };
 
 export const globalStateReducerFn = globalStateReducer;
-export default GlobalStateProvider;
+export default DynamanProvider;
