@@ -13,11 +13,11 @@ import {
   MdOutlineLocalFireDepartment,
   MdKeyboardArrowDown,
 } from "react-icons/md";
-import Text from "COMP/RCMP_biotext_V0004";
+import Text from "COMP/RCMP_biotext_V00.04";
 import { FaLongArrowAltUp } from "react-icons/fa";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { useGlobalState } from "../../RDUX/dynamanContext";
+import { initDyna } from "../../RDUX/dynamanContext";
 
 // ---------------- Types ----------------
 export interface BasketItem {
@@ -114,7 +114,7 @@ export const initialData: BasketData = {
 };
 
 const BasketItems = () => {
-  const { globalState, updateGlobalState } = useGlobalState();
+  const { envi, reconfigDyna } = initDyna();
 
   const [basketData, setBasketData] = useState<BasketData>(initialData);
   const [openCategory, setOpenCategory] =
