@@ -26,6 +26,7 @@ Description:     This component is used to render a user avatar with optional im
 /**************************************
  * Step 01: Import dependencies - kernels
  **************************************/
+import schmRaw from ".schm.json?raw";
 import React from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import Image from "COMP/RCMP_bioimage_V00.04";
