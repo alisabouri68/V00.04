@@ -13,7 +13,7 @@ import {
   MdOutlineLocalFireDepartment,
   MdKeyboardArrowDown,
 } from "react-icons/md";
-import Text from "../../WIDG/RWID_TEXT_V0004";
+import Text from "COMP/RCMP_text_V0004";
 import { FaLongArrowAltUp } from "react-icons/fa";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
