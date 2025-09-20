@@ -1,14 +1,14 @@
 {
     "head": {
-        "model": "WIDG_icon_V00.04",
+        "model": "COMP_icon_V00.04",
         "by": "APPS.68",
         "last update": "D2025.09.09"
     },
     "sections": {
         "id": {
             "meta": {
-                "id": "WIDG_icon_V00.04",
-                "title": "Widget WIDG_icon_V00 - React Version",
+                "id": "COMP_icon_V00.04",
+                "title": "Component COMP_icon_V00 - React Version",
                 "type": "SCHM",
                 "ver": "00.04",
                 "rem": "1",
