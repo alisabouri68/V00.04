@@ -62,9 +62,10 @@
         },
         "glob_Packet_4": {
           "filed_1": {
-            "id": "assistant",
+            "id": "",
             "isOpen": false,
-            "envimng": false
+            "envimng": false,
+            "section": "meta"
           }
         }
       },

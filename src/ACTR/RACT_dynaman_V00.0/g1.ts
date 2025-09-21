@@ -62,9 +62,6 @@ export class G1 {
     }
   }
 
-  /**
-   * Clean state from non-serializable values
-   */
   public cleanStateForStorage(state: any): any {
     const cleanDeep = (obj: any): any => {
       if (obj === null || typeof obj !== "object") return obj;
@@ -99,9 +96,7 @@ export class G1 {
     return cleanDeep(this.deepClone(state));
   }
 
-  /**
-   * Public APIs
-   */
+
   public init(): any {
     return this._state;
   }

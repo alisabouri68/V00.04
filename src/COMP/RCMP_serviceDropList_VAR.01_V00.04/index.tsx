@@ -29,7 +29,7 @@ Description:    This dropdown component lists all service items with a scrollabl
  **************************************/
 import { useEffect, useRef } from "react"
 import { ServiceItem } from "COMP/RCMP_servicePicker_VAR.01_V00.04"
-import Text from 'COMP/RCMP_biotext_V00.04'
+import Text from "../RCMP_biotext_V0004"
 import { Link } from "react-router-dom"
 
 /**************************************

@@ -32,5 +32,4 @@ function index_assistant_content({ activeView, selectedTab, }: { activeView: "as
   )
 }
 
-
 export default index_assistant_content

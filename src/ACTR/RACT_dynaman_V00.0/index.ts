@@ -1,3 +1,10 @@
+
+/// Meta    
+///
+///  ID:              RACT_dynaMan
+///  Ver:             V00.04
+///  last update:     2025.09.15
+///  by:              APPS.68
 /************************************
  * Step 01 import dependencies - kernels
  **************************************/
@@ -29,6 +36,8 @@ class dynaman {
     this.g1 = new G1(initialState);
   }
 
+
+  ///  init create Envi-Variables
   public init(): any {
     return this.g1.init();
   }

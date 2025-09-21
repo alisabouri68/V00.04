@@ -39,7 +39,7 @@ import schmJson from "./.schm.json?raw";
 import Assistant from "./paraAssist";
 import Editor from "./paraEdit";
 import { SiHomeassistant } from "react-icons/si";
-import Text from "COMP/RCMP_biotext_V00.04";
+import Text from "COMP/RCMP_biotext_V0004";
 /**************************************
  * Step 05 - define property interface for this BioWidget
  **************************************/
@@ -77,25 +77,6 @@ const Image = ({ geo = {}, logic, styles = {} }: ImageProps) => {
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        assistantRef.current &&
-        !assistantRef.current.contains(event.target as Node) &&
-        !imgRef.current?.contains(event.target as Node)
-      ) {
-        setShowAssistant(false);
-      }
-    };
-
-    if (showAssistant) {
-      document.addEventListener("click", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [showAssistant]);
 
   return (
     <>
@@ -106,14 +87,13 @@ const Image = ({ geo = {}, logic, styles = {} }: ImageProps) => {
           alt={currentLogic?.alt || ""}
           loading={currentLogic?.lazy ? "lazy" : "eager"}
           onError={handleError}
-          onClick={() => setShowAssistant(true)}
           style={{
             width: currentGeo.width,
             height: currentGeo.height,
             borderRadius: currentStyles.borderRadius,
             boxShadow: currentStyles.boxShadow,
             objectFit: currentStyles.objectFit,
-            cursor: "wait",
+            cursor: "pointer",
           }}
         />
       </div>
@@ -154,7 +134,6 @@ const Image = ({ geo = {}, logic, styles = {} }: ImageProps) => {
               geo={currentGeo}
               logic={currentLogic}
               styles={currentStyles}
-              onClose={() => setShowAssistant(false)}
               onChange={({ geo, logic, styles }) => {
                 if (geo) setCurrentGeo(geo);
                 if (logic) setCurrentLogic(logic);

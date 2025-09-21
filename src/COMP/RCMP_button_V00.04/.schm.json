@@ -18,11 +18,24 @@
     "MNGT": {},
     "LOGIC": {
       "geo": {
+        "width": 0,
+        "height": 0,
+        "fullWidth": true
       },
       "log": {
-   
+        "clicked": false,
+        "variant": "outlined",
+        "loadingText": "",
+        "loadingSpinner": false,
+        "isLoading": false,
+        "isLink": false,
+        "leftIcon": null,
+        "rightIcon": null,
+        "buttonTitle": "",
+        "disabled": false
       },
-      "style": {  }
+      "style": {
+      }
     },
     "BODY": {}
   }
