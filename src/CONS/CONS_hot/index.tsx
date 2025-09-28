@@ -1,16 +1,17 @@
-import Auxilary from "../../BOX/BOX_auxiliary";
-import Action from "../../BOX/BOX_action";
-const Index = () => {
+import BOX_action from "BOX/BOX_action";
+import BOX_actionMenu from "BOX/BOX_actionMenue";
+import BOX_actionContent from "BOX/BOX_actionContent";
+import BOX_Assistant from "BOX/BOX_assistant";
+function Index() {
   return (
     <>
-      <main className="flex w-full lg:w-9/12 h-full py-0 px-0.5 lg:py-1">
-        <Action />
-      </main>
-      <div className="w-full hidden lg:flex lg:w-3/12 px-0.5 py-1">
-        <Auxilary />
-      </div>
+      <BOX_action>
+        <BOX_actionMenu>action menu</BOX_actionMenu>
+        <BOX_actionContent>action content</BOX_actionContent>
+      </BOX_action>
+      <BOX_Assistant>assistant </BOX_Assistant>
     </>
   );
-};
+}
 
 export default Index;
