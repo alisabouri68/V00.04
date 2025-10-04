@@ -30,6 +30,7 @@ const Index = memo(() => {
           borderRadius: "0%",
           objectFit: "cover",
           boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+           backgroundAttachment:"fixed"
         }}
         logic={{ src: logo, alt: "logo", lazy: true }}
         geo={{ width: "100", height: "100" }}

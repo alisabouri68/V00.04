@@ -55,7 +55,7 @@ interface ImageProps {
     borderRadius?: string;
     boxShadow?: string;
     objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down";
-    backgroundAttachment:string
+    backgroundAttachment?:string
   };
 }
 /**************************************
