@@ -46,3 +46,12 @@ body,
   scrollbar-color: rgba(100, 100, 100, 0.3) transparent;
 }
 
+.jini {
+  width: 100%;
+  min-height: 300px;
+  background-image: url("../images/blossom2.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

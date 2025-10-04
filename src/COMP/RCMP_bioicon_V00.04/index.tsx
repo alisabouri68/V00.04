@@ -65,14 +65,14 @@ const IconComponent = ({ geo, logic, style, children }: IconProps) => {
   const parsJson = JSON.parse(schmJson)?.sections?.id?.meta || {} // Parse JSON schema
   const { envi, reconfigDyna } = initDyna(); // Initialize Dyna context
   const id = logic?.id || ""; // Component ID
-  const isLocall = envi?.ENVI_glob?.glob_Packet_4?.[id]?.logic?.addToLocall // Local storage status
-  const assistant = envi?.ENVI_glob?.glob_Packet_4?.[id]?.logic?.isAssistant; // Assistant status
+  const isLocall = envi?.ENVI_GLOB?.globalState?.[id]?.logic?.addToLocall // Local storage status
+  const assistant = envi?.ENVI_GLOB?.globalState?.[id]?.logic?.isAssistant; // Assistant status
 
   /******************************************
    * Data Processing
    ******************************************/
   const storedData = id
-    ? envi?.ENVI_glob?.glob_Packet_4?.[id]
+    ? envi?.ENVI_GLOB?.globalState?.[id]
     : undefined; // Stored data
 
   const storedGeo = storedData?.geo || {}; // Geo data
@@ -101,18 +101,18 @@ const IconComponent = ({ geo, logic, style, children }: IconProps) => {
         if (id && assistant) {
           reconfigDyna((prevState: any) => ({
             ...prevState,
-            ENVI_glob: {
-              ...prevState.ENVI_glob,
-              glob_Packet_4: {
-                ...prevState.ENVI_glob?.glob_Packet_4,
-                filed_1: {
-                  ...prevState.ENVI_glob?.glob_Packet_4.filed_1,
-                  id: "" // Clear ID from filed_1
+            ENVI_GLOB: {
+              ...prevState.ENVI_GLOB,
+              globalState: {
+                ...prevState.ENVI_GLOB?.globalState,
+                assistant: {
+                  ...prevState.ENVI_GLOB?.globalState.assistant,
+                  id: "" // Clear ID from assistant
                 },
                 [id]: {
-                  ...prevState.ENVI_glob?.glob_Packet_4?.[id],
+                  ...prevState.ENVI_GLOB?.globalState?.[id],
                   logic: {
-                    ...prevState.ENVI_glob?.glob_Packet_4?.[id]?.logic,
+                    ...prevState.ENVI_GLOB?.globalState?.[id]?.logic,
                     isAssistant: false, // Deactivate Assistant
                   },
                 },
@@ -172,24 +172,24 @@ const IconComponent = ({ geo, logic, style, children }: IconProps) => {
     // Scenario 1: First click - create new data
     if (!assistant && !isLocall) {
       reconfigDyna((prevState: any) => {
-        const currentContent = prevState.ENVI_glob?.glob_Packet_4?.[id] || {};
+        const currentContent = prevState.ENVI_GLOB?.globalState?.[id] || {};
 
         return {
           ...prevState,
-          ENVI_glob: {
-            ...prevState.ENVI_glob,
-            glob_Packet_4: {
-              ...prevState.ENVI_glob?.glob_Packet_4,
+          ENVI_GLOB: {
+            ...prevState.ENVI_GLOB,
+            globalState: {
+              ...prevState.ENVI_GLOB?.globalState,
               [id]: {
-                ...prevState.ENVI_glob?.glob_Packet_4?.[id],
+                ...prevState.ENVI_GLOB?.globalState?.[id],
                 meta: { ...parsJson }, // Add meta data from schema
                 geo: { ...currentContent.geo, ...geo }, // Combine geo data
                 logic: { ...currentContent.logic, ...logic, isAssistant: true, addToLocall: true }, // Enable Assistant and local storage
                 style: { ...currentContent.style, ...style }, // Combine style data
               },
-              filed_1: {
-                ...prevState.ENVI_glob?.glob_Packet_4?.filed_1,
-                id, // Set ID in filed_1
+              assistant: {
+                ...prevState.ENVI_GLOB?.globalState?.assistant,
+                id, // Set ID in assistant
                 envimng: false // Disable envimng
               },
             },
@@ -202,20 +202,20 @@ const IconComponent = ({ geo, logic, style, children }: IconProps) => {
     } else if (assistant && isLocall) {
       reconfigDyna((prevState: any) => ({
         ...prevState,
-        ENVI_glob: {
-          ...prevState.ENVI_glob,
-          glob_Packet_4: {
-            ...prevState.ENVI_glob?.glob_Packet_4,
+        ENVI_GLOB: {
+          ...prevState.ENVI_GLOB,
+          globalState: {
+            ...prevState.ENVI_GLOB?.globalState,
             [id]: {
-              ...prevState.ENVI_glob?.glob_Packet_4?.[id],
+              ...prevState.ENVI_GLOB?.globalState?.[id],
               logic: {
-                ...prevState.ENVI_glob?.glob_Packet_4?.[id]?.logic,
+                ...prevState.ENVI_GLOB?.globalState?.[id]?.logic,
                 isAssistant: true, // Keep Assistant active
               },
             },
-            filed_1: {
-              ...prevState.ENVI_glob?.glob_Packet_4?.filed_1,
-              id, // Set ID in filed_1
+            assistant: {
+              ...prevState.ENVI_GLOB?.globalState?.assistant,
+              id, // Set ID in assistant
               envimng: false // Disable envimng
             },
           },
@@ -227,20 +227,20 @@ const IconComponent = ({ geo, logic, style, children }: IconProps) => {
     } else if (!assistant && isLocall) {
       reconfigDyna((prevState: any) => ({
         ...prevState,
-        ENVI_glob: {
-          ...prevState.ENVI_glob,
-          glob_Packet_4: {
-            ...prevState.ENVI_glob?.glob_Packet_4,
+        ENVI_GLOB: {
+          ...prevState.ENVI_GLOB,
+          globalState: {
+            ...prevState.ENVI_GLOB?.globalState,
             [id]: {
-              ...prevState.ENVI_glob?.glob_Packet_4?.[id],
+              ...prevState.ENVI_GLOB?.globalState?.[id],
               logic: {
-                ...prevState.ENVI_glob?.glob_Packet_4?.[id]?.logic,
+                ...prevState.ENVI_GLOB?.globalState?.[id]?.logic,
                 isAssistant: true, // Activate Assistant
               },
             },
-            filed_1: {
-              ...prevState.ENVI_glob?.glob_Packet_4?.filed_1,
-              id, // Set ID in filed_1
+            assistant: {
+              ...prevState.ENVI_GLOB?.globalState?.assistant,
+              id, // Set ID in assistant
               envimng: false // Disable envimng
             },
           },

@@ -25,9 +25,9 @@ const index_assistant_menu = memo(({
   setSelectedTab
 }: AssistantProps) => {
   const { envi, reconfigDyna } = initDyna();
-  const id = envi?.ENVI_glob?.glob_Packet_4?.filed_1?.id || false
-  const enviMNG = useMemo(() =>
-    envi?.ENVI_glob?.glob_Packet_4?.filed_1?.envimng || false,
+  const id = envi?.ENVI_GLOB?.globalState?.assistant?.id || false
+  const assistants = useMemo(() =>
+    envi?.ENVI_GLOB?.globalState?.assistant?.assistant || false,
     [envi]
   );
 
@@ -38,30 +38,30 @@ const index_assistant_menu = memo(({
   const enviHandel = useCallback(() => {
     reconfigDyna((prevState: any) => ({
       ...prevState,
-      ENVI_glob: {
-        ...prevState.ENVI_glob,
-        glob_Packet_4: {
-          ...prevState.ENVI_glob.glob_Packet_4,
-          filed_1: {
-            ...prevState.ENVI_glob.glob_Packet_4.filed_1,
-            envimng: !enviMNG,
+      ENVI_GLOB: {
+        ...prevState.ENVI_GLOB,
+        globalState: {
+          ...prevState.ENVI_GLOB.globalState,
+          assistant: {
+            ...prevState.ENVI_GLOB.globalState.assistant,
+            assistant: !assistants,
             section: selectedTab
           }
         }
       }
     }));
-  }, [enviMNG, selectedTab, reconfigDyna]);
+  }, [assistants, selectedTab, reconfigDyna]);
 
   const tabhandler = useCallback((tab: TabType) => {
     setSelectedTab(tab);
     reconfigDyna((prevState: any) => ({
       ...prevState,
-      ENVI_glob: {
-        ...prevState.ENVI_glob,
-        glob_Packet_4: {
-          ...prevState.ENVI_glob.glob_Packet_4,
-          filed_1: {
-            ...prevState.ENVI_glob.glob_Packet_4.filed_1,
+      ENVI_GLOB: {
+        ...prevState.ENVI_GLOB,
+        globalState: {
+          ...prevState.ENVI_GLOB.globalState,
+          assistant: {
+            ...prevState.ENVI_GLOB.globalState.assistant,
             section: tab
           }
         }
@@ -121,7 +121,7 @@ const index_assistant_menu = memo(({
         </div>
         <div>
           <Button
-            variant={enviMNG ? "filled" : "outlined"}
+            variant={assistants ? "filled" : "outlined"}
             fullWidth={true}
             buttunTitle="ENVI_mng"
             onClick={enviHandel}
@@ -129,7 +129,7 @@ const index_assistant_menu = memo(({
         </div>
       </div>
 
-      {enviMNG ? (
+      {assistants ? (
         <EnviMngr />
       ) : (
         <>

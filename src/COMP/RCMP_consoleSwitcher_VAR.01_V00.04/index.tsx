@@ -7,12 +7,21 @@ import { initDyna } from "../../RDUX/dynamanContext";
 const Index = memo(() => {
   const { reconfigDyna } = initDyna();
   const handleMoreClick = () => {
-    reconfigDyna({
-      packet_3: {
-        filed_1: { id: "modal", value: true },
-        filed_2: { id: "content1", value: "ConsoleBasket" },
-      },
-    });
+    reconfigDyna((prevState: any) => ({
+      ...prevState,
+      ENVI_GLOB: {
+        ...prevState.ENVI_GLOB,
+        globalState: {
+          ...prevState.ENVI_GLOB.globalState,
+          modal: {
+            id: "modal",
+            isOpen: true,
+            value: "ConsoleBasket"
+          }
+        }
+      }
+    }))
+
   };
   return (
     <div className="flex items-center gap-2">

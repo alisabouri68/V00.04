@@ -50,8 +50,8 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
   /**************************************
    * Step 05: Scroll lock on open
    **************************************/
-  const isOpen = envi?.packet_3?.filed_1?.value;
-  const content1 = envi?.packet_3?.filed_2?.value;
+  const isOpen = envi?.ENVI_GLOB?.globalState?.modal?.isOpen;
+  const content1 = envi?.ENVI_GLOB?.globalState?.modal?.value;
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -62,7 +62,6 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
-
   /**************************************
    * Step 06: ESC key to close modal
    **************************************/
@@ -95,13 +94,22 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm  "
-      onClick={() =>
-        reconfigDyna({
-          packet_3: {
-            filed_1: { id: "modal", value: false },
-          },
-        })
+onClick={() =>
+  reconfigDyna((prevState:any) => ({
+    ...prevState,
+    ENVI_GLOB: {
+      ...prevState.ENVI_GLOB,
+      globalState: {
+        ...prevState.ENVI_GLOB.globalState,
+        modal: {
+          id: "modal",
+          isOpen: false,
+          value: ""
+        }
       }
+    }
+  }))
+}
     >
       <div
         className={`relative w-full max-w-3xl rounded-lg h-[90vh] overflow-hidden  bg-light text-dark
@@ -110,7 +118,7 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
       >
         {content1 === "ConsoleBasket" ? <ConsoleBasket /> : null}
       </div>
-    </div>,
+    </div >,
     modalRoot
   );
 };

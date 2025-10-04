@@ -117,21 +117,22 @@ const Assistant = ({ logic }: AssistantProps) => {
   const { envi, reconfigDyna } = initDyna();
   const id = logic?.id || "";
   const currentSection =
-    envi?.ENVI_glob?.glob_Packet_4?.filed_1?.section || "meta";
+    envi?.ENVI_GLOB?.globalState?.assistant?.section || "meta";
 
   /******************************************
    * Step 04-2: Check assistant state
    ******************************************/
-  const assistant = useMemo(
-    () => envi?.ENVI_glob?.glob_Packet_4?.[id]?.logic?.isAssistant,
+  const assistants = useMemo(
+    () => envi?.ENVI_GLOB?.globalState?.[id]?.logic?.isAssistant,
     [envi, id]
   );
+
 
   /******************************************
    * Step 04-3: Prepare section content
    ******************************************/
   const content = useMemo(() => {
-    const contentData = envi?.ENVI_glob?.glob_Packet_4?.[id];
+    const contentData = envi?.ENVI_GLOB?.globalState?.[id];
     return {
       meta: contentData?.meta || {},
       geo: contentData?.geo || {},
@@ -144,19 +145,20 @@ const Assistant = ({ logic }: AssistantProps) => {
    * Step 04-4: Handle input changes
    ******************************************/
   const handleChange = useCallback(
+    
     (section: "meta" | "geo" | "logic" | "style", key: string) =>
       (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         reconfigDyna((prev: any) => ({
           ...prev,
-          ENVI_glob: {
-            ...prev?.ENVI_glob,
-            glob_Packet_4: {
-              ...prev?.ENVI_glob?.glob_Packet_4,
+          ENVI_GLOB: {
+            ...prev?.ENVI_GLOB,
+            globalState: {
+              ...prev?.ENVI_GLOB?.globalState,
               [id]: {
-                ...prev?.ENVI_glob?.glob_Packet_4?.[id],
+                ...prev?.ENVI_GLOB?.globalState?.[id],
                 [section]: {
-                  ...prev?.ENVI_glob?.glob_Packet_4?.[id]?.[section],
+                  ...prev?.ENVI_GLOB?.globalState?.[id]?.[section],
                   [key]: newValue,
                 },
               },
@@ -165,12 +167,13 @@ const Assistant = ({ logic }: AssistantProps) => {
         }));
       },
     [id, reconfigDyna]
+    
   );
 
   /******************************************
    * Step 04-5: Guard - no assistant
    ******************************************/
-  if (!id || !assistant) {
+  if (!id || !assistants) {
     return (
       <div className="flex items-center justify-center h-full p-6 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700">
         <div className="text-center text-gray-500 dark:text-gray-400">
@@ -181,7 +184,9 @@ const Assistant = ({ logic }: AssistantProps) => {
       </div>
     );
   }
-
+console.log("Assistant id:", id);
+console.log("Assistant globalState:", envi?.ENVI_GLOB?.globalState?.[id]);
+console.log("Assistant flag:", assistants);
   /******************************************
    * Step 04-6: Render sections dynamically
    ******************************************/

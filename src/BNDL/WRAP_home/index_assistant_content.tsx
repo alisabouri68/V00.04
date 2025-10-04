@@ -4,9 +4,9 @@ import { initDyna } from "RDUX/dynamanContext";
 function index_assistant_content({ activeView, selectedTab, }: { activeView: "assistant" | "editor"; selectedTab: "meta" | "geo" | "log" | "style" }) {
 
   const { envi } = initDyna();
-  const iconId = envi?.ENVI_glob?.glob_Packet_4?.filed_1?.id;
-  const isAssistantOpen = envi?.ENVI_glob?.glob_Packet_4?.[iconId]?.logic?.isAssistant;
-  const content = envi?.ENVI_glob?.glob_Packet_4?.[iconId]
+  const iconId = envi?.ENVI_GLOB?.globalState?.assistant?.id;
+  const isAssistantOpen = envi?.ENVI_GLOB?.globalState?.[iconId]?.logic?.isAssistant;
+  const content = envi?.ENVI_GLOB?.globalState?.[iconId]
   return (
 
     <>

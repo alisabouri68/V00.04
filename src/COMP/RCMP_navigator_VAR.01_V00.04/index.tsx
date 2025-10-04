@@ -14,19 +14,20 @@ export interface DataNav {
   pin?: boolean;
 }
 
-// هر filed در packet_2
+// هر filed در console
 interface PacketItem {
   id: string;
   value: boolean;
 }
 
-// packet_2: { filed_1: PacketItem; filed_2: PacketItem; ... }
+// console: { filed_1: PacketItem; filed_2: PacketItem; ... }
 type Packet2 = Record<string, PacketItem>;
 
 const Sidebar = () => {
   const location = useLocation();
   const { envi } = initDyna();
-    const packet_2: Packet2 | undefined = envi?.ENVI_glob?.glob_Packet_2;
+  const console: Packet2 | undefined = envi?.ENVI_console?.console;
+
   const [filteredNav, setFilteredNav] = useState<DataNav[]>([]);
 
   // گرفتن آیکون از iconMap
@@ -34,7 +35,7 @@ const Sidebar = () => {
     return iconMap[iconName] || <div>{title.charAt(0)}</div>; // fallback
   };
 
-  // تبدیل packet_2 به map ساده { id: value }
+  // تبدیل console به map ساده { id: value }
   const normalizePacket = (packet: Packet2 | undefined): Record<string, boolean> => {
     if (!packet) return {};
     return Object.values(packet).reduce<Record<string, boolean>>((acc, filed) => {
@@ -44,12 +45,12 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    if (!packet_2) {
+    if (!console) {
       setFilteredNav([]);
       return;
     }
 
-    const consoleMap = normalizePacket(packet_2);
+    const consoleMap = normalizePacket(console);
 
     // ترکیب همه آیتم‌ها
     const allNavItems = [
@@ -72,7 +73,7 @@ const Sidebar = () => {
       .filter((item) => consoleMap[item.id] === true);
 
     setFilteredNav(navItems);
-  }, [packet_2]);
+  }, [console]);
 
   return (
     <aside
@@ -168,4 +169,3 @@ const Sidebar = () => {
 };
 
 export default memo(Sidebar);
-

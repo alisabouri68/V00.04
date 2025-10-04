@@ -1,0 +1,134 @@
+---glan11
+
+
+>>> ID                      				//? Defining Actor
+
+    /// step.01 -  Complete Meta Data
+
+    # meta
+        . model-id:				"NACT-dynaman"
+        . model-title:			"NACT-Dyna-Manager"
+        . model-version:		"V00.04"
+        . model-lastUpgrade:	"D2025.07.12"	      					
+        . model-owner			"raad06"
+
+        . model-type			"Instant"	      							
+        . origin-model			"ACTR"								
+        . origin-model-Ver		"00.04"
+        . model-desc			"Managing Dyna Enviroment"	
+
+-->
+
+
+>>> MNG
+
+    /// step.02 -  Management - Render
+
+    # render(1)                                                 /// description       *********{Render:  با زبان پایه Node}********   
+        . scat:                     "NPAN"                      /// description 
+        . langBase:                 "node"                      /// description
+
+
+    /// step.03 -  Management - Dependency (kernels)
+
+    # kernel(1)                                                                       *********{برای متغیرهای محیطی }********   
+        . id:                       "dotenv/config"
+        . default:                  false
+
+    # kernel(2)                                                                        *********{ برای مدیریت state}********  
+        . id:                       "@reduxjs/toolkit"
+        . default:                  false
+        . named:                    ["configureStore", "createSlice"]
+
+
+    /// step.04 -  Management Dependencies (co-act)
+
+
+-->
+
+
+>>> LOGIC                                                                               *********{منطق عملیاتی}******** 
+
+    /// Step.05  - Global Variable (only in ACTRs)
+
+
+
+    /// Step.06 - Local Variable Define
+
+    # mvar(1)                                                                       *********{ متغیر لوکال برنامه }******** 
+        . id:                       "app"
+        . value:                    null
+
+    /// Step.07 - Script Group Registration
+
+    # group(1)
+        . id:                       "env"
+
+    # group(2)
+        . id:                       "features"
+
+	 /// Script Group.1 - Default Script
+
+	
+	$ initorcha ()
+
+	$ help ()			/// 
+
+	$ signature (script-id)		/// json format - signature of a scrip-id
+
+	$ scriptList ()		    	/// json format - list of scrip-id
+
+	$ test ()
+
+
+
+    /// Script Group.2 - Envi Management
+
+	$ enviType ( -regime	
+
+			| -tire
+			| -...)
+
+	$ enviStat ( -actCount
+			| -playCount
+			| -compCount
+			| ...)
+			/a		/// active or else is total
+
+	$ enviRestart ()
+
+	$ enviVersion ()		/// dyna version	
+			
+
+	/// Script Group.2 - Operationa Actor Management
+
+	$ actrInit ( -actorID: )			/// Register an actor in this envi 
+
+	$ actrStat ( -actorID: )			/// status on an registerred actor
+
+
+
+    /// Script Group.3 - Operational Model Management
+
+	$ modhelp ( -moduleID:)
+
+
+    
+    /// step.08 - init Script sequence define
+
+    $ init()                                                                        *********{ کار اصلی‌اش makeStore است (یعنی ایجاد Redux store)}******** 
+        . makeStore
+
+
+    /// step.09 - script signature definition
+
+
+    /// group 1 - env
+    $ makeStore()                                               /// Configures the Redux store.
+        . initialState*             { hybrid: {} }              ///  Optional init state for the store.
+
+
+    /// group 2 - features
+    $ useEffect()                                               /// A simplified implementation of React's `useEffect` hook. *********{یوز افکت برای فانکشن کامپوننت است }********
+        . callback                  undefined                   /// The function to execute when dependencies change.
+        . dependencies              undefined                   /// An array of dependencies to watch for changes.

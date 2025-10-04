@@ -55,6 +55,7 @@ interface ImageProps {
     borderRadius?: string;
     boxShadow?: string;
     objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down";
+    backgroundAttachment:string
   };
 }
 /**************************************
@@ -94,6 +95,7 @@ const Image = ({ geo = {}, logic, styles = {} }: ImageProps) => {
             boxShadow: currentStyles.boxShadow,
             objectFit: currentStyles.objectFit,
             cursor: "pointer",
+            backgroundAttachment:"fixed"
           }}
         />
       </div>
