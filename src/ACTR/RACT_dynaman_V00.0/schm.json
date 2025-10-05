@@ -34,7 +34,7 @@
           }
         }
       },
-      "ENVI_console": {
+      "ENVI_CONS": {
         "console": {
           "Home": {
             "id": "homeServiceGeneral",
@@ -58,12 +58,11 @@
           }
         }
       },
-      "ENVI_BUNDL": {},
+      "ENVI_BNDL": {},
       "ENVI_CANV ": {},
-      "Envi–HYB": {},
-      "Envi–Profile": {},
-      "Envi–HYB": {},
-      "Envi–PLUG ": {}
+      "ENVI–HYB": {},
+      "ENVI–Profile": {},
+      "ENVI–PLUG ": {}
     },
     "BODY": {}
   }

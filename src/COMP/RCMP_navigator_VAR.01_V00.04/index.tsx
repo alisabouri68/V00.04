@@ -26,7 +26,7 @@ type Packet2 = Record<string, PacketItem>;
 const Sidebar = () => {
   const location = useLocation();
   const { envi } = initDyna();
-  const console: Packet2 | undefined = envi?.ENVI_console?.console;
+  const console: Packet2 | undefined = envi?.ENVI_CONS?.console;
 
   const [filteredNav, setFilteredNav] = useState<DataNav[]>([]);
 
