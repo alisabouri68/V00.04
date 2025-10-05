@@ -18,7 +18,7 @@ function themeSheet() {
       icon: <HiOutlineComputerDesktop />,
     },
   ];
-  const theme = envi?.ENVI_glob?.glob_Packet_1?.filed_1?.value ?? "dark";
+  const theme = envi?.ENVI_GLOB?.globalState?.theme?.value ?? "dark";
   useEffect(() => {
     const currentTheme = themeOptions.find((item) => item.id === theme);
     if (currentTheme) {
@@ -41,11 +41,11 @@ function themeSheet() {
 
 reconfigDyna((prev:any) => ({
   ...prev,
-  ENVI_glob: {
-    ...prev.ENVI_glob,
-    glob_Packet_1: {
-      ...(prev.ENVI_glob.glob_Packet_1 ?? {}),  
-      filed_1: { id: "theme", value: selected.id },
+  ENVI_GLOB: {
+    ...prev.ENVI_GLOB,
+    globalState: {
+      ...prev.ENVI_GLOB.globalState ,  
+      theme: { id: "theme", value: selected.id },
     },
   },
 }));

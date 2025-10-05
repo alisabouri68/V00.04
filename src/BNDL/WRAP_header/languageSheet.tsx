@@ -13,7 +13,7 @@ function LanguageSelector() {
     { id: "fa", name: "Persian", icon: <span className="text-sm">FA</span> },
   ];
 
-  const language = envi?.ENVI_glob?.glob_Packet_1?.filed_2?.value;
+  const language = envi?.ENVI_GLOB?.globalState?.language?.value ;
   useEffect(() => {
     const currentLanguage = languageOptions.find(
       (item) => item.id === language
@@ -35,13 +35,16 @@ function LanguageSelector() {
   }, [language]);
   const handleLanguageChange = (selected: DropdownOption) => {
     setSelectedLanguage(selected);
-reconfigDyna({
-  ENVI_glob:{
-    glob_Packet_1:{
-      filed_2: { id: "language", value: selected.id },
-    }
-  }
-})
+reconfigDyna((prev:any) => ({
+  ...prev,
+  ENVI_GLOB: {
+    ...prev.ENVI_GLOB,
+    globalState: {
+      ...prev.ENVI_GLOB.globalState ,  
+      language: { id: "language", value: selected.id },
+    },
+  },
+}));
 
 
 
