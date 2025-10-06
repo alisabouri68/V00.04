@@ -26,23 +26,22 @@ Description:     Modal component rendered via portal into #modal_root with backd
 /**************************************
  * Step 01: Import dependencies
  **************************************/
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
-import ConsoleBasket from "../COMP/RCMP_consoleBasket_VAR.01_V00.04";
 /**************************************
  * Step 02: Define optional component props
  **************************************/
 interface ModalProps {
   className?: string; // Optional: custom styling classes
+  children: ReactNode;
+  setIsOpen: (arg :any) => void
+  isOpen: boolean
 }
 
 /**************************************
  * Step 03: Component definition
  **************************************/
-const BOX_modal = ({ className = "" }: ModalProps) => {
-  const { envi, reconfigDyna } = initDyna();
-
+const BOX_modal = ({ children, className = "", isOpen, setIsOpen }: ModalProps) => {
   /**************************************
    * Step 04: Access Redux modal state
    **************************************/
@@ -50,8 +49,6 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
   /**************************************
    * Step 05: Scroll lock on open
    **************************************/
-  const isOpen = envi?.ENVI_GLOB?.globalState?.modal?.isOpen;
-  const content1 = envi?.ENVI_GLOB?.globalState?.modal?.value;
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -67,7 +64,7 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
    **************************************/
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") reconfigDyna(!isOpen);
+      if (e.key === "Escape") setIsOpen(!isOpen);
     };
 
     if (isOpen) {
@@ -94,29 +91,14 @@ const BOX_modal = ({ className = "" }: ModalProps) => {
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm  "
-onClick={() =>
-  reconfigDyna((prevState:any) => ({
-    ...prevState,
-    ENVI_GLOB: {
-      ...prevState.ENVI_GLOB,
-      globalState: {
-        ...prevState.ENVI_GLOB.globalState,
-        modal: {
-          id: "modal",
-          isOpen: false,
-          value: ""
-        }
-      }
-    }
-  }))
-}
+      onClick={() => setIsOpen(!isOpen)}
     >
       <div
         className={`relative w-full max-w-3xl rounded-lg h-[90vh] overflow-hidden  bg-light text-dark
      ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
-        {content1 === "ConsoleBasket" ? <ConsoleBasket /> : null}
+        {children}
       </div>
     </div >,
     modalRoot
