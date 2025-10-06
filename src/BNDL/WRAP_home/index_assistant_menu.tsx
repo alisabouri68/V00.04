@@ -4,7 +4,7 @@ import { memo, ReactNode, useCallback, useMemo } from "react";
 import Button from "COMP/RCMP_button_V00.04";
 import Text from "COMP/RCMP_biotext_V0004";
 import EnviMngr from "../../COMP/RCMP_envimngr_v00.04";
-import { initDyna } from "RDUX/dynamanContext";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 import { SiHomeassistant } from "react-icons/si";
 import { IoMdSettings } from "react-icons/io";
 import { BsFiletypeJson } from "react-icons/bs";

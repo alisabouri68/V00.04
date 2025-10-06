@@ -1,58 +1,125 @@
-import { G2 } from "./g2";
-import { CustomRouteConfig } from "./g1";
-import { RouteObject } from "react-router-dom";
+// 📁 ACTR/RACT_panelman_V00.04/index.ts
+import dynaman from "ACTR/RACT_dynaman_V00.0/index";
+import lodash from "lodash";
+import { regman } from "ACTR/RACT_regman_V00.04/index";
 
-class panelman {
-  private g2: G2;
-
-  constructor(initialRoutes: CustomRouteConfig[] | null = null) {
-    this.g2 = new G2(initialRoutes);
+export class PanelMan extends dynaman {
+  constructor(initialState: any = {}) {
+    super({
+      ENVI_GLOB: initialState.ENVI_GLOB || {},
+      ENVI_CONS: initialState.ENVI_CONS || {},
+      ENVI_BUNDL: initialState.ENVI_BUNDL || {},
+      ENVI_CANV: initialState.ENVI_CANV || {},
+      ENVI_Profile: initialState.ENVI_Profile || {},
+      ENVI_HYB: initialState.ENVI_HYB || {},
+    });
   }
 
-  /** مقداردهی اولیه مسیرها */
-  public init(): void {
-    return this.g2.init();
+  /**
+   * پر کردن وضعیت پنل بر اساس نقش کاربر
+   */
+  public initByRole() {
+    const profile = regman.getUserProfile() || {};
+    const token = regman.getAuthToken();
+    const role = profile.role || "guest";
+
+    // 1️⃣ ری‌کانفیگ ENVI_Profile و ENVI_HYB
+    this.reconfig({
+      ...this.getState(),
+      ENVI_Profile: profile,
+      ENVI_HYB: { token, user: profile },
+    });
+
+    // 2️⃣ پر کردن ENVI_CONS بر اساس نقش
+    const ROUTE_ACCESS: Record<string, string[]> = {
+      user: ["home", "hot"],
+      admin: ["home", "hot", "cast", "gasma", "wiki"],
+      guest: [],
+    };
+
+    const consState: Record<string, any> = {};
+    ROUTE_ACCESS[role]?.forEach((route) => {
+      consState[route] = { id: route, value: true };
+    });
+
+    this.reconfig({
+      ...this.getState(),
+      ENVI_CONS: consState,
+    });
   }
 
-  /** افزودن مسیر جدید */
-  public addRoute(route: CustomRouteConfig): void {
-    this.g2.addRoute(route);
+  /* =============================
+   * CONS MANAGEMENT (کنسول‌ها)
+   * ============================= */
+  public setRouteState(route: string, value: boolean) {
+    const newState = lodash.merge({}, this.getState(), {
+      ENVI_CONS: { [route]: { id: route, value } },
+    });
+    this.reconfig(newState);
   }
 
-  /** دریافت مسیر خاص */
-  public getRoute(path: string): CustomRouteConfig | undefined {
-    return this.g2.getRoute(path);
+  public getRouteState(route: string): boolean {
+    return this.getState().ENVI_CONS?.[route]?.value ?? false;
   }
 
-  /** دریافت همه مسیرها */
-  public getAllRoutes(): CustomRouteConfig[] {
-    return this.g2.getAllRoutes();
+  /* =============================
+   * BUNDL MANAGEMENT (شیت‌ها)
+   * ============================= */
+  public setBundle(bundle: string, data: any) {
+    const newState = lodash.merge({}, this.getState(), {
+      ENVI_BUNDL: { [bundle]: data },
+    });
+    this.reconfig(newState);
   }
 
-  /** بازنشانی مسیرها به حالت پیش‌فرض */
-  public resetToDefault(): void {
-    return this.g2.resetToDefault();
+  public getBundle(bundle: string): any {
+    return this.getState().ENVI_BUNDL?.[bundle] || null;
   }
 
-  /** سریال‌سازی مسیرها */
-  public serialize(): string {
-    return this.g2.serialize();
+  /* =============================
+   * CANV MANAGEMENT (spk‌ها)
+   * ============================= */
+  public setCanvasElement(bundle: string, key: string, value: any) {
+    const canvases = lodash.get(this.getState(), ["ENVI_CANV", bundle], {});
+    canvases[key] = value;
+
+    const newState = lodash.merge({}, this.getState(), {
+      ENVI_CANV: { [bundle]: canvases },
+    });
+    this.reconfig(newState);
   }
 
-  /** فشرده‌سازی مسیرها */
-  public compress(): string {
-    return this.g2.compress();
+  public getCanvasElement(bundle: string, key: string): any {
+    return lodash.get(this.getState(), ["ENVI_CANV", bundle, key], null);
   }
 
-  /** بازیابی مسیرها از رشته فشرده‌شده */
-  public decompress(data: string): void {
-    return this.g2.decompress(data);
+  /* =============================
+   * GLOBAL SETTINGS
+   * ============================= */
+  public setGlobalSetting(key: string, value: any) {
+    const newState = lodash.merge({}, this.getState(), {
+      ENVI_GLOB: { [key]: value },
+    });
+    this.reconfig(newState);
   }
 
-  /** تبدیل مسیرها به RouteObject[] برای استفاده در createBrowserRouter */
-  public toRouteObjects(): RouteObject[] {
-    return this.g2.toRouteObjects();
+  public getGlobalSetting(key: string): any {
+    return lodash.get(this.getState(), ["ENVI_GLOB", key], null);
+  }
+
+  /* =============================
+   * RESET
+   * ============================= */
+  public resetPanel() {
+    this.reconfig({
+      ENVI_GLOB: {},
+      ENVI_CONS: {},
+      ENVI_BUNDL: {},
+      ENVI_CANV: {},
+      ENVI_Profile: {},
+      ENVI_HYB: {},
+    });
   }
 }
 
-export default panelman;
+export const panelman = new PanelMan();

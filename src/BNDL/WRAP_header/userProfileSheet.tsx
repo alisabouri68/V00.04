@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { FiEdit3, FiSettings, FiLogOut } from "react-icons/fi";
 import Avatar from "COMP/RCMP_avatar_VAR.01_V00.04";
 import ImageUser from "../../ASST/images/avatar.png";
-import { initDyna } from "RDUX/dynamanContext";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 
 export default function IndexUserProfile() {
   const {resetDyna } = initDyna();

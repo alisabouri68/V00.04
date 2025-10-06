@@ -1,26 +1,42 @@
-// middlewareWrapper.tsx
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState, Suspense } from "react";
+import { Navigate } from "react-router-dom";
 import Layout from "../../LAYOUT";
-import Modal from "BOX/BOX_modal";
+import { regman } from "ACTR/RACT_regman_V00.04/index";
+
 interface MiddlewareWrapperProps {
   children?: ReactNode;
-  isAuthenticated: boolean;
+  requiresAuth?: boolean;
 }
-function MiddlewareWrapper({
-  children,
-  isAuthenticated,
-}: MiddlewareWrapperProps) {
-  if (!isAuthenticated) {
-    return <div>Not authenticated</div>;
-  }
+export const ROUTE_ACCESS: Record<string, string[]> = {
+  user: ["home", "hot"], 
+  admin: ["home", "hot", "cast", "gasma","wiki"], 
+  guest: ["authTest"], 
+};
 
+export const MiddlewareWrapper: React.FC<MiddlewareWrapperProps> = ({ children, requiresAuth }) => {
+  const [isAuth, setIsAuth] = useState(regman.isAuthenticated());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const auth = regman.isAuthenticated();
+      if (auth !== isAuth) setIsAuth(auth);
+    }, 200);
+
+    return () => clearInterval(interval);
+  }, [isAuth]);
+
+  if (requiresAuth && !isAuth) return <Navigate to="/auth-test" replace />;
+
+  return <Layout>{children}</Layout>;
+};
+
+export const wrapWithMiddleware = (element: ReactNode, requiresAuth?: boolean): ReactNode => {
   return (
-    <>
-      <Layout>{children}</Layout>
-      <Modal/>
-      <div id="modal_root"></div>
-    </>
+    <MiddlewareWrapper requiresAuth={requiresAuth}>
+      <Suspense fallback={<div>Loading...</div>}>{element}</Suspense>
+    </MiddlewareWrapper>
   );
-}
+};
 
-export default MiddlewareWrapper;
+
+

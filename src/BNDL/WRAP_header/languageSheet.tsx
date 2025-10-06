@@ -1,6 +1,6 @@
 import Dropdown from "../../COMP/RCMP_dropdown_V00.04";
 import { useState, useEffect } from "react";
-import { initDyna } from "RDUX/dynamanContext";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 import { DropdownOption } from "../../COMP/RCMP_dropdown_V00.04";
 
 function LanguageSelector() {

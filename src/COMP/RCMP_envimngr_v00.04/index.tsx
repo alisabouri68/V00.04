@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Dropdown, { DropdownOption } from "COMP/RCMP_dropdown_V00.04";
-import { initDyna } from "RDUX/dynamanContext";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 
 function updateNestedObject<T>(obj: T, path: string[], value: any): T {
   if (path.length === 0) return value as T;

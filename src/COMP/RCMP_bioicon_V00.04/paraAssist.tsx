@@ -29,7 +29,7 @@
  * Step 01: Import core dependencies
  **************************************/
 import { ChangeEvent, useMemo, useCallback, memo } from "react";
-import { initDyna } from "RDUX/dynamanContext";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 
 /**************************************
  * Step 02: Define property interfaces

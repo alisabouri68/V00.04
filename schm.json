@@ -1,0 +1,25 @@
+{
+    "head": {
+        "model": "smartCompPanel",
+        "by": "D2025.10.06",
+        "last update": "APPS.68"
+    },
+    "sections": {
+        "id": {
+            "meta": {
+                "id": "smartCompPanel",
+                "title": "smartComp-Panel",
+                "type": "SCHM",
+                "ver": "00.04",
+                "rem": "1",
+                "create": "D2025.10.06"
+            }
+        },
+        "MNGT": {},
+        "LOGIC": {
+            "ENVI_GLOB": {},
+            "ENVI_CONS": {}
+        },
+        "BODY": {}
+    }
+}

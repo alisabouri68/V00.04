@@ -2,7 +2,7 @@ import Dropdown from "../../COMP/RCMP_dropdown_V00.04";
 import { GoSun, GoMoon } from "react-icons/go";
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
 import { useState, useEffect } from "react";
-import { initDyna } from "RDUX/dynamanContext";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 import { DropdownOption } from "../../COMP/RCMP_dropdown_V00.04";
 function themeSheet() {
   const [selectedTheme, setSelectedTheme] = useState<DropdownOption | null>(

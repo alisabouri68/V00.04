@@ -1,18 +1,8 @@
 ---glan11
 
 
-///   Template for Actor: DynaMan
 
-
-/// ---------------------------------------
-/// model:              Actor_dynaman_V00.04
-/// last update:        D2025.08.23
-/// by:                 APPS.68
-/// ---------------------------------------
-
-
-
->>> ID                      				//? Defining Actor
+>>> ID                      						//? Defining Actor
 
     /// step.01 -  Complete Meta Data
 
@@ -20,38 +10,44 @@
         . model-id:				"dynaman"
         . model-title:			"Dyna Manager"
         . model-version:		"V00.04"
-        . model-lastUpgrade:	"D2025.08.23"	      					
-        . model-owner			"apps68"
+        . model-lastUpgrade:	"D2025.10.05"
+        . model-owner			"apps00"
 
-        . model-type			"Instant"	      							
-        . origin-model			"ACTR"								
+        . model-type			"Instant"
+        . origin-model			"ACTR"
         . origin-model-Ver		"00.04"
         . model-desc			"Managing Dyna Enviroment"	
 
 -->
 
 
->>> MNG
+>>> MNGT
 
-    /// step.02 -  Management - Render
 
-    # render(1)                                                 /// description
-        . scat:                     "NPAN"                      /// description
-        . langBase:                 "node"                      /// description
+    /// step.02 -  Render Management
+  
+    # render(1)										//? http-react panel
+        .scat:					"RPAN"				/// genix SCat
+        .langBase:				"react"				/// language base
+        .param:					"value"				/// comments 
 
 
     /// step.03 -  Management - Dependency (kernels)
 
     # kernel(1)                     
-        . id:                       "lodash"
-        . default:                  false
+        . id:                   "dotenv/config"
+        . default:              false
 
     # kernel(2)                     
-        . id:                       "lz-string"
-        . default:                  false
+        . id:                   "@reduxjs/toolkit"
+        . default:              false
+
+													/// comments
+													
+        . named:                ["configureStore", "createSlice"]
 
 
-    /// step.04 -  Management Dependencies (co-act)=---------
+    /// step.04 -  Management Dependencies (co-actor)
 
 
 -->
@@ -61,17 +57,48 @@
 
     /// Step.05  - Global Variable (only in ACTRs)
 
+	# GLOBAL_Envi_Architecture /g
+		. enviVar(~grid1):  		[							/// List of Envi-Vars
+								ENVI_glob
+								, ENVI_hybrid 
+								, ENVI_profile
+								, ENVI_console
+								, ENVI_bundle
+								, ENVI_wrapper
+								, ENVI_plugs
+							]
 
-		# glob /g
-            .field11:       "defVal"
-            .field12:       ""
+		. enviVarIsArray(~grid1):	[							/// Which one are multiple
+								0						/// ENVI_glob
+								, 0						/// ENVI_hybrid 
+								, 0						/// ENVI_profile
+								, 1						/// ENVI_console ()
+								, 1						/// ENVI_bundle ()
+								, 1						/// ENVI_wrapper ()
+								, 1						/// ENVI_plugs ()
+							]
 
 
 
-	//-
-		ENVI_glob
-	
-	--/
+	# DEFAULT_GLOBAL_STATE /g					
+		. theme: 				'light'
+		. language: 			'fa'
+		. direction: 			'rtl'
+		. userPreferences:
+		.	. fontSize: 		'medium'
+		.	. reduceAnimations: false
+		.	. highContrast: 	false
+
+		. notifications:
+		.	. enabled: 			true
+		.	. sound: 			true
+		.	. vibration: 		false
+
+		. privacy: 
+		.	. analytics: false
+		.	. cookies: false
+		.	. tracking: false
+
 
 
 
@@ -98,12 +125,128 @@
 
 
 
-
-    /// Step.07a - Script Group 1:  Default Scripts 
-
+    /// Step.07 - Scripts
 
 
 
+
+	>>>	GRP.01 	default								/// initialize the environment
+	
+
+	$dynaSetup()				"Dyna Setup"		//? start node ACRT_dyna.dyansetup()
+		-par1 :					"0"
+		-Par2*:					"0"
+		-mode
+		/s											/// 
+
+		{
+			//-	stages:
+			------------
+			call KRNL_express + ... 
+			....
+			import ACRT_panelman
+			panelman.routersetup
+			panelman.spiderlist
+			
+			dyna.loadplaylist()
+			dyna.loadactor()
+			dyna.loadkernel()
+
+			panelman.listen() { run index }
+			....
+			call dyna.dynamnge()
+
+			--/ 
+		}
+
+	$init-main()									/// this is the basic initialization for dyna ecosystem
+		-par1 :		""
+		-Par2*:		""
+		-mode
+		/s							/// 
+		{ 
+		
+	/// spider setup (add .schm-dyna any new actor/kernel/play)
+
+	/// init registries for each Actors
+
+	/// Activate necessary Actor (such as panelMan to start listening) and other event management Actors
+
+
+		}
+
+
+
+	$ help ()					/// Print information about this Actor
+
+	$ scriptList ()		    	/// json format - list of scrip-id
+
+	$ gvarList ()				/// list gvar
+
+	$ signature (script-id)		/// json format - signature of a scrip-id
+	
+	S gvarinfo (gvarid)			/// json format - show info about a gvarId
+
+	$ test ()					/// functional test for all the scripts
+
+
+	$ dynaManage ()
+										/// main loop (hook management / ....)
+
+										/// or main deamon 
+
+
+	-->
+
+
+	>>>	GRP.02 - Envi Management
+	
+	//- List of Environment Variable:
+		ENVI_glob
+		ENVI_hybrid 					/// login and authentication
+		ENVI_profile					/// Profile of a person
+		ENVI_console ()
+		ENVI_bundle ()
+		ENVI_wrapper ()
+		ENVI_plugs ()
+	
+	--/
+	
+	
+	
+
+	$ getEnviType ()
+			-regime							/// React || Node || Python || Lexi
+			|| -tire						/// Front || Logic || Panel
+
+
+	$ getEnviStat ()
+			-actCount
+			|| -playCount
+			|| -compCount
+
+
+	$ enviRestart ()
+
+	$ getEnviVer ()							/// dyna version	
+			
+
+
+    /// envi maker
+    $ makeStore()                                               /// Configure the Redux store.
+        . initialState*             { hybrid: {} }              ///  Optional init state for the store.
+
+
+    /// features
+    $ useEffect()                                               /// A simplified implementation of React's `useEffect` hook.
+        . callback                  undefined                   /// The function to execute when dependencies change.
+        . dependencies              undefined                   /// An array of dependencies to watch for changes.
+
+
+
+
+
+		/// GRP.03a - Misc. Scripts (By Mr. Emami)
 
 $ init ()                  /// Initialize the Dyna ecosystem and prepare the Actor
 
@@ -117,7 +260,7 @@ $ serialize ()             /// Serialize a specific scrip ID and return its digi
 
 $ stringify ()             /// Convert the data of a given gvar ID into a readable JSON string
 
-    /// Script Group.2 - Envi Management
+		/// GRP.03b - Envi Management
 
 
 	
@@ -153,19 +296,19 @@ $ stringify ()             /// Convert the data of a given gvar ID into a readab
 
 
 
-    /// Script Group.3 - Operational Model Management
+		/// GRP.03c - Operational Model Management
 
 	$ modhelp ( -moduleID:)
 
 
     
-    /// step.08 - init Script sequence define
+		/// GRP.03d - init Script sequence define
 
     $ init()                        
         . makeStore
 
 
-    /// step.09 - script signature definition
+		/// GRP.03f - script signature definition
 
 
     /// group 1 - env
@@ -179,6 +322,29 @@ $ stringify ()             /// Convert the data of a given gvar ID into a readab
         . dependencies              undefined                   /// An array of dependencies to watch for changes.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->
+
+
+
 -->
 
 ---
+
+
+
+

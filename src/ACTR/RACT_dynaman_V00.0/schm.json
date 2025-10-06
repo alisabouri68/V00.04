@@ -16,54 +16,7 @@
       }
     },
     "MNGT": {},
-    "LOGIC": {
-      "ENVI_GLOB": {
-        "globalState": {
-          "theme 23": {
-            "id": "theme 42",
-            "value": "light"
-          },
-          "language": {
-            "id": "language",
-            "value": "en"
-          },
-          "modal": {
-            "id": "modal",
-            "isOpen": false,
-            "value": ""
-          }
-        }
-      },
-      "ENVI_CONS": {
-        "console": {
-          "Home": {
-            "id": "homeServiceGeneral",
-            "value": true
-          },
-          "Hot": {
-            "id": "hotserviceGeneral",
-            "value": true
-          },
-          "Cast": {
-            "id": "Cast",
-            "value": true
-          },
-          "Gasma": {
-            "id": "Gasma",
-            "value": true
-          },
-          "wikiCnter": {
-            "id": "wikiCnter",
-            "value": true
-          }
-        }
-      },
-      "ENVI_BNDL": {},
-      "ENVI_CANV ": {},
-      "ENVI–HYB": {},
-      "ENVI–Profile": {},
-      "ENVI–PLUG ": {}
-    },
-    "BODY": {}
-  }
+    "LOGIC": {}
+  },
+  "BODY": {}
 }

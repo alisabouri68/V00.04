@@ -1,5 +1,34 @@
+
+/******************************************
+Play- Dynactrl
+
+Last Update:    2025.10.05
+By:             APPS.68
+
+Description:  This templates is used for developing React PLAY based on V00.04
+******************************************/
+
+
+
+// *************************************
+// Meta Data
+/*----------------------------------------------------------
+
+ID:             Dynactrl 
+Title:          PLAY Dynactrl - React Version
+Version:        V00.04
+VAR:            01 (remarks ....)
+last-update:    D2025.10.05
+owner:          APPS.68
+
+Description:    Here ...
+
+------------------------------------------------------------*/
+// ************************************
+//  Step 01 import dependencies - kernels
+// ************************************
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import Dynaman, { DEFAULT_GLOBAL_STATE } from "../ACTR/RACT_dynaman_V00.0";
+import Dynaman, { DEFAULT_GLOBAL_STATE } from "../../ACTR/RACT_dynaman_V00.0";
 import lodash from "lodash";
 
 const GlobalStateContext = createContext<any>(null);
@@ -38,19 +67,14 @@ const DynamanProvider: React.FC<{ children: React.ReactNode }> = ({
 
 
 
-const reconfigDyna = (newStateOrFn: any) => {
-  const newState =
-    typeof newStateOrFn === "function" ? newStateOrFn(state) : newStateOrFn;
-
-  const mergedState = lodash.merge(lodash.cloneDeep(state), newState);
-  dispatch({ type: "UPDATE_STATE", payload: mergedState });
-
-  if (dynamanRef.current) {
-    dynamanRef.current.reconfig(mergedState);
-  }
-};
-
-
+  const reconfigDyna = (newStateOrFn: any) => {
+    const newState = typeof newStateOrFn === "function" ? newStateOrFn(state) : newStateOrFn;
+    const mergedState = lodash.merge(lodash.cloneDeep(state), newState);
+    dispatch({ type: "UPDATE_STATE", payload: mergedState });
+    if (dynamanRef.current) {
+      dynamanRef.current.reconfig(mergedState);
+    }
+  };
   const resetDyna = () => {
     if (dynamanRef.current) {
       const resetState = dynamanRef.current.resetToDefault();
@@ -58,20 +82,17 @@ const reconfigDyna = (newStateOrFn: any) => {
       dynamanRef.current.reconfig(resetState);
     }
   };
-
   const value = {
     envi: state,
     reconfigDyna,
     resetDyna,
   };
-
   return (
     <GlobalStateContext.Provider value={value}>
       {children}
     </GlobalStateContext.Provider>
   );
 };
-
 export const initDyna = () => {
   const context = useContext(GlobalStateContext);
   if (!context) {

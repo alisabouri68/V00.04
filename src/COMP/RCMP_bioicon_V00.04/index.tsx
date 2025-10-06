@@ -29,7 +29,7 @@ Description:    Here ...
  * Step 01 import dependencies - kernels
  **************************************/
 import { useState, useEffect, useRef } from "react";
-import { initDyna } from "RDUX/dynamanContext";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 import schmJson from "./.schm.json?raw"
 
 /******************************************

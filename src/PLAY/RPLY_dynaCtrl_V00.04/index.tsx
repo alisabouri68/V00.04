@@ -26,11 +26,11 @@ Description:    Here ...
 // ************************************
 //  Step 01 import dependencies - kernels
 // ************************************
-import { ReactNode } from "react";
+// import { ReactNode } from "react";
 // ************************************
 //  Step.02: import dependencies - co-actors 
 // *************************************
-import DynamanProvider from "../../RDUX/dynamanContext";
+// import DynamanProvider from "./dynaCtrl";
 // ************************************
 //  * Step.03: import dependencies - xapp s
 // **************************************
@@ -45,10 +45,10 @@ import DynamanProvider from "../../RDUX/dynamanContext";
 // ************************************
 //  Step.06: Play Definition
 //*************************************
-const DynaCtrl = ({ children }: { children: ReactNode }) => {
+// const DynaCtrl = ({ children }: { children: ReactNode }) => {
 
 
-  return <DynamanProvider>{children}</DynamanProvider>;
-};
+//   return <DynamanProvider>{children}</DynamanProvider>;
+// };
 
-export default DynaCtrl;
+// export default DynaCtrl;

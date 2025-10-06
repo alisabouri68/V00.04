@@ -62,6 +62,11 @@ export class G1 {
     }
   }
 
+
+  /**
+   * clean and reset all envi-var in the local storage
+   */
+
   public cleanStateForStorage(state: any): any {
     const cleanDeep = (obj: any): any => {
       if (obj === null || typeof obj !== "object") return obj;
@@ -96,10 +101,18 @@ export class G1 {
     return cleanDeep(this.deepClone(state));
   }
 
+  /**
+   * enter the configuration from Json file into local storage
+   */
 
   public init(): any {
     return this._state;
   }
+
+
+  /** 
+   * reconfig (any change in the dyna will be updated in local storage)
+   */
 
   public reconfig(newConfig: any): any {
     lodash.merge(this._state, newConfig);
@@ -107,9 +120,18 @@ export class G1 {
     return this._state;
   }
 
+
+  /**
+   * ????
+   */
+
   public getState(): any {
     return this._state;
   }
+
+  /**
+   * enter the configuration from Json file into local storage
+   */
 
   public resetToDefault(): any {
     this._state = this.deepClone(DEFAULT_GLOBAL_STATE);

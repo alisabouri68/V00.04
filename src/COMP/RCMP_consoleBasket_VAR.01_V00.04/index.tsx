@@ -17,7 +17,7 @@ import Text from "../RCMP_biotext_V0004";
 import { FaLongArrowAltUp } from "react-icons/fa";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { initDyna } from "../../RDUX/dynamanContext";
+import { initDyna } from "../../PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 
 // ---------------- Types ----------------
 export interface BasketItem {
@@ -113,7 +113,7 @@ export const initialData: BasketData = {
   ],
 };
 
-const BasketItems = () => {
+const BasketItems = ({setIsOpen}:{setIsOpen:(arg:boolean)=>void}) => {
   const { envi, reconfigDyna } = initDyna();
 
   const [basketData, setBasketData] = useState<BasketData>(initialData);
@@ -205,13 +205,8 @@ const BasketItems = () => {
           });
 
           reconfigDyna({
-            packet_2: {
-              ...envi.packet_2,
-              [Object.keys(envi.packet_2).find(
-                (key) => envi.packet_2[key].id === id
-              )!]: { id, value: false },
-            },
-          });
+            // *************************
+            });
         }
       } else {
         // --- Pin ---
@@ -291,12 +286,7 @@ const BasketItems = () => {
           />
         </div>
         <Button
-          onClick={() =>
-            reconfigDyna({
-              modal: {
-                isOpen: false,
-              },
-            })
+          onClick={()=>setIsOpen(false)
           }
           leftIcon={<IoMdClose className="text-2xl" />}
           variant="text"

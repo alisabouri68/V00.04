@@ -1,6 +1,6 @@
 import StylePanel from "COMP/RCMP_bioicon_V00.04/paraAssist";
 import ParaEditor from "../../COMP/RCMP_bioicon_V00.04/paraEdit";
-import { initDyna } from "RDUX/dynamanContext";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 function index_assistant_content({ activeView, selectedTab, }: { activeView: "assistant" | "editor"; selectedTab: "meta" | "geo" | "log" | "style" }) {
 
   const { envi } = initDyna();

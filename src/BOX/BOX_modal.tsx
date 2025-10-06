@@ -28,7 +28,7 @@ Description:     Modal component rendered via portal into #modal_root with backd
  **************************************/
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
-import { initDyna } from "RDUX/dynamanContext";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 import ConsoleBasket from "../COMP/RCMP_consoleBasket_VAR.01_V00.04";
 /**************************************
  * Step 02: Define optional component props

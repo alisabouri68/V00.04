@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logoDash from "ASST/images/Asset 5.svg";
 import { iconMap, initialData } from "COMP/RCMP_consoleBasket_VAR.01_V00.04";
-import { initDyna } from "RDUX/dynamanContext";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 
 export interface DataNav {
   id: string;
