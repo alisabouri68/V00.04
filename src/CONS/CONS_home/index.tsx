@@ -18,7 +18,7 @@ function Index() {
         </BOX_actionMenu>
 
 
-        <BOX_actionContent>zxzx</BOX_actionContent>
+        <BOX_actionContent>lorem5</BOX_actionContent>
 
       </BOX_action>
 

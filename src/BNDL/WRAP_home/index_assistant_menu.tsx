@@ -39,7 +39,7 @@ const index_assistant_menu = memo(({
     reconfigDyna((prevState: any) => ({
       ...prevState,
       ENVI_GLOB: {
-        assistant: false,
+        assistant: !assistants,
       }
     }));
   }, [assistants, selectedTab, reconfigDyna]);
@@ -113,7 +113,7 @@ const index_assistant_menu = memo(({
         </div>
         <div>
           <Button
-            variant={!assistants ? "filled" : "outlined"}
+            variant={assistants ? "filled" : "outlined"}
             fullWidth={true}
             buttunTitle="ENVI_mng"
             onClick={enviHandel}
@@ -121,7 +121,7 @@ const index_assistant_menu = memo(({
         </div>
       </div>
 
-      {!assistants ? (
+      {assistants ? (
         <EnviMngr />
       ) : (
         <>
