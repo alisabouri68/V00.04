@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router";
-import panelman from "../ACTR/aaaa";
+import panelman from "../ACTR/test";
 const routeManager = new panelman();
 routeManager.init();
 const routes = routeManager.toRouteObjects();
