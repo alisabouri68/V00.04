@@ -26,7 +26,7 @@ type Packet2 = Record<string, PacketItem>;
 const Sidebar = () => {
   const location = useLocation();
   const { envi } = initDyna();
-  const console: Packet2 | undefined = envi?.ENVI_CONS?.console;
+  const cons: Packet2 | undefined = envi?.ENVI_CONS;
 
   const [filteredNav, setFilteredNav] = useState<DataNav[]>([]);
 
@@ -35,54 +35,41 @@ const Sidebar = () => {
     return iconMap[iconName] || <div>{title.charAt(0)}</div>; // fallback
   };
 
-  // تبدیل console به map ساده { id: value }
+
+  // تبدیل cons به map ساده { id: value }
   const normalizePacket = (packet: Packet2 | undefined): Record<string, boolean> => {
     if (!packet) return {};
-    return Object.values(packet).reduce<Record<string, boolean>>((acc, filed) => {
-      acc[filed.id] = filed.value;
-      return acc;
-    }, {});
+    return Object.values(packet).reduce<Record<string, boolean>>(
+      (acc, filed) => {
+        acc[filed.id] = filed.value;
+        return acc;
+      },
+      {}
+    );
   };
 
-  useEffect(() => {
-    if (!console) {
-      setFilteredNav([]);
-      return;
-    }
+useEffect(() => {
+  if (!cons) return;
+  const consoleMap = normalizePacket(cons);
 
-    const consoleMap = normalizePacket(console);
+  const allNavItems = [...initialData.General, ...initialData.Community, ...initialData["Mono Service"]];
+  const navItems = allNavItems
+    .map(item => ({ ...item, icon: getIconComponent(item.icon, item.title) }))
+    .filter(item => consoleMap[item.id]);
 
-    // ترکیب همه آیتم‌ها
-    const allNavItems = [
-      ...initialData.General,
-      ...initialData.Community,
-      ...initialData["Mono Service"],
-    ];
+  setFilteredNav(navItems);
+}, [cons]); // 🔹 dependency روی console reactive
 
-    // مپ و فیلتر کردن
-    const navItems = allNavItems
-      .map((item) => ({
-        id: item.id,
-        title: item.title,
-        icon: getIconComponent(item.icon, item.title),
-        href: item.href,
-        para: item.para,
-        lock: item.lock,
-        pin: item.pin,
-      }))
-      .filter((item) => consoleMap[item.id] === true);
 
-    setFilteredNav(navItems);
-  }, [console]);
 
   return (
     <aside
       className="
-       w-full
+       min-w-[75px]
+       max-w-[75px]
        flex flex-col
        rounded-lg
        overflow-hidden
-       dark:border dark:border-stone-950
        bg-light text-dark
        h-full
       "

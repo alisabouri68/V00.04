@@ -18,6 +18,7 @@ export default function index({ children }: { children: ReactNode }) {
       <nav className="w-full lg:hidden flex min-h-20 max-h-20">
         <NavigatorVar2 />
       </nav>
+      <div id="modal_root"></div>
     </div>
   );
 }
