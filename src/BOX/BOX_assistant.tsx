@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
 
+import { ReactNode } from 'react'
 function BOX_assistant({ children }: { children: ReactNode }) {
   return (
     <div 

@@ -27,30 +27,12 @@ export const convertToRouteObject = (config: CustomRouteConfig): RouteObject => 
 
 export const DEFAULT_ROUTE_CONFIG: CustomRouteConfig[] = [
   { name: "home", path: "/", element: <ConsoleHome />, requiresAuth: true },
-  { name: "mono", path: "/mono", element: <ConsoleMono />, requiresAuth: true },
   { name: "hot", path: "/hot", element: <ConsoleHot />, requiresAuth: true },
-  {
-    name: "gasma",
-    path: "/gasma",
-    element: <ConsoleGasma />,
-    requiresAuth: true,
-    children: [{ name: "gasma-detail", path: ":id", element: <ConsoleGasmaDetail />, requiresAuth: true }],
-  },
   { name: "cast", path: "/cast", element: <ConsoleCast />, requiresAuth: true },
-
-  {
-    name: "home",
-    path: "/",
-    element: <ConsoleHome />,
-    requiresAuth: true,
+  { name: "mono", path: "/mono", element: <ConsoleMono />, requiresAuth: true },
+  { name: "gasma", path: "/gasma", element: <ConsoleGasma />, requiresAuth: true,
+    children: [{ name: "gasma-detail", path: ":id", element: <ConsoleGasmaDetail />, requiresAuth: true }]
   },
-  {
-    name: "authTest",
-    path: "/auth-test",
-    element: <AuthTestPanel />,
-    requiresAuth: false,
-  },
-
-  // مسیر 404
+  { name: "authTest", path: "/auth-test", element: <AuthTestPanel />, requiresAuth: false },
   { name: "notFound", path: "/*", element: <div>صفحه یافت نشد</div>, requiresAuth: false },
 ];

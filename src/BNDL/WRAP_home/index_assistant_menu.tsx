@@ -27,7 +27,7 @@ const index_assistant_menu = memo(({
   const { envi, reconfigDyna } = initDyna();
   const id = envi?.ENVI_GLOB?.globalState?.assistant?.id || false
   const assistants = useMemo(() =>
-    envi?.ENVI_GLOB?.globalState?.assistant?.assistant || false,
+    envi?.ENVI_GLOB?.assistant || false,
     [envi]
   );
 
@@ -39,15 +39,7 @@ const index_assistant_menu = memo(({
     reconfigDyna((prevState: any) => ({
       ...prevState,
       ENVI_GLOB: {
-        ...prevState.ENVI_GLOB,
-        globalState: {
-          ...prevState.ENVI_GLOB.globalState,
-          assistant: {
-            ...prevState.ENVI_GLOB.globalState.assistant,
-            assistant: !assistants,
-            section: selectedTab
-          }
-        }
+        assistant: false,
       }
     }));
   }, [assistants, selectedTab, reconfigDyna]);
@@ -121,7 +113,7 @@ const index_assistant_menu = memo(({
         </div>
         <div>
           <Button
-            variant={assistants ? "filled" : "outlined"}
+            variant={!assistants ? "filled" : "outlined"}
             fullWidth={true}
             buttunTitle="ENVI_mng"
             onClick={enviHandel}
@@ -129,12 +121,12 @@ const index_assistant_menu = memo(({
         </div>
       </div>
 
-      {assistants ? (
+      {!assistants ? (
         <EnviMngr />
       ) : (
         <>
           {id && PanelButtons}
-          <div  className="flex items-center justify-center bg-primary/10 border border-primaryp-2 rounded-lg m-2.5 text-primary">{ id || "select component"}</div>
+          <div className="flex items-center justify-center bg-primary/10 border border-primaryp-2 rounded-lg m-2.5 text-primary">{id || "select component"}</div>
           {id && TabButtons}
           {id && children}
         </>

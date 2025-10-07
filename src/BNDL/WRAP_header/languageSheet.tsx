@@ -12,8 +12,7 @@ function LanguageSelector() {
     { id: "en", name: "English", icon: <span className="text-sm">EN</span> },
     { id: "fa", name: "Persian", icon: <span className="text-sm">FA</span> },
   ];
-
-  const language = envi?.ENVI_GLOB?.globalState?.language?.value ;
+  const language = envi?.ENVI_GLOB?.language?.value || "en";
   useEffect(() => {
     const currentLanguage = languageOptions.find(
       (item) => item.id === language
@@ -35,19 +34,13 @@ function LanguageSelector() {
   }, [language]);
   const handleLanguageChange = (selected: DropdownOption) => {
     setSelectedLanguage(selected);
-reconfigDyna((prev:any) => ({
-  ...prev,
-  ENVI_GLOB: {
-    ...prev.ENVI_GLOB,
-    globalState: {
-      ...prev.ENVI_GLOB.globalState ,  
-      language: { id: "language", value: selected.id },
-    },
-  },
-}));
-
-
-
+    reconfigDyna((preveState: any) => ({
+      ...preveState, ENVI_GLOB: {
+        ...preveState.ENVI_GLOB, language: {
+          value: selected.id
+        }
+      }
+    }))
     if (language === "fa" || language === "ar") {
       document.documentElement.dir = "rtl";
     } else {

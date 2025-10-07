@@ -1,6 +1,30 @@
-import dynaman from "ACTR/RACT_dynaman_V00.0/index";
-import lodash from "lodash";
 
+/// Meta    
+///
+///  ID:              RACT_regman
+///  Ver:             V00.04
+///  last update:     2025.10.07
+///  by:              APPS.68
+/************************************
+ * Step 01 import dependencies - kernels
+ **************************************/
+import lodash from "lodash";
+/************************************
+ * Step.02: import dependencies - co-actors
+**************************************/
+import dynaman from "ACTR/RACT_dynaman_V00.0/index";
+/************************************
+ * Step.03: import dependencies - xapp s
+ **************************************/
+/************************************
+ * Step.04: import script groups
+ **************************************/
+/************************************
+ * Step.05: Envi Setups
+ **************************************/
+/************************************
+ * Step.05: Class Definition
+ *************************************/
 export class RegMan extends dynaman {
   constructor(initialState: any = {}) {
     super({

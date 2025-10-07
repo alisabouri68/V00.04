@@ -4,7 +4,7 @@ import LanguageSheet from "./languageSheet";
 import UserProfileSheet from "./userProfileSheet";
 function index() {
   return (
-    <div className="w-full h-full flex 2xl:container 2xl:mx-auto">
+    <div className="w-full h-full flex ">
       <div className="flex w-full h-full px-3">
         <ConsolweSheet />
         <div className="flex flex-1 items-center justify-evenly h-full">

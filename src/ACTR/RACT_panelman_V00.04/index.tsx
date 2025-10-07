@@ -1,8 +1,31 @@
-// 📁 ACTR/RACT_panelman_V00.04/index.ts
+
+/// Meta    
+///
+///  ID:              RACT_panelman
+///  Ver:             V00.04
+///  last update:     2025.10.07
+///  by:              APPS.68
+/************************************
+ * Step 01 import dependencies - kernels
+ **************************************/
 import dynaman from "ACTR/RACT_dynaman_V00.0/index";
 import lodash from "lodash";
+/************************************
+ * Step.02: import dependencies - co-actors
+**************************************/
 import { regman } from "ACTR/RACT_regman_V00.04/index";
-
+/************************************
+ * Step.03: import dependencies - xapp s
+ **************************************/
+/************************************
+ * Step.04: import script groups
+ **************************************/
+/************************************
+ * Step.05: Envi Setups
+ **************************************/
+/************************************
+ * Step.05: Class Definition
+ *************************************/
 export class PanelMan extends dynaman {
   constructor(initialState: any = {}) {
     super({
@@ -16,21 +39,21 @@ export class PanelMan extends dynaman {
   }
 
   /**
-   * پر کردن وضعیت پنل بر اساس نقش کاربر
+   * نقش کاربر را تشخیص میدهیم
    */
   public initByRole() {
     const profile = regman.getUserProfile() || {};
     const token = regman.getAuthToken();
     const role = profile.role || "guest";
 
-    // 1️⃣ ری‌کانفیگ ENVI_Profile و ENVI_HYB
+    // پروفایل و هیبرید را اپدیت میکنیم
     this.reconfig({
       ...this.getState(),
       ENVI_Profile: profile,
       ENVI_HYB: { token, user: profile },
     });
 
-    // 2️⃣ پر کردن ENVI_CONS بر اساس نقش
+    //  بر اساس نقش کاربر کنسولارو تولید میکنه
     const ROUTE_ACCESS: Record<string, string[]> = {
       user: ["home", "hot"],
       admin: ["home", "hot", "cast", "gasma", "wiki"],
@@ -112,7 +135,6 @@ export class PanelMan extends dynaman {
    * ============================= */
   public resetPanel() {
     this.reconfig({
-      ENVI_GLOB: {},
       ENVI_CONS: {},
       ENVI_BUNDL: {},
       ENVI_CANV: {},
@@ -121,5 +143,6 @@ export class PanelMan extends dynaman {
     });
   }
 }
+
 
 export const panelman = new PanelMan();
