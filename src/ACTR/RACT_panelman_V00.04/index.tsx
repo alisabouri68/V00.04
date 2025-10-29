@@ -106,7 +106,7 @@ export class PanelMan extends dynaman {
         name: this.getRouteName(route),
         BUNDL: bundleState[route] || {},
         enabled: true,
-        permissions: this.getRoutePermissions(route, role),
+        permissions: this.getRoutePermissions(route),
         lastAccessed: Date.now()
       };
     });
@@ -131,7 +131,7 @@ export class PanelMan extends dynaman {
   /**
    * دریافت دسترسی‌های روت
    */
-  private getRoutePermissions(route: string, role: string): string[] {
+  private getRoutePermissions(route: string): string[] {
     const permissionMap: Record<string, string[]> = {
       home: ['guest', 'user', 'editor', 'admin'],
       hot: ['guest', 'user', 'editor', 'admin'],

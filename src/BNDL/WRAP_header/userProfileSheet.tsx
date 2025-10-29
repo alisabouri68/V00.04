@@ -4,11 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Avatar from "COMP/RCMP_avatar_VAR.01_V00.04";
 import ImageUser from "../../ASST/images/avatar.png";
 import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
-import { hybMan } from "ACTR/RACT_hybman_V00.04";
 import { profileMan } from "ACTR/RACT_profileman_V00.04";
 import Button from "COMP/RCMP_button_V00.04";
 
-// یک helper کوچک برای force update کامپوننت
 function useForceUpdate() {
   const [, setTick] = useState(0);
   return () => setTick((tick) => tick + 1);
@@ -21,14 +19,12 @@ export default function IndexUserProfile() {
   const navigate = useNavigate();
   const forceUpdate = useForceUpdate();
 
-  const isLoggedIn = hybMan.isAuthenticated();
   const user = profileMan.getProfile();
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const handleLogout = () => {
     resetDyna();
-    hybMan.logout();
     profileMan.resetProfile();
     setIsDropdownOpen(false);
     navigate("/");
@@ -52,7 +48,7 @@ export default function IndexUserProfile() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
- 
+
   useEffect(() => {
     const handleStorageChange = () => forceUpdate();
     window.addEventListener("storage", handleStorageChange);
@@ -61,7 +57,7 @@ export default function IndexUserProfile() {
 
   return (
     <div className="flex self- gap-2 relative" ref={dropdownRef}>
-      {isLoggedIn ? (
+      {true ? (
         <>
           <div className="flex gap-2 items-center cursor-pointer" onClick={toggleDropdown}>
             <Avatar alt="user" variant="single" fallbackText="" isOnline size="md" src={ImageUser} />
