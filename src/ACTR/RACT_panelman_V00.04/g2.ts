@@ -8,12 +8,6 @@ import ConsoleSwitcher from "COMP/RCMP_consoleSwitcher_VAR.01_V00.04/index";
 import Dropdown from "COMP/RCMP_dropdown_V00.04/index";
 import Envimngr from "COMP/RCMP_envimngr_v00.04/index";
 import Navigator1 from "COMP/RCMP_navigator_VAR.01_V00.04/index";
-import Navigator2 from "COMP/RCMP_navigator_VAR.02_V00.04/index";
-import ServiceDropList from "COMP/RCMP_serviceDropList_VAR.01_V00.04/index";
-import ServicePicker from "COMP/RCMP_servicePicker_VAR.01_V00.04/index";
-import Profile from "BNDL/WRAP_header/userProfileSheet";
-import Theme from "BNDL/WRAP_header/themeSheet";
-import Language from "BNDL/WRAP_header/languageSheet";
 
 export class ComponentLoader {
     private components: Record<string, React.ComponentType<any>>;
@@ -30,12 +24,6 @@ export class ComponentLoader {
             dropdown: Dropdown,
             envimngr: Envimngr,
             navigator1: Navigator1,
-            navigator2: Navigator2,
-            serviceDropList: ServiceDropList,
-            servicePicker: ServicePicker,
-            profile: Profile,
-            theme: Theme,
-            language: Language,
         };
 
 
