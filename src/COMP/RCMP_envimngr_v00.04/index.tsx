@@ -69,7 +69,7 @@ export default function PacketDropdown() {
   };
 
   return (
-    <div className="w-full flex flex-col gap-4 bg-gray-50 dark:bg-gray-900 rounded-md">
+    <div className="w-full flex flex-col gap-4 bg-gray-50 dark:bg-gray-900 rounded-md p-1.5">
       <h2 className="w-full text-lg font-semibold text-gray-800 dark:text-gray-100">Environment & Packet Explorer</h2>
 
       <div className="w-fullflex flex-col gap-1">

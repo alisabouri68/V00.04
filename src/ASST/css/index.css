@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
+/* @font-face {
   font-family: 'Roboto';
   src: url('/src/ASST/fonts/Roboto.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
-}
+} */
+
 body {
-  font-family: 'Roboto';
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -23,6 +23,7 @@ body,
   margin: 0;
   padding: 0;
 }
+
 /* Chrome, Edge, Safari */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
@@ -39,6 +40,7 @@ body,
   border: 2px solid transparent;
   background-clip: content-box;
 }
+
 /* Firefox */
 .custom-scrollbar {
   scrollbar-width: thin;
@@ -46,12 +48,61 @@ body,
   scrollbar-color: rgba(100, 100, 100, 0.3) transparent;
 }
 
-.jini {
-  width: 100%;
-  min-height: 300px;
-  background-image: url("../images/blossom2.jpg");
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+.bundle-header {
+  @apply flex items-center justify-evenly bg-light text-dark w-full h-[65px];
+}
+
+.bundle-menu {
+  @apply min-w-20 max-w-20 hidden lg:flex h-full px-0.5 py-1 border border-red-500 rounded-md;
+}
+
+.screen {
+  @apply flex items-center gap-1 h-full w-full px-0.5 flex-1 overflow-hidden;
+}
+
+.action {
+  @apply flex flex-col w-9/12 h-full text-dark lg:rounded-md custom-scrollbar overflow-y-auto border border-red-500 rounded-md;
+}
+
+.assistant {
+  @apply flex flex-col gap-1 w-3/12 h-full text-dark rounded-md overflow-hidden border border-red-500;
+}
+
+@keyframes floating {
+  0% {
+    transform: translate(0, 0px);
+  }
+
+  50% {
+    transform: translate(0, 15px);
+  }
+
+  100% {
+    transform: translate(0, -0px);
+  }
+}
+
+.pulse-btn {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
 }

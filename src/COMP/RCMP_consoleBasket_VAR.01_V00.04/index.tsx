@@ -93,7 +93,7 @@ export const initialData: BasketData = {
   ],
   General: [
     {
-      id: "homeServiceGeneral",
+      id: "home",
       icon: "HiOutlineHome",
       href: "/",
       title: "HOME",
@@ -102,7 +102,7 @@ export const initialData: BasketData = {
       pin: false,
     },
     {
-      id: "hotserviceGeneral",
+      id: "hot",
       icon: "MdOutlineLocalFireDepartment",
       href: "/hot",
       title: "Hot",

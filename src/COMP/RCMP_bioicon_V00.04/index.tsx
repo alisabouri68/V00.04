@@ -51,7 +51,7 @@ export interface IconProps {
  *   - Prevent deactivation when clicking on Assistant
  *   - Manage state in Dyna context
  ******************************************/
-const IconComponent = ({ geo, logic, style, children }: IconProps) => {
+const BioIcon = ({ geo, logic, style, children }: IconProps) => {
   /******************************************
    * State & Refs
    ******************************************/
@@ -264,4 +264,4 @@ const IconComponent = ({ geo, logic, style, children }: IconProps) => {
   );
 };
 
-export default IconComponent;
+export default BioIcon;

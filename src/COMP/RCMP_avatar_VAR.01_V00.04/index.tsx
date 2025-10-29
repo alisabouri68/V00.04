@@ -141,13 +141,13 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       >
         {src ? (
           <div className="rounded-full border-2 border-red- shadow-lg overflow-hidden">
-            <Image
+            <Image 
               styles={{
                 borderRadius: "50%",
                 objectFit: "cover",
               }}
               logic={{ src: src, alt: alt, lazy: true, }}
-              geo={{ width: "100", height: "100" }}
+              geo={{ width: "100", height: "100",variant:"normal" }}
             />
           </div>
         ) : (
@@ -174,9 +174,11 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const {
     users = [],
     maxDisplay = 3,
+    collapseThreshold = 4,
     isOnline = false,
   } = groupProps;
 
+  const shouldCollapse = users.length > collapseThreshold;
   const displayUsers = isExpanded ? users : users.slice(0, maxDisplay);
   const hiddenCount = users.length - displayUsers.length;
   const groupSizeClass = sizeClasses[size].group;
@@ -185,7 +187,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
 
   return (
     <div className={`flex items-center ${className}`}>
-      <div
+      <div 
         onClick={handleClick}
         className="flex items-center cursor-pointer relative"
       >
@@ -215,7 +217,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
                   {user.fallbackText || "?"}
                 </div>
               )}
-
+              
               {user.isOnline && (
                 <span className={`absolute bottom-0 right-0 ${statusSize} bg-green-500 border-2 border-white rounded-full`} />
               )}

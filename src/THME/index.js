@@ -105,7 +105,6 @@ module.exports = plugin(
     theme: {
       extend: {
         ...defaultTheme,
-        ...nighWish,
         ...popcorn,
         fontSize: {
           h1: "10px",
@@ -123,24 +122,24 @@ module.exports = plugin(
           hight: "0.75",
           glass: "1",
         },
-      "boxShadow": {
-  "none": "none", // بدون سایه
-  "mini": "0 1px 1px rgba(0, 0, 0, 0.01)", // خیلی خیلی سبک
-  "sm": "0 1px 2px rgba(0, 0, 0, 0.04)", // کم و ظریف
-  "md": "0 3px 6px rgba(0, 0, 0, 0.1)", // استاندارد ملایم
-  "lg": "0 4px 8px rgba(0, 0, 0, 0.15)", // کمی قوی‌تر
-  "xl": "0 6px 12px rgba(0, 0, 0, 0.2)" // عمیق‌تر و واضح‌تر
-},
+        boxShadow: {
+          none: "none",
+          mini: "0 1px 2px rgba(0,0,0,0.04)", // خیلی خیلی سبک
+          small: "0 1px 3px rgba(0,0,0,0.06)", // کم و ظریف
+          default: "0 2px 4px rgba(0,0,0,0.08)", // استاندارد ملایم
+          large: "0 4px 6px rgba(0,0,0,0.10)", // کمی قوی‌تر
+          xlarge: "0 8px 10px rgba(0,0,0,0.12)", // عمیق ولی همچنان سبک
+        },
 
         margin: {
-          none: "0rem",
+          mini: "0rem",
           small: "0.25rem",
           default: "0.50rem",
           large: "0.75rem",
           xlarge: "1rem",
         },
         padding: {
-          none: "0rem",
+          mini: "0rem",
           small: "0.25rem",
           default: "0.50rem",
           large: "0.75rem",
@@ -153,7 +152,7 @@ module.exports = plugin(
           high: "0.125rem",
         },
         borderRadius: {
-          none: "0rem",
+          mini: "0rem",
           small: "0.25rem",
           default: "0.50rem",
           large: "0.75rem",

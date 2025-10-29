@@ -1,38 +1,62 @@
-import { ReactNode, useEffect, useState, Suspense } from "react";
-import { Navigate } from "react-router-dom";
-import Layout from "../../LAYOUT";
-import { regman } from "ACTR/RACT_regman_V00.04/index";
-import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { ReactNode, useEffect, useState, useMemo } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { hybMan } from "ACTR/RACT_hybman_V00.04";
+import { profileMan } from "ACTR/RACT_profileman_V00.04";
 
 interface MiddlewareWrapperProps {
-  children?: ReactNode;
+  children: ReactNode;
   requiresAuth?: boolean;
+  roles?: string[];
 }
 
-export const MiddlewareWrapper: React.FC<MiddlewareWrapperProps> = ({ children, requiresAuth }) => {
-  const [isAuth, setIsAuth] = useState(regman.isAuthenticated());
-  const { envi } = initDyna();
+export const MiddlewareWrapper = ({
+  children,
+  requiresAuth,
+  roles,
+}: MiddlewareWrapperProps) => {
+  const [ready, setReady] = useState(false);
+  const location = useLocation();
+
+  const isAuthenticated = useMemo(() => hybMan.isAuthenticated(), []);
+  const user = useMemo(() => profileMan.getProfile(), []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const auth = regman.isAuthenticated();
-      if (auth !== isAuth) setIsAuth(auth);
-    }, 200);
-    return () => clearInterval(interval);
-  }, [isAuth]);
+    setReady(true);
+  }, []);
 
-  if (requiresAuth && !isAuth) return <Navigate to="/auth-test" replace />;
-
-  
-  if (requiresAuth && (!envi || !envi.ENVI_CONS)) {
-    return <div>Loading console...</div>;
+  if (!ready) {
+    return (
+      <div className="flex items-center justify-center w-full bg-light text-dark text-2xl h-screen">
+        Loading...
+      </div>
+    );
   }
 
-  return <Layout>{children}</Layout>;
+  const currentPath = location.pathname;
+
+  if (requiresAuth && !isAuthenticated && currentPath !== "/auth-test") {
+    return <Navigate to="/auth-test" state={{ from: location }} replace />;
+  }
+
+  if (roles && roles.length > 0 && user && !roles.includes(user.role)) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen text-center text-gray-700">
+        <h2 className="text-xl font-semibold mb-4">⛔️ دسترسی غیرمجاز</h2>
+        <p>شما مجوز لازم برای دیدن این صفحه را ندارید.</p>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
 };
 
-export const wrapWithMiddleware = (element: ReactNode, requiresAuth?: boolean): ReactNode => (
-  <MiddlewareWrapper requiresAuth={requiresAuth}>
-    <Suspense fallback={<div>Loading...</div>}>{element}</Suspense>
+// تابع wrapWithMiddleware
+export const wrapWithMiddleware = (
+  element: ReactNode,
+  requiresAuth?: boolean,
+  roles?: string[]
+) => (
+  <MiddlewareWrapper requiresAuth={requiresAuth} roles={roles}>
+    {element}
   </MiddlewareWrapper>
 );

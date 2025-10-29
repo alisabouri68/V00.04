@@ -79,35 +79,39 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
 
     const variantStyles = {
         filled: `
-            bg-gradient-to-br from-[#1D9EBD] to-[#1D9EBD]/70
+            bg-gradient-to-br from-primary to-primary/90
             text-white font-medium
             rounded-xl
             transition-all duration-300 ease-out
-            ${!disabled || !isLoading 
-                ? "hover:from-[#1D9EBD]/80 hover:to-[#1D9EBD] shadow-sm hover:shadow-md border border-[#1D9EBD]/80" 
-                : "border border-[#1D9EBD]/50"
-            }
+            ${!disabled && !isLoading ? `
+                hover:from-primary/80 hover:to-primary
+                shadow-sm hover:shadow-md
+                border border-primary/80
+            ` : `
+                border border-primary/50
+            `}
         `,
         outlined: `
             bg-light dark:bg-gray-800
-            border border-[#1D9EBD]/40 dark:border-[#1D9EBD]/50
-            text-[#1D9EBD] dark:text-[#1D9EBD]/80
+            border border-primary/40 dark:border-primary/50
+            text-primary/80 dark:text-primary/40
             rounded-xl
             transition-all duration-300 ease-out
-            ${!disabled || !isLoading 
-                ? "hover:bg-[#1D9EBD]/10 dark:hover:bg-[#1D9EBD]/20 hover:border-[#1D9EBD]/60 dark:hover:border-[#1D9EBD]/70 shadow-sm hover:shadow-md" 
-                : ""
-            }
+            ${!disabled && !isLoading ? `
+                hover:bg-primary/10 dark:hover:bg-primary/20
+                hover:border-primary/60 dark:hover:border-primary/70
+                shadow-sm hover:shadow-md
+            ` : ''}
         `,
         text: `
             bg-transparent
-            text-[#1D9EBD] dark:text-[#1D9EBD]/70
+            text-primary/70 dark:text-primary/50
             rounded-lg
             transition-all duration-300 ease-out
-            ${!disabled && !isLoading 
-                ? "hover:bg-[#1D9EBD]/10 dark:hover:bg-[#1D9EBD]/20 hover:text-[#1D9EBD]/90 dark:hover:text-[#1D9EBD]" 
-                : ""
-            }
+            ${!disabled && !isLoading ? `
+                hover:bg-primary/10 dark:hover:bg-primary/20
+                hover:text-primary/90 dark:hover:text-primary/70
+            ` : ''}
         `,
     };
 
@@ -121,8 +125,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
 
     const spinnerColors = {
         filled: "#ffffff",
-        outlined: "#1D9EBD",
-        text: "#1D9EBD",
+        outlined: "#58a6b7",
+        text: "#58a6b7",
     };
 
     const defaultSpinner = <PuffLoader size={24} color={spinnerColors[variant]} />;
@@ -130,7 +134,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     const finalClassName = [
         "flex items-center justify-center font-medium relative",
         "disabled:opacity-50 disabled:cursor-not-allowed",
-        "focus:outline-none focus:ring-2 focus:ring-[#1D9EBD]/30",
+        "focus:outline-none focus:ring-2 focus:ring-primary/30",
         variantStyles[variant],
         sizeStyles[size],
         fullWidth ? "w-full" : "w-auto",

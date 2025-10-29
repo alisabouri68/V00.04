@@ -88,7 +88,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 const variantStyles = {
   filled: `
-    bg-primary 
+    bg-gradient-to-r from-primary to-primary/80 
     text-white font-semibold 
     shadow-md hover:shadow-lg 
     rounded-xl

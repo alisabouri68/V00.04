@@ -119,7 +119,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         <div
           className="absolute z-50 mt-1 w-full bg-white dark:bg-gray-800 
                    border border-gray-200 dark:border-gray-700 rounded-md shadow-lg
-                   overflow-hidden max-h-60 overflow-y-auto custom-scrollbar"
+                   overflow-hidden max-h-60 overflow-y-auto"
         >
           {options.map((option) => (
             <button

@@ -12,15 +12,14 @@ Description:  This templates is used for developing React Components according t
 Meta Data
 
 ID:             RWID 
-Title:          Widget Templates - React Version
-Version:        V00.04
-VAR:            01 (remarks ....)
+Title:          Image Component with Text Variants
+Version:        V00.05
+VAR:            01 (4 text variants)
 
 last-update:    D2025.09.12
 owner:          APPS.68
 
-Description:    Here ...
-
+Description:    Image component with 4 text variants: normal, top-text, bottom-text, center-text
 ------------------------------------------------------------*/
 
 /**************************************
@@ -44,25 +43,41 @@ import Text from "COMP/RCMP_biotext_V0004";
  * Step 05 - define property interface for this BioWidget
  **************************************/
 interface ImageProps {
-  geo?: { width?: string; height?: string };
+  geo?: { 
+    width?: string; 
+    height?: string;
+    variant?: 'normal' | 'text-top' | 'text-bottom' | 'text-center';
+  };
   logic: {
     src: string;
     alt?: string;
     fallbackSrc?: string;
     lazy?: boolean;
+    text?: {
+      content: string;
+      position?: 'top' | 'bottom' | 'center';
+      style?: {
+        color?: string;
+        fontSize?: string;
+        fontWeight?: string;
+        backgroundColor?: string;
+        padding?: string;
+      };
+    };
   };
   styles?: {
     borderRadius?: string;
     boxShadow?: string;
     objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down";
-    backgroundAttachment?:string
+    containerStyle?: React.CSSProperties;
+    textContainerStyle?: React.CSSProperties;
   };
 }
 /**************************************
  * Step 07 - Class Component should be defined
  *
  **************************************/
-const Image = ({ geo = {}, logic, styles = {} }: ImageProps) => {
+const Image = ({ geo, logic, styles }: ImageProps) => {
   const [showAssistant, setShowAssistant] = useState(false);
   const [isAssistant, setIsAssistant] = useState(true);
   const [currentGeo, setCurrentGeo] = useState(geo);
@@ -78,76 +93,142 @@ const Image = ({ geo = {}, logic, styles = {} }: ImageProps) => {
     }
   };
 
+  // تعیین واریانت بر اساس propها
+  const getVariant = () => {
+    if (currentGeo?.variant) return currentGeo.variant;
+    if (currentLogic.text?.position) {
+      return `text-${currentLogic.text.position}` as typeof currentGeo.variant;
+    }
+    return 'normal';
+  };
 
-  return (
-    <>
-      <div className="relative overflow-hidden">
-        <img
-          ref={imgRef}
-          src={currentLogic?.src}
-          alt={currentLogic?.alt || ""}
-          loading={currentLogic?.lazy ? "lazy" : "eager"}
-          onError={handleError}
-          style={{
-            width: currentGeo.width,
-            height: currentGeo.height,
-            borderRadius: currentStyles.borderRadius,
-            boxShadow: currentStyles.boxShadow,
-            objectFit: currentStyles.objectFit,
-            cursor: "pointer",
-            backgroundAttachment:"fixed"
-          }}
-        />
+  const variant = getVariant();
+
+  // استایل‌های پیش‌فرض برای متن
+  const defaultTextStyle = {
+    color: currentLogic.text?.style?.color || 'white',
+    fontSize: currentLogic.text?.style?.fontSize || '16px',
+    fontWeight: currentLogic.text?.style?.fontWeight || 'bold',
+    backgroundColor: currentLogic.text?.style?.backgroundColor || 'rgba(0,0,0,0.5)',
+    padding: currentLogic.text?.style?.padding || '10px',
+  };
+
+  // رندر متن بر اساس موقعیت
+  const renderText = () => {
+    if (!currentLogic.text?.content) return null;
+
+    const textElement = (
+      <div
+        style={{
+          ...defaultTextStyle,
+          position: variant === 'text-center' ? 'absolute' : 'static',
+          ...(variant === 'text-center' && {
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            textAlign: 'center',
+            width: '100%',
+          }),
+          ...currentStyles?.textContainerStyle,
+        }}
+        className="image-text"
+      >
+        {currentLogic.text.content}
       </div>
+    );
 
-      {/* Slide-in Assistant */}
-      {showAssistant && (
-        <div
-          ref={assistantRef}
-          className={`flex flex-col gap-1 fixed right-1 top-[84px] bottom-[84px] lg:bottom-1 z-50
-    bg-light text-dark p-4
-    rounded-lg
-    w-[25%]
-    lg:w-[calc(25%_-_23px)] 
-   overflow-hidden`}
-        >
-          <div className="flex items-center gap-3">
-            <Text size="2xl">
-              <SiHomeassistant />
-            </Text>
-            <Text>Assistant</Text>
-          </div>
-          <div className="bg-light shadow-lg gap-1 border border-gray-300 dark:border-gray-700 rounded-lg flex w-full">
-            <Button
-              fullWidth={true}
-              buttunTitle="Para Assistant"
-              variant={isAssistant ? "filled" : "outlined"}
-              onClick={() => setIsAssistant(true)}
-            />
-            <Button
-              fullWidth={true}
-              buttunTitle="Para Editor"
-              variant={isAssistant ? "outlined" : "filled"}
-              onClick={() => setIsAssistant(false)}
-            />
-          </div>
-          {isAssistant ? (
-            <Assistant
-              geo={currentGeo}
-              logic={currentLogic}
-              styles={currentStyles}
-              onChange={({ geo, logic, styles }) => {
-                if (geo) setCurrentGeo(geo);
-                if (logic) setCurrentLogic(logic);
-                if (styles) setCurrentStyles(styles);
+    return textElement;
+  };
+
+  const renderByVariant = () => {
+    switch (variant) {
+      case 'text-top':
+        return (
+          <div className="flex flex-col" style={currentStyles?.containerStyle}>
+            {renderText()}
+            <img
+              ref={imgRef}
+              src={currentLogic?.src}
+              alt={currentLogic?.alt || ""}
+              loading={currentLogic?.lazy ? "lazy" : "eager"}
+              onError={handleError}
+              style={{
+                width: currentGeo?.width || '100%',
+                height: currentGeo?.height || 'auto',
+                borderRadius: currentStyles?.borderRadius,
+                boxShadow: currentStyles?.boxShadow,
+                objectFit: currentStyles?.objectFit || 'cover',
               }}
             />
-          ) : (
-            <Editor />
-          )}
-        </div>
-      )}
-    </>
+          </div>
+        );
+
+      case 'text-bottom':
+        return (
+          <div className="flex flex-col" style={currentStyles?.containerStyle}>
+            <img
+              ref={imgRef}
+              src={currentLogic?.src}
+              alt={currentLogic?.alt || ""}
+              loading={currentLogic?.lazy ? "lazy" : "eager"}
+              onError={handleError}
+              style={{
+                width: currentGeo?.width || '100%',
+                height: currentGeo?.height || 'auto',
+                borderRadius: currentStyles?.borderRadius,
+                boxShadow: currentStyles?.boxShadow,
+                objectFit: currentStyles?.objectFit || 'cover',
+              }}
+            />
+            {renderText()}
+          </div>
+        );
+
+      case 'text-center':
+        return (
+          <div className="relative" style={currentStyles?.containerStyle}>
+            <img
+              ref={imgRef}
+              src={currentLogic?.src}
+              alt={currentLogic?.alt || ""}
+              loading={currentLogic?.lazy ? "lazy" : "eager"}
+              onError={handleError}
+              style={{
+                width: currentGeo?.width || '100%',
+                height: currentGeo?.height || 'auto',
+                borderRadius: currentStyles?.borderRadius,
+                boxShadow: currentStyles?.boxShadow,
+                objectFit: currentStyles?.objectFit || 'cover',
+              }}
+            />
+            {renderText()}
+          </div>
+        );
+
+      default: // normal
+        return (
+          <img
+            ref={imgRef}
+            src={currentLogic?.src}
+            alt={currentLogic?.alt || ""}
+            loading={currentLogic?.lazy ? "lazy" : "eager"}
+            onError={handleError}
+            style={{
+              width: currentGeo?.width || '100%',
+              height: currentGeo?.height || 'auto',
+              borderRadius: currentStyles?.borderRadius,
+              boxShadow: currentStyles?.boxShadow,
+              objectFit: currentStyles?.objectFit || 'cover',
+            }}
+          />
+        );
+    }
+  };
+
+  return (
+    <div className="image-component">
+      {renderByVariant()}
+    </div>
   );
 };
 
