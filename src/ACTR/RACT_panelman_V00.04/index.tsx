@@ -1,6 +1,5 @@
 import dynaman from "ACTR/RACT_dynaman_V00.0/index";
 import lodash from "lodash";
-import { hybMan } from "ACTR/RACT_hybman_V00.04";
 import { profileMan } from "ACTR/RACT_profileman_V00.04";
 import { BundlBuilder } from "./g1";
 import { ComponentLoader } from "./g2";
@@ -54,11 +53,8 @@ export class PanelMan extends dynaman {
   public initByRole(): void {
     try {
       const profile = profileMan.getProfile() || {};
-      const token = hybMan.getToken();
       const role = profile.role || "guest";
 
-      // بررسی وجود توکن قبل از استفاده
-      const safeToken = token || '';
 
       // تولید stateهای مربوط به روت‌ها
       const { bundleState, consState } = this.generateRouteStates(role);
@@ -71,7 +67,6 @@ export class PanelMan extends dynaman {
         ...this.getState(),
         ENVI_Profile: profile,
         ENVI_HYB: {
-          token: safeToken,
           user: profile,
           role,
           timestamp: Date.now()
