@@ -11,7 +11,6 @@ interface ItemNavProps {
 }
 
 const ItemNav: React.FC<ItemNavProps> = ({ 
-  id = "",
   title = "آیتم",
   icon = "●",
   href = "#",

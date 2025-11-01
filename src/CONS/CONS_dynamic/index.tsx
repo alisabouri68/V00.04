@@ -1,4 +1,3 @@
-import { RouteConfig } from 'TYPE';
 import { panelman } from 'ACTR/RACT_panelman_V00.04/index';
 import { initDyna } from 'PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl';
 import NotFoundPage from 'CONS/CONS_notFound';

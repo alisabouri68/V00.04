@@ -46,7 +46,7 @@ const DynamicRouteHandler = ({ pageKey }: { pageKey: string }) => {
     return <NotFoundPage />;
   }
 
-  return <DynamicPage pageKey={pageKey} config={routeConfig} />;
+  return <DynamicPage pageKey={pageKey}  />;
 };
 
 export const createAppRouter = () => {
