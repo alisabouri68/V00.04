@@ -1,20 +1,18 @@
-// CONS/CONS_dynamic.tsx
-import React from 'react';
 import { RouteConfig } from 'TYPE';
 import { panelman } from 'ACTR/RACT_panelman_V00.04/index';
 import { initDyna } from 'PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl';
 import NotFoundPage from 'CONS/CONS_notFound';
+import { useEffect } from 'react';
 
 interface DynamicPageProps {
   pageKey: string;
-  config: RouteConfig;
 }
 
-const DynamicPage: React.FC<DynamicPageProps> = ({ pageKey, config }) => {
+const DynamicPage: React.FC<DynamicPageProps> = ({ pageKey }) => {
   const { envi } = initDyna();
   
   // اطمینان از اینکه ENVI آماده است
-  React.useEffect(() => {
+  useEffect(() => {
     if (envi) {
       panelman.setContext(envi);
     }

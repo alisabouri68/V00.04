@@ -5,7 +5,6 @@ import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 
 // import کامپوننت‌های BOX
 import BOX_header from 'BOX/BOX_header';
-import BOX_nav from 'BOX/BOX_nav';
 import BOX_actionn from 'BOX/BOX_action';
 import BOX_actiomMenue from 'BOX/BOX_actionMenue';
 import BOX_actiomContent from 'BOX/BOX_actionContent';
@@ -14,8 +13,6 @@ import Jini from "BOX/BOX_Jinni";
 
 export class PanelMan {
   private envi: any;
-  private currentRole: string = 'default';
-
   constructor() {
     this.envi = null;
   }
@@ -26,7 +23,6 @@ export class PanelMan {
   }
 
   public initByRole(role: string = 'default'): void {
-    this.currentRole = role;
     console.log(`✅ PanelMan initialized with role: ${role}`);
   }
 
@@ -74,7 +70,7 @@ export class PanelMan {
   /** ساخت هدر داینامیک بر اساس باندل */
   private buildHeader(pageKey: string): any {
     console.log(`🔍 Building header for: ${pageKey}`);
-    
+
     const routeData = this.envi?.ENVI_CONS?.[pageKey];
     if (!routeData?.bundle) {
       console.log(`❌ No bundles found for page: ${pageKey}`);
@@ -96,13 +92,13 @@ export class PanelMan {
     console.log(`🔧 Header bundle components:`, headerBundleDef.components);
 
     const headerSlots: Record<string, React.ReactNode> = {};
-    
+
     if (headerBundleDef.components) {
       headerBundleDef.components.forEach((compName: string, index: number) => {
         console.log(`🔄 Loading header component: ${compName}`);
         const Comp = componentLoader.getComponent(compName);
         const props = this.getComponentProps(compName);
-        
+
         if (Comp) {
           console.log(`✅ Header component ${compName} loaded successfully`);
           headerSlots[`slot${index}`] = React.createElement(Comp, props);
@@ -118,7 +114,7 @@ export class PanelMan {
   /** ساخت ناوبری داینامیک بر اساس باندل */
   private buildNavigation(pageKey: string): React.ReactNode {
     console.log(`🔍 Building navigation for: ${pageKey}`);
-    
+
     const routeData = this.envi?.ENVI_CONS?.[pageKey];
     if (!routeData?.bundle) {
       console.log(`❌ No bundles found for page: ${pageKey}`);
@@ -141,9 +137,9 @@ export class PanelMan {
 
     // ساخت آیتم‌های ناوبری
     const navItems = this.buildNavItems(navBundleDef.components || []);
-    
+
     console.log(`🎉 Final navigation items:`, navItems.length);
-    
+
     // استفاده از کامپوننت BoxNav برای رندر آیتم‌ها
     return this.renderBoxNav(navItems);
   }
@@ -151,16 +147,16 @@ export class PanelMan {
   /** ساخت آیتم‌های ناوبری */
   private buildNavItems(componentNames: string[]): React.ReactNode[] {
     const navItems: React.ReactNode[] = [];
-    
+
     componentNames.forEach((compName: string, index: number) => {
       console.log(`🔄 Processing nav component: ${compName} at index ${index}`);
       const Comp = componentLoader.getComponent(compName);
-      
+
       if (Comp) {
         // ساخت props داینامیک بر اساس index
         const props = this.getNavItemProps(index);
         console.log(`✅ Nav component ${compName} processed with props:`, props);
-        
+
         // ایجاد کامپوننت nav item
         const navItem = this.createNavItem(props);
         navItems.push(navItem);
@@ -175,7 +171,7 @@ export class PanelMan {
   /** ایجاد یک آیتم ناوبری */
   private createNavItem(props: any): React.ReactNode {
     const { id, title, icon, href, enabled } = props;
-    
+
     if (!enabled) return null;
 
     return (
@@ -201,7 +197,7 @@ export class PanelMan {
   /** رندر BoxNav با children */
   private renderBoxNav(navItems: React.ReactNode[]): React.ReactNode {
     const BoxNavComp = componentLoader.getComponent("BoxNav");
-    
+
     if (BoxNavComp) {
       console.log(`✅ BoxNav component found, rendering with ${navItems.length} items`);
       return React.createElement(BoxNavComp, {}, ...navItems);
@@ -214,7 +210,7 @@ export class PanelMan {
   /** ناوبری fallback در صورت بروز مشکل */
   private renderFallbackNavigation(): React.ReactNode {
     console.log("🔄 Using fallback navigation");
-    
+
     const fallbackItems = [
       { id: "home", title: "خانه", icon: "🏠", href: "/", enabled: true },
       { id: "hot", title: "داغ‌ها", icon: "🔥", href: "/hot", enabled: true },
@@ -224,7 +220,7 @@ export class PanelMan {
     ];
 
     const navItems = fallbackItems.map(item => this.createNavItem(item));
-    
+
     const BoxNavComp = componentLoader.getComponent("BoxNav");
     if (BoxNavComp) {
       return React.createElement(BoxNavComp, {}, ...navItems);
@@ -259,16 +255,16 @@ export class PanelMan {
   /** رندر layout صفحه با کامپوننت‌های BOX */
   private renderPageLayout(headerContent: any, navigationContent: any, config: any, pageKey: string): React.ReactNode {
     console.log(`🎨 Rendering layout for: ${pageKey}`);
-    
+
     return (
       <div className='flex flex-wrap items-center w-full h-full bg-secendory gap-1 px-1 font-sans font-semibold'>
         {/* هدر داینامیک */}
         <BOX_header {...headerContent} consolName={pageKey} />
-        
+
         <div className="flex items-center w-full h-full gap-1">
           {/* ناوبری داینامیک */}
           {navigationContent}
-          
+
           <BOX_actionn>
             <div className='w-9/12 h-full bg-light text-dark rounded-md overflow-y-auto custom-scrollbar'>
               <Jini />
@@ -276,7 +272,7 @@ export class PanelMan {
               <BOX_actiomMenue>
                 منوی {config.name || pageKey}
               </BOX_actiomMenue>
-              
+
               <BOX_actiomContent>
                 <div className='bg-light text-dark'>
                   <h1>{config.name || pageKey}</h1>
