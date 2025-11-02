@@ -205,7 +205,7 @@ private renderPageLayout(
           <BOX_actionn >
             <div className="flex-1 bg-light text-dark rounded-md overflow-y-auto p-2 h-full flex flex-col gap-2">
               <Jini />
-              <BOX_actiomMenue>xxx</BOX_actiomMenue>
+              <BOX_actiomMenue>{config}</BOX_actiomMenue>
               {actionContent || this.renderFallbackActionContent()}
             </div>
 

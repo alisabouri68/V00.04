@@ -9,7 +9,7 @@ interface DynamicPageProps {
   config: RouteConfig;
 }
 
-const DynamicPage: React.FC<DynamicPageProps> = ({ pageKey, config }) => {
+const DynamicPage: React.FC<DynamicPageProps> = ({ pageKey }) => {
   const panelman = usePanelMan(); // ✅ دریافت نسخه‌ی پایدار
 
   if (!panelman) {
