@@ -16,7 +16,6 @@ const AppInitializer = () => {
     if (envi) {
       // مقداردهی اولیه panelman زمانی که ENVI آماده است
       panelman.setContext(envi);
-      panelman.initByRole('user');
       console.log('PanelMan initialized with ENVI from context');
       setIsInitialized(true);
     }
@@ -46,7 +45,7 @@ const DynamicRouteHandler = ({ pageKey }: { pageKey: string }) => {
     return <NotFoundPage />;
   }
 
-  return <DynamicPage pageKey={pageKey}  />;
+  return <DynamicPage pageKey={pageKey} config={routeConfig} />;
 };
 
 export const createAppRouter = () => {

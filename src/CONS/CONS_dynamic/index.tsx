@@ -1,30 +1,35 @@
-import { panelman } from 'ACTR/RACT_panelman_V00.04/index';
-import { initDyna } from 'PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl';
-import NotFoundPage from 'CONS/CONS_notFound';
-import { useEffect } from 'react';
+// CONS/CONS_dynamic.tsx
+import React from "react";
+import { RouteConfig } from "TYPE";
+import { usePanelMan } from "ACTR/RACT_panelman_V00.04/index"; // ✅ استفاده از هوک به جای panelman مستقیم
+import NotFoundPage from "CONS/CONS_notFound";
 
 interface DynamicPageProps {
   pageKey: string;
+  config: RouteConfig;
 }
 
-const DynamicPage: React.FC<DynamicPageProps> = ({ pageKey }) => {
-  const { envi } = initDyna();
-  
-  // اطمینان از اینکه ENVI آماده است
-  useEffect(() => {
-    if (envi) {
-      panelman.setContext(envi);
-    }
-  }, [envi]);
+const DynamicPage: React.FC<DynamicPageProps> = ({ pageKey, config }) => {
+  const panelman = usePanelMan(); // ✅ دریافت نسخه‌ی پایدار
 
-  const routeExists = panelman.getRouteState(pageKey);
-  
-  // اگر صفحه وجود نداشت، 404 نمایش داده شود
+  if (!panelman) {
+    return (
+      <div className="flex items-center justify-center w-full h-full text-gray-400">
+        ⏳ در حال بارگذاری محیط...
+      </div>
+    );
+  }
+
+  // اطمینان از اینکه مسیر وجود دارد
+  const routeExists =
+    typeof panelman.getRouteState === "function" &&
+    panelman.getRouteState(pageKey);
+
   if (!routeExists) {
     return <NotFoundPage />;
   }
 
-  // ساخت صفحه به صورت داینامیک از JSON
+  // ساخت صفحه از ENVI
   const pageContent = panelman.buildPage(pageKey);
 
   if (!pageContent) {

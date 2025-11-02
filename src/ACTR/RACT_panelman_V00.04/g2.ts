@@ -19,7 +19,8 @@ import Boxassistant from "BOX/BOX_assistant"
 import Boxheader from "BOX/BOX_header"
 import BoxNav from "BOX/BOX_nav"
 import ItemNav from "COMP/RCMP_itemNav_V00.04"
-
+import DirectCall from "COMP/testWorkshop/DirectCall"
+import EnviMngr from "COMP/RCMP_envimngr_v00.04/index"
 export class ComponentLoader {
     private components: Record<string, React.ComponentType<any>>;
 
@@ -46,6 +47,8 @@ export class ComponentLoader {
             boxassistant: Boxassistant,
             BoxNav: BoxNav,
             itemNav: ItemNav,
+            directCall: DirectCall,
+            enviManager: EnviMngr
         };
 
 

@@ -1,6 +1,8 @@
 import { RouterProvider } from "react-router-dom";
 import applicationRouter from "ROUTS/index";
 import DynaCtrl from "./PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import MockInjector from "PLAY/RPLY_login";
+import DebugState from "PLAY";
 // import { useEffect } from "react";
 // import { panelman } from 'ACTR/RACT_panelman_V00.04/index';
 // ****************************************************************************
@@ -47,6 +49,9 @@ function App() {
      * All child components have access to the global context provided by DynaCtrl
      */
     <DynaCtrl>
+            <MockInjector />
+            <DebugState />
+
       {/**
        * @component RouterProvider
        * @description Client-side routing provider from React Router DOM
@@ -68,6 +73,7 @@ function App() {
        * - Error boundary and loading state handling
        * - Lazy-loaded components with Suspense fallbacks
        */}
+
       <RouterProvider router={applicationRouter} />
     </DynaCtrl>
   );
