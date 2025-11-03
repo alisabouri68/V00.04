@@ -13,6 +13,8 @@ import Language from "BNDL/WRAP_header/languageSheet"
 import Profile from "BNDL/WRAP_header/userProfileSheet"
 import DirectCall from "COMP/testWorkshop/DirectCall"
 import EnviMngr from "COMP/RCMP_envimngr_v00.04"
+import ContextDiagram from "COMP/testWorkshop/ContextDiagram"
+import ContextFlow from "COMP/testWorkshop/ContextFlow"
 import ParaAssigner from "COMP/RCMP_bioicon_V00.04/paraAssist"
 import { MdOutlineSignalCellularNull } from "react-icons/md";
 export class ComponentLoader {
@@ -30,6 +32,8 @@ export class ComponentLoader {
             directCall: DirectCall,
             enviMngr: EnviMngr,
             paraAssigner: ParaAssigner,
+            contextDiagram: ContextDiagram,
+            contextFlow: ContextFlow,
 
             // کامپوننت‌های هدر
             consoleSwitcher: ConsoleSwitcher,
