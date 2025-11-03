@@ -13,13 +13,10 @@ import Language from "BNDL/WRAP_header/languageSheet"
 import Profile from "BNDL/WRAP_header/userProfileSheet"
 import DirectCall from "COMP/testWorkshop/DirectCall"
 import EnviMngr from "COMP/RCMP_envimngr_v00.04"
-import ParaAssigner from "COMP/RCMP_bioicon_V00.04"
+import ParaAssigner from "COMP/RCMP_bioicon_V00.04/paraAssist"
 import { MdOutlineSignalCellularNull } from "react-icons/md";
-
-
 export class ComponentLoader {
     private components: Record<string, React.ComponentType<any>>;
-
     constructor() {
         this.components = {
             // کامپوننت‌های اصلی

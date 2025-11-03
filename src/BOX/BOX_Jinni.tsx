@@ -12,15 +12,16 @@ function Index() {
 
   return (
     <div className="relative w-full min-h-40 max-h-60 flex items-center overflow-hidden">
+
       {showImage ? (
         <Image
-       styles={{
-              borderRadius: "0%",
-              objectFit: "cover",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
-            }}
-            logic={{ src: Pic, alt: "slider",lazy:true }}
-            geo={{ width: "100", height: "400" }}
+          styles={{
+            borderRadius: "0%",
+            objectFit: "cover",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+          }}
+          logic={{ src: Pic, alt: "slider", lazy: true }}
+          geo={{ width: "100", height: "400" }}
         />
       ) : (
         <div className="w-full h-full bg-light animate-pulse" />

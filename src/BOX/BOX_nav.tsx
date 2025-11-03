@@ -1,13 +1,12 @@
-// BOX/BOX_nav.tsx
-import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logoDash from "ASST/images/Asset 5.svg";
+import { ReactNode } from "react"
 
 export interface NavItem {
-  id: string;
-  title: string;
-  icon: ReactNode;
-  href: string;
+  id?: string;
+  title?: string;
+  icon?: ReactNode;
+  href?: string;
   enabled?: boolean;
 }
 
@@ -18,7 +17,7 @@ interface BoxNavProps {
 function BOX_nav({ navItems = [] }: BoxNavProps) {
   const location = useLocation();
 
-  // آیتم‌های پیش‌فرض اگر navItems خالی بود
+  // آیتم‌های پ/یش‌فرض اگر navItems خالی بود
   const defaultNavItems: NavItem[] = [
     {
       id: "home",
@@ -28,7 +27,7 @@ function BOX_nav({ navItems = [] }: BoxNavProps) {
       enabled: true
     },
     {
-      id: "hot", 
+      id: "hot",
       title: "HOT",
       icon: "🔥",
       href: "/hot",
@@ -37,7 +36,7 @@ function BOX_nav({ navItems = [] }: BoxNavProps) {
     {
       id: "cast",
       title: "CAST",
-      icon: "🎙️", 
+      icon: "🎙️",
       href: "/cast",
       enabled: true
     },
@@ -52,14 +51,14 @@ function BOX_nav({ navItems = [] }: BoxNavProps) {
       id: "gasma",
       title: "گاسما",
       icon: "⭐",
-      href: "/gasma", 
+      href: "/gasma",
       enabled: true
     }
   ];
 
   // استفاده از navItems دریافتی یا آیتم‌های پیش‌فرض
   const itemsToRender = navItems.length > 0 ? navItems : defaultNavItems;
-  
+
   // فیلتر کردن آیتم‌های فعال
   const filteredNav = itemsToRender.filter(item => item.enabled !== false);
 
@@ -96,15 +95,13 @@ function BOX_nav({ navItems = [] }: BoxNavProps) {
               <li key={item.id} className="flex items-center justify-center w-full" role="none">
                 <Link
                   to={item.href}
-                  className={`${
-                    isActive ? "border-s-primary" : "border-s-transparent"
-                  } border-s-4 flex flex-col items-center justify-center p-1 w-full bg-light text-dark hover:text-primary`}
+                  className={`${isActive ? "border-s-primary" : "border-s-transparent"
+                    } border-s-4 flex flex-col items-center justify-center p-1 w-full bg-light text-dark hover:text-primary`}
                   aria-current={isActive ? "page" : undefined}
                 >
                   <span
-                    className={`flex items-center justify-center p-2 rounded-full text-2xl transition-all w-10 h-10 ${
-                      isActive ? "bg-transparent text-primary" : "text-inherit"
-                    }`}
+                    className={`flex items-center justify-center p-2 rounded-full text-2xl transition-all w-10 h-10 ${isActive ? "bg-transparent text-primary" : "text-inherit"
+                      }`}
                     aria-hidden="true"
                   >
                     {item.icon}
@@ -123,3 +120,11 @@ function BOX_nav({ navItems = [] }: BoxNavProps) {
 }
 
 export default BOX_nav;
+
+// function BOX_nav({children}:{children?:ReactNode}) {
+//   return (
+//     <div>{children}</div>
+//   )
+// }
+
+// export default BOX_nav

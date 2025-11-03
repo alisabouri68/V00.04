@@ -1,14 +1,8 @@
-import React from "react";
-import { componentLoader } from "./g2";
+// ACTR/RACT_panelman_V00.04/index.tsx
+import React, { useEffect, useRef } from "react";
 import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
-
-// BOX Components
-import BOX_header from "BOX/BOX_header";
-import BOX_actionn from "BOX/BOX_action";
-import BOX_actiomMenue from "BOX/BOX_actionMenue";
-import BOX_actiomContent from "BOX/BOX_actionContent";
-import BOX_assistant from "BOX/BOX_assistant";
-import Jini from "BOX/BOX_Jinni";
+import { ResponsiveWrapper } from "./g1_ResponsiveWrapper";
+import { componentLoader } from "./g2_componentLoader";
 
 export class PanelMan {
   private envi: any;
@@ -22,241 +16,197 @@ export class PanelMan {
   }
 
   public getAccessibleRoutes(): string[] {
-    return Object.keys(this.envi?.ENVI_CONS || {});
+    return Object.keys(this.envi?.BODY || {});
   }
 
-  public getRouteState(id: string): boolean {
-    return !!this.envi?.ENVI_CONS?.[id];
+  public getRouteState(routeKey: string): boolean {
+    return this.getAccessibleRoutes().includes(routeKey);
   }
 
-  public getRouteConfig(id: string): any | null {
-    const routeData = this.envi?.ENVI_CONS?.[id];
-    if (!routeData) return null;
-    return { ...routeData.General, bundle: routeData.bundle };
+  public getRouteConfig(routeKey: string): any | null {
+    const routeBody = this.envi?.BODY?.[routeKey];
+    if (!routeBody) return null;
+
+    return {
+      ...routeBody.general,
+      boxes: routeBody.boxes
+    };
   }
 
-  /** 🧩 ساخت کامل صفحه */
   public buildPage(pageKey: string): React.ReactNode {
-    if (!this.envi) return null;
-    const routeConfig = this.getRouteConfig(pageKey);
-    if (!routeConfig) return null;
+    if (!this.envi) {
+      return <div className="p-4 text-red-500">🚫 Environment not loaded</div>;
+    }
 
-    const headerContent = this.buildHeader(pageKey);
-    const navigationContent = this.buildNavigation(pageKey);
-    const actionContent = this.buildActionContent(pageKey);
-    const assistantContent = this.buildAssistantContent(pageKey);
+    const routeBody = this.envi?.BODY?.[pageKey];
+    if (routeBody) {
+      const pageContent = this.buildPageFromBody(routeBody, pageKey);
+      return <ResponsiveWrapper>{pageContent}</ResponsiveWrapper>;
+    }
 
-    return this.renderPageLayout(
-      headerContent,
-      navigationContent,
-      actionContent,
-      assistantContent,
-      routeConfig,
-      pageKey
-    );
+    return <div className="p-4 bg-yellow-100">⚠️ Page not found: {pageKey}</div>;
   }
 
-  /** 🧱 ساخت Header */
-  private buildHeader(pageKey: string): any {
-    const routeData = this.envi?.ENVI_CONS?.[pageKey];
-    const headerId = routeData?.bundle?.header;
+  /** 🧱 ساخت صفحه از BODY مستقیم */
+  private buildPageFromBody(routeBody: any, pageKey: string): React.ReactNode {
+    const { boxes } = routeBody;
 
-    const headerBundle =
-      (Object.values(this.envi?.ENVI_BUNDL || {}) as any[]).find(
-        (b) => b.id === headerId
-      ) || { components: [] };
-
-    const slots: Record<string, React.ReactNode> = {};
-    headerBundle.components.forEach((compName: string, i: number) => {
-      const Comp = componentLoader.getComponent(compName);
-      const props = this.getComponentProps(compName);
-      if (Comp) slots[`slot${i}`] = <Comp key={compName} {...props} />;
-    });
-
-    return { slots };
-  }
-
-  /** 🧭 ساخت Navigation */
-  private buildNavigation(pageKey: string): React.ReactNode {
-    const routeData = this.envi?.ENVI_CONS?.[pageKey];
-    const navId = routeData?.bundle?.navigation;
-
-    const navBundle =
-      (Object.values(this.envi?.ENVI_BUNDL || {}) as any[]).find(
-        (b) => b.id === navId
-      ) || { components: [] };
-
-    const navItems = (navBundle.components || []).map((_: any, i: number) =>
-      this.createNavItem(this.getNavItemProps(i))
-    );
-
-    const BoxNav = componentLoader.getComponent("BoxNav");
-    return BoxNav
-      ? React.createElement(BoxNav, {}, ...navItems)
-      : this.renderFallbackNavigation();
-  }
-
-  /** ⚙️ ساخت Action Content */
-  private buildActionContent(pageKey: string): React.ReactNode {
-    const routeData = this.envi?.ENVI_CONS?.[pageKey];
-    const actionId = routeData?.bundle?.action;
-
-    if (!actionId) return this.renderFallbackActionContent();
-
-    const actionBundle =
-      (Object.values(this.envi?.ENVI_BUNDL || {}) as any[]).find(
-        (b) => b.id === actionId
-      ) || { components: [] };
-
-    const components = actionBundle.components || [];
-    const renderedComponents = components.map((compName: string, index: number) => {
-      const Comp = componentLoader.getComponent(compName);
-      const props = this.getComponentProps(compName);
-      return Comp ? <Comp key={`${compName}-${index}`} {...props} /> : null;
-    });
+    if (!boxes) {
+      return <div className="p-4 bg-orange-100">📭 No boxes for {pageKey}</div>;
+    }
 
     return (
-      <BOX_actiomContent>
-        {renderedComponents.length > 0
-          ? renderedComponents
-          : this.renderFallbackActionContent()}
-      </BOX_actiomContent>
-    );
-  }
-
-  /** ⚙️ ساخت Assistant */
-  private buildAssistantContent(pageKey: string): React.ReactNode {
-    const routeData = this.envi?.ENVI_CONS?.[pageKey];
-    const assistantId = routeData?.bundle?.assistant;
-
-    if (!assistantId) return null;
-
-    const assistantBundle =
-      (Object.values(this.envi?.ENVI_BUNDL || {}) as any[]).find(
-        (b) => b.id === assistantId
-      ) || { components: [] };
-
-    const components = assistantBundle.components || [];
-    const renderedComponents = components.map((compName: string, index: number) => {
-      const Comp = componentLoader.getComponent(compName);
-      const props = this.getComponentProps(compName);
-      return Comp ? <Comp key={`${compName}-${index}`} {...props} /> : null;
-    });
-
-    return <BOX_assistant>{renderedComponents}</BOX_assistant>;
-  }
-
-  /** 🎯 ایجاد آیتم ناوبری */
-  private createNavItem(props: any): React.ReactNode {
-    const { id, title, icon, href, enabled } = props;
-    if (!enabled) return null;
-    return (
-      <li key={id} className="flex items-center justify-center w-full" role="none">
-        <a
-          href={href}
-          className="border-s-transparent border-s-4 flex flex-col items-center justify-center p-1 w-full bg-light text-dark hover:text-primary"
-        >
-          <span className="p-2 text-2xl">{icon}</span>
-          <span className="text-sm">{title}</span>
-        </a>
-      </li>
-    );
-  }
-
-  private getNavItemProps(index: number): any {
-    const items = [
-      { id: "home", title: "خانه", icon: "🏠", href: "/", enabled: true },
-      { id: "hot", title: "داغ‌ها", icon: "🔥", href: "/hot", enabled: true },
-      { id: "cast", title: "کست", icon: "🎙️", href: "/cast", enabled: true },
-      { id: "wiki", title: "ویکی", icon: "📚", href: "/wiki", enabled: true },
-      { id: "gasma", title: "گاسما", icon: "⭐", href: "/gasma", enabled: true },
-    ];
-    return items[index] || {};
-  }
-
-  private getComponentProps(compName: string): any {
-    return this.envi?.ENVI_CANV?.[compName] || {};
-  }
-
-/** 🚀 رندر نهایی صفحه */
-private renderPageLayout(
-  headerContent: any,
-  navigationContent: any,
-  actionContent: any,
-  assistantContent: any,
-  config: any,
-  pageKey: string
-): React.ReactNode {
-  return (
-    <div className="flex flex-col w-full h-full bg-secendory gap-1 px-1 font-sans font-semibold">
-      
-      {/* Header */}
-      <BOX_header {...headerContent} consolName={pageKey} />
-
-      <div className="flex flex-1 w-full h-full gap-1 overflow-hidden">
-        
-        {/* Navigation */}
-        <div className="flex-none max-w-xs w-auto bg-gray-100 rounded-md overflow-y-auto">
-          {navigationContent || this.renderFallbackNavigation()}
-        </div>
+      <div className="flex flex-col w-full h-full bg-gray-100 gap-2 p-1">
+        {/* Header Box - با پشتیبانی از اسلات‌ها */}
+        {boxes.header && this.renderHeaderBox(boxes.header, pageKey)}
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col gap-2 overflow-hidden h-full">
-          <BOX_actionn >
-            <div className="flex-1 bg-light text-dark rounded-md overflow-y-auto p-2 h-full flex flex-col gap-2">
-              <Jini />
-              <BOX_actiomMenue>{config}</BOX_actiomMenue>
-              {actionContent || this.renderFallbackActionContent()}
+        <div className="flex h-full gap-1">
+          {/* Navigation Box */}
+          {boxes.navigation && this.renderBox('navigation', boxes.navigation, pageKey)}
+
+          {/* Main Area */}
+          <main className="flex-1 h-full flex gap-1">
+            {/* Left Content Area */}
+            <div className="w-9/12 h-full bg-light text-dark rounded-md overflow-y-auto custom-scrollbar">
+              {boxes.actionjini && this.renderBox('actionjini', boxes.actionjini, pageKey)}
+              {boxes.actionMenu && this.renderBox('actionMenu', boxes.actionMenu, pageKey)}
+              {boxes.actionContent && this.renderBox('actionContent', boxes.actionContent, pageKey)}
             </div>
 
-            {/* Assistant */}
-            {assistantContent || <BOX_assistant />}
-          </BOX_actionn>
+            {/* Right Assistant Area */}
+            <div className="flex flex-col items-center bg-light text-dark rounded-md overflow-y-auto custom-scrollbar h-full w-3/12">
+              {boxes.assistantMenu && this.renderBox('assistantMenu', boxes.assistantMenu, pageKey)}
+              {boxes.assistantContent && this.renderBox('assistantContent', boxes.assistantContent, pageKey)}
+            </div>
+          </main>
         </div>
-
-      </div>
-    </div>
-  );
-}
-
-
-  /** 🧭 Fallback Navigation */
-  private renderFallbackNavigation(): React.ReactNode {
-    const fallbackItems = [
-      { id: "home", title: "خانه", icon: "🏠", href: "/", enabled: true },
-      { id: "hot", title: "داغ‌ها", icon: "🔥", href: "/hot", enabled: true },
-      { id: "cast", title: "کست", icon: "🎙️", href: "/cast", enabled: true },
-      { id: "wiki", title: "ویکی", icon: "📚", href: "/wiki", enabled: true },
-      { id: "gasma", title: "گاسما", icon: "⭐", href: "/gasma", enabled: true },
-    ];
-
-    const navItems = fallbackItems.map((item) => this.createNavItem(item));
-    const BoxNavComp = componentLoader.getComponent("BoxNav");
-    return BoxNavComp ? (
-      React.createElement(BoxNavComp, {}, ...navItems)
-    ) : (
-      <div className="text-red-500 p-4">
-        ❌ ناوبری در دسترس نیست - BoxNav component missing
       </div>
     );
   }
 
-  private renderFallbackActionContent(): React.ReactNode {
+  /** 🎨 رندر خاص برای باکس هدر با اسلات‌ها */
+  private renderHeaderBox(box: any, pageKey: string): React.ReactNode {
+    if (!box.enabled) return null;
+
+    let components: string[] = [];
+
+    if (Array.isArray(box.components)) {
+      components = box.components;
+    } else if (Array.isArray(box.component)) {
+      components = box.component;
+    } else if (typeof box.components === 'string') {
+      components = [box.components];
+    } else if (typeof box.component === 'string') {
+      components = [box.component];
+    }
+
+    if (components.length === 0) {
+      return null;
+    }
+
+    // پیدا کردن کامپوننت boxheader
+    const headerComponentName = components.find(name => name === 'boxheader');
+    const otherComponents = components.filter(name => name !== 'boxheader');
+
+    if (!headerComponentName) {
+      // اگر boxheader وجود نداشت، از روش عادی استفاده کن
+      return (
+        <header className="flex items-center min-h-16 max-h-16 bg-light text-dark w-full *:grow rounded-md">
+          {this.renderBoxComponents('header', components, pageKey)}
+        </header>
+      );
+    }
+
+    // ایجاد اسلات‌ها از کامپوننت‌های دیگر
+    const slots: Record<string, React.ReactNode> = {};
+    otherComponents.forEach((componentName, index) => {
+      slots[`slot${index}`] = this.renderSingleComponent(componentName, 'header', pageKey, index);
+    });
+
+    // رندر boxheader با اسلات‌ها
+    const HeaderComponent = componentLoader.getComponent(headerComponentName);
+    if (!HeaderComponent) return null;
+
+    const componentProps = this.envi?.ENVI_CANV?.[headerComponentName] || {};
+
     return (
-      <div className="text-gray-400 text-sm flex flex-col items-center gap-2">
-        ⚙️ محتوای اکشن در دسترس نیست
+      <header className="flex items-center min-h-16 max-h-16 bg-light text-dark w-full *:grow rounded-md">
+        <HeaderComponent 
+          {...componentProps}
+          consolName={pageKey}
+          slots={slots}
+        />
+      </header>
+    );
+  }
+
+  /** 🎨 رندر یک باکس */
+  private renderBox(boxType: string, box: any, pageKey: string): React.ReactNode {
+    if (!box.enabled) return null;
+
+    let components: string[] = [];
+
+    if (Array.isArray(box.components)) {
+      components = box.components;
+    } else if (Array.isArray(box.component)) {
+      components = box.component;
+    } else if (typeof box.components === 'string') {
+      components = [box.components];
+    } else if (typeof box.component === 'string') {
+      components = [box.component];
+    }
+
+    if (components.length === 0) {
+      return null;
+    }
+
+    return (
+      <>
+        {this.renderBoxComponents(boxType, components, pageKey)}
+      </>
+    );
+  }
+
+  /** 🔧 رندر کامپوننت‌های یک باکس */
+  private renderBoxComponents(boxType: string, components: string[], pageKey: string): React.ReactNode {
+    return (
+      <>
+        {components.map((componentName: string, index: number) =>
+          this.renderSingleComponent(componentName, boxType, pageKey, index)
+        )}
+      </>
+    );
+  }
+
+  /** 🔧 رندر یک کامپوننت */
+  private renderSingleComponent(componentName: string, boxType: string, pageKey: string, index: number): React.ReactNode {
+    const Component = componentLoader.getComponent(componentName);
+    const componentProps = this.envi?.ENVI_CANV?.[componentName] || {};
+
+    if (!Component) {
+      return null;
+    }
+
+    const enhancedProps = {
+      ...componentProps,
+      ...(boxType === 'header' && { consolName: pageKey })
+    };
+
+    return (
+      <div key={`${pageKey}-${boxType}-${index}`}>
+        <Component {...enhancedProps} />
       </div>
     );
   }
 }
 
-/** 🎮 هوک دسترسی */
 export function usePanelMan() {
   const { envi } = initDyna();
-  const ref = React.useRef(new PanelMan());
+  const ref = useRef(new PanelMan());
 
-  React.useEffect(() => {
-    if (envi && !ref.current["envi"]) {
+  useEffect(() => {
+    if (envi) {
       ref.current.setContext(envi);
     }
   }, [envi]);

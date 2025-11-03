@@ -1,7 +1,7 @@
 // CONS/CONS_dynamic.tsx
 import React from "react";
 import { RouteConfig } from "TYPE";
-import { usePanelMan } from "ACTR/RACT_panelman_V00.04/index"; // ✅ استفاده از هوک به جای panelman مستقیم
+import { usePanelMan } from "ACTR/RACT_panelman_V00.04/index";
 import NotFoundPage from "CONS/CONS_notFound";
 
 interface DynamicPageProps {
@@ -10,7 +10,7 @@ interface DynamicPageProps {
 }
 
 const DynamicPage: React.FC<DynamicPageProps> = ({ pageKey }) => {
-  const panelman = usePanelMan(); // ✅ دریافت نسخه‌ی پایدار
+  const panelman = usePanelMan();
 
   if (!panelman) {
     return (
@@ -20,23 +20,46 @@ const DynamicPage: React.FC<DynamicPageProps> = ({ pageKey }) => {
     );
   }
 
-  // اطمینان از اینکه مسیر وجود دارد
-  const routeExists =
-    typeof panelman.getRouteState === "function" &&
-    panelman.getRouteState(pageKey);
+  // ✅ بررسی وجود مسیر با متد جدید
+  const accessibleRoutes = panelman.getAccessibleRoutes();
+  const routeExists = accessibleRoutes.includes(pageKey);
+
+  console.log("🔍 DynamicPage Debug:", {
+    pageKey,
+    accessibleRoutes,
+    routeExists,
+    hasPanelMan: !!panelman
+  });
 
   if (!routeExists) {
+    console.warn(`❌ Route not found: ${pageKey}. Available: ${accessibleRoutes.join(", ")}`);
     return <NotFoundPage />;
   }
 
-  // ساخت صفحه از ENVI
-  const pageContent = panelman.buildPage(pageKey);
+  // ✅ ساخت صفحه
+  try {
+    const pageContent = panelman.buildPage(pageKey);
+    
+    if (!pageContent) {
+      console.warn(`❌ No content generated for: ${pageKey}`);
+      return <NotFoundPage />;
+    }
 
-  if (!pageContent) {
-    return <NotFoundPage />;
+    console.log(`✅ Successfully built page: ${pageKey}`);
+    return <>{pageContent}</>;
+    
+  } catch (error) {
+    console.error(`💥 Error building page ${pageKey}:`, error);
+    return (
+      <div className="flex items-center justify-center w-full h-full bg-red-50 text-red-600">
+        <div className="text-center">
+          <div className="text-2xl mb-2">💥</div>
+          <div>خطا در ساخت صفحه</div>
+          <div className="text-sm mt-2">{pageKey}</div>
+        </div>
+      </div>
+    );
   }
-
-  return <>{pageContent}</>;
 };
 
 export default DynamicPage;

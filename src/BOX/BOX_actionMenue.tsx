@@ -3,7 +3,7 @@ import { ReactNode } from "react"
 // import { FaCog, FaHome, FaSearch } from "react-icons/fa"
 // import { FaBell, FaUser } from "react-icons/fa6"
 
-function BOX_actiomMenue({ children }: { children: ReactNode }) {
+function BOX_actiomMenue({ children }: { children?: ReactNode }) {
   // const iconConfigs = [
   //   {
   //     id: "home-icon",
@@ -43,33 +43,35 @@ function BOX_actiomMenue({ children }: { children: ReactNode }) {
   // ];
 
   return (
-    <div className="flex items-center justify-between gap-3 py-3">
-      {/* آیکون‌ها
-      <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-        {iconConfigs.map((config) => (
-          <div key={config.id} className="flex flex-col items-center">
-            <BioIcon
-              geo={config.geo}
-              logic={{ 
-                onClick: 1, 
-                id: config.id, 
-                isAssistant: false, 
-                addToLocall: false 
-              }}
-              style={config.style}
-            >
-              {config.icon}
-            </BioIcon>
-            <span className="text-xs mt-1 text-gray-600">{config.title}</span>
-          </div>
-        ))}
-      </div> */}
-      
-      {/* محتوای children */}
-      <div className="flex-1">
-        {children}
-      </div>
-    </div>
+    // <div className="flex items-center justify-between gap-3 py-3 w-full ">
+
+    //   <div className="flex items-center justify-between gap-4 p-4 bg-gray-50 rounded-lg w-full">
+    //     {iconConfigs.map((config) => (
+    //       <div key={config.id} className="flex flex-col items-center">
+    //         <BioIcon
+    //           geo={config.geo}
+    //           logic={{ 
+    //             onClick: 1, 
+    //             id: config.id, 
+    //             isAssistant: false, 
+    //             addToLocall: false 
+    //           }}
+    //           style={config.style}
+    //         >
+    //           {config.icon}
+    //         </BioIcon>
+    //         <span className="text-xs mt-1 text-gray-600">{config.title}</span>
+    //       </div>
+    //     ))}
+    //   </div> 
+
+    //   {/* محتوای children */}
+    //   <div className="flex-1">
+    <>
+      {children}
+    </>
+    //   </div>
+    // </div>
   )
 }
 
