@@ -1,4 +1,3 @@
-// ACTR/RACT_panelman_V00.04/g2_componentLoader.ts
 import React from "react";
 import HeaderBox from "BOX/BOX_header"
 import BoxNavigator from "BOX/BOX_nav"
@@ -13,13 +12,14 @@ import Language from "BNDL/WRAP_header/languageSheet"
 import Profile from "BNDL/WRAP_header/userProfileSheet"
 import DirectCall from "COMP/testWorkshop/DirectCall"
 import EnviMngr from "COMP/RCMP_envimngr_v00.04"
-import ParaAssigner from "COMP/RCMP_bioicon_V00.04"
+import ContextDiagram from "COMP/testWorkshop/ContextDiagram"
+import ContextFlow from "COMP/testWorkshop/ContextFlow"
+import ParaAssigner from "COMP/RCMP_bioicon_V00.04/paraAssist"
+import ParaEditor from "COMP/RCMP_bioicon_V00.04/paraEdit"
+import HotMenuSheet from "BNDL/WRAP_hotMenu/hotMenuSheet"
 import { MdOutlineSignalCellularNull } from "react-icons/md";
-
-
 export class ComponentLoader {
     private components: Record<string, React.ComponentType<any>>;
-
     constructor() {
         this.components = {
             // کامپوننت‌های اصلی
@@ -33,6 +33,10 @@ export class ComponentLoader {
             directCall: DirectCall,
             enviMngr: EnviMngr,
             paraAssigner: ParaAssigner,
+            contextDiagram: ContextDiagram,
+            contextFlow: ContextFlow,
+            hotMenuSheet: HotMenuSheet,
+            paraEditor: ParaEditor,
 
             // کامپوننت‌های هدر
             consoleSwitcher: ConsoleSwitcher,

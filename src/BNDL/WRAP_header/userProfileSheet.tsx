@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Avatar from "COMP/RCMP_avatar_VAR.01_V00.04";
 import ImageUser from "../../ASST/images/avatar.png";
 import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
-import { profileMan } from "ACTR/RACT_profileman_V00.04";
 import Button from "COMP/RCMP_button_V00.04";
 
 function useForceUpdate() {
@@ -19,13 +18,11 @@ export default function IndexUserProfile() {
   const navigate = useNavigate();
   const forceUpdate = useForceUpdate();
 
-  const user = profileMan.getProfile();
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const handleLogout = () => {
     resetDyna();
-    profileMan.resetProfile();
     setIsDropdownOpen(false);
     navigate("/");
   };
@@ -36,7 +33,6 @@ export default function IndexUserProfile() {
   const handleProfileEdit = () => setIsDropdownOpen(false);
   const handleSettings = () => setIsDropdownOpen(false);
 
-  const UserName = user?.username || "Unknown";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -63,10 +59,8 @@ export default function IndexUserProfile() {
             <Avatar alt="user" variant="single" fallbackText="" isOnline size="md" src={ImageUser} />
             <div className="flex flex-col items-start">
               <div className="hidden lg:flex">
-                <span className="text-dark dark:text-white font-medium">{UserName}</span>
               </div>
               <div className="hidden lg:flex">
-                <span className="text-gray-500 dark:text-gray-400 text-sm">{UserName}</span>
               </div>
             </div>
           </div>
