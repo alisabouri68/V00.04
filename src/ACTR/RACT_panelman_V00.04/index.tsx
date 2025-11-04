@@ -29,7 +29,7 @@ export class PanelMan {
 
     return {
       ...routeBody.general,
-      boxes: routeBody.boxes
+      boxes: routeBody.boxes,
     };
   }
 
@@ -44,10 +44,11 @@ export class PanelMan {
       return <ResponsiveWrapper>{pageContent}</ResponsiveWrapper>;
     }
 
-    return <div className="p-4 bg-yellow-100">⚠️ Page not found: {pageKey}</div>;
+    return (
+      <div className="p-4 bg-yellow-100">⚠️ Page not found: {pageKey}</div>
+    );
   }
 
-  /** 🧱 ساخت صفحه از BODY مستقیم */
   private buildPageFromBody(routeBody: any, pageKey: string): React.ReactNode {
     const { boxes } = routeBody;
 
@@ -56,28 +57,38 @@ export class PanelMan {
     }
 
     return (
-      <div className="flex flex-col w-full h-full bg-gray-100 gap-2 p-1">
+      <div className="flex flex-col w-full h-full bg-gray-100 dark:bg-gray-700 gap-2 p-1">
         {/* Header Box - با پشتیبانی از اسلات‌ها */}
         {boxes.header && this.renderHeaderBox(boxes.header, pageKey)}
 
         {/* Main Content */}
-        <div className="flex h-full gap-1">
+        <div className="flex h-full gap-1 mb-1 ">
           {/* Navigation Box */}
-          {boxes.navigation && this.renderBox('navigation', boxes.navigation, pageKey)}
+          {boxes.navigation &&
+            this.renderBox("navigation", boxes.navigation, pageKey)}
 
           {/* Main Area */}
-          <main className="flex-1 h-full flex gap-1">
+          <main className="flex flex-1 h-full gap-1">
             {/* Left Content Area */}
-            <div className="w-9/12 h-full bg-light text-dark rounded-md overflow-y-auto custom-scrollbar">
-              {boxes.actionjini && this.renderBox('actionjini', boxes.actionjini, pageKey)}
-              {boxes.actionMenu && this.renderBox('actionMenu', boxes.actionMenu, pageKey)}
-              {boxes.actionContent && this.renderBox('actionContent', boxes.actionContent, pageKey)}
+            <div className="w-9/12 flex flex-col h-full bg-light text-dark rounded-md overflow-y-auto custom-scrollbar mb-1">
+              {boxes.actionjini &&
+                this.renderBox("actionjini", boxes.actionjini, pageKey)}
+              {boxes.actionMenu &&
+                this.renderBox("actionMenu", boxes.actionMenu, pageKey)}
+              {boxes.actionContent &&
+                this.renderBox("actionContent", boxes.actionContent, pageKey)}
             </div>
 
             {/* Right Assistant Area */}
-            <div className="flex flex-col items-center bg-light text-dark rounded-md overflow-y-auto custom-scrollbar h-full w-3/12">
-              {boxes.assistantMenu && this.renderBox('assistantMenu', boxes.assistantMenu, pageKey)}
-              {boxes.assistantContent && this.renderBox('assistantContent', boxes.assistantContent, pageKey)}
+            <div className="flex flex-col px-1 items-center bg-light text-dark rounded-md overflow-y-auto custom-scrollbar h-full w-3/12">
+              {boxes.assistantMenu &&
+                this.renderBox("assistantMenu", boxes.assistantMenu, pageKey)}
+              {boxes.assistantContent &&
+                this.renderBox(
+                  "assistantContent",
+                  boxes.assistantContent,
+                  pageKey
+                )}
             </div>
           </main>
         </div>
@@ -95,9 +106,9 @@ export class PanelMan {
       components = box.components;
     } else if (Array.isArray(box.component)) {
       components = box.component;
-    } else if (typeof box.components === 'string') {
+    } else if (typeof box.components === "string") {
       components = [box.components];
-    } else if (typeof box.component === 'string') {
+    } else if (typeof box.component === "string") {
       components = [box.component];
     }
 
@@ -105,23 +116,22 @@ export class PanelMan {
       return null;
     }
 
-    // پیدا کردن کامپوننت boxheader
-    const headerComponentName = components.find(name => name === 'boxheader');
-    const otherComponents = components.filter(name => name !== 'boxheader');
+    const headerComponentName = components.find((name) => name === "boxheader");
+    const otherComponents = components.filter((name) => name !== "boxheader");
 
     if (!headerComponentName) {
-      // اگر boxheader وجود نداشت، از روش عادی استفاده کن
-      return (
-        <header className="flex items-center min-h-16 max-h-16 bg-light text-dark w-full *:grow rounded-md">
-          {this.renderBoxComponents('header', components, pageKey)}
-        </header>
-      );
+      return null;
     }
 
     // ایجاد اسلات‌ها از کامپوننت‌های دیگر
     const slots: Record<string, React.ReactNode> = {};
     otherComponents.forEach((componentName, index) => {
-      slots[`slot${index}`] = this.renderSingleComponent(componentName, 'header', pageKey, index);
+      slots[`slot${index}`] = this.renderSingleComponent(
+        componentName,
+        "header",
+        pageKey,
+        index
+      );
     });
 
     // رندر boxheader با اسلات‌ها
@@ -132,7 +142,7 @@ export class PanelMan {
 
     return (
       <header className="flex items-center min-h-16 max-h-16 bg-light text-dark w-full *:grow rounded-md">
-        <HeaderComponent 
+        <HeaderComponent
           {...componentProps}
           consolName={pageKey}
           slots={slots}
@@ -141,8 +151,12 @@ export class PanelMan {
     );
   }
 
-  /** 🎨 رندر یک باکس */
-  private renderBox(boxType: string, box: any, pageKey: string): React.ReactNode {
+  /**  رندر یک باکس */
+  private renderBox(
+    boxType: string,
+    box: any,
+    pageKey: string
+  ): React.ReactNode {
     if (!box.enabled) return null;
 
     let components: string[] = [];
@@ -151,9 +165,9 @@ export class PanelMan {
       components = box.components;
     } else if (Array.isArray(box.component)) {
       components = box.component;
-    } else if (typeof box.components === 'string') {
+    } else if (typeof box.components === "string") {
       components = [box.components];
-    } else if (typeof box.component === 'string') {
+    } else if (typeof box.component === "string") {
       components = [box.component];
     }
 
@@ -161,15 +175,15 @@ export class PanelMan {
       return null;
     }
 
-    return (
-      <>
-        {this.renderBoxComponents(boxType, components, pageKey)}
-      </>
-    );
+    return <>{this.renderBoxComponents(boxType, components, pageKey)}</>;
   }
 
-  /** 🔧 رندر کامپوننت‌های یک باکس */
-  private renderBoxComponents(boxType: string, components: string[], pageKey: string): React.ReactNode {
+  /**  رندر باندل های یک باکس */
+  private renderBoxComponents(
+    boxType: string,
+    components: string[],
+    pageKey: string
+  ): React.ReactNode {
     return (
       <>
         {components.map((componentName: string, index: number) =>
@@ -179,8 +193,13 @@ export class PanelMan {
     );
   }
 
-  /** 🔧 رندر یک کامپوننت */
-  private renderSingleComponent(componentName: string, boxType: string, pageKey: string, index: number): React.ReactNode {
+  /**  رندر یک کنوس */
+  private renderSingleComponent(
+    componentName: string,
+    boxType: string,
+    pageKey: string,
+    index: number
+  ): React.ReactNode {
     const Component = componentLoader.getComponent(componentName);
     const componentProps = this.envi?.ENVI_CANV?.[componentName] || {};
 
@@ -190,7 +209,7 @@ export class PanelMan {
 
     const enhancedProps = {
       ...componentProps,
-      ...(boxType === 'header' && { consolName: pageKey })
+      ...(boxType === "header" && { consolName: pageKey }),
     };
 
     return (

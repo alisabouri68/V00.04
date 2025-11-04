@@ -1,0 +1,82 @@
+---glan11
+
+
+
+
+
+>>> ID
+
+    /// Model for Hybrid Profile
+
+    # meta							 
+        . model-id:				"hybridID"
+        . model-title:			"NickName"
+        . model-version:		"V00.04"
+        . model-lastUpgrade:	"D2025.11.02"	      					
+        . model-owner			"apps00"
+
+        . model-type			"Instant"	      							
+        . origin-model			"MODL"								
+        . origin-model-Ver		"V00.04"
+        . model-desc			"Description"	     	
+
+-->
+
+
+
+>>> MNGT
+
+    /// Render Mngt.
+
+    # render(1)                     "mngt"			/// description
+
+        . scat:                     "NTTY"			///  description
+        . langBase:                 "node"			///  description
+
+
+	/// Reference Mngt.
+
+	# referenceModule
+
+	  . refConsole!MOD () /mux		[]				/// [@cons1, @cons2]
+	  . decipline!MOD () /mux		[]				/// [@decp1, @decp2]
+
+-->
+
+
+
+
+
+>>> LOGIc
+
+    /// Step.03 - field Define
+
+    # field(1)
+        . id:						"title"
+        . type:               		"String"		///  String | Number | Date | Buffer | Boolean | Mixed | ObjectId | Array | Decimal128 | Map | UUID | BigInt | DocumentArray | Double | Int32 | Subdocument
+        . default:            		null
+        . enum:               		[]
+        . required:           		false
+        . select:             		true
+        . index:              		false
+        . unique:             		false
+        . ref:                		""
+
+
+
+
+	# tagSepctrum
+		. tag()/mux:               	[]				/// must be reviewed 
+
+	  /// example for Runtime
+		. tag()/mux:               	[cancer, ai , pacific]
+
+
+
+
+
+-->
+
+
+
+---

@@ -2,9 +2,6 @@ import { RouterProvider } from "react-router-dom";
 import applicationRouter from "ROUTS/index";
 import DynaCtrl from "./PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 import MockInjector from "PLAY/RPLY_login";
-// import { PanelManTester } from "PLAY/testPanelMan";
-// import { useEffect } from "react";
-// import { panelman } from 'ACTR/RACT_panelman_V00.04/index';
 // ****************************************************************************
 // MAIN APPLICATION COMPONENT
 // ****************************************************************************
@@ -26,14 +23,7 @@ import MockInjector from "PLAY/RPLY_login";
  */
 function App() {
 
-  // useEffect(() => {
-  //   // مقداردهی اولیه پنل هنگام لود برنامه
-  //   panelman.initByRole();
 
-  //   // برای دیباگ - می‌توانید حذف کنید
-  //   console.log('Panel Status:', panelman.getPanelStatus());
-  //   console.log('Accessible Routes:', panelman.getAccessibleRoutes());
-  // }, []);
   return (
     /**
      * @wrapper DynaCtrl
@@ -50,7 +40,6 @@ function App() {
      */
     <DynaCtrl>
       <MockInjector />
-      {/* <PanelManTester /> */}
 
       {/**
        * @component RouterProvider

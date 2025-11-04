@@ -87,7 +87,7 @@ function BOX_nav({ navItems = [] }: BoxNavProps) {
           role="menubar"
           aria-orientation="vertical"
         >
-          {filteredNav.map((item) => {
+          {filteredNav.map((item:any) => {
             const isActive =
               location.pathname === item.href ||
               (item.href === "/" && location.pathname === "/");

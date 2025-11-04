@@ -1,7 +1,7 @@
-// COMP/RCMP_assistant_V00.03/index.tsx
 //@ts-nocheck
 import { ChangeEvent, useMemo, useCallback, memo } from "react";
 import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import Button from "COMP/RCMP_button_V00.04/index";
 
 interface AssistantProps {
   logic?: { id: string;[key: string]: any };
@@ -11,7 +11,10 @@ interface SectionProps {
   title: string;
   data: Record<string, any>;
   section: "meta" | "geo" | "logic" | "style";
-  onChange: (section: "meta" | "geo" | "logic" | "style", key: string) => (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (
+    section: "meta" | "geo" | "logic" | "style",
+    key: string
+  ) => (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Section = memo(({ title, data, section, onChange }: SectionProps) => {
@@ -19,7 +22,7 @@ const Section = memo(({ title, data, section, onChange }: SectionProps) => {
 
   if (Object.keys(safeData).length === 0) {
     return (
-      <div className="bg-white h-full dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div className="bg-white h-full w-full dark:bg-gray-800 rounded-xl p-1 shadow-sm border border-gray-100 dark:border-gray-700">
         <h3 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-3">
           {title}
         </h3>
@@ -31,9 +34,9 @@ const Section = memo(({ title, data, section, onChange }: SectionProps) => {
   }
 
   return (
-    <div className="flex flex-col bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md h-full overflow-y-auto custom-scrollbar 
+    <div className="flex flex-col w-full bg-light dark:bg-gray-800 rounded-xl p-2 shadow-md h-full overflow-y-auto custom-scrollbar 
                     border border-gray-200 dark:border-gray-700 overflow-hidden">
-      <h3 className="text-md font-semibold text-gray-800 dark:text-gray-100 mb-4">
+      <h3 className="text-md text-primary font-semibold dark:text-gray-100 mb-4">
         {title}
       </h3>
 
@@ -46,7 +49,7 @@ const Section = memo(({ title, data, section, onChange }: SectionProps) => {
                 ({typeof value})
               </span>
             </label>
-            
+
             <input
               type="text"
               value={value ?? ""}
@@ -68,39 +71,24 @@ Section.displayName = "Section";
 
 const Assistant = ({ logic }: AssistantProps) => {
   const { envi, reconfigDyna } = initDyna();
-  
-  // استفاده از id از props یا از assistant state
+
   const assistantState = envi?.ENVI_GLOB?.globalState?.assistant || {};
   const id = logic?.id || assistantState.id;
-  
-  console.log("🎯 Assistant Debug:", {
-    idFromProps: logic?.id,
-    idFromAssistant: assistantState.id,
-    fullAssistantState: assistantState,
-    componentState: id ? envi?.ENVI_GLOB?.globalState?.[id] : null
-  });
 
   const isAssistantActive = useMemo(() => {
     if (!id) return false;
-    
     const componentData = envi?.ENVI_GLOB?.globalState?.[id];
-    const isActive = componentData?.logic?.isAssistant && assistantState.id === id;
-    
-    console.log("🔍 Assistant active check:", {
-      id,
-      isActive,
-      componentHasAssistant: componentData?.logic?.isAssistant,
-      assistantTargetsThis: assistantState.id === id
-    });
-    
-    return isActive;
+    return (
+      componentData?.logic?.isAssistant && assistantState.id === id
+    );
   }, [envi, id, assistantState.id]);
 
   const currentSection = assistantState.section || "meta";
 
   const content = useMemo(() => {
-    if (!id) return { meta: {}, geo: {}, logic: {}, style: {} };
-    
+    if (!id)
+      return { meta: {}, geo: {}, logic: {}, style: {} };
+
     const contentData = envi?.ENVI_GLOB?.globalState?.[id];
     return {
       meta: contentData?.meta || {},
@@ -114,10 +102,7 @@ const Assistant = ({ logic }: AssistantProps) => {
     (section: "meta" | "geo" | "logic" | "style", key: string) =>
       (e: ChangeEvent<HTMLInputElement>) => {
         if (!id) return;
-        
         const newValue = e.target.value;
-        console.log("✏️ Changing:", { id, section, key, newValue });
-        
         reconfigDyna((prev: any) => ({
           ...prev,
           ENVI_GLOB: {
@@ -138,19 +123,28 @@ const Assistant = ({ logic }: AssistantProps) => {
     [id, reconfigDyna]
   );
 
+
+  const handleSectionChange = (section: "meta" | "geo" | "logic" | "style") => {
+    reconfigDyna((prev: any) => ({
+      ...prev,
+      ENVI_GLOB: {
+        ...prev.ENVI_GLOB,
+        globalState: {
+          ...prev.ENVI_GLOB.globalState,
+          assistant: {
+            ...prev.ENVI_GLOB.globalState.assistant,
+            section,
+          },
+        },
+      },
+    }));
+  };
+
   if (!id || !isAssistantActive) {
-    console.log("🚫 Assistant not showing:", { 
-      hasId: !!id, 
-      isActive: isAssistantActive,
-      currentId: id 
-    });
-    
     return (
-      <div className="flex items-center justify-center h-full p-6 mx-1 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700">
+      <div className="flex w-full grow items-center justify-center h-full p-5 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700">
         <div className="text-center text-gray-500 dark:text-gray-400">
-          <p className="text-sm italic mb-2">
-            Assistant is inactive
-          </p>
+          <p className="text-sm italic mb-2">Assistant is inactive</p>
           <div className="text-xs space-y-1">
             <p>Click on any icon to activate</p>
             <p>Current ID: {id || "none"}</p>
@@ -161,8 +155,6 @@ const Assistant = ({ logic }: AssistantProps) => {
     );
   }
 
-  console.log("✅ Rendering Assistant for:", id);
-
   const renderSection = () => {
     const sections = {
       meta: { title: "Meta Properties", data: content.meta },
@@ -171,34 +163,50 @@ const Assistant = ({ logic }: AssistantProps) => {
       style: { title: "Style Properties", data: content.style },
     };
 
-    const current = sections[currentSection as keyof typeof sections] || sections.meta;
+    const current = sections[currentSection] || sections.meta;
 
     return (
       <Section
         title={current.title}
         data={current.data}
-        section={currentSection as "meta" | "geo" | "logic" | "style"}
+        section={currentSection}
         onChange={handleChange}
       />
     );
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded-xl shadow-inner h-full flex flex-col overflow-hidden">
-      <div className="flex items-center justify-between mb-3">
+    <div className="flex flex-col p-2 grow w-full h-full overflow-hidden bg-gray-50  dark:bg-gray-900 rounded-xl shadow-inner ">
+      <div className="flex items-center justify-between w-full">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
           Assistant
         </h3>
-        <span className="text-sm text-gray-500 dark:text-gray-400">
-          {id}
-        </span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">{id}</span>
       </div>
-      
-      <div className="flex-1 min-h-0 overflow-hidden">
+
+      {/* 🟢 دکمه‌های تغییر بخش */}
+      <div className="flex justify-around mb-4 gap-1 w-full">
+        {["meta", "geo", "logic", "style"].map((section) => (
+
+          <Button
+            fullWidth={true}
+            buttunTitle={section.toUpperCase()}
+            variant={currentSection === section?"filled":"outlined"}
+            key={section}
+            onClick={() => handleSectionChange(section as any)}
+            
+          >
+
+          </Button>
+        ))}
+      </div>
+
+      {/* 🟢 محتوای بخش */}
+      <div className="flex w-full h-full">
         {renderSection()}
       </div>
     </div>
-  );
-};
+  )
 
+}
 export default Assistant;

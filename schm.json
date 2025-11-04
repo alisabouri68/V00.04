@@ -1,331 +1,457 @@
 {
-    "head": {
-        "model": "smartCompPanel",
-        "by": "D2025.10.06",
-        "last update": "APPS.68"
+  "head": {
+    "model": "smartCompPanel",
+    "by": "D2025.10.06",
+    "last update": "APPS.68"
+  },
+  "sections": {
+    "id": {
+      "meta": {
+        "id": "smartCompPanel",
+        "title": "smartComp-Panel",
+        "type": "SCHM",
+        "ver": "00.04",
+        "rem": "1",
+        "create": "D2025.10.06"
+      }
     },
-    "sections": {
-        "id": {
-            "meta": {
-                "id": "smartCompPanel",
-                "title": "smartComp-Panel",
-                "type": "SCHM",
-                "ver": "00.04",
-                "rem": "1",
-                "create": "D2025.10.06"
-            }
+    "MNGT": {},
+    "LOGIC": {
+      "ENVI_GLOB": {},
+      "ENVI_Profile": {},
+      "ENVI_HYB": {},
+      "ENVI_CONS": {
+        "home": {
+          "bundle": {
+            "header": "mainHeader",
+            "navigation": "mainNav",
+            "assistant": "mainManagerEnvi"
+          },
+          "General": {
+            "id": "home",
+            "name": "HOME",
+            "path": "/"
+          }
         },
-        "MNGT": {},
-        "LOGIC": {
-            "ENVI_GLOB": {},
-            "ENVI_Profile": {},
-            "ENVI_HYB": {},
-            "ENVI_CONS": {
-                "home": {
-                    "bundle": {
-                        "header": "mainHeader",
-                        "navigation": "mainNav",
-                        "assistant": "mainManagerEnvi"
-                    },
-                    "General": {
-                        "id": "home",
-                        "name": "HOME",
-                        "path": "/"
-                    }
-                },
-                "hot": {
-                    "bundle": {
-                        "header": "mainHeader",
-                        "navigation": "mainNav",
-                        "action": "mainActionHot"
-                    },
-                    "General": {
-                        "id": "hot",
-                        "name": "HOT",
-                        "path": "/hot"
-                    }
-                },
-                "cast": {
-                    "bundle": {
-                        "header": "mainHeader",
-                        "navigation": "mainNav"
-                    },
-                    "General": {
-                        "id": "cast",
-                        "name": "CAST",
-                        "path": "/cast"
-                    }
-                },
-                "wiki": {
-                    "bundle": {
-                        "header": "mainHeader",
-                        "navigation": "mainNav"
-                    },
-                    "General": {
-                        "id": "wiki",
-                        "name": "WIKI",
-                        "path": "/wiki"
-                    }
-                },
-                "gasma": {
-                    "bundle": {
-                        "header": "mainHeader",
-                        "navigation": "mainNav"
-                    },
-                    "General": {
-                        "id": "gasma",
-                        "name": "GASMA",
-                        "path": "/gasma"
-                    }
-                }
-            },
-            "ENVI_BUNDL": {
-                "assistant": {
-                    "id": "mainManagerEnvi",
-                    "components": [
-                        "enviManager"
-                    ]
-                },
-                "action": {
-                    "id": "mainActionHot",
-                    "components": [
-                        "directCall"
-                    ]
-                },
-                "actionContentHome": {
-                    "id": "mainHAsisstant",
-                    "components": [
-                        "assistantContent",
-                        "assistantMenu"
-                    ]
-                },
-                "header": {
-                    "id": "mainHeader",
-                    "components": [
-                        "consoleSwitcher",
-                        "theme",
-                        "language",
-                        "profile"
-                    ]
-                },
-                "navigation": {
-                    "id": "mainNav",
-                    "components": [
-                        "itemNav",
-                        "itemNav",
-                        "itemNav",
-                        "itemNav",
-                        "itemNav"
-                    ]
-                },
-                "actionJini": {},
-                "actionMenue": {},
-                "actionContent": {},
-                "assistantMenu": {},
-                "assistantContent": {}
-            },
-            "ENVI_CANV": {
-                "enviManager": {},
-                "directCall": {},
-                "console": {},
-                "itemNav0": {
-                    "id": "home",
-                    "title": "HOME",
-                    "icon": "🏠",
-                    "href": "/",
-                    "enabled": true
-                },
-                "itemNav1": {
-                    "id": "hot",
-                    "title": "HOT",
-                    "icon": "🔥",
-                    "href": "/hot",
-                    "enabled": true
-                },
-                "itemNav2": {
-                    "id": "cast",
-                    "title": "CAST",
-                    "icon": "🎙️",
-                    "href": "/cast",
-                    "enabled": true
-                },
-                "itemNav3": {
-                    "id": "wiki",
-                    "title": "WIKI",
-                    "icon": "📚",
-                    "href": "/wiki",
-                    "enabled": true
-                },
-                "itemNav4": {
-                    "id": "gasma",
-                    "title": "GASMA",
-                    "icon": "⭐",
-                    "href": "/gasma",
-                    "enabled": true
-                },
-                "theme": {
-                    "type": "dropdown",
-                    "options": [
-                        "Popcorn",
-                        "Nightwish",
-                        "System Default"
-                    ]
-                },
-                "language": {
-                    "type": "dropdown",
-                    "options": [
-                        "English",
-                        "Persian"
-                    ]
-                },
-                "userProfile": {
-                    "type": "dropdown",
-                    "options": [
-                        "Profile",
-                        "Settings",
-                        "Logout"
-                    ]
-                }
-            },
-            "ENVI_PLUG": {},
-            "BODY": {
-                "home": {
-                    "general": {
-                        "name": "HOME",
-                        "path": "/",
-                        "id": "home",
-                        "layout": "desktop"
-                    },
-                    "boxes": {
-                        "header": {
-                            "enabled": true,
-                            "type": "header",
-                            "components": [
-                                "boxheader",
-                                "consoleSwitcher",
-                                "theme",
-                                "language",
-                                "profile"
-                            ]
-                        },
-                        "navigation": {
-                            "enabled": true,
-                            "type": "navigation",
-                            "components": [
-                                "navigator1"
-                            ]
-                        },
-                        "actionjini": {
-                            "enabled": true,
-                            "type": "actionjini",
-                            "components": [
-                                "jinibox"
-                            ]
-                        },
-                        "actionMenu": {
-                            "enabled": true,
-                            "type": "actionMenu",
-                            "components": [
-                                "boxactionMenue"
-                            ]
-                        },
-                        "actionContent": {
-                            "enabled": true,
-                            "type": "actionContent",
-                            "components": [
-                                "boxactionContent","directCall"
-                              
-                            ]
-                        },
-                        "assistantMenu": {
-                            "enabled": true,
-                            "type": "assistantMenu",
-                            "components": [
-                                "boxassistantMenu"
-                            ]
-                        },
-                        "assistantContent": {
-                            "enabled": true,
-                            "type": "assistantContent",
-                            "components": [
-                                "boxassistantContent", "enviMngr"
-                            ]
-                        }
-                    }
-                },
-                "hot": {
-                    "general": {
-                        "name": "HOME",
-                        "path": "/",
-                        "id": "home",
-                        "layout": "desktop"
-                    },
-                    "boxes": {
-                        "header": {
-                            "enabled": true,
-                            "type": "header",
-                            "components": [
-                                "boxheader",
-                                "consoleSwitcher",
-                                "theme",
-                                "language",
-                                "profile"
-                            ]
-                        },
-                        "navigation": {
-                            "enabled": true,
-                            "type": "navigation",
-                            "components": [
-                                "navigator1"
-                            ]
-                        },
-                        "actionjini": {
-                            "enabled": true,
-                            "type": "actionjini",
-                            "components": [
-                                "jinibox"
-                            ]
-                        },
-                        "actionMenu": {
-                            "enabled": true,
-                            "type": "actionMenu",
-                            "components": [
-                                "boxactionMenue"
-                            ]
-                        },
-                        "actionContent": {
-                            "enabled": true,
-                            "type": "actionContent",
-                            "components": [
-                                "boxactionContent"
-                            ]
-                        },
-                        "assistantMenu": {
-                            "enabled": true,
-                            "type": "assistantMenu",
-                            "components": [
-                                "boxassistantMenu"
-                            ]
-                        },
-                        "assistantContent": {
-                            "enabled": true,
-                            "type": "assistantContent",
-                            "components": [
-                                "boxassistantContent","paraAssigner"
-                            ]
-                        }
-                    },
-                    "bundle": {
-                        "header": "mainHeader",
-                        "navigation": "mainNavigation",
-                        "actionjini": "mainActionjini",
-                        "actionMenu": "mainActionMenu",
-                        "actionContent": "mainActionContent",
-                        "assistantMenu": "mainAssistantMenu",
-                        "assistantContent": "mainAssistantContent"
-                    }
-                }
-            }
+        "hot": {
+          "bundle": {
+            "header": "mainHeader",
+            "navigation": "mainNav",
+            "action": "mainActionHot"
+          },
+          "General": {
+            "id": "hot",
+            "name": "HOT",
+            "path": "/hot"
+          }
+        },
+        "cast": {
+          "bundle": {
+            "header": "mainHeader",
+            "navigation": "mainNav"
+          },
+          "General": {
+            "id": "cast",
+            "name": "CAST",
+            "path": "/cast"
+          }
+        },
+        "wiki": {
+          "bundle": {
+            "header": "mainHeader",
+            "navigation": "mainNav"
+          },
+          "General": {
+            "id": "wiki",
+            "name": "WIKI",
+            "path": "/wiki"
+          }
+        },
+        "gasma": {
+          "bundle": {
+            "header": "mainHeader",
+            "navigation": "mainNav"
+          },
+          "General": {
+            "id": "gasma",
+            "name": "GASMA",
+            "path": "/gasma"
+          }
         }
+      },
+      "ENVI_BUNDL": {
+        "assistant": {
+          "id": "mainManagerEnvi",
+          "components": ["enviManager"]
+        },
+        "action": {
+          "id": "mainActionHot",
+          "components": ["directCall"]
+        },
+        "actionContentHome": {
+          "id": "mainHAsisstant",
+          "components": ["assistantContent", "assistantMenu"]
+        },
+        "header": {
+          "id": "mainHeader",
+          "components": ["consoleSwitcher", "theme", "language", "profile"]
+        },
+        "navigation": {
+          "id": "mainNav",
+          "components": ["itemNav", "itemNav", "itemNav", "itemNav", "itemNav"]
+        },
+        "actionJini": {},
+        "actionMenue": {},
+        "actionContent": {},
+        "assistantMenu": {},
+        "assistantContent": {}
+      },
+      "ENVI_CANV": {
+        "enviManager": {},
+        "directCall": {},
+        "console": {},
+        "itemNav0": {
+          "id": "home",
+          "title": "HOME",
+          "icon": "🏠",
+          "href": "/",
+          "enabled": true
+        },
+        "itemNav1": {
+          "id": "hot",
+          "title": "HOT",
+          "icon": "🔥",
+          "href": "/hot",
+          "enabled": true
+        },
+        "itemNav2": {
+          "id": "cast",
+          "title": "CAST",
+          "icon": "🎙️",
+          "href": "/cast",
+          "enabled": true
+        },
+        "itemNav3": {
+          "id": "wiki",
+          "title": "WIKI",
+          "icon": "📚",
+          "href": "/wiki",
+          "enabled": true
+        },
+        "itemNav4": {
+          "id": "gasma",
+          "title": "GASMA",
+          "icon": "⭐",
+          "href": "/gasma",
+          "enabled": true
+        },
+        "theme": {
+          "type": "dropdown",
+          "options": ["Popcorn", "Nightwish", "System Default"]
+        },
+        "language": {
+          "type": "dropdown",
+          "options": ["English", "Persian"]
+        },
+        "userProfile": {
+          "type": "dropdown",
+          "options": ["Profile", "Settings", "Logout"]
+        }
+      },
+      "ENVI_PLUG": {},
+      "BODY": {
+        "home": {
+          "general": {
+            "name": "HOME",
+            "path": "/",
+            "id": "home",
+            "layout": "desktop"
+          },
+          "boxes": {
+            "header": {
+              "enabled": true,
+              "type": "header",
+              "components": [
+                "boxheader",
+                "consoleSwitcher",
+                "theme",
+                "language",
+                "profile"
+              ]
+            },
+            "navigation": {
+              "enabled": true,
+              "type": "navigation",
+              "components": ["navigator1"]
+            },
+            "actionjini": {
+              "enabled": true,
+              "type": "actionjini",
+              "components": ["jinibox"]
+            },
+            "actionMenu": {
+              "enabled": true,
+              "type": "actionMenu",
+              "components": ["boxactionMenue"]
+            },
+            "actionContent": {
+              "enabled": true,
+              "type": "actionContent",
+              "components": ["boxactionContent", "directCall"]
+            },
+            "assistantMenu": {
+              "enabled": true,
+              "type": "assistantMenu",
+              "components": ["boxassistantMenu"]
+            },
+            "assistantContent": {
+              "enabled": true,
+              "type": "assistantContent",
+              "components": ["boxassistantContent", "enviMngr"]
+            }
+          }
+        },
+        "hot": {
+          "general": {
+            "name": "HOME",
+            "path": "/",
+            "id": "home",
+            "layout": "desktop"
+          },
+          "boxes": {
+            "header": {
+              "enabled": true,
+              "type": "header",
+              "components": [
+                "boxheader",
+                "consoleSwitcher",
+                "theme",
+                "language",
+                "profile"
+              ]
+            },
+            "navigation": {
+              "enabled": true,
+              "type": "navigation",
+              "components": ["navigator1"]
+            },
+            "actionjini": {
+              "enabled": true,
+              "type": "actionjini",
+              "components": ["jinibox"]
+            },
+            "actionMenu": {
+              "enabled": true,
+              "type": "actionMenu",
+              "components": ["boxactionMenue"]
+            },
+            "actionContent": {
+              "enabled": true,
+              "type": "actionContent",
+              "components": ["boxactionContent","hotMenuSheet", "contextDiagram"]
+            },
+            "assistantMenu": {
+              "enabled": true,
+              "type": "assistantMenu",
+              "components": ["boxassistantMenu"]
+            },
+            "assistantContent": {
+              "enabled": true,
+              "type": "assistantContent",
+              "components": ["boxassistantContent", "paraAssigner"]
+            }
+          },
+          "bundle": {
+            "header": "mainHeader",
+            "navigation": "mainNavigation",
+            "actionjini": "mainActionjini",
+            "actionMenu": "mainActionMenu",
+            "actionContent": "mainActionContent",
+            "assistantMenu": "mainAssistantMenu",
+            "assistantContent": "mainAssistantContent"
+          }
+        },
+        "cast": {
+          "general": {
+            "name": "HOME",
+            "path": "/",
+            "id": "home",
+            "layout": "desktop"
+          },
+          "boxes": {
+            "header": {
+              "enabled": true,
+              "type": "header",
+              "components": [
+                "boxheader",
+                "consoleSwitcher",
+                "theme",
+                "language",
+                "profile"
+              ]
+            },
+            "navigation": {
+              "enabled": true,
+              "type": "navigation",
+              "components": ["navigator1"]
+            },
+            "actionjini": {
+              "enabled": true,
+              "type": "actionjini",
+              "components": ["jinibox"]
+            },
+            "actionMenu": {
+              "enabled": true,
+              "type": "actionMenu",
+              "components": ["boxactionMenue"]
+            },
+            "actionContent": {
+              "enabled": true,
+              "type": "actionContent",
+              "components": ["boxactionContent"]
+            },
+            "assistantMenu": {
+              "enabled": true,
+              "type": "assistantMenu",
+              "components": ["boxassistantMenu"]
+            },
+            "assistantContent": {
+              "enabled": true,
+              "type": "assistantContent",
+              "components": ["boxassistantContent", "paraEditor"]
+            }
+          },
+          "bundle": {
+            "header": "mainHeader",
+            "navigation": "mainNavigation",
+            "actionjini": "mainActionjini",
+            "actionMenu": "mainActionMenu",
+            "actionContent": "mainActionContent",
+            "assistantMenu": "mainAssistantMenu",
+            "assistantContent": "mainAssistantContent"
+          }
+        },
+        "wiki": {
+          "general": {
+            "name": "HOME",
+            "path": "/",
+            "id": "home",
+            "layout": "desktop"
+          },
+          "boxes": {
+            "header": {
+              "enabled": true,
+              "type": "header",
+              "components": [
+                "boxheader",
+                "consoleSwitcher",
+                "theme",
+                "language",
+                "profile"
+              ]
+            },
+            "navigation": {
+              "enabled": true,
+              "type": "navigation",
+              "components": ["navigator1"]
+            },
+            "actionjini": {
+              "enabled": true,
+              "type": "actionjini",
+              "components": ["jinibox"]
+            },
+            "actionMenu": {
+              "enabled": true,
+              "type": "actionMenu",
+              "components": ["boxactionMenue"]
+            },
+            "actionContent": {
+              "enabled": true,
+              "type": "actionContent",
+              "components": ["boxactionContent"]
+            },
+            "assistantMenu": {
+              "enabled": true,
+              "type": "assistantMenu",
+              "components": ["boxassistantMenu"]
+            },
+            "assistantContent": {
+              "enabled": true,
+              "type": "assistantContent",
+              "components": ["boxassistantContent", "paraAssigner"]
+            }
+          },
+          "bundle": {
+            "header": "mainHeader",
+            "navigation": "mainNavigation",
+            "actionjini": "mainActionjini",
+            "actionMenu": "mainActionMenu",
+            "actionContent": "mainActionContent",
+            "assistantMenu": "mainAssistantMenu",
+            "assistantContent": "mainAssistantContent"
+          }
+        },
+        "gasma": {
+          "general": {
+            "name": "HOME",
+            "path": "/",
+            "id": "home",
+            "layout": "desktop"
+          },
+          "boxes": {
+            "header": {
+              "enabled": true,
+              "type": "header",
+              "components": [
+                "boxheader",
+                "consoleSwitcher",
+                "theme",
+                "language",
+                "profile"
+              ]
+            },
+            "navigation": {
+              "enabled": true,
+              "type": "navigation",
+              "components": ["navigator1"]
+            },
+            "actionjini": {
+              "enabled": true,
+              "type": "actionjini",
+              "components": ["jinibox"]
+            },
+            "actionMenu": {
+              "enabled": true,
+              "type": "actionMenu",
+              "components": ["boxactionMenue"]
+            },
+            "actionContent": {
+              "enabled": true,
+              "type": "actionContent",
+              "components": ["boxactionContent"]
+            },
+            "assistantMenu": {
+              "enabled": true,
+              "type": "assistantMenu",
+              "components": ["boxassistantMenu"]
+            },
+            "assistantContent": {
+              "enabled": true,
+              "type": "assistantContent",
+              "components": ["boxassistantContent", "paraAssigner"]
+            }
+          },
+          "bundle": {
+            "header": "mainHeader",
+            "navigation": "mainNavigation",
+            "actionjini": "mainActionjini",
+            "actionMenu": "mainActionMenu",
+            "actionContent": "mainActionContent",
+            "assistantMenu": "mainAssistantMenu",
+            "assistantContent": "mainAssistantContent"
+          }
+        }
+      }
     }
+  }
 }

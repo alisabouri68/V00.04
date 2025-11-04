@@ -1,0 +1,75 @@
+---glan11
+
+>>> ID															//? Defining Actor
+
+    /// Canvas Template ( Wrapper of a RoleMap )
+
+    # meta
+        . model_id:				"0template"
+        . model_title:			"Canvas Template"
+        . model_version:		"V00.04"
+        . model_lastUpgrade:	"D2025.11.02"	      			/// use the header date
+        . model_owner			"apps00"
+		. model_icon:			"DesignSys_V00.04.icon(ID)"
+
+        . model_type			"Instant"	      							
+        . origin_model			"CONS"							/// Actor Mutage Model
+        . origin_model_Ver		"V00.04"
+        . model_rem				"Console Template"	
+
+	/// Objectives:
+
+	///	1- 
+
+	///	2-
+
+	///	3-
+
+
+
+-->
+
+>>> MNGT
+
+	# packageMngt									/// Package Management
+		.bundleId:					""
+		
+		
+-->
+
+>>> LOGIC
+
+
+	# accessStat
+		.roles: 				[mngr, auditor]
+		
+		.decipAuth ~ grid1:		[decip1 , decip2, decip3 ]
+		.decipPrio ~ grid1:		[ 1, 2, 3 ]
+		.decipRolMatch ~ grid1:	[mngr, mngr, auditor]
+
+
+
+
+
+
+
+-->
+
+
+>>> Body
+
+
+
+
+-->
+
+
+
+
+
+
+
+
+---
+
+

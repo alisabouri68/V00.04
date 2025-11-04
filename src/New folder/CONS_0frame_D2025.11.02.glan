@@ -1,0 +1,105 @@
+---glan11
+
+>>> ID
+
+    /// Console Frame 
+
+	# meta
+        . model_id:				"0frame"
+        . model_title:			"Default Console Frame"
+        . model_version:		"V00.04"
+        . model_lastUpgrade:	"D2025.11.02"	      			/// use the header date
+        . model_owner			"apps00"
+		. model_icon:			"DesignSys_V00.04.icon(id)"
+
+        . model_type			"FRAME"	      							
+        . origin_model			"CONS"							/// Actor Mutage Model
+        . origin_model_Ver		"V00.04"
+        . model_rem				"Console Template"	
+
+	/// Objectives:
+
+	///	1- 
+
+	///	2-
+
+	///	3-
+
+
+
+-->
+
+
+
+>>> LOGIC
+
+	# status
+		.layout:				"layoutID"
+		.deciplines: 			[dec.1, dec.2]
+
+	# box()
+		. boxID:
+		. boxType:
+
+
+
+	# deciplines()
+		. canvID:
+
+
+
+-->
+
+
+>>> Body
+
+	/// List of Bundles 
+
+	@ Bundle (0) /mux
+
+	  /// examples for runtime
+
+	  @ Bundle (1)
+		# role:					[ mngr, visitor, auditor]
+
+	  @ Bundle (2)
+
+	  @ Bundle (3)
+
+	  @ Bundle (4)
+
+
+	/// List of Canvases
+
+	@ CANV(0) /mux
+
+	  /// examples for runtime
+	  @ CANV(1)											/// Wrapper - Role Map
+	
+		.id
+		.title
+		.roleInteractive: 		[mngr, auditor]
+		
+		.decipAuth ~ grid1:		[decip1 , decip2, decip3 ]
+		.decipPrio ~ grid1:		[ 1, 2, 3 ]
+		.decipRolMatch ~ grid1:	[mngr, mngr, auditor]
+
+	  @ CANV(2)			/// Wrapper - Role Map
+
+	  @ CANV(3)			/// Wrapper - Role Map
+
+
+
+
+-->
+
+
+
+
+
+
+
+
+---
+
+

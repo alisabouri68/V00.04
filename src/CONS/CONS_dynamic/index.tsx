@@ -20,7 +20,7 @@ const DynamicPage: React.FC<DynamicPageProps> = ({ pageKey }) => {
     );
   }
 
-  // ✅ بررسی وجود مسیر با متد جدید
+
   const accessibleRoutes = panelman.getAccessibleRoutes();
   const routeExists = accessibleRoutes.includes(pageKey);
 
@@ -32,22 +32,20 @@ const DynamicPage: React.FC<DynamicPageProps> = ({ pageKey }) => {
   });
 
   if (!routeExists) {
-    console.warn(`❌ Route not found: ${pageKey}. Available: ${accessibleRoutes.join(", ")}`);
     return <NotFoundPage />;
   }
 
   // ✅ ساخت صفحه
   try {
     const pageContent = panelman.buildPage(pageKey);
-    
+
     if (!pageContent) {
-      console.warn(`❌ No content generated for: ${pageKey}`);
       return <NotFoundPage />;
     }
 
     console.log(`✅ Successfully built page: ${pageKey}`);
     return <>{pageContent}</>;
-    
+
   } catch (error) {
     console.error(`💥 Error building page ${pageKey}:`, error);
     return (

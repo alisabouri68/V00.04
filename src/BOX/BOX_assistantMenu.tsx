@@ -6,13 +6,11 @@ interface BoxAssistantProps {
 
 function BOX_assistant({ children, slots }: BoxAssistantProps) {
   return (
-    <div className='flex flex-col w-3/12 h-full bg-light text-dark overflow-y-auto custom-scrollbar rounded-md gap-1'>
+    <div className="w-full border">
       {/* نمایش slots اگر وجود داشته باشد */}
       {slots && Object.entries(slots).map(([key, slot]) => (
         <div key={key}>{slot}</div>
       ))}
-
-      {/* نمایش children معمولی */}
       {children}
     </div>
   )

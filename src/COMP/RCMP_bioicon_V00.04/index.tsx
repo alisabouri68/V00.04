@@ -1,8 +1,7 @@
-// COMP/RCMP_bioicon_V00.04/index.tsx
 //@ts-nocheck
 import { useState, useEffect, useRef } from "react";
 import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
-import schmJson from "./.schm.json?raw"
+import schmJson from "./.schm.json?raw";
 
 export interface IconProps {
   geo?: { width?: string; height?: string };
@@ -13,55 +12,60 @@ export interface IconProps {
 
 const BioIcon = ({ geo, logic, style, children }: IconProps) => {
   const [isActive, setIsActive] = useState(false);
-  const iconRef = useRef<HTMLDivElement>(null);
-  const assistantRef = useRef<HTMLDivElement>(null);
-
-  const parsJson = JSON.parse(schmJson)?.sections?.id?.meta || {};
+  const [currentStyle, setCurrentStyle] = useState(style || {});
+  const [currentGeo, setCurrentGeo] = useState(geo || {});
   const { envi, reconfigDyna } = initDyna();
   const id = logic?.id || "";
-  
-  // دیباگ برای دیدن وضعیت فعلی
-  console.log("🔍 BioIcon Debug:", {
-    id,
-    currentState: envi?.ENVI_GLOB?.globalState?.[id],
-    isAssistantActive: envi?.ENVI_GLOB?.globalState?.[id]?.logic?.isAssistant
-  });
+  const parsJson = JSON.parse(schmJson)?.sections?.id?.meta || {};
+
+  // 🟢 گوش دادن به تغییرات state گلوبال برای این آیکون
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!id) return;
+      const comp = envi?.ENVI_GLOB?.globalState?.[id];
+      const assist = envi?.ENVI_GLOB?.globalState?.assistant;
+
+      const active = comp?.logic?.isAssistant && assist?.id === id;
+      setIsActive(active);
+
+      // 🟢 آپدیت استایل و geo از state گلوبال
+      if (comp?.style) {
+        setCurrentStyle(prev => ({ ...prev, ...comp.style }));
+      }
+      if (comp?.geo) {
+        setCurrentGeo(prev => ({ ...prev, ...comp.geo }));
+      }
+    }, 400);
+
+    return () => clearInterval(interval);
+  }, [id, envi]);
 
   const handleClick = () => {
     if (!id) return;
 
-    console.log("🔄 BioIcon clicked:", id);
-
     reconfigDyna((prevState: any) => {
       const currentContent = prevState.ENVI_GLOB?.globalState?.[id] || {};
       const currentAssistant = prevState.ENVI_GLOB?.globalState?.assistant || {};
-      
-      // وضعیت جدید برای Assistant
+
       const newAssistantState = {
         ...currentAssistant,
         id: id,
         envimng: false,
-        section: "meta" // اضافه کردن section پیش‌فرض
+        section: "meta",
       };
 
-      // وضعیت جدید برای کامپوننت
       const newComponentState = {
         ...currentContent,
         meta: { ...parsJson, ...currentContent.meta },
-        geo: { ...currentContent.geo, ...geo },
-        logic: { 
-          ...currentContent.logic, 
-          ...logic, 
-          isAssistant: true, // همیشه true شود
-          addToLocall: true 
+        geo: { ...currentContent.geo, ...currentGeo },
+        logic: {
+          ...currentContent.logic,
+          ...logic,
+          isAssistant: true,
+          addToLocall: true,
         },
-        style: { ...currentContent.style, ...style }
+        style: { ...currentContent.style, ...currentStyle },
       };
-
-      console.log("📝 Setting new state:", {
-        assistant: newAssistantState,
-        component: newComponentState
-      });
 
       return {
         ...prevState,
@@ -70,43 +74,21 @@ const BioIcon = ({ geo, logic, style, children }: IconProps) => {
           globalState: {
             ...prevState.ENVI_GLOB?.globalState,
             [id]: newComponentState,
-            assistant: newAssistantState
+            assistant: newAssistantState,
           },
         },
       };
     });
-    
-    setIsActive(true);
   };
-
-  // Effect برای sync شدن با state全局
-  useEffect(() => {
-    if (id) {
-      const componentState = envi?.ENVI_GLOB?.globalState?.[id];
-      const assistantState = envi?.ENVI_GLOB?.globalState?.assistant;
-      
-      const shouldBeActive = 
-        componentState?.logic?.isAssistant && 
-        assistantState?.id === id;
-      
-      setIsActive(shouldBeActive);
-      
-      console.log("🔄 BioIcon effect update:", {
-        id,
-        shouldBeActive,
-        componentAssistant: componentState?.logic?.isAssistant,
-        assistantId: assistantState?.id
-      });
-    }
-  }, [envi, id]);
 
   return (
     <div
-      ref={iconRef}
       onClick={handleClick}
-      className={`flex items-center cursor-pointer ${isActive ? 'ring-2 ring-blue-500 rounded-md' : ''}`}
+      className={`flex items-center justify-center p-2 rounded-md cursor-pointer transition-all duration-200 ${isActive ? "ring-2 ring-blue-500 bg-blue-50 dark:bg-gray-800" : ""
+        }`}
+      style={currentStyle} // 🟢 استفاده از currentStyle به جای style
     >
-      <span style={style}>{children}</span>
+      {children}
     </div>
   );
 };
