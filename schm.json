@@ -248,7 +248,7 @@
             "actionContent": {
               "enabled": true,
               "type": "actionContent",
-              "components": ["boxactionContent", "contextDiagram"]
+              "components": ["boxactionContent","hotMenuSheet", "contextDiagram"]
             },
             "assistantMenu": {
               "enabled": true,
@@ -308,7 +308,7 @@
             "actionContent": {
               "enabled": true,
               "type": "actionContent",
-              "components": ["boxactionContent", "contextFlow"]
+              "components": ["boxactionContent"]
             },
             "assistantMenu": {
               "enabled": true,
@@ -318,7 +318,7 @@
             "assistantContent": {
               "enabled": true,
               "type": "assistantContent",
-              "components": ["boxassistantContent", "paraAssigner"]
+              "components": ["boxassistantContent", "paraEditor"]
             }
           },
           "bundle": {
