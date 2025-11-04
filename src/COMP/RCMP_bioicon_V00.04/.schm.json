@@ -1,0 +1,38 @@
+{
+    "head": {
+        "model": "COMP_icon_V00.04",
+        "by": "APPS.68",
+        "last update": "D2025.09.09"
+    },
+    "sections": {
+        "id": {
+            "meta": {
+                "id": "COMP_icon_V00.04",
+                "title": "Component WIDG_icon_V00 - React Version",
+                "type": "SCHM",
+                "ver": "00.04",
+                "rem": "1",
+                "create": "D2025.09.09"
+            }
+        },
+        "MNGT": {},
+        "LOGIC": {
+            "geo": {
+                "width": 25,
+                "height": 25
+            },
+            "logic": {
+                "onClick": 0,
+                "rotate": false,
+                "isAssistant":false
+            },
+            "style": {
+                "fontSize": "25px",
+                "color": "#FF5722",
+                "margin": "0px",
+                "iconType": "FaCheck"
+            }
+        },
+        "BODY": {}
+    }
+}
