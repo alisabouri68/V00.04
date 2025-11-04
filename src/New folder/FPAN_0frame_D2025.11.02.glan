@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---glan11
 
 >>> ID
@@ -204,4 +205,212 @@
 
 -->
 
+=======
+---glan11
+
+>>> ID
+
+	/// Panel Frame
+
+
+	# meta
+	  . model_id:				"panID"
+	  . model_title:			"Panel Title"
+	  . model_version:			"V00.04"
+	  . model_lastUpgrade:		"D2025.11.02"		/// use the header date
+	  . model_owner				"apps00"
+	  . model_icon:				"DesignSys_V00.04.icon(id)"
+
+	  . model_type				"FRAME"
+	  . origin_model			"FPAN"				/// default is base Model
+	  . origin_model_Ver		"V00.04"
+
+	  . model_rem				"panel remarks ..."	
+
+
+-->
+
+
+>>> MNGT
+  
+  /// Render Mngt.
+
+  # render(1) npan			"Node-PAN"			//? http-express (node) panel
+	. scat:					"NPAN"				/// Genix Cat
+	. genixID:				"orgaExpress"		/// template for mutage or filename for an instant model
+	. langBase:				"node"				/// language base
+	. proto:				"http"				/// communication protocol
+
+
+  /// Dependancy Mngt.  
+  
+  # ACTR
+	. ACTR(1): 				"NACT_gnrl"			/// actor for config express
+	. ACTR(2): 				"NACT_init"			/// actor for handle dimensions
+	. ACTR(3): 				"NACT_mongs"		/// actor for config mongodb
+	. ACTR(4): 				"NACT_swagger"		/// actor for config swagger
+	. ACTR(5): 				"NACT_baseCtrl"		/// actor for define base controller and base functions for handle all controllers
+
+
+  # network
+	.defPort:				"8022"				/// Default port based on Registry
+	.defProto:				"ssh"				/// Default protocol based on Registry
+	.
+
+
+
+  /// registries  
+
+  # REGS
+	.packet5.field1:		"12"			/// comment
+	.field2				"14"			/// comment
+	.field3				"99"			/// comment
+
+
+
+
+-->
+
+
+>>> LOGIC
+
+	/// packet definition which will be used to construct Envi_glob by ACRT_dynaMan through ACTR_absMan
+
+
+	# globalState/g (0)							///
+	  . id:					""
+
+
+/// examples inside the Dyna - Local Storage
+	# globalState /g (1)							///
+	  . id:							"panelman.pGLOBAL_Envi_Architecture"
+	  . enviVar(~grid1):  			[... ]
+      . enviVarIsArray(~grid1):		[... ]
+
+
+	# globalState /g (2)							///
+      . id:							"panelman.DEFAULT_GLOBAL_STATE"
+      . theme: 						'light'
+      . language: 					'fa'
+      . direction: 					'rtl'
+
+      . user-fontSize: 				'medium'
+      . user-reduceAnimations: 		false
+      . user-highContrast: 			false
+
+      . notif-enabled: 				true
+      . notif-sound: 				true
+      . notif-vibration: 			false
+
+      . privacy-analytics: 			false
+      . privacy-cookies: 			false
+      . privacy-tracking: 			false
+
+
+
+
+	# hybrid
+	  . id
+	  . fname
+	  . midname
+	  . lname
+	  . hybinfo
+
+
+-->
+
+
+
+>>> BODY
+
+
+
+	
+	@ profile
+
+
+
+
+
+
+
+
+	/// CONS List  - Must be used by ACRT_dynaMan to Create Envi_CONS
+
+	@ CONS(0) id   /mux
+	
+	/// examples are for rendering
+
+	@ CONS(1) home 				"Home"			/// remark
+
+	@ CONS(2) hot 				"Hot"			/// remark
+
+
+
+
+	/// BNDL (Bundle) List
+	
+	@ BNDL(0) /mux
+
+	/// examples are for rendering
+
+	@ BNDL(1) bundle1				"title"			//? Bundles in this Console
+
+
+
+
+
+	/// List of Child Canvas in each Bundle
+	
+	@ CANV(0) /mux
+	
+	/// examples in rendering phase
+
+	@ CANV(1) canv1					"title"			//? Wrapper1 of a RoleMap
+		# packageMngt								/// Section MNGR
+		.bundleId:					"bundle1"
+
+	@ CANV(canv2)					"title"			/// Wrapper3 of a RoleMap			/// Wrapper - RoleMap
+		# packageMngt								/// Section MNGR
+		.bundleId:					"bundle1"
+
+	@ CANV(3) canv3					"title"			/// Wrapper of a RoleMap
+		# packageMngt								/// Section MNGR
+		.bundleId:					""
+
+
+
+
+
+	/// PLAY List (Middleware)
+
+	@ play(1):				"NPLY_gnxCtrl"			/// handle genix api, NACTs are: (NACT_gnx | NACT_gnxRepo )
+	@ play(2):				"NPLY_gnxGrpCtrl"			/// handle genix group api, NACTs are: (NACT_gnxGrp | NACT_gnxGrpRepo )
+	@ play(3):				"NPLY_glanRegCtrl"		/// handle glan api, NACTs are: (NACT_glanReg | NACT_glanRegRepo )
+	@ play(4):				"NPLY_listRegCtrl"		/// handle registry list api, NACTs are: (NACT_listReg | NACT_listRegRepo )
+	@ play(5):				"NPLY_RegCtrl"			/// handle registry api, NACTs are: (NACT_reg | NACT_regRepo )
+
+
+
+	/// PLAY List (Controller)
+
+	@ play(1):				"NPLY_simpMw"			/// handle simple middleware
+	@ play(2):				"NPLY_simpMw"			/// handle simple middleware
+	@ play(3):				"NPLY_simpMw"			/// handle simple middleware
+	@ play(4):				"NPLY_simpMw"			/// handle simple middleware
+
+
+	/// ACTR list
+	
+	/// COMP list
+
+	/// KRNL list
+	
+	/// WIDG list
+	
+	/// THME list
+
+-->
+
+>>>>>>> f80cd735f2a895ea2c515a4defac99e0249832a1
 ---

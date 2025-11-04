@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // routes/layers/middleware/access.middleware.ts
 import { Middleware, MiddlewareContext } from './index';
 import { panelman } from 'ACTR/RACT_panelman_V00.04/index';
@@ -200,3 +201,6 @@ export const timeBasedAccessMiddleware: Middleware = async (context) => {
   
   next();
 };
+=======
+
+>>>>>>> f80cd735f2a895ea2c515a4defac99e0249832a1

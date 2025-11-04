@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // routes/layers/middleware/auth.middleware.ts
 import { Middleware, MiddlewareContext } from './index';
 
@@ -50,3 +51,6 @@ export const permissionMiddleware: Middleware = async (context) => {
   
   next();
 };
+=======
+
+>>>>>>> f80cd735f2a895ea2c515a4defac99e0249832a1

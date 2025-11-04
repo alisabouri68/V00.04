@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // routes/layers/auth/PermissionService.ts
 export class PermissionService {
   static canAccessPage(user: any, pageConfig: any): boolean {
@@ -26,3 +27,6 @@ export class PermissionService {
     return pageConfig.status.deciplines[user.role] || [];
   }
 }
+=======
+
+>>>>>>> f80cd735f2a895ea2c515a4defac99e0249832a1
