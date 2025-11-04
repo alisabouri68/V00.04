@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "ENVI_CONS": {
         "cast": {
@@ -396,4 +397,404 @@
             }
         }
     }
+=======
+{
+    "ENVI_CONS": {
+        "cast": {
+            "status": {
+                "layout": "mobile",
+                "deciplines": {
+                    "guest": [
+                        "read"
+                    ],
+                    "userA": [
+                        "read",
+                        "write"
+                    ],
+                    "userB": [
+                        "read",
+                        "write",
+                        "delete"
+                    ],
+                    "admin": [
+                        "read",
+                        "write",
+                        "delete",
+                        "admin"
+                    ]
+                }
+            },
+            "box": {
+                "header": {
+                    "boxID": "BOX_header",
+                    "boxType": "header",
+                    "visible": true,
+                    "required": true,
+                    "permissions": [
+                        "all"
+                    ],
+                    "mobile": {
+                        "order": 1,
+                        "size": "compact"
+                    },
+                    "desktop": {
+                        "order": 1,
+                        "size": "full"
+                    }
+                },
+                "navigation": {
+                    "boxID": "BOX_navigation",
+                    "boxType": "navigation"
+                },
+                "actionJini": {
+                    "boxID": "BOX_actionJini",
+                    "boxType": "jini"
+                },
+                "actionMenu": {
+                    "boxID": "BOX_actionMenu",
+                    "boxType": "actionMenu"
+                },
+                "actionContent": {
+                    "boxID": "BOX_actionContent",
+                    "boxType": "actionContent"
+                },
+                "assistantMenu": {
+                    "boxID": "BOX_assistantMenu",
+                    "boxType": "assistantMenu"
+                },
+                "assistantContent": {
+                    "boxID": "BOX_assistantContent",
+                    "boxType": "assistantContent"
+                },
+                "auxilaryMenu": {
+                    "boxID": "BOX_auxilaryMenu",
+                    "boxType": "auxilaryMenu"
+                },
+                "auxilaryContent": {
+                    "boxID": "BOX_auxilaryContent",
+                    "boxType": "auxilaryContent"
+                }
+            },
+            "deciplines": {
+                "canvID": []
+            }
+        },
+        "gasma": {
+            "status": {
+                "layout": "mobile",
+                "deciplines": {
+                    "guest": [
+                        "read"
+                    ],
+                    "userA": [
+                        "read",
+                        "write"
+                    ],
+                    "userB": [
+                        "read",
+                        "write",
+                        "delete"
+                    ],
+                    "admin": [
+                        "read",
+                        "write",
+                        "delete",
+                        "admin"
+                    ]
+                }
+            },
+            "box": {
+                "header": {
+                    "boxID": "BOX_header",
+                    "boxType": "header",
+                    "visible": true,
+                    "required": true,
+                    "permissions": [
+                        "all"
+                    ],
+                    "mobile": {
+                        "order": 1,
+                        "size": "compact"
+                    },
+                    "desktop": {
+                        "order": 1,
+                        "size": "full"
+                    }
+                },
+                "navigation": {
+                    "boxID": "BOX_navigation",
+                    "boxType": "navigation"
+                },
+                "actionJini": {
+                    "boxID": "BOX_actionJini",
+                    "boxType": "jini"
+                },
+                "actionMenu": {
+                    "boxID": "BOX_actionMenu",
+                    "boxType": "actionMenu"
+                },
+                "actionContent": {
+                    "boxID": "BOX_actionContent",
+                    "boxType": "actionContent"
+                },
+                "assistantMenu": {
+                    "boxID": "BOX_assistantMenu",
+                    "boxType": "assistantMenu"
+                },
+                "assistantContent": {
+                    "boxID": "BOX_assistantContent",
+                    "boxType": "assistantContent"
+                },
+                "auxilaryMenu": {
+                    "boxID": "BOX_auxilaryMenu",
+                    "boxType": "auxilaryMenu"
+                },
+                "auxilaryContent": {
+                    "boxID": "BOX_auxilaryContent",
+                    "boxType": "auxilaryContent"
+                }
+            },
+            "deciplines": {
+                "canvID": []
+            }
+        },
+        "home": {
+            "status": {
+                "layout": "mobile",
+                "deciplines": {
+                    "guest": [
+                        "read"
+                    ],
+                    "userA": [
+                        "read",
+                        "write"
+                    ],
+                    "userB": [
+                        "read",
+                        "write",
+                        "delete"
+                    ],
+                    "admin": [
+                        "read",
+                        "write",
+                        "delete",
+                        "admin"
+                    ]
+                }
+            },
+            "box": {
+                "header": {
+                    "boxID": "BOX_header",
+                    "boxType": "header",
+                    "visible": true,
+                    "required": true,
+                    "permissions": [
+                        "all"
+                    ],
+                    "mobile": {
+                        "order": 1,
+                        "size": "compact"
+                    },
+                    "desktop": {
+                        "order": 1,
+                        "size": "full"
+                    }
+                },
+                "navigation": {
+                    "boxID": "BOX_navigation",
+                    "boxType": "navigation"
+                },
+                "actionJini": {
+                    "boxID": "BOX_actionJini",
+                    "boxType": "jini"
+                },
+                "actionMenu": {
+                    "boxID": "BOX_actionMenu",
+                    "boxType": "actionMenu"
+                },
+                "actionContent": {
+                    "boxID": "BOX_actionContent",
+                    "boxType": "actionContent"
+                },
+                "assistantMenu": {
+                    "boxID": "BOX_assistantMenu",
+                    "boxType": "assistantMenu"
+                },
+                "assistantContent": {
+                    "boxID": "BOX_assistantContent",
+                    "boxType": "assistantContent"
+                },
+                "auxilaryMenu": {
+                    "boxID": "BOX_auxilaryMenu",
+                    "boxType": "auxilaryMenu"
+                },
+                "auxilaryContent": {
+                    "boxID": "BOX_auxilaryContent",
+                    "boxType": "auxilaryContent"
+                }
+            },
+            "deciplines": {
+                "canvID": []
+            }
+        },
+        "hot": {
+            "status": {
+                "layout": "mobile",
+                "deciplines": {
+                    "guest": [
+                        "read"
+                    ],
+                    "userA": [
+                        "read",
+                        "write"
+                    ],
+                    "userB": [
+                        "read",
+                        "write",
+                        "delete"
+                    ],
+                    "admin": [
+                        "read",
+                        "write",
+                        "delete",
+                        "admin"
+                    ]
+                }
+            },
+            "box": {
+                "header": {
+                    "boxID": "BOX_header",
+                    "boxType": "header",
+                    "visible": true,
+                    "required": true,
+                    "permissions": [
+                        "all"
+                    ],
+                    "mobile": {
+                        "order": 1,
+                        "size": "compact"
+                    },
+                    "desktop": {
+                        "order": 1,
+                        "size": "full"
+                    }
+                },
+                "navigation": {
+                    "boxID": "BOX_navigation",
+                    "boxType": "navigation"
+                },
+                "actionJini": {
+                    "boxID": "BOX_actionJini",
+                    "boxType": "jini"
+                },
+                "actionMenu": {
+                    "boxID": "BOX_actionMenu",
+                    "boxType": "actionMenu"
+                },
+                "actionContent": {
+                    "boxID": "BOX_actionContent",
+                    "boxType": "actionContent"
+                },
+                "assistantMenu": {
+                    "boxID": "BOX_assistantMenu",
+                    "boxType": "assistantMenu"
+                },
+                "assistantContent": {
+                    "boxID": "BOX_assistantContent",
+                    "boxType": "assistantContent"
+                },
+                "auxilaryMenu": {
+                    "boxID": "BOX_auxilaryMenu",
+                    "boxType": "auxilaryMenu"
+                },
+                "auxilaryContent": {
+                    "boxID": "BOX_auxilaryContent",
+                    "boxType": "auxilaryContent"
+                }
+            },
+            "deciplines": {
+                "canvID": []
+            }
+        },
+        "wiki": {
+            "status": {
+                "layout": "mobile",
+                "deciplines": {
+                    "guest": [
+                        "read"
+                    ],
+                    "userA": [
+                        "read",
+                        "write"
+                    ],
+                    "userB": [
+                        "read",
+                        "write",
+                        "delete"
+                    ],
+                    "admin": [
+                        "read",
+                        "write",
+                        "delete",
+                        "admin"
+                    ]
+                }
+            },
+            "box": {
+                "header": {
+                    "boxID": "BOX_header",
+                    "boxType": "header",
+                    "visible": true,
+                    "required": true,
+                    "permissions": [
+                        "all"
+                    ],
+                    "mobile": {
+                        "order": 1,
+                        "size": "compact"
+                    },
+                    "desktop": {
+                        "order": 1,
+                        "size": "full"
+                    }
+                },
+                "navigation": {
+                    "boxID": "BOX_navigation",
+                    "boxType": "navigation"
+                },
+                "actionJini": {
+                    "boxID": "BOX_actionJini",
+                    "boxType": "jini"
+                },
+                "actionMenu": {
+                    "boxID": "BOX_actionMenu",
+                    "boxType": "actionMenu"
+                },
+                "actionContent": {
+                    "boxID": "BOX_actionContent",
+                    "boxType": "actionContent"
+                },
+                "assistantMenu": {
+                    "boxID": "BOX_assistantMenu",
+                    "boxType": "assistantMenu"
+                },
+                "assistantContent": {
+                    "boxID": "BOX_assistantContent",
+                    "boxType": "assistantContent"
+                },
+                "auxilaryMenu": {
+                    "boxID": "BOX_auxilaryMenu",
+                    "boxType": "auxilaryMenu"
+                },
+                "auxilaryContent": {
+                    "boxID": "BOX_auxilaryContent",
+                    "boxType": "auxilaryContent"
+                }
+            },
+            "deciplines": {
+                "canvID": []
+            }
+        }
+    }
+>>>>>>> f80cd735f2a895ea2c515a4defac99e0249832a1
 }

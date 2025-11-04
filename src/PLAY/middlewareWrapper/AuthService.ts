@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // routes/layers/auth/AuthService.ts
 import { User, AuthCredentials, AuthResponse } from 'TYPE/index';
 
@@ -202,3 +203,6 @@ export class AuthService {
     return messages[error.message] || 'خطای ناشناخته رخ داده است';
   }
 }
+=======
+
+>>>>>>> f80cd735f2a895ea2c515a4defac99e0249832a1
