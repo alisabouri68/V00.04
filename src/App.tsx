@@ -2,6 +2,7 @@ import { RouterProvider } from "react-router-dom";
 import applicationRouter from "ROUTS/index";
 import DynaCtrl from "./PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 import MockInjector from "PLAY/RPLY_login";
+import { HelmetProvider } from "react-helmet-async";
 // ****************************************************************************
 // MAIN APPLICATION COMPONENT
 // ****************************************************************************
@@ -38,10 +39,12 @@ function App() {
      * 
      * All child components have access to the global context provided by DynaCtrl
      */
-    <DynaCtrl>
-      <MockInjector />
+    <HelmetProvider>
 
-      {/**
+      <DynaCtrl>
+        <MockInjector />
+
+        {/**
        * @component RouterProvider
        * @description Client-side routing provider from React Router DOM
        * 
@@ -63,8 +66,9 @@ function App() {
        * - Lazy-loaded components with Suspense fallbacks
        */}
 
-      <RouterProvider router={applicationRouter} />
-    </DynaCtrl>
+        <RouterProvider router={applicationRouter} />
+      </DynaCtrl>
+    </HelmetProvider>
   );
 }
 

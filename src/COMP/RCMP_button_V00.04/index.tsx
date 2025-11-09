@@ -88,14 +88,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 const variantStyles = {
   filled: `
-    bg-gradient-to-r from-primary to-primary/80 
+    bg-gradient-to-r from-gray-700 to-gray-900/80 
     text-white font-semibold 
     shadow-md hover:shadow-lg 
     rounded-xl
   `,
   outlined: `
     bg-transparent 
-    border border-primary text-primary 
+  
     hover:bg-primary/10 
     rounded-xl
     transition-colors
@@ -109,11 +109,11 @@ const variantStyles = {
 };
 
 const sizeStyles = {
-  mini: "px-2 py-1 text-xs rounded-md",
-  small: "px-3 py-1.5 text-sm rounded-lg",
-  default: "px-4 py-2 text-base rounded-xl",
-  large: "px-5 py-2.5 text-lg rounded-2xl",
-  xlarge: "px-6 py-3 text-xl rounded-2xl",
+  mini: "px-2 py-0 text-xs rounded-md",
+  small: "px-3 py-0.5 text-sm rounded-lg",
+  default: "px-4 py-1 text-base rounded-xl",
+  large: "px-5 py-2 text-lg rounded-2xl",
+  xlarge: "px-6 py-2.5 text-xl rounded-2xl",
 };
 
 

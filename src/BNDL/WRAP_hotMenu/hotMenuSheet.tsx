@@ -42,9 +42,9 @@ const iconConfigs = [
 
 function hotMenuSheet() {
     return (
-        <div className="flex items-center justify-between gap-3 p-1 w-full ">
+        <div className="flex items-center justify-between gap-3 p-1 w-full h-full">
 
-            <div className="flex items-center justify-between gap-4 p-4 bg-light text-dark w-full  border border-gray-200 mx-auto rounded-md">
+            <div className="flex items-center justify-between gap-4 p-4 bg-light text-dark w-full h-full border border-gray-200 mx-auto rounded-md">
                 {iconConfigs.map((config) => (
                     <div key={config.id} className="flex flex-col items-center">
                         <BioIcon

@@ -1,0 +1,99 @@
+---glan11
+
+
+
+/// ---------------------------------------
+/// model:              COMP_serviceDropList_VAR.01_V00.04
+/// last update:        D2025.08.09
+/// by:                 APPS.68
+/// ---------------------------------------
+
+
+
+>>> ID															//? Definition for COMP
+
+    /// step.01 -  Complete Meta Data
+
+    # meta
+        . model_id:					"RCMP_serviceDropList_VAR.01_V00.04"
+        . model_title:				"serviceDropList"
+        . model_version:			"V00.04"
+        . model_lastUpgrade:		"D2025.08.09"				/// use the header date
+        . model_owner				"APPS.68"
+
+        . model_type				"Instant"
+        . origin_model				"COMP"						/// Component Mutage Model
+        . origin_model_Ver			"00.04"
+        . model_rem					"Component Remarks here ... "	
+
+	/// Objectives:
+
+    ///   1.The top and bottom sections of the list (outside the middle visible area) are rendered normally.
+
+    ///   2.The middle section (between startIndex and endIndex) is visually highlighted.     
+
+    ///   3.Selecting a service updates the selected state and scrolls that item into view smoothly.     
+
+    ///   4.Handles closing the dropdown when clicking outside the component.     
+
+
+
+
+-->
+
+
+>>> MNG
+
+
+	/// step.02 -  Management - Render
+
+	# render(1)													//? React Render Mngt.
+		. scat:						"RCMP"						/// React Template
+		. langBase:					"react"						/// description
+
+
+	# render(2)							 						//? Reference Render Mngt.
+		. scat:						"LITE"						/// Litrature Template
+		. langBase:					"reachtex"					/// description
+
+
+    /// step.03 - Management - Dependency (Co-Actor)
+
+    /// step.04 - Management - Dependency (kernels)
+
+    /// step.05 - Management - Dependency (Widgets)
+
+    # widget(1)                     
+		. id:                       "text"
+		. ver:						"V00.04"
+		. default:                  "TRUE"
+		. alias:                    "text"
+
+
+    # widget(2)                     
+		. id:                       "icon"
+		. ver:						"V00.04"
+		. default:                  "TRUE"
+		. alias:                    "icon"
+
+    /// step.06 - Management - Dependency (Themes)
+
+    # theme(1)                     
+		. id:                       "popcorn"
+		. ver:						"V00.04
+		. default:                  "TRUE"
+		. alias:                    "popcorn"
+
+    # theme(2)                     
+		. id:                       "nightwish"
+		. ver:						"V00.04
+		. default:                  "TRUE"
+		. alias:                    "nightwish"
+
+
+
+
+
+
+-->
+---

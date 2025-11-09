@@ -3,7 +3,7 @@ import Button from "COMP/RCMP_button_V00.04";
 import Image from "COMP/RCMP_bioimage_V00.04";
 import { CgMoreVertical } from "react-icons/cg";
 import logo from "../../ASST/images/logo-dash.svg";
-import Modal from "BOX/BOX_modal";
+import Modal from "BOXS/BOX_modal";
 import ConsoleBasket from "COMP/RCMP_consoleBasket_VAR.01_V00.04";
 
 const Index = memo(() => {

@@ -26,12 +26,12 @@ export default function ContextFlowDiagram() {
 
   return (
     <div className={`${dark ? "dark" : ""}`}>
-      <div className="min-h-screen flex items-start justify-center bg-slate-50 dark:bg-slate-900 p-6">
+      <div className="min-h-screen flex items-start justify-center bg-slate-50 dark:bg-gray-800 p-6">
         <div className="w-full max-w-4xl bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border border-slate-100 dark:border-slate-700 ">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
-              Context Flow — Hot → Cast
+              Context Call (React useContext)
             </h2>
 
             <div className="flex gap-2 items-center">
@@ -62,12 +62,6 @@ export default function ContextFlowDiagram() {
                 className="px-3 py-1 rounded-full border text-sm dark:border-slate-600 dark:text-slate-200"
               >
                 Reset
-              </button>
-              <button
-                onClick={() => setDark((d) => !d)}
-                className="px-3 py-1 rounded-full border text-sm dark:border-slate-600 dark:text-slate-200"
-              >
-                {dark ? "Light" : "Dark"}
               </button>
             </div>
           </div>

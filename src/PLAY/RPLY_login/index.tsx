@@ -4,11 +4,11 @@ import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
 
 const MockInjector = () => {
   const dynaRef = useRef<any>(null);
-  
+
   if (!dynaRef.current) {
     dynaRef.current = initDyna();
   }
-  
+
   const { reconfigDyna } = dynaRef.current;
   const injected = useRef(false);
 
@@ -27,7 +27,11 @@ const MockInjector = () => {
         ENVI_Profile: {
           username: "mock_user",
           displayName: "کاربر آزمایشی",
+
           role: "admin",
+          email: "mock_user@example.com",
+          lastLogin: new Date().toISOString(),
+
         },
         ENVI_CANV: {
           boxheader: {
@@ -42,7 +46,7 @@ const MockInjector = () => {
             options: ["Popcorn", "Nightwish", "System Default"]
           },
           language: {
-            current: "Persian", 
+            current: "Persian",
             options: ["English", "Persian"]
           },
           profile: {
@@ -68,7 +72,7 @@ const MockInjector = () => {
               },
               "navigation": {
                 "enabled": true,
-                "type": "navigation", 
+                "type": "navigation",
                 "components": ["navigator1"]
               }
             }

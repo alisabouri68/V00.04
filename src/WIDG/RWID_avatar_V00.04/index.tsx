@@ -80,6 +80,7 @@ const Avatar: React.FC<Props> = ({
         width: "w-10",
         height: "h-10",
         rounding: "rounded-full"
+
     },
     logic = {},
     style = {
@@ -107,7 +108,7 @@ const Avatar: React.FC<Props> = ({
         status_position_bottomLeft: "bottom-0 left-0",
 
         // Placeholder Styles
-        placeholder_base: "absolute flex items-center justify-center bg-gray-100 text-gray-600",
+        placeholder_base: "absolute flex items-center justify-center bg-light text-dark",
         placeholder_initials_fontSize: "text-sm",
         placeholder_initials_fontWeight: "font-medium",
 

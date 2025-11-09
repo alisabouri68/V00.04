@@ -79,3 +79,50 @@ export interface RouteDefinition {
 export interface RouteConfigs {
   [key: string]: RouteDefinition;
 }
+
+
+
+export enum DisplayType {
+  MOBILE = 'mobile',
+  DESKTOP = 'desktop'
+}
+
+export interface ILayoutManager {
+  getDisplayType(): DisplayType;
+  subscribe(callback: (type: DisplayType) => void): () => void;
+  destroy(): void;
+}
+
+export interface ILayoutConfig {
+  breakpoint: number;
+  debounceTime: number;
+}
+// types/middleware.ts
+export interface MiddlewareContext {
+  navigate: (path: string, options?: any) => void;
+  location: {
+    pathname: string;
+    search?: string;
+    hash?: string;
+  };
+  user?: {
+    id?: string;
+    email?: string;
+    roles: string[];
+    permissions: string[];
+  };
+  [key: string]: any;
+}
+
+export type Middleware = (context: MiddlewareContext) => Promise<any>;
+
+export interface MiddlewareResult {
+  success: boolean;
+  data?: any;
+  error?: Error;
+}
+
+export interface ExecutionResult {
+  results: { [key: string]: MiddlewareResult };
+  context: MiddlewareContext;
+}
