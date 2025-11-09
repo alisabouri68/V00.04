@@ -47,7 +47,7 @@ export default function ParentChildDiagram() {
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
-              Parent → Child (Prop flow) — Diagram
+              Direct call  (Parent → Child Prop flow)
             </h2>
 
             <div className="flex gap-2 items-center">
