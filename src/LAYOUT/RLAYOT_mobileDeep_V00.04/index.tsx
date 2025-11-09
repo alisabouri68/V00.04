@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import Box_header from "../../BOXS/RBOX_header_V00.04";
-import Box_navigation from "../../BOXS/RBOX_navigation_V00.04";
 
 function MobileLayout() {
   return (

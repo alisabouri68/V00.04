@@ -1,4 +1,3 @@
-import React from "react";
 
 // Simple, clean gray spinner with larger, elegant typography and proper spinning animation.
 export default function BOX_loading({ size = 64, text = 'Loading…' }) {

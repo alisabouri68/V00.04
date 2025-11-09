@@ -8,7 +8,6 @@ export default function ContextFlowDiagram() {
   const [flowId, setFlowId] = useState(0);
   const [sending, setSending] = useState(false);
   const [auto, setAuto] = useState(false);
-  const [dark, setDark] = useState(false);
 
   useEffect(() => {
     if (!auto) return;
@@ -25,7 +24,7 @@ export default function ContextFlowDiagram() {
   }
 
   return (
-    <div className={`${dark ? "dark" : ""}`}>
+    <div>
       <div className="min-h-screen flex items-start justify-center bg-slate-50 dark:bg-gray-800 p-6">
         <div className="w-full max-w-4xl bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border border-slate-100 dark:border-slate-700 ">
           {/* Header */}

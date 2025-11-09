@@ -165,7 +165,7 @@ const TextField: React.FC<TextFieldProps> = ({
   logic = { type: "text", size: "md", variant: "outline", color: "default" },
   style = DEFAULT_STYLE,
 }) => {
-  const { label, type = "text" } = logic;
+  const { label } = logic;
   const [showPassword, setShowPassword] = useState(false);
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);

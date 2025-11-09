@@ -6,7 +6,6 @@ import {
   HiOutlineUser,
   HiOutlineMail,
   HiOutlineLockClosed,
-  HiOutlineCheck,
 } from "react-icons/hi";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Helmet } from "react-helmet-async";
