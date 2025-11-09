@@ -42,7 +42,7 @@ export default function ParentChildDiagram() {
 
   return (
     <div className={`${dark ? "dark" : ""}`}>
-      <div className="min-h-screen flex items-start justify-center bg-slate-50 dark:bg-slate-900 p-6 transition-colors duration-500">
+      <div className="min-h-screen flex items-start justify-center bg-slate-50 dark:bg-gray-800 p-6 transition-colors duration-500">
         <div className="w-full max-w-4xl bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border border-slate-100 dark:border-slate-700 transition-colors duration-500">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
