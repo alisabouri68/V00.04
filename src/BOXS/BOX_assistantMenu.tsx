@@ -4,15 +4,12 @@ interface BoxAssistantProps {
   slots?: Record<string, React.ReactNode>;
 }
 
-function BOX_assistant({ children, slots }: BoxAssistantProps) {
+function BOX_assistant({ children }: BoxAssistantProps) {
   return (
-    <div className="w-full border">
-      {/* نمایش slots اگر وجود داشته باشد */}
-      {slots && Object.entries(slots).map(([key, slot]) => (
-        <div key={key}>{slot}</div>
-      ))}
+    <>
+
       {children}
-    </div>
+    </>
   )
 }
 
