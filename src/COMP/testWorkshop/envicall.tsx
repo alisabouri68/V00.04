@@ -10,25 +10,11 @@ export default function ENVIProfileDiagram() {
   const [flowId, setFlowId] = useState(0);
   const [auto, setAuto] = useState(true);
   const [updateCounter, setUpdateCounter] = useState(0);
-  const [isDark, setIsDark] = useState(false);
-
-  // Auto-detect system theme
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDark(mediaQuery.matches);
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsDark(e.matches);
-    };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
 
   // Auto-update only on ENVI_Profile
   useEffect(() => {
     if (!auto) return;
-    
+
     const interval = setInterval(() => {
       changeAllProfileValues();
     }, 3000);
@@ -108,7 +94,7 @@ export default function ENVIProfileDiagram() {
     <div>
       <div className="min-h-screen flex items-start justify-center bg-slate-50 dark:bg-gray-800 p-6">
         <div className="w-full max-w-4xl bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border border-slate-100 dark:border-slate-700 transition-colors duration-500">
-          
+
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
@@ -124,11 +110,10 @@ export default function ENVIProfileDiagram() {
                 </label>
                 <button
                   onClick={() => setAuto((a) => !a)}
-                  className={`px-3 py-1 rounded-full text-sm border transition-colors ${
-                    auto
+                  className={`px-3 py-1 rounded-full text-sm border transition-colors ${auto
                       ? "bg-sky-600 text-white border-sky-600"
                       : "bg-white dark:bg-slate-700 dark:text-slate-200 text-slate-700 border-slate-300 dark:border-slate-600"
-                  }`}
+                    }`}
                 >
                   {auto ? "On" : "Off"}
                 </button>
@@ -161,9 +146,8 @@ export default function ENVIProfileDiagram() {
             <div className="mb-4 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg border border-slate-200 dark:border-slate-600">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
-                  <div className={`w-2 h-2 rounded-full ${
-                    gettingValue ? 'bg-green-500' : 'bg-blue-500'
-                  } animate-pulse`}></div>
+                  <div className={`w-2 h-2 rounded-full ${gettingValue ? 'bg-green-500' : 'bg-blue-500'
+                    } animate-pulse`}></div>
                   {currentAction}
                 </div>
               </div>
@@ -362,7 +346,7 @@ export default function ENVIProfileDiagram() {
               Sample Code for Changing ENVI_Profile
             </div>
             <pre className="text-xs text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 p-3 rounded overflow-x-auto">
-{`// Change all ENVI_Profile values
+              {`// Change all ENVI_Profile values
 reconfigDyna({
   ENVI_Profile: {
     username: "user_new",
