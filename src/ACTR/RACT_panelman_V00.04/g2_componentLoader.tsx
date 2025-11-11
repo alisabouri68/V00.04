@@ -16,7 +16,7 @@ import ContextDiagram from "COMP/testWorkshop/ContextDiagram"
 import ContextFlow from "COMP/testWorkshop/ContextFlow"
 import ParaAssigner from "COMP/RCMP_bioicon_V00.04/paraAssist"
 import ParaEditor from "COMP/RCMP_bioicon_V00.04/paraEdit"
-import HotMenuSheet from "BNDL/WRAP_hotMenu/hotMenuSheet"
+import HotMenuSheet from "BNDL/WRAP_actionContentHome/hotMenuSheet"
 import { MdOutlineSignalCellularNull } from "react-icons/md";
 export class ComponentLoader {
     private components: Record<string, React.ComponentType<any>>;

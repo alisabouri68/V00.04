@@ -86,7 +86,7 @@ const BioIcon = ({ geo, logic, style, children }: IconProps) => {
       onClick={handleClick}
       className={`flex items-center justify-center p-2 rounded-md cursor-pointer transition-all duration-200 ${isActive ? "ring-2 ring-blue-500 bg-blue-50 dark:bg-gray-800" : ""
         }`}
-      style={currentStyle} // 🟢 استفاده از currentStyle به جای style
+      style={currentStyle} 
     >
       {children}
     </div>
