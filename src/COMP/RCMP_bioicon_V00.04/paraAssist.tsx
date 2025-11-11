@@ -2,10 +2,6 @@
 import { ChangeEvent, useCallback, memo, useState, useEffect } from "react";
 import Button from "COMP/RCMP_button_V00.04/index";
 
-interface AssistantProps {
-  logic?: { id: string; [key: string]: any };
-}
-
 interface SectionProps {
   title: string;
   data: Record<string, any>;
@@ -39,7 +35,7 @@ const Section = memo(({ title, data, section, onChange }: SectionProps) => {
           {title}
         </h3>
       </div>
-      
+
       <div className="flex-1 overflow-y-auto p-3 space-y-3">
         {Object.entries(safeData).map(([key, value]) => (
           <div key={key} className="flex flex-col gap-1">
@@ -82,7 +78,7 @@ interface ActiveWidget {
   };
 }
 
-const Assistant = ({ logic }: AssistantProps) => {
+const Assistant = () => {
   const [activeWidget, setActiveWidget] = useState<ActiveWidget | null>(null);
   const [currentSection, setCurrentSection] = useState<"meta" | "geo" | "logic" | "style">("meta");
 
@@ -108,10 +104,10 @@ const Assistant = ({ logic }: AssistantProps) => {
     (section: "meta" | "geo" | "logic" | "style", key: string) =>
       (e: ChangeEvent<HTMLInputElement>) => {
         if (!activeWidget) return;
-        
+
         const newValue = e.target.value;
         console.log(`Changing ${section}.${key} to:`, newValue);
-        
+
         // می‌توانید اینجا منطق ذخیره‌سازی اضافه کنید
       },
     [activeWidget]
@@ -145,7 +141,7 @@ const Assistant = ({ logic }: AssistantProps) => {
   const content = activeWidget.props || {};
   const sectionTitles = {
     meta: "Meta",
-    geo: "Geo", 
+    geo: "Geo",
     logic: "Logic",
     style: "Style"
   };
