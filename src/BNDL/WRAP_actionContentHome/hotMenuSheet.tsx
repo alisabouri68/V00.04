@@ -14,37 +14,42 @@ import Widget2 from "WIDG/RWDG_test2/index"
 import Widget3 from "WIDG/RWDG_test3/index"
 import Dropdown from "WIDG/RWDG_dropdown_V00.04"
 import { ComponentProvider, ComponentData } from "STOR/COMPContext/index"
+import Dynaman from "../../ACTR/RACT_dynaman_V00.0"; // ایمپورت Dynaman
+
 function Index() {
     const [components, setComponents] = useState<{ [key: string]: ComponentData }>({})
     const [selectedComponent, setSelectedComponent] = useState<string | null>(null)
     const [isLoaded, setIsLoaded] = useState(false)
+    const [dynaman, setDynaman] = useState<Dynaman | null>(null)
 
-    // بارگذاری از localStorage
+    // Initialize Dynaman
     useEffect(() => {
-        const savedComponents = localStorage.getItem('components_data')
-        if (savedComponents) {
-            try {
-                const parsed = JSON.parse(savedComponents)
-                setComponents(parsed)
-            } catch (error) {
-                createInitialComponents()
-            }
+        const dynamanInstance = new Dynaman();
+        setDynaman(dynamanInstance);
+        
+        // Load components from globalAppState
+        const savedState = dynamanInstance.init();
+        const savedComponents = savedState?.components || {};
+        
+        if (Object.keys(savedComponents).length > 0) {
+            setComponents(savedComponents);
         } else {
-            createInitialComponents()
+            createInitialComponents();
         }
-        setIsLoaded(true)
+        setIsLoaded(true);
     }, [])
 
-    // ذخیره در localStorage
+    // Save to globalAppState when components change
     useEffect(() => {
-        if (isLoaded && Object.keys(components).length > 0) {
+        if (isLoaded && dynaman && Object.keys(components).length > 0) {
             try {
-                localStorage.setItem('components_data', JSON.stringify(components))
+                dynaman.reconfig({ components });
+                console.log('Components saved to globalAppState:', components);
             } catch (error) {
-                console.error('Error saving data:', error)
+                console.error('Error saving components to globalAppState:', error);
             }
         }
-    }, [components, isLoaded])
+    }, [components, isLoaded, dynaman])
 
     const createInitialComponents = () => {
         const initialComponents: { [key: string]: ComponentData } = {}
@@ -61,6 +66,52 @@ function Index() {
         }
         setComponents(initialComponents)
     }
+
+    // Listen for widget property changes from Assistant
+    useEffect(() => {
+        const handleWidgetPropertyChange = (event: any) => {
+            const { componentId, widgetIndex, section, key, value } = event.detail;
+
+            if (componentId && widgetIndex !== undefined) {
+                console.log("Updating widget property in globalAppState:", { componentId, widgetIndex, section, key, value });
+
+                setComponents((prev: any) => {
+                    const updated = { ...prev };
+                    const component = updated[componentId];
+
+                    if (!component) {
+                        console.warn('Component not found:', componentId);
+                        return prev;
+                    }
+
+                    // Create or update widgetsData
+                    const widgetKey = `widget_${widgetIndex}`;
+                    const currentWidgetData = component.widgetsData?.[widgetKey] || {};
+                    
+                    updated[componentId] = {
+                        ...component,
+                        widgetsData: {
+                            ...component.widgetsData,
+                            [widgetKey]: {
+                                ...currentWidgetData,
+                                [section]: {
+                                    ...currentWidgetData[section],
+                                    [key]: value
+                                }
+                            }
+                        }
+                    };
+
+                    return updated;
+                });
+            }
+        };
+
+        window.addEventListener('widgetPropertyChange', handleWidgetPropertyChange);
+        return () => {
+            window.removeEventListener('widgetPropertyChange', handleWidgetPropertyChange);
+        };
+    }, [])
 
     const componentIds = Object.keys(components)
 
@@ -80,18 +131,32 @@ function Index() {
         }))
     }
 
-    const handleRemoveComponent = (compId: string) => {
-        setComponents(prev => {
-            const newComponents = { ...prev }
-            delete newComponents[compId]
-            return newComponents
-        })
-
-        if (selectedComponent === compId) {
-            setSelectedComponent(null)
+const handleRemoveComponent = (compId: string) => {
+    setComponents(prev => {
+        const newComponents = { ...prev }
+        delete newComponents[compId]
+        
+        // آپدیت مستقیم globalAppState
+        if (dynaman) {
+            const currentState = dynaman.getState();
+            // ایجاد یک کپی جدید بدون کامپوننت حذف شده
+            const updatedState = {
+                ...currentState,
+                components: newComponents
+            };
+            // پاک کردن و rebuild کامل
+            localStorage.removeItem('globalAppState');
+            const newDynaman = new Dynaman(updatedState);
+            setDynaman(newDynaman);
         }
-    }
+        
+        return newComponents
+    })
 
+    if (selectedComponent === compId) {
+        setSelectedComponent(null)
+    }
+}
     const handleAddComponent = () => {
         const newId = `comp_${Date.now()}_${Math.floor(Math.random() * 1000)}`
         setComponents(prev => ({
@@ -108,18 +173,30 @@ function Index() {
     }
 
     const handleClearData = () => {
-        if (window.confirm('Are you sure you want to clear all data?')) {
-            localStorage.removeItem('components_data')
+        if (window.confirm('Are you sure you want to clear all components data?')) {
+            if (dynaman) {
+                dynaman.reconfig({ components: {} });
+            }
             setComponents({})
             setSelectedComponent(null)
             createInitialComponents()
         }
     }
 
-    // کامپوننت رندر ویجت‌ها با Provider جداگانه برای هر کامپوننت
+    const handleResetToDefault = () => {
+        if (window.confirm('Are you sure you want to reset ALL globalAppState to default?')) {
+            if (dynaman) {
+                const resetState = dynaman.resetToDefault();
+                setComponents(resetState.components || {});
+            }
+            setSelectedComponent(null)
+        }
+    }
+
     const WidgetRenderer = ({ compId }: { compId: string }) => {
-        const componentData = components[compId];
+        const componentData : any = components[compId];
         const widgetNames = componentData?.widgets || [];
+        const widgetsData = componentData?.widgetsData || {};
 
         if (!widgetNames.length) {
             return (
@@ -133,28 +210,51 @@ function Index() {
         return (
             <ComponentProvider component={componentData}>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {widgetNames.map((name, index) => (
-                        <div
-                            key={`${compId}_${name}_${index}`}
-                            className="relative group"
-                            onClick={() => {
-                                // ارسال event برای فعال‌سازی Assistant
-                                window.dispatchEvent(new CustomEvent('activateWidget', {
-                                    detail: { componentId: compId, widgetIndex: index }
-                                }));
-                            }}
-                        >
-                            <div className="h-full cursor-pointer">
-                                {name === "widget_1" && <Widget1 widgetIndex={index} />}
-                                {name === "widget_2" && <Widget2 widgetIndex={index} />}
-                                {name === "widget_3" && <Widget3 widgetIndex={index} />}
+                    {widgetNames.map((name :any, index: any) => {
+                        const widgetKey = `widget_${index}`;
+                        const widgetData = widgetsData[widgetKey] || {};
+                        
+                        return (
+                            <div
+                                key={`${compId}_${name}_${index}`}
+                                className="relative group"
+                                onClick={() => {
+                                    window.dispatchEvent(new CustomEvent('activateWidget', {
+                                        detail: { componentId: compId, widgetIndex: index }
+                                    }));
+                                }}
+                            >
+                                <div className="h-full cursor-pointer">
+                                    {name === "widget_1" && (
+                                        <Widget1 
+                                            widgetIndex={index}
+                                            componentId={compId}
+                                            {...widgetData}
+                                        />
+                                    )}
+                                    {name === "widget_2" && (
+                                        <Widget2 
+                                            widgetIndex={index}
+                                            componentId={compId}
+                                            {...widgetData}
+                                        />
+                                    )}
+                                    {name === "widget_3" && (
+                                        <Widget3 
+                                            widgetIndex={index}
+                                            componentId={compId}
+                                            {...widgetData}
+                                        />
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </ComponentProvider>
         );
     };
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
             <div className="max-w-6xl mx-auto">
@@ -172,7 +272,7 @@ function Index() {
                                 <p className="text-gray-600 dark:text-gray-400 mt-1">
                                     {componentIds.length} components •
                                     {selectedComponent ? ` Selected: ${selectedComponent.substring(0, 8)}...` : ' No component selected'}
-                                    {isLoaded && ' • 💾 Data saved'}
+                                    {isLoaded && ' • 💾 Saved in globalAppState'}
                                 </p>
                             </div>
                         </div>
@@ -223,7 +323,7 @@ function Index() {
                                 className="flex items-center gap-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-3 rounded-xl font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
                             >
                                 <FaTrash className="text-sm" />
-                                Clear Data
+                                Clear Components
                             </button>
                         </div>
                     </div>
@@ -322,11 +422,20 @@ function Index() {
                         onClick={() => {
                             console.log('Components State:', components)
                             console.log('Selected Component:', selectedComponent)
+                            console.log('Global App State:', dynaman?.getState())
                         }}
                         className="flex items-center gap-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-2 rounded-lg text-sm transition-colors duration-200 shadow-lg"
                     >
                         <FaEye />
                         Check State
+                    </button>
+                    
+                    <button
+                        onClick={handleResetToDefault}
+                        className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-200 shadow-lg"
+                    >
+                        <FaTrash />
+                        Reset All Data
                     </button>
                 </div>
             </div>
