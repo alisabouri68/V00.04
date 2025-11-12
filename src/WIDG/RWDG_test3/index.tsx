@@ -111,7 +111,6 @@ const Widget3: React.FC<Widget3Props> = ({
 
   return (
     <div className={containerClasses} onClick={handleClick}>
-      {/* عنوان - مثل ویجت اول و دوم */}
       {finalProps.logic.showTitle && (
         <h3 className={finalProps.style.title}>
           {finalProps.meta.customTitle}

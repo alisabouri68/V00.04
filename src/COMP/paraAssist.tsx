@@ -9,7 +9,7 @@ interface SectionProps {
   onChange: (key: string, value: any) => void;
 }
 
-const Section = memo(({ title, data, section, onChange }: SectionProps) => {
+const Section = memo(({ title, data, onChange }: SectionProps) => {
   const safeData = data || {};
 
   if (Object.keys(safeData).length === 0) {
