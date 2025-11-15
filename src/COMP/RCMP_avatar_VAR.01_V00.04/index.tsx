@@ -30,7 +30,7 @@ import schmRaw from ".schm.json?raw";
 import React, { useState } from "react";
 import { FaCircleUser, FaCompress, FaExpand } from "react-icons/fa6";
 import Image from "COMP/RCMP_bioimage_V00.04";
-import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 
 /**************************************
  * Step 02: Define Props interfaces

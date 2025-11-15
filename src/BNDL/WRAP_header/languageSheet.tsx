@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Dropdown from "WIDG/RWDG_dropdown_V00.04"; // مسیری که قبلاً استفاده می‌کردی — اگر فایل جدید را در مسیر دیگری گذاشتی، مسیر را عوض کن
-import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 
 /**
  * Local option type (سازگار با ساختار قبلی)

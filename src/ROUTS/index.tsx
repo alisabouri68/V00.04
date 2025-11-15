@@ -20,7 +20,7 @@ import { middlewareManager } from "../PLAY/RPLY_middleware_V00.04/middlewareMana
 import { authMiddleware } from "../PLAY/RPLY_middleware_V00.04/authMiddleware";
 import { permissionMiddleware } from "../PLAY/RPLY_middleware_V00.04/permissionMiddleware";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { AccessDenied } from "../CONS/RCONS_accessDenied_V00.04";
+import AccessDenied from "../CONS/RCONS_accessDenied_V00.04";
 
 // Register middlewares
 middlewareManager.register(
@@ -43,120 +43,113 @@ const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
 const routes: RouteObject[] = [
   {
     path: "/",
-    element: (
-      <SuspenseWrapper>
-        <LayoutCtrl />
+    element: (<SuspenseWrapper><LayoutCtrl /></SuspenseWrapper>),
+    children: [{
+      index: true, element: (<SuspenseWrapper>
+        <Home />
       </SuspenseWrapper>
-    ),
-    children: [
-      {
-        index: true,
-        element: (
-          <SuspenseWrapper>
-            <Home />
-          </SuspenseWrapper>
-        ),
-        handle: { layout: "static" },
-      },
-      {
-        path: "hot",
-        element: (
-          <SuspenseWrapper>
-            <Hot />
-          </SuspenseWrapper>
-        ),
-        handle: { layout: "deep" },
-        children:[
-             {
-        path: ":id",
-        element: (
-          <SuspenseWrapper>
-            <HotDetail />
-          </SuspenseWrapper>
-        ),
-        handle: { layout: "deep" }
-      },
-        ]
-      },
-      {
-        path: "cast",
-        element: (
-          <ProtectedRoute
-            middlewareNames={["authentication", "permission"]}
-            middlewareConfig={{
-              permission: { requiredPermissions: ["cast.read"] },
-            }}
-          >
+      ),
+      handle: { layout: "static" },
+    },
+    {
+      path: "hot",
+      element: (
+        <SuspenseWrapper>
+          <Hot />
+        </SuspenseWrapper>
+      ),
+      handle: { layout: "deep" },
+      children: [
+        {
+          path: ":id",
+          element: (
             <SuspenseWrapper>
-              <Cast />
+              <HotDetail />
             </SuspenseWrapper>
-          </ProtectedRoute>
-        ),
-        handle: { layout: "deep" },
-      },
-      {
-        path: "wiki",
-        element: (
-          <ProtectedRoute
-            middlewareNames={["authentication", "permission"]}
-            middlewareConfig={{
-              permission: { requiredPermissions: ["wiki.read", "wiki.write"] },
-            }}
-          >
-            <SuspenseWrapper>
-              <Wiki />
-            </SuspenseWrapper>
-          </ProtectedRoute>
-        ),
-        handle: { layout: "deep" },
-      },
-      {
-        path: "gasma",
-        element: (
-          <ProtectedRoute middlewareNames={["authentication"]}>
-            <SuspenseWrapper>
-              <Gasma />
-            </SuspenseWrapper>
-          </ProtectedRoute>
-        ),
-        handle: { layout: "deep" },
-      },
-      {
-        path: "/login",
-        element: (
+          ),
+          handle: { layout: "deep" }
+        },
+      ]
+    },
+    {
+      path: "cast",
+      element: (
+        <ProtectedRoute
+          middlewareNames={["authentication", "permission"]}
+          middlewareConfig={{
+            permission: { requiredPermissions: ["cast.read"] },
+          }}
+        >
           <SuspenseWrapper>
-            <Login />
+            <Cast />
           </SuspenseWrapper>
-        ),
-        handle: { layout: "mono" },
-      },
-      {
-        path: "/register",
-        element: (
+        </ProtectedRoute>
+      ),
+      handle: { layout: "deep" },
+    },
+    {
+      path: "wiki",
+      element: (
+        <ProtectedRoute
+          middlewareNames={["authentication", "permission"]}
+          middlewareConfig={{
+            permission: { requiredPermissions: ["wiki.read", "wiki.write"] },
+          }}
+        >
           <SuspenseWrapper>
-            <Rejistery />
+            <Wiki />
           </SuspenseWrapper>
-        ),
-        handle: { layout: "mono" },
-      },
-      {
-        path: "/access-denied",
-        element: (
+        </ProtectedRoute>
+      ),
+      handle: { layout: "deep" },
+    },
+    {
+      path: "gasma",
+      element: (
+        <ProtectedRoute middlewareNames={["authentication"]}>
           <SuspenseWrapper>
-            <AccessDenied />
+            <Gasma />
           </SuspenseWrapper>
-        ),
-        handle: { layout: "mono" },
-      },
-      {
-        path: "*",
-        element: (
-          <SuspenseWrapper>
-            <Notfound />
-          </SuspenseWrapper>
-        ),
-        handle: { layout: "static" },
-      },
+        </ProtectedRoute>
+      ),
+      handle: { layout: "deep" },
+    },
+    {
+      path: "/login",
+      element: (
+        <SuspenseWrapper>
+          <Login />
+        </SuspenseWrapper>
+      ),
+      handle: { layout: "mono" },
+    },
+    {
+      path: "/register",
+      element: (
+        <SuspenseWrapper>
+          <Rejistery />
+        </SuspenseWrapper>
+      ),
+      handle: { layout: "mono" },
+    },
+    {
+      path: "/access-denied",
+      element: (
+        <SuspenseWrapper>
+          <AccessDenied />
+        </SuspenseWrapper>
+      ),
+      handle: { layout: "mono" },
+    },
+    {
+      path: "*",
+      element: (
+        <SuspenseWrapper>
+          <Notfound />
+        </SuspenseWrapper>
+      ),
+      handle: { layout: "static" },
+    },
     ],
   },
 ];

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Dropdown from "WIDG/RWDG_dropdown_V00.04";
 import { GoSun, GoMoon } from "react-icons/go";
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
-import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 type ThemeOption = {
   id: string;
   name: string;

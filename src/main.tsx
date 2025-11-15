@@ -1,12 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App'
-
-import './ASST/css/index.css'
-import 'react-loading-skeleton/dist/skeleton.css'
-import 'react-toastify/dist/ReactToastify.css';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./ASST/CSS/index.css";
+import App from "./App.tsx";
+import { Provider } from "react-redux";
+import { dynaStore } from "./RDUX/dynamanContext/dynaStore.ts";
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <Provider store={dynaStore}>
       <App />
-  </StrictMode>,
+    </Provider>
+  </StrictMode>
 )

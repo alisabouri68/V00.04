@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { initDyna } from "../../PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { initDyna } from "../../PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 
 export default function ENVIProfileDiagram() {
   const { envi, reconfigDyna } = initDyna();

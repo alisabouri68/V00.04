@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { useState, useEffect, useRef } from "react";
-import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 import schmJson from "./.schm.json?raw";
 
 export interface IconProps {

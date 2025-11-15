@@ -1,4 +1,3 @@
-// components/AccessDenied.tsx
 import { useLocation, useNavigate } from "react-router-dom";
 import React from "react";
 import {
@@ -9,9 +8,8 @@ import {
   FiAlertCircle,
   FiUserX,
 } from "react-icons/fi";
-import { Helmet } from "react-helmet-async";
 
-export const AccessDenied: React.FC = () => {
+  const AccessDenied: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { reason, requiredPermissions, userPermissions, missingPermissions } =
@@ -54,10 +52,6 @@ export const AccessDenied: React.FC = () => {
   };
 
   return (
-    <>
-    <Helmet>
-      <title>Access-Denied</title>
-    </Helmet>
     <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-4">
       <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl">
         {/* Error Icon */}
@@ -181,6 +175,6 @@ export const AccessDenied: React.FC = () => {
         </div>
       </div>
     </div>
-    </>
   );
 };
+export default AccessDenied;

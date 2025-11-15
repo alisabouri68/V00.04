@@ -1,7 +1,7 @@
 //@ts-nocheck
 import Button from "COMP/RCMP_button_V00.04";
 import { useState, useEffect } from "react";
-import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 
 interface ParaEditorProps {
   selectedTab?: "meta" | "geo" | "log" | "style";

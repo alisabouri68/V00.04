@@ -5,7 +5,7 @@ import Avatar from "WIDG/RWID_avatar_V00.04";
 import Button from "COMP/RCMP_button_V00.04";
 import Dropdown from "WIDG/RWDG_dropdown_V00.04";
 import ImageUser from "ASST/images/avatar.png";
-import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 
 function useForceUpdate() {
   const [, setTick] = useState(0);

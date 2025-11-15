@@ -1,6 +1,6 @@
 // ACTR/RACT_panelman_V00.04/index.tsx
 import React, { useEffect, useRef } from "react";
-import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 import { ResponsiveWrapper } from "./g1_ResponsiveWrapper";
 import { componentLoader } from "./g2_componentLoader";
 

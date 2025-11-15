@@ -17,7 +17,7 @@ import Text from "../RCMP_biotext_V0004";
 import { FaLongArrowAltUp } from "react-icons/fa";
 import { RiVoiceprintFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { initDyna } from "../../PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { initDyna } from "../../PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 
 // ---------------- Types ----------------
 export interface BasketItem {

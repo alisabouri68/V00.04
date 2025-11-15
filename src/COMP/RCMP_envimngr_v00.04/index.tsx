@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Dropdown, { DropdownOption } from "COMP/RCMP_dropdown_V00.04";
-import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
+import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 
 // ایمپورت آیکون‌های ری‌اکت
 import { FaFolder, FaRocket, FaCube, FaDatabase, FaEye } from "react-icons/fa";

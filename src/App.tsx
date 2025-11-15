@@ -1,8 +1,9 @@
 import { RouterProvider } from "react-router-dom";
 import applicationRouter from "ROUTS/index";
-import DynaCtrl from "./PLAY/RPLY_dynaCtrl_V00.04/dynaCtrl";
-import MockInjector from "PLAY/RPLY_login";
+import DynaCtrls from "./PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
+import DynaCtrl from "./PLAY/RPLAY_dynactrl_V00.04/index";
 import { HelmetProvider } from "react-helmet-async";
+import { DynamicRouter } from "ROUTS/dynamicRouter";
 // ****************************************************************************
 // MAIN APPLICATION COMPONENT
 // ****************************************************************************
@@ -41,8 +42,7 @@ function App() {
      */
     <HelmetProvider>
 
-      <DynaCtrl>
-        <MockInjector />
+      <DynaCtrls>
 
         {/**
        * @component RouterProvider
@@ -65,9 +65,11 @@ function App() {
        * - Error boundary and loading state handling
        * - Lazy-loaded components with Suspense fallbacks
        */}
-
-        <RouterProvider router={applicationRouter} />
-      </DynaCtrl>
+        <DynaCtrl>
+          <DynamicRouter />
+          <RouterProvider router={applicationRouter} />
+        </DynaCtrl>
+      </DynaCtrls>
     </HelmetProvider>
   );
 }
