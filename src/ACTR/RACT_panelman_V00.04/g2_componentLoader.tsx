@@ -14,8 +14,8 @@ import DirectCall from "COMP/testWorkshop/DirectCall"
 import EnviMngr from "COMP/RCMP_envimngr_v00.04"
 import ContextDiagram from "COMP/testWorkshop/ContextDiagram"
 import ContextFlow from "COMP/testWorkshop/ContextFlow"
-import ParaAssigner from "COMP/RCMP_bioicon_V00.04/paraAssist"
-import ParaEditor from "COMP/RCMP_bioicon_V00.04/paraEdit"
+import ParaAssigner from "COMP/paraAssist"
+import ParaEditor from "COMP/paraEdit"
 import HotMenuSheet from "BNDL/WRAP_actionContentHome/hotMenuSheet"
 import { MdOutlineSignalCellularNull } from "react-icons/md";
 export class ComponentLoader {

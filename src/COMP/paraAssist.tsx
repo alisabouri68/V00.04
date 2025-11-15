@@ -1,18 +1,15 @@
 // COMP/RCMP_assistant_V00.04/index.tsx
-import { ChangeEvent, useCallback, memo, useState, useEffect } from "react";
+import { useCallback, memo, useState, useEffect } from "react";
 import Button from "COMP/RCMP_button_V00.04/index";
 
 interface SectionProps {
   title: string;
   data: Record<string, any>;
   section: "meta" | "geo" | "logic" | "style";
-  onChange: (
-    section: "meta" | "geo" | "logic" | "style",
-    key: string
-  ) => (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (key: string, value: any) => void;
 }
 
-const Section = memo(({ title, data, section, onChange }: SectionProps) => {
+const Section = memo(({ title, data, onChange }: SectionProps) => {
   const safeData = data || {};
 
   if (Object.keys(safeData).length === 0) {
@@ -53,7 +50,7 @@ const Section = memo(({ title, data, section, onChange }: SectionProps) => {
                          bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 
                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                          transition-all duration-200"
-              onChange={onChange(section, key)}
+              onChange={(e) => onChange(key, e.target.value)}
               placeholder={`Enter ${key}`}
             />
           </div>
@@ -65,7 +62,6 @@ const Section = memo(({ title, data, section, onChange }: SectionProps) => {
 
 Section.displayName = "Section";
 
-// نوع داده برای ویجت فعال
 interface ActiveWidget {
   componentId: string;
   widgetIndex: number;
@@ -82,10 +78,11 @@ const Assistant = () => {
   const [activeWidget, setActiveWidget] = useState<ActiveWidget | null>(null);
   const [currentSection, setCurrentSection] = useState<"meta" | "geo" | "logic" | "style">("meta");
 
-  // گوش دادن به کلیک‌های ویجت
   useEffect(() => {
-    const handleWidgetClick = (event: CustomEvent) => {
+    const handleWidgetClick = (event: any) => {
       const { componentId, widgetIndex, widgetType, props } = event.detail;
+      console.log("Widget clicked in assistant:", event.detail);
+      
       setActiveWidget({
         componentId,
         widgetIndex,
@@ -94,23 +91,50 @@ const Assistant = () => {
       });
     };
 
-    window.addEventListener('widgetClick', handleWidgetClick as EventListener);
+    window.addEventListener('widgetClick', handleWidgetClick);
     return () => {
-      window.removeEventListener('widgetClick', handleWidgetClick as EventListener);
+      window.removeEventListener('widgetClick', handleWidgetClick);
     };
   }, []);
 
   const handleChange = useCallback(
-    (section: "meta" | "geo" | "logic" | "style", key: string) =>
-      (e: ChangeEvent<HTMLInputElement>) => {
-        if (!activeWidget) return;
+    (key: string, value: any) => {
+      if (!activeWidget) return;
 
-        const newValue = e.target.value;
-        console.log(`Changing ${section}.${key} to:`, newValue);
+      console.log(`Changing ${currentSection}.${key} to:`, value);
 
-        // می‌توانید اینجا منطق ذخیره‌سازی اضافه کنید
-      },
-    [activeWidget]
+      // ارسال event برای آپدیت در کامپوننت اصلی
+      const changeEvent = new CustomEvent('widgetPropertyChange', {
+        detail: {
+          componentId: activeWidget.componentId,
+          widgetIndex: activeWidget.widgetIndex,
+          section: currentSection,
+          key,
+          value,
+          // اضافه کردن prop برای آپدیت مستقیم state
+          updateGlobalState: true
+        }
+      });
+      
+      window.dispatchEvent(changeEvent);
+
+      // آپدیت local state برای نمایش فوری
+      setActiveWidget(prev => {
+        if (!prev) return null;
+        
+        return {
+          ...prev,
+          props: {
+            ...prev.props,
+            [currentSection]: {
+              ...prev.props[currentSection],
+              [key]: value
+            }
+          }
+        };
+      });
+    },
+    [activeWidget, currentSection]
   );
 
   const handleDeactivate = () => {
@@ -130,21 +154,19 @@ const Assistant = () => {
           <p className="text-xs text-gray-500 dark:text-gray-500 text-center">
             Click on any widget to inspect its properties
           </p>
-          <div className="mt-3 p-2 bg-gray-100 dark:bg-gray-800 rounded text-xs text-gray-600 dark:text-gray-400">
-            <p>Click widgets in the main view</p>
-          </div>
         </div>
       </div>
     );
   }
 
-  const content = activeWidget.props || {};
   const sectionTitles = {
     meta: "Meta",
-    geo: "Geo",
+    geo: "Geo", 
     logic: "Logic",
     style: "Style"
   };
+
+  const currentData = activeWidget.props[currentSection] || {};
 
   return (
     <div className="w-full h-full flex flex-col bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -199,7 +221,7 @@ const Assistant = () => {
       <div className="flex-1 min-h-0 p-3">
         <Section
           title={`${sectionTitles[currentSection]} Properties`}
-          data={content[currentSection] || {}}
+          data={currentData}
           section={currentSection}
           onChange={handleChange}
         />
