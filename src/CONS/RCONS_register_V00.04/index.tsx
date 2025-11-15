@@ -9,7 +9,7 @@ import {
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Helmet } from "react-helmet-async";
 import { absMan } from "../../ACTR/RACT_absman_V00.04";
-import { DynaMan } from "../../ACTR/RACT_dynaman_V00.04";
+import { DynaMan } from "../../ACTR/RACT_dynaMan_V00.04";
 
 const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState({

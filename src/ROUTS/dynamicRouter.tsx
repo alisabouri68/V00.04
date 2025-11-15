@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, type RouteObject } from "react-router-dom";
-import { DynaMan } from "../ACTR/RACT_dynaman_V00.04/index";
+import { DynaMan } from "../ACTR/RACT_dynaMan_V00.04";
 import { defaultRouteConfig } from "./routConfig";
 import { buildRoutes } from "./routeBuilder";
 
