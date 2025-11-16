@@ -25,7 +25,7 @@ export default function EnvironmentProvider({ children }: EnvironmentProviderPro
     async function loadEnvironments() {
       try {
         // دریافت API_URL از DynaMan
-        const API_URL = DynaMan.get("environment.API_URL") || "https://raad-health.liara.run/api";
+        const API_URL = DynaMan.get("environment.API_URL") || "https://v0004.liara.run/api";
         console.log("🔄 API_URL:", API_URL);
         
         // اصلاح URL‌ها - باید به /api/auth/profile و /api/auth/hyb اشاره کنند
