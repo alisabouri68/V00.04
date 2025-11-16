@@ -40,7 +40,7 @@ const VerifySuccess: React.FC = () => {
         hasVerified.current = true;
         console.log('🚀 Starting verification process...');
         
-        const response = await fetch(`http://localhost:3000/api/auth/verify-email?token=${token}`);
+        const response = await fetch(`https://raad-health.liara.run/api/auth/verify-email?token=${token}`);
         const data = await response.json();
 
         console.log('📡 API Response status:', response.status);

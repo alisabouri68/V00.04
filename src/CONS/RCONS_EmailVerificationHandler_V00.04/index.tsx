@@ -20,7 +20,7 @@ const EmailVerificationHandler: React.FC = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:3000/api/auth/verify-email?token=${token}`);
+        const response = await fetch(`https://raad-health.liara.run/api/auth/verify-email?token=${token}`);
         const data = await response.json();
 
         if (!response.ok) {
