@@ -53,7 +53,7 @@ class AbsMan {
     // مقدار اولیه امن رو روی DynaMan ست می‌کنیم
     DynaMan.set("ENVI_profile", this.initialProfile);
     DynaMan.set("ENVI_HYB", this.initialHyb);
-    DynaMan.set("environment.API_URL", getEnvVariable('REACT_APP_API_URL', 'http://localhost:3000/api'));
+    DynaMan.set("environment.API_URL", getEnvVariable('REACT_APP_API_URL', 'https://raad-health.liara.run/api'));
     DynaMan.set("environment.APP_NAME", getEnvVariable('REACT_APP_APP_NAME', 'My App'));
     DynaMan.set("environment.ENVIRONMENT", getEnvVariable('REACT_APP_ENVIRONMENT', 'development'));
   }
