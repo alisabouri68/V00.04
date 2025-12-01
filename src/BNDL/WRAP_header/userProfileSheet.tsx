@@ -16,8 +16,7 @@ export default function IndexUserProfile() {
   const { resetDyna } = initDyna();
   const navigate = useNavigate();
   const forceUpdate = useForceUpdate();
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // فرض: بعداً از state واقعی می‌گیری
-
+  const [isLoggedIn, setIsLoggedIn] = useState(true); 
   useEffect(() => {
     const handleStorageChange = () => forceUpdate();
     window.addEventListener("storage", handleStorageChange);

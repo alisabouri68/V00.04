@@ -19,7 +19,7 @@ const LayoutCtrl = lazy(() => import("../PLAY/RPLAY_layoutCtrl_V00.04/index"));
 import { middlewareManager } from "../PLAY/RPLY_middleware_V00.04/middlewareManager";
 import { authMiddleware } from "../PLAY/RPLY_middleware_V00.04/authMiddleware";
 import { permissionMiddleware } from "../PLAY/RPLY_middleware_V00.04/permissionMiddleware";
-import { ProtectedRoute } from "./ProtectedRoute";
+// import { ProtectedRoute } from "./ProtectedRoute";
 import AccessDenied from "../CONS/RCONS_accessDenied_V00.04";
 
 // Register middlewares
