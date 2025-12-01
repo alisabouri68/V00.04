@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiEdit3, FiSettings, FiLogOut } from "react-icons/fi";
-import Avatar from "WIDG/RWID_avatar_V00.04";
+// import Avatar from "WIDG/RWID_avatar_V00.04";
 import Button from "COMP/RCMP_button_V00.04";
 import Dropdown from "WIDG/RWDG_dropdown_V00.04";
-import ImageUser from "ASST/images/avatar.png";
+// import ImageUser from "ASST/images/avatar.png";
 import { initDyna } from "PLAY/RPLY_dynaCtrl_V00.0/dynaCtrl";
 
 function useForceUpdate() {
@@ -76,11 +76,11 @@ export default function IndexUserProfile() {
         logic={{
           trigger: (
             <div className="flex items-center gap-2 cursor-pointer">
-              <Avatar
+              {/* <Avatar
                 img={ImageUser}
                 logic={{ badgePosition: "bottom-left" }}
 
-              />
+              /> */}
               <div className="hidden lg:flex flex-col items-start">
                 <span className="text-sm font-medium  text-dark/60">
                   User Name
