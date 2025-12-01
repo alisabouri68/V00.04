@@ -74,43 +74,43 @@ const routes: RouteObject[] = [
     {
       path: "cast",
       element: (
-        <ProtectedRoute
-          middlewareNames={["authentication", "permission"]}
-          middlewareConfig={{
-            permission: { requiredPermissions: ["cast.read"] },
-          }}
-        >
+        // <ProtectedRoute
+        //   middlewareNames={["authentication", "permission"]}
+        //   middlewareConfig={{
+        //     permission: { requiredPermissions: ["cast.read"] },
+        //   }}
+        // >
           <SuspenseWrapper>
             <Cast />
           </SuspenseWrapper>
-        </ProtectedRoute>
+        // </ProtectedRoute>
       ),
       handle: { layout: "deep" },
     },
     {
       path: "wiki",
       element: (
-        <ProtectedRoute
-          middlewareNames={["authentication", "permission"]}
-          middlewareConfig={{
-            permission: { requiredPermissions: ["wiki.read", "wiki.write"] },
-          }}
-        >
+        // <ProtectedRoute
+        //   middlewareNames={["authentication", "permission"]}
+        //   middlewareConfig={{
+        //     permission: { requiredPermissions: ["wiki.read", "wiki.write"] },
+        //   }}
+        // >
           <SuspenseWrapper>
             <Wiki />
           </SuspenseWrapper>
-        </ProtectedRoute>
+        // </ProtectedRoute>
       ),
       handle: { layout: "deep" },
     },
     {
-      path: "gasma",
+      path: "/gasma",
       element: (
-        <ProtectedRoute middlewareNames={["authentication"]}>
+        // <ProtectedRoute middlewareNames={["authentication"]}>
           <SuspenseWrapper>
             <Gasma />
           </SuspenseWrapper>
-        </ProtectedRoute>
+        // </ProtectedRoute>
       ),
       handle: { layout: "deep" },
     },

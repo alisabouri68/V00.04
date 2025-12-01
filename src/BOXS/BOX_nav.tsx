@@ -1,14 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
-import {
-  FiHome,
-  FiMic,
-  FiBookOpen,
-  FiStar,
-} from "react-icons/fi"; // ← آیکن‌های جدید
+// import {
+//   FiHome,
+//   FiMic,
+//   FiBookOpen,
+//   FiStar,
+// } from "react-icons/fi"; 
 import logoDash from "ASST/images/Asset 5.svg";
 import { ReactNode } from "react";
-import { FaGripfire } from "react-icons/fa";
-
+// import { FaGripfire } from "react-icons/fa";
+import { SiGooglesearchconsole } from "react-icons/si";
 export interface NavItem {
   id?: string;
   title?: string;
@@ -28,36 +28,36 @@ function BOX_nav({ navItems = [] }: BoxNavProps) {
   const defaultNavItems: NavItem[] = [
     {
       id: "home",
-      title: "Home",
-      icon: <FiHome />,
+      title: "CONS 1",
+      icon: <SiGooglesearchconsole />,
       href: "/",
       enabled: true,
     },
     {
       id: "hot",
-      title: "Bionet calls",
-      icon: <FaGripfire />,
+      title: "CONS 2",
+      icon: <SiGooglesearchconsole />,
       href: "/hot",
       enabled: true,
     },
     {
       id: "cast",
-      title: "Cast",
-      icon: <FiMic />,
+      title: "CONS 3",
+      icon: <SiGooglesearchconsole />,
       href: "/cast",
       enabled: true,
     },
     {
       id: "wiki",
-      title: "Wiki",
-      icon: <FiBookOpen />,
+      title: "CONS 4",
+      icon: <SiGooglesearchconsole />,
       href: "/wiki",
       enabled: true,
     },
     {
       id: "gasma",
-      title: "Gasma",
-      icon: <FiStar />,
+      title: "CONS 5",
+      icon: <SiGooglesearchconsole />,
       href: "/gasma",
       enabled: true,
     },

@@ -9,9 +9,9 @@ export const defaultRouteConfig: SerializableRoute[] = [
     children: [
       { path: "", component: "home", index: true },
       { path: "hot", component: "hot" },
-      { path: "cast", component: "cast", middlewareNames: ["authentication"] },
-      { path: "wiki", component: "wiki", middlewareNames: ["authentication","permission"] },
-      { path: "gasma", component: "gasma", middlewareNames: ["authentication"] },
+      { path: "cast", component: "cast" },
+      { path: "wiki", component: "wiki" },
+      { path: "gasma", component: "gasma"},
       { path: "login", component: "login" },
       { path: "register", component: "register" },
       { path: "verify-email", component: "verifyEmail" },
@@ -22,3 +22,16 @@ export const defaultRouteConfig: SerializableRoute[] = [
     ]
   }
 ];
+
+
+
+
+
+
+
+
+
+
+// , middlewareNames: ["authentication"]
+// , middlewareNames: ["authentication","permission"]
+// , middlewareNames: ["authentication"] 

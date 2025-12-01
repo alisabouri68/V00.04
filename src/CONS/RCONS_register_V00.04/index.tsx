@@ -54,7 +54,7 @@ const RegisterPage: React.FC = () => {
     try {
       // دریافت API_URL از DynaMan
       const API_URL =
-        DynaMan.get("environment.API_URL") || "https://v0004.liara.run/api/";
+        DynaMan.get("environment.API_URL") || "http://localhost:3000/api/";
 
       const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
