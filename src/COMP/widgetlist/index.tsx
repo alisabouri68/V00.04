@@ -5,27 +5,6 @@ import ButtonGroup from "WIDG_mGhazi_D2025.11.16/RWDG_buttonGroup/index";
 import Avatar from "WIDG_mGhazi_D2025.11.16/RWDG_avatar/index";
 import Input from "WIDG_mGhazi_D2025.11.16/RWDG_input/index";
 import Badge from "WIDG_mGhazi_D2025.11.16/RWDG_badge/index";
-import { DynaMan } from "ACTR/RACT_dynaMan_V00.04";
-
-// تابع کمکی برای تبدیل geo به CSSProperties
-const convertGeoToStyle = (geo: any): React.CSSProperties => {
-  if (!geo) return {};
-  
-  const style: any = { ...geo };
-  
-  // تبدیل position اگر وجود دارد
-  if (geo.position && typeof geo.position === 'object') {
-    style.position = 'absolute';
-    style.left = geo.position.x;
-    style.top = geo.position.y;
-  }
-  
-  // حذف fields اضافی
-  delete style.position?.x;
-  delete style.position?.y;
-  
-  return style;
-};
 
 function Index() {
   const [widgets, setWidgets] = useState<WidgetData[]>([]);
@@ -33,8 +12,6 @@ function Index() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const initialized = useRef(false);
-  
-  console.log("📝 Current ENVI_widget:", DynaMan.get("ENVI_widget"));
 
   useEffect(() => {
     if (initialized.current) return;
@@ -143,23 +120,30 @@ function Index() {
       default: return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300';
     }
   };
+
+
+
   const renderWidget = (widget: WidgetData) => {
     const widgetName = widget.name;
     
-    // تبدیل geo به style
-    const geoStyle = convertGeoToStyle(widget.geo);
-    const style = widget.style || {};
+    // ایجاد props ساده بدون درگیری با تایپ‌های پیچیده
+    const props: any = {};
     
-    const commonProps = {
-      style: {
-        ...geoStyle,
-        ...style
-      }
-    };
+    // فقط مقدارهای ساده رو اضافه کن
+    if (widget.geo) {
+      if (widget.geo.width) props.style = { ...props.style, width: widget.geo.width };
+      if (widget.geo.height) props.style = { ...props.style, height: widget.geo.height };
+      if (widget.geo.padding) props.style = { ...props.style, padding: widget.geo.padding };
+      if (widget.geo.margin) props.style = { ...props.style, margin: widget.geo.margin };
+    }
+    
+    if (widget.style) {
+      props.style = { ...props.style, ...widget.style };
+    }
 
     switch (widget.type) {
       case 'button':
-        return <Button {...commonProps}>{widgetName}</Button>;
+        return <Button {...props}>{widgetName}</Button>;
         
       case 'button-group':
         const buttons = [
@@ -168,7 +152,7 @@ function Index() {
           { key: '3', children: 'Option 3' }
         ];
         return (
-          <ButtonGroup {...commonProps}>
+          <ButtonGroup {...props}>
             {buttons.map(btn => (
               <Button key={btn.key}>{btn.children}</Button>
             ))}
@@ -176,13 +160,13 @@ function Index() {
         );
         
       case 'avatar':
-        return <Avatar {...commonProps}>{widgetName.charAt(0)}</Avatar>;
+        return <Avatar {...props}>{widgetName.charAt(0)}</Avatar>;
         
       case 'input':
-        return <Input {...commonProps} placeholder={`Enter ${widgetName}`} />;
+        return <Input {...props} placeholder={`Enter ${widgetName}`} />;
         
       case 'badge':
-        return <Badge {...commonProps}  />;
+        return <Badge {...props} count={5} />;
         
       default:
         return <div className="text-gray-500 dark:text-gray-400">Widget {widget.type} cannot be displayed</div>;
