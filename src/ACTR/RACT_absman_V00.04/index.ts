@@ -145,6 +145,7 @@ class AbsMan {
     DynaMan.set("environment.APP_NAME", getEnvVariable('REACT_APP_APP_NAME', 'My App'));
     DynaMan.set("environment.ENVIRONMENT", getEnvVariable('REACT_APP_ENVIRONMENT', 'development'));
 
+    console.log("✅ AbsMan initialized with DynaMan");
   }
 
   // === متدهای مدیریت ویجت‌ها ===
@@ -163,6 +164,7 @@ class AbsMan {
 
     this.updateWidgets(updatedWidgets);
 
+    console.log(`✅ Widget added: ${widget.name} (${id})`);
     return id;
   }
 
@@ -172,6 +174,7 @@ class AbsMan {
     const index = widgets.findIndex(w => w.id === widgetId);
 
     if (index === -1) {
+      console.warn(`⚠️ Widget not found: ${widgetId}`);
       return false;
     }
 
@@ -185,6 +188,7 @@ class AbsMan {
 
     this.updateWidgets(updatedWidgets);
 
+    console.log(`✅ Widget updated: ${widgetId}`);
     return true;
   }
 
@@ -194,12 +198,14 @@ class AbsMan {
     const widgetToDelete = widgets.find(w => w.id === widgetId);
 
     if (!widgetToDelete) {
+      console.warn(`⚠️ Widget not found: ${widgetId}`);
       return false;
     }
 
     const updatedWidgets = widgets.filter(w => w.id !== widgetId);
     this.updateWidgets(updatedWidgets);
 
+    console.log(`✅ Widget deleted: ${widgetToDelete.name} (${widgetId})`);
     return true;
   }
 
@@ -220,42 +226,61 @@ class AbsMan {
   // در absMan.ts - متد getSelectedWidget را اصلاح کنید:
   getSelectedWidget(): WidgetData | null {
     const widgetEnv = DynaMan.get("ENVI_widget");
+    console.log("🔍 getSelectedWidget - widgetEnv:", widgetEnv);
 
     if (!widgetEnv || !widgetEnv.selectedWidgetId) {
+      console.log("🔍 No selected widget ID");
       return null;
     }
 
     const selectedId = widgetEnv.selectedWidgetId;
+    console.log("🔍 Selected ID:", selectedId);
 
     const widgets = widgetEnv.widgets || [];
+    console.log(`🔍 Searching in ${widgets.length} widgets`);
 
     const widget = widgets.find((w: any) => w.id === selectedId);
 
     if (widget) {
+      console.log("✅ Found selected widget:", widget.name);
       return { ...widget };
     } else {
+      console.warn("❌ Selected widget not found in widgets array");
+      console.log("Available IDs:", widgets.map((w: any) => w.id));
       return null;
     }
   }
   selectWidget(widgetId: string | null): void {
+    console.log(`🔵 selectWidget called with ID: ${widgetId}`);
 
     // ابتدا مطمئن شویم ویجت وجود دارد
     if (widgetId) {
       const widget = this.getWidgetById(widgetId);
       if (!widget) {
+        console.error(`❌ Widget with ID ${widgetId} not found!`);
         return;
       }
+      console.log(`✅ Found widget: ${widget.name}`);
     }
 
+    // گرفتن state فعلی
+    const currentWidgetEnv = DynaMan.get("ENVI_widget") || this.initialWidget;
+    console.log("Current selectedWidgetId:", currentWidgetEnv.selectedWidgetId);
 
+    // استفاده از merge برای آپدیت
     DynaMan.merge("ENVI_widget", {
       selectedWidgetId: widgetId,
       lastUpdated: new Date().toISOString()
     });
 
+    // تأیید
+    const updatedWidgetEnv = DynaMan.get("ENVI_widget");
+    console.log("Updated selectedWidgetId:", updatedWidgetEnv?.selectedWidgetId);
 
+    console.log(`✅ Widget ${widgetId || 'null'} selected`);
   }
 
+  // فیلتر ویجت‌ها
   setWidgetFilters(filters: { searchTerm?: string; type?: string; status?: string }): void {
     const currentFilters = this.getWidgetFilters();
     const newFilters = { ...currentFilters, ...filters };
@@ -326,6 +351,7 @@ class AbsMan {
     const widget = this.getWidgetById(widgetId);
 
     if (!widget) {
+      console.warn(`⚠️ Widget not found for event: ${widgetId}`);
       return;
     }
 
@@ -350,14 +376,17 @@ class AbsMan {
     methods?: any;
     buttonConfig?: any;
   }): boolean {
+    console.log("🔄 updateWidgetProps called for:", widgetId);
+    console.log("Props to update:", props);
 
-
+    // ویجت فعلی را بگیر
     const widget = this.getWidgetById(widgetId);
     if (!widget) {
-
+      console.error("❌ Widget not found:", widgetId);
       return false;
     }
 
+    // ایجاد آپدیت‌ها
     const updates: Partial<WidgetData> = {};
 
     if (props.meta) {
@@ -373,7 +402,7 @@ class AbsMan {
     }
 
     if (props.style) {
-      updates.style = props.style;
+      updates.style = props.style; // کاملاً جایگزین کن
     }
     if (props.events !== undefined) {
       updates.events = props.events;
@@ -385,23 +414,31 @@ class AbsMan {
     if (props.buttonConfig) {
       updates.buttonConfig = { ...widget.buttonConfig, ...props.buttonConfig };
     }
+
+    console.log("🔄 Updates to apply:", updates);
+
+    // استفاده از updateWidget
     const success = this.updateWidget(widgetId, updates);
 
     if (success) {
-
-
-
+      console.log("✅ Widget props updated successfully");
+      // تأیید تغییرات
+      const updatedWidget = this.getWidgetById(widgetId);
+      console.log("✅ Updated widget style:", updatedWidget?.style);
     } else {
-
+      console.error("❌ Failed to update widget props");
     }
 
     return success;
   }
 
+  // دریافت آمار ویجت‌ها
   getWidgetStats() {
     const widgetEnv = DynaMan.get("ENVI_widget");
     return widgetEnv?.stats || this.initialWidget.stats;
   }
+
+  // === متدهای اصلی (موجود) ===
 
   saveUserData(userData: any, token: string): void {
     const userProfile = {
@@ -418,6 +455,7 @@ class AbsMan {
     DynaMan.merge("ENVI_profile", { user: userProfile });
     DynaMan.merge("ENVI_HYB", { auth: authData });
 
+    console.log("✅ User data saved via AbsMan");
   }
 
   updateUserProfile(updates: any) {
@@ -438,43 +476,67 @@ class AbsMan {
     window.dispatchEvent(new Event("userLoggedOut"));
   }
 
-
+  // ریست ویجت‌ها
   clearWidgets() {
     DynaMan.merge("ENVI_widget", this.initialWidget);
+    console.log("✅ Widgets cleared");
   }
+
+  // Subscription به تغییرات ویجت‌ها
   subscribeToWidgets(callback: (widgets: WidgetData[]) => void): () => void {
     return DynaMan.subscribe((state: any) => {
       const widgets = state?.ENVI_widget?.widgets || [];
-      callback([...widgets]);
+      callback([...widgets]); // ارسال کپی
     }, "ENVI_widget.widgets");
   }
+
   subscribeToSelectedWidget(callback: (widget: WidgetData | null) => void): () => void {
+    console.log("📡 Setting up selected widget subscription");
+
+    // حالت 1: گوش دادن به کل ENVI_widget
     return DynaMan.subscribe((fullState: any) => {
+      console.log("📡 Full subscription triggered");
+      console.log("📡 Full state structure:", Object.keys(fullState || {}));
+
+      // ابتدا مطمئن شویم ENVI_widget وجود دارد
       if (!fullState || !fullState.ENVI_widget) {
+        console.log("📡 No ENVI_widget in state");
         callback(null);
         return;
       }
+
       const widgetEnv = fullState.ENVI_widget;
+      console.log("📡 Widget env:", {
+        selectedWidgetId: widgetEnv.selectedWidgetId,
+        widgetsCount: widgetEnv.widgets?.length || 0
+      });
+
       const selectedId = widgetEnv.selectedWidgetId;
 
       if (!selectedId) {
+        console.log("📡 No selected widget ID");
         callback(null);
         return;
       }
 
       const widgets = widgetEnv.widgets || [];
+      console.log(`📡 Searching for ID ${selectedId} in ${widgets.length} widgets`);
 
       const widget = widgets.find((w: WidgetData) => w.id === selectedId);
 
       if (widget) {
-        callback({ ...widget });
+        console.log("✅ Subscription: Widget found:", widget.name);
+        callback({ ...widget }); // ارسال کپی
       } else {
+        console.warn("❌ Subscription: Widget not found with ID:", selectedId);
+        console.log("Available IDs:", widgets.map((w: WidgetData) => w.id));
         callback(null);
       }
-    });
+    }); // بدون path - به کل state گوش می‌دهیم
   }
 }
 
 export const absMan = new AbsMan();
 
+// Export کردن تایپ‌ها برای استفاده در جاهای دیگر
 export type { WidgetData };
