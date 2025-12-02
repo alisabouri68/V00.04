@@ -15,11 +15,11 @@ export const setupDefaultWidgets = () => {
       version: "2025.11.16",
       status: "active" as const,
       description: "Responsive button with various features",
-      author: "mGhazi",
+      author: "aEmami",
       tags: ["ui", "button", "interactive", "form"],
       meta: {
         model_type: "component",
-        model_owner: "mGhazi",
+        model_owner: "aEmami",
         origin_model: "RWDG_button",
         origin_model_Ver: "2025.11.16"
       },
@@ -64,11 +64,11 @@ export const setupDefaultWidgets = () => {
       version: "2025.11.16",
       status: "active" as const,
       description: "Related button group",
-      author: "mGhazi",
+      author: "aEmami",
       tags: ["ui", "group", "navigation", "tabs"],
       meta: {
         model_type: "container",
-        model_owner: "mGhazi",
+        model_owner: "aEmami",
         origin_model: "RWDG_buttonGroup",
         origin_model_Ver: "2025.11.16"
       },
@@ -98,11 +98,11 @@ export const setupDefaultWidgets = () => {
       version: "2025.11.16",
       status: "active" as const,
       description: "User avatar display with image or initials",
-      author: "mGhazi",
+      author: "aEmami",
       tags: ["ui", "profile", "user", "image"],
       meta: {
         model_type: "component",
-        model_owner: "mGhazi",
+        model_owner: "aEmami",
         origin_model: "RWDG_avatar",
         origin_model_Ver: "2025.11.16"
       },
@@ -138,11 +138,11 @@ export const setupDefaultWidgets = () => {
       version: "2025.11.16",
       status: "active" as const,
       description: "Text input field",
-      author: "mGhazi",
+      author: "aEmami",
       tags: ["ui", "form", "text", "input"],
       meta: {
         model_type: "component",
-        model_owner: "mGhazi",
+        model_owner: "aEmami",
         origin_model: "RWDG_input",
         origin_model_Ver: "2025.11.16"
       },
@@ -189,11 +189,11 @@ export const setupDefaultWidgets = () => {
       version: "2025.11.16",
       status: "active" as const,
       description: "Status indicator or counter",
-      author: "mGhazi",
+      author: "aEmami",
       tags: ["ui", "notification", "status", "counter"],
       meta: {
         model_type: "component",
-        model_owner: "mGhazi",
+        model_owner: "aEmami",
         origin_model: "RWDG_badge_",
         origin_model_Ver: "2025.11.16"
       },

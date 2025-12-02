@@ -1,5 +1,6 @@
 // COMP/LogicPanel.tsx
 import { useEffect, useState } from "react";
+import { absMan, WidgetData } from "ACTR/RACT_absman_V00.04";
 import {
   Edit3,
   Save,
@@ -9,7 +10,10 @@ import {
   Trash2,
   Settings,
   ListChecks,
-  Code
+  Code,
+  RefreshCw,
+  X,
+  Check
 } from "lucide-react";
 
 interface LogicSetting {
@@ -20,8 +24,14 @@ interface LogicSetting {
   description: string;
 }
 
-function LogicPanel() {
-  const [settings, setSettings] = useState<LogicSetting[]>([]);
+interface LogicPanelProps {
+  widgetId?: string;
+}
+
+function LogicPanel({ widgetId }: LogicPanelProps) {
+  const [selectedWidget, setSelectedWidget] = useState<WidgetData | null>(null);
+  const [logicSettings, setLogicSettings] = useState<LogicSetting[]>([]);
+  const [tempSettings, setTempSettings] = useState<LogicSetting[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     existing: true,
@@ -34,40 +44,44 @@ function LogicPanel() {
     description: ""
   });
 
+  // گوش دادن به تغییرات ویجت انتخاب شده
   useEffect(() => {
-    // Load sample logic settings from widget
-    setSettings([
-      {
-        id: "1",
-        key: "isActive",
-        value: true,
-        type: 'boolean',
-        description: "Enable/disable component"
-      },
-      {
-        id: "2",
-        key: "autoUpdate",
-        value: false,
-        type: 'boolean',
-        description: "Automatically update data"
-      },
-      {
-        id: "3",
-        key: "maxRetries",
-        value: 3,
-        type: 'number',
-        description: "Maximum retry attempts"
-      },
-      {
-        id: "4",
-        key: "theme",
-        value: "dark",
-        type: 'string',
-        description: "Component theme"
+    const loadLogicData = (widget: WidgetData | null) => {
+      if (widget) {
+        console.log("⚡ LogicPanel: Loading logic for:", widget.name);
+        setSelectedWidget(widget);
+        
+        // تبدیل logic object به array
+        const logicArray: LogicSetting[] = [];
+        if (widget.logic) {
+          Object.entries(widget.logic).forEach(([key, config]: [string, any]) => {
+            logicArray.push({
+              id: `${key}_${Date.now()}`,
+              key,
+              value: config.value,
+              type: config.type,
+              description: config.description || ""
+            });
+          });
+        }
+        
+        setLogicSettings(logicArray);
+        setTempSettings(logicArray);
+      } else {
+        setSelectedWidget(null);
+        setLogicSettings([]);
+        setTempSettings([]);
       }
-    ]);
-    setIsEditing(true);
-  }, []);
+    };
+
+    if (!widgetId) {
+      const unsubscribe = absMan.subscribeToSelectedWidget(loadLogicData);
+      return () => unsubscribe();
+    } else {
+      const widget = absMan.getWidgetById(widgetId);
+      loadLogicData(widget);
+    }
+  }, [widgetId]);
 
   const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections(prev => ({
@@ -77,35 +91,37 @@ function LogicPanel() {
   };
 
   const addSetting = () => {
-    if (newSetting.key.trim()) {
-      const value = newSetting.type === 'boolean' ? true : 
-                   newSetting.type === 'number' ? 0 : "";
-      
-      setSettings(prev => [...prev, {
-        id: Date.now().toString(),
-        key: newSetting.key.trim(),
-        value: value,
-        type: newSetting.type,
-        description: newSetting.description.trim()
-      }]);
-      setNewSetting({
-        key: "",
-        type: 'boolean',
-        value: true,
-        description: ""
-      });
-      setExpandedSections(prev => ({ ...prev, addNew: false }));
-    }
+    if (!newSetting.key.trim()) return;
+
+    const value = newSetting.type === 'boolean' ? true : 
+                 newSetting.type === 'number' ? 0 : "";
+    
+    const newSettingObj: LogicSetting = {
+      id: `${newSetting.key}_${Date.now()}`,
+      key: newSetting.key.trim(),
+      value: value,
+      type: newSetting.type,
+      description: newSetting.description.trim()
+    };
+
+    setTempSettings(prev => [...prev, newSettingObj]);
+    setNewSetting({
+      key: "",
+      type: 'boolean',
+      value: true,
+      description: ""
+    });
+    setExpandedSections(prev => ({ ...prev, addNew: false }));
   };
 
   const updateSetting = (id: string, value: boolean | string | number) => {
-    setSettings(prev => prev.map(setting => 
+    setTempSettings(prev => prev.map(setting => 
       setting.id === id ? { ...setting, value } : setting
     ));
   };
 
   const removeSetting = (id: string) => {
-    setSettings(prev => prev.filter(setting => setting.id !== id));
+    setTempSettings(prev => prev.filter(setting => setting.id !== id));
   };
 
   const toggleBoolean = (id: string, currentValue: boolean) => {
@@ -113,13 +129,100 @@ function LogicPanel() {
   };
 
   const handleNumberChange = (id: string, value: string) => {
-    // Convert string to number, default to 0 if invalid
     const numValue = parseInt(value, 10);
     updateSetting(id, isNaN(numValue) ? 0 : numValue);
   };
 
+  const handleSave = () => {
+    if (!selectedWidget) return;
+
+    console.log("💾 Saving logic settings...");
+    
+    // تبدیل array به object برای absMan
+    const logicObject: any = {};
+    tempSettings.forEach(setting => {
+      logicObject[setting.key] = {
+        value: setting.value,
+        type: setting.type,
+        description: setting.description
+      };
+    });
+
+    const success = absMan.updateWidgetProps(selectedWidget.id, {
+      logic: logicObject
+    });
+
+    if (success) {
+      console.log("✅ Logic settings saved");
+      setLogicSettings(tempSettings);
+      setIsEditing(false);
+      
+      // ویجت آپدیت شده را بگیر
+      setTimeout(() => {
+        const updated = absMan.getWidgetById(selectedWidget.id);
+        if (updated) {
+          setSelectedWidget(updated);
+        }
+      }, 100);
+    }
+  };
+
+  const handleCancel = () => {
+    setTempSettings(logicSettings);
+    setIsEditing(false);
+  };
+
+  const handleRefresh = () => {
+    if (!selectedWidget) return;
+    
+    const widget = absMan.getWidgetById(selectedWidget.id);
+    if (widget) {
+      setSelectedWidget(widget);
+      
+      const logicArray: LogicSetting[] = [];
+      if (widget.logic) {
+        Object.entries(widget.logic).forEach(([key, config]: [string, any]) => {
+          logicArray.push({
+            id: `${key}_${Date.now()}`,
+            key,
+            value: config.value,
+            type: config.type,
+            description: config.description || ""
+          });
+        });
+      }
+      
+      setLogicSettings(logicArray);
+      setTempSettings(logicArray);
+    }
+  };
+
+  const applyCommonSetting = (key: string, type: 'boolean' | 'string' | 'number', description: string, defaultValue: any) => {
+    setNewSetting({
+      key,
+      type,
+      value: defaultValue,
+      description
+    });
+    setExpandedSections(prev => ({ ...prev, addNew: true }));
+  };
+
+  if (!selectedWidget) {
+    return (
+      <div className="h-full flex flex-col items-center justify-center p-8 text-center">
+        <Settings className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" />
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+          No Widget Selected
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Select a widget to edit logic settings
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="p-2 space-y-3 max-h-[calc(100vh-100px)] overflow-y-auto">
+    <div className="p-2 space-y-3 max-h-[calc(100vh-100px)] overflow-y-auto custom-scrollbar custom-scrollbar">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
@@ -128,16 +231,58 @@ function LogicPanel() {
             Logic Settings
           </span>
         </div>
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className={`p-1.5 rounded text-xs ${isEditing
-            ? "bg-green-500 hover:bg-green-600 text-white"
-            : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
-            } transition-colors`}
-          title={isEditing ? "Save settings" : "Edit settings"}
-        >
-          {isEditing ? <Save className="w-3 h-3" /> : <Edit3 className="w-3 h-3" />}
-        </button>
+        <div className="flex items-center space-x-1">
+          <button
+            onClick={handleRefresh}
+            className="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+            title="Refresh"
+          >
+            <RefreshCw className="w-3 h-3" />
+          </button>
+          {isEditing ? (
+            <>
+              <button
+                onClick={handleSave}
+                className="p-1.5 bg-green-500 hover:bg-green-600 text-white rounded"
+                title="Save settings"
+              >
+                <Check className="w-3 h-3" />
+              </button>
+              <button
+                onClick={handleCancel}
+                className="p-1.5 bg-gray-500 hover:bg-gray-600 text-white rounded"
+                title="Cancel"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => setIsEditing(true)}
+              className="p-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded"
+              title="Edit settings"
+            >
+              <Edit3 className="w-3 h-3" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Widget Info Banner */}
+      <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded border border-blue-200 dark:border-blue-800">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+              {selectedWidget.name}
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              {tempSettings.length} logic settings
+            </p>
+          </div>
+          <div className="text-xs text-gray-600 dark:text-gray-400">
+            {selectedWidget.type}
+          </div>
+        </div>
       </div>
 
       {/* Existing Settings Section */}
@@ -148,7 +293,7 @@ function LogicPanel() {
         >
           <div className="flex items-center">
             <ListChecks className="w-3 h-3 mr-2" />
-            <span>Settings ({settings.length})</span>
+            <span>Settings ({tempSettings.length})</span>
           </div>
           {expandedSections.existing ?
             <ChevronDown className="w-3 h-3" /> :
@@ -158,14 +303,14 @@ function LogicPanel() {
 
         {expandedSections.existing && (
           <div className="space-y-2">
-            {settings.length === 0 ? (
+            {tempSettings.length === 0 ? (
               <div className="p-3 text-center bg-gray-50 dark:bg-gray-700/50 rounded border border-gray-200 dark:border-gray-600">
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   No logic settings defined
                 </p>
               </div>
             ) : (
-              settings.map(setting => (
+              tempSettings.map(setting => (
                 <div key={setting.id} className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded border border-gray-200 dark:border-gray-600">
                   <div className="flex justify-between items-start mb-2">
                     <div>
@@ -179,7 +324,7 @@ function LogicPanel() {
                         </span>
                       </div>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {setting.description}
+                        {setting.description || "No description"}
                       </p>
                     </div>
                     {isEditing && (
@@ -280,7 +425,7 @@ function LogicPanel() {
                 type="text"
                 value={newSetting.key}
                 onChange={(e) => setNewSetting(prev => ({ ...prev, key: e.target.value }))}
-                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
                 placeholder="e.g., isEnabled, maxItems"
               />
             </div>
@@ -296,7 +441,7 @@ function LogicPanel() {
                     key={type}
                     onClick={() => setNewSetting(prev => ({ ...prev, type }))}
                     className={`flex-1 px-2 py-1.5 text-xs rounded border ${newSetting.type === type
-                      ? 'bg-gray-800 text-white border-gray-800 dark:bg-gray-600 dark:border-gray-600'
+                      ? 'bg-blue-600 text-white border-blue-600'
                       : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600'
                       }`}
                   >
@@ -315,7 +460,7 @@ function LogicPanel() {
                 type="text"
                 value={newSetting.description}
                 onChange={(e) => setNewSetting(prev => ({ ...prev, description: e.target.value }))}
-                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
                 placeholder="What does this setting do?"
               />
             </div>
@@ -324,7 +469,7 @@ function LogicPanel() {
               <button
                 onClick={addSetting}
                 disabled={!newSetting.key.trim()}
-                className="flex-1 px-3 py-2 bg-green-500 hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-xs rounded transition-colors"
+                className="flex-1 px-3 py-2 bg-green-500 hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs rounded transition-colors"
               >
                 Add Setting
               </button>
@@ -355,45 +500,43 @@ function LogicPanel() {
           </label>
           <div className="flex flex-wrap gap-1">
             <button
-              onClick={() => setNewSetting({
-                key: "isEnabled",
-                type: 'boolean',
-                value: true,
-                description: "Enable the component"
-              })}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
+              onClick={() => applyCommonSetting("isEnabled", 'boolean', "Enable the component", true)}
+              className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 rounded transition-colors"
             >
               isEnabled
             </button>
             <button
-              onClick={() => setNewSetting({
-                key: "autoSave",
-                type: 'boolean',
-                value: false,
-                description: "Auto-save changes"
-              })}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
+              onClick={() => applyCommonSetting("autoSave", 'boolean', "Auto-save changes", false)}
+              className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 rounded transition-colors"
             >
               autoSave
             </button>
             <button
-              onClick={() => setNewSetting({
-                key: "timeout",
-                type: 'number',
-                value: 5000,
-                description: "Timeout in milliseconds"
-              })}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
+              onClick={() => applyCommonSetting("timeout", 'number', "Timeout in milliseconds", 5000)}
+              className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800 rounded transition-colors"
             >
               timeout
+            </button>
+            <button
+              onClick={() => applyCommonSetting("theme", 'string', "Component theme", "dark")}
+              className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800 rounded transition-colors"
+            >
+              theme
             </button>
           </div>
         </div>
       )}
 
       {/* Status Bar */}
-      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
-        <span>Settings: {settings.length}</span>
+      <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
+        <div>
+          <span>Total settings: {tempSettings.length}</span>
+          {tempSettings.filter(s => s.type === 'boolean').length > 0 && (
+            <span className="ml-2">
+              Toggles: {tempSettings.filter(s => s.type === 'boolean').length}
+            </span>
+          )}
+        </div>
         <span className={`px-2 py-0.5 rounded ${isEditing ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"}`}>
           {isEditing ? "Editing" : "Viewing"}
         </span>

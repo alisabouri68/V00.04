@@ -1,5 +1,6 @@
 // COMP/MethodPanel.tsx
 import { useEffect, useState } from "react";
+import { absMan, WidgetData } from "ACTR/RACT_absman_V00.04";
 import {
   Edit3,
   Save,
@@ -12,7 +13,8 @@ import {
   Zap,
   Hash,
   Type,
-  Cpu
+  Cpu,
+  RefreshCw
 } from "lucide-react";
 
 interface MethodFlag {
@@ -23,8 +25,13 @@ interface MethodFlag {
   enabled: boolean;
 }
 
-function MethodPanel() {
+interface MethodPanelProps {
+  widgetId?: string;
+}
+
+function MethodPanel({ widgetId }: MethodPanelProps) {
   const [methods, setMethods] = useState<MethodFlag[]>([]);
+  const [selectedWidget, setSelectedWidget] = useState<WidgetData | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     existing: true,
@@ -37,47 +44,76 @@ function MethodPanel() {
     enabled: true
   });
 
+  // گوش دادن به تغییرات ویجت انتخاب شده
   useEffect(() => {
-    // Load sample methods from widget
-    setMethods([
-      {
-        id: "1",
-        name: "initialize",
-        type: 'function',
-        description: "Initialize component",
-        enabled: true
-      },
-      {
-        id: "2",
-        name: "getData",
-        type: 'getter',
-        description: "Fetch data from API",
-        enabled: true
-      },
-      {
-        id: "3",
-        name: "updateState",
-        type: 'setter',
-        description: "Update component state",
-        enabled: true
-      },
-      {
-        id: "4",
-        name: "validate",
-        type: 'function',
-        description: "Validate input data",
-        enabled: false
-      },
-      {
-        id: "5",
-        name: "fetchAsync",
-        type: 'async',
-        description: "Async data fetching",
-        enabled: true
+    if (!widgetId) {
+      const unsubscribe = absMan.subscribeToSelectedWidget((widget) => {
+        console.log("📝 MethodPanel: Widget update received:", widget?.name);
+        if (widget) {
+          setSelectedWidget(widget);
+          loadMethodsFromWidget(widget);
+        } else {
+          setSelectedWidget(null);
+          setMethods([]);
+        }
+      });
+
+      return () => unsubscribe();
+    } else {
+      // اگر widgetId مستقیم داده شده باشد
+      const widget = absMan.getWidgetById(widgetId);
+      if (widget) {
+        setSelectedWidget(widget);
+        loadMethodsFromWidget(widget);
       }
-    ]);
-    setIsEditing(true);
-  }, []);
+    }
+  }, [widgetId]);
+
+  const loadMethodsFromWidget = (widget: WidgetData) => {
+    // بارگذاری متدها از ویجت
+    if (widget.methods && Array.isArray(widget.methods)) {
+      setMethods(widget.methods);
+    } else {
+      // اگر متدی تعریف نشده، نمونه‌های پیش‌فرض را بارگذاری کن
+      setMethods([
+        {
+          id: "1",
+          name: "initialize",
+          type: 'function',
+          description: "Initialize component",
+          enabled: true
+        },
+        {
+          id: "2",
+          name: "getData",
+          type: 'getter',
+          description: "Fetch data from API",
+          enabled: true
+        },
+        {
+          id: "3",
+          name: "updateState",
+          type: 'setter',
+          description: "Update component state",
+          enabled: true
+        },
+        {
+          id: "4",
+          name: "validate",
+          type: 'function',
+          description: "Validate input data",
+          enabled: false
+        },
+        {
+          id: "5",
+          name: "fetchAsync",
+          type: 'async',
+          description: "Async data fetching",
+          enabled: true
+        }
+      ]);
+    }
+  };
 
   const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections(prev => ({
@@ -87,14 +123,19 @@ function MethodPanel() {
   };
 
   const addMethod = () => {
-    if (newMethod.name.trim()) {
-      setMethods(prev => [...prev, {
+    if (newMethod.name.trim() && selectedWidget) {
+      const methodToAdd: MethodFlag = {
         id: Date.now().toString(),
         name: newMethod.name.trim(),
         type: newMethod.type,
         description: newMethod.description.trim(),
         enabled: newMethod.enabled
-      }]);
+      };
+
+      const updatedMethods = [...methods, methodToAdd];
+      setMethods(updatedMethods);
+      saveMethodsToWidget(updatedMethods);
+      
       setNewMethod({
         name: "",
         type: 'function',
@@ -106,17 +147,71 @@ function MethodPanel() {
   };
 
   const updateMethod = (id: string, field: keyof MethodFlag, value: any) => {
-    setMethods(prev => prev.map(method => 
+    const updatedMethods = methods.map(method => 
       method.id === id ? { ...method, [field]: value } : method
-    ));
+    );
+    setMethods(updatedMethods);
+    
+    if (isEditing && selectedWidget) {
+      saveMethodsToWidget(updatedMethods);
+    }
   };
 
   const removeMethod = (id: string) => {
-    setMethods(prev => prev.filter(method => method.id !== id));
+    const updatedMethods = methods.filter(method => method.id !== id);
+    setMethods(updatedMethods);
+    
+    if (isEditing && selectedWidget) {
+      saveMethodsToWidget(updatedMethods);
+    }
   };
 
   const toggleMethodEnabled = (id: string, currentEnabled: boolean) => {
     updateMethod(id, 'enabled', !currentEnabled);
+  };
+
+  const saveMethodsToWidget = (methodsToSave: MethodFlag[]) => {
+    if (!selectedWidget) return;
+
+    const success = absMan.updateWidgetProps(selectedWidget.id, {
+      methods: methodsToSave
+    });
+
+    if (success) {
+      console.log("✅ Methods saved to widget:", methodsToSave.length);
+    }
+  };
+
+  const handleSave = () => {
+    if (!selectedWidget) return;
+
+    console.log("💾 Saving methods...");
+    const success = absMan.updateWidgetProps(selectedWidget.id, {
+      methods: methods
+    });
+
+    if (success) {
+      console.log("✅ Methods saved");
+      setIsEditing(false);
+      
+      // ویجت آپدیت شده را بگیر
+      setTimeout(() => {
+        const updated = absMan.getWidgetById(selectedWidget.id);
+        if (updated) {
+          setSelectedWidget(updated);
+        }
+      }, 100);
+    }
+  };
+
+  const handleRefresh = () => {
+    if (!selectedWidget) return;
+    
+    const widget = absMan.getWidgetById(selectedWidget.id);
+    if (widget) {
+      setSelectedWidget(widget);
+      loadMethodsFromWidget(widget);
+    }
   };
 
   const getMethodTypeIcon = (type: string) => {
@@ -141,8 +236,22 @@ function MethodPanel() {
     }
   };
 
+  if (!selectedWidget) {
+    return (
+      <div className="h-full flex flex-col items-center justify-center p-8 text-center">
+        <FunctionSquare className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" />
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+          No Widget Selected
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Select a widget to manage methods
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="p-2 space-y-3 max-h-[calc(100vh-100px)] overflow-y-auto">
+    <div className="p-2 space-y-3 max-h-[calc(100vh-100px)] overflow-y-auto custom-scrollbar">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
@@ -151,16 +260,45 @@ function MethodPanel() {
             Method Flags
           </span>
         </div>
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className={`p-1.5 rounded text-xs ${isEditing
-            ? "bg-green-500 hover:bg-green-600 text-white"
-            : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
-            } transition-colors`}
-          title={isEditing ? "Save methods" : "Edit methods"}
-        >
-          {isEditing ? <Save className="w-3 h-3" /> : <Edit3 className="w-3 h-3" />}
-        </button>
+        <div className="flex items-center space-x-1">
+          <button
+            onClick={handleRefresh}
+            className="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+            title="Refresh"
+          >
+            <RefreshCw className="w-3 h-3" />
+          </button>
+          <button
+            onClick={() => isEditing ? handleSave() : setIsEditing(true)}
+            className={`p-1.5 rounded text-xs ${isEditing
+              ? "bg-green-500 hover:bg-green-600 text-white"
+              : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
+              } transition-colors`}
+            title={isEditing ? "Save changes" : "Edit methods"}
+          >
+            {isEditing ? <Save className="w-3 h-3" /> : <Edit3 className="w-3 h-3" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Widget Info Banner */}
+      <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded border border-blue-200 dark:border-blue-800">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+              {selectedWidget.name}
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              {selectedWidget.type} • v{selectedWidget.version}
+            </p>
+          </div>
+          <span className={`px-2 py-1 text-xs rounded ${
+            selectedWidget.status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+            'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
+          }`}>
+            {selectedWidget.status}
+          </span>
+        </div>
       </div>
 
       {/* Existing Methods Section */}
@@ -273,7 +411,7 @@ function MethodPanel() {
                 type="text"
                 value={newMethod.name}
                 onChange={(e) => setNewMethod(prev => ({ ...prev, name: e.target.value }))}
-                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
                 placeholder="e.g., initialize, getData, update"
               />
             </div>
@@ -310,7 +448,7 @@ function MethodPanel() {
                 type="text"
                 value={newMethod.description}
                 onChange={(e) => setNewMethod(prev => ({ ...prev, description: e.target.value }))}
-                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
                 placeholder="What does this method do?"
               />
             </div>
@@ -441,8 +579,12 @@ function MethodPanel() {
       </div>
 
       {/* Status Bar */}
-      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
-        <span>Methods: {methods.length}</span>
+      <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center space-x-2">
+          <span>Widget: {selectedWidget.name}</span>
+          <span className="text-gray-400">•</span>
+          <span>Methods: {methods.length}</span>
+        </div>
         <span className={`px-2 py-0.5 rounded ${isEditing ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"}`}>
           {isEditing ? "Editing" : "Viewing"}
         </span>

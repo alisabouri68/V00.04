@@ -1,466 +1,360 @@
-// COMP/StylePanel.tsx
 import { useEffect, useState } from "react";
-import {
-  Edit3,
-  Save,
-  Plus,
-  ChevronDown,
-  ChevronRight,
-  Trash2,
-  Palette,
-  Type,
-  Layout,
-  Eye,
-  Droplets,
-  Square
-} from "lucide-react";
+import { absMan, WidgetData } from "ACTR/RACT_absman_V00.04";
+import { Box, Edit2, Save, X, RefreshCw, Plus, Trash2 } from "lucide-react";
 
-interface StyleData {
-  [key: string]: string;
-}
-
-function StylePanel() {
-  const [styleData, setStyleData] = useState<StyleData | null>(null);
+export default function StylePanel() {
+  const [selectedWidget, setSelectedWidget] = useState<WidgetData | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [expandedSections, setExpandedSections] = useState({
-    colors: true,
-    typography: false,
-    layout: false,
-    borders: false,
-    addNew: false
-  });
+  const [styleInputs, setStyleInputs] = useState<{[key: string]: string}>({});
   const [newStyleKey, setNewStyleKey] = useState("");
   const [newStyleValue, setNewStyleValue] = useState("");
 
-  const styleCategories = {
-    colors: ["color", "background-color", "border-color", "opacity"],
-    typography: ["font-size", "font-weight", "font-family", "text-align", "line-height"],
-    layout: ["width", "height", "display", "position", "margin", "padding"],
-    borders: ["border", "border-radius", "box-shadow", "outline"]
-  };
-
   useEffect(() => {
-    setStyleData({
-      "color": "#333333",
-      "background-color": "#ffffff",
-      "font-size": "14px",
-      "font-weight": "400",
-      "border": "1px solid #e0e0e0",
-      "border-radius": "8px",
-      "padding": "12px",
-      "margin": "8px"
+    console.log("🎯 StylePanel mounted");
+    
+    const unsubscribe = absMan.subscribeToSelectedWidget((widget) => {
+      console.log("🎯 Widget update received:", widget?.name);
+      if (widget) {
+        setSelectedWidget(widget);
+        // استایل‌ها را برای inputs کپی کن
+        setStyleInputs(widget.style || {});
+      } else {
+        setSelectedWidget(null);
+        setStyleInputs({});
+      }
     });
-    setIsEditing(true);
+
+    return unsubscribe;
   }, []);
 
-  const toggleSection = (section: keyof typeof expandedSections) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
-  };
-
-  const updateStyle = (key: string, value: string) => {
-    if (styleData) {
-      setStyleData(prev => ({ ...prev!, [key]: value }));
+  const handleStyleChange = (key: string, value: string) => {
+    console.log("🎨 Changing style:", key, "=>", value);
+    
+    const newStyles = { ...styleInputs, [key]: value };
+    setStyleInputs(newStyles);
+    
+    // بلافاصله در absMan ذخیره کن
+    if (selectedWidget) {
+      absMan.updateWidgetProps(selectedWidget.id, {
+        style: newStyles
+      });
+      
+      // ویجت را آپدیت کن
+      setTimeout(() => {
+        const updated = absMan.getWidgetById(selectedWidget.id);
+        if (updated) {
+          setSelectedWidget(updated);
+        }
+      }, 100);
     }
   };
 
-  const removeStyle = (key: string) => {
-    if (styleData) {
-      const newData = { ...styleData };
-      delete newData[key];
-      setStyleData(newData);
+  const handleRemoveStyle = (key: string) => {
+    const newStyles = { ...styleInputs };
+    delete newStyles[key];
+    setStyleInputs(newStyles);
+    
+    if (selectedWidget) {
+      absMan.updateWidgetProps(selectedWidget.id, {
+        style: newStyles
+      });
     }
   };
 
-  const addNewStyle = () => {
-    if (newStyleKey.trim() && newStyleValue.trim() && styleData) {
-      setStyleData(prev => ({
-        ...prev!,
-        [newStyleKey.trim()]: newStyleValue.trim()
-      }));
-      setNewStyleKey("");
-      setNewStyleValue("");
-      setExpandedSections(prev => ({ ...prev, addNew: false }));
+  const handleAddStyle = () => {
+    if (!newStyleKey.trim() || !newStyleValue.trim()) return;
+    
+    handleStyleChange(newStyleKey.trim(), newStyleValue.trim());
+    setNewStyleKey("");
+    setNewStyleValue("");
+  };
+
+  const handleSave = () => {
+    console.log("💾 Saving all styles...");
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    if (selectedWidget) {
+      setStyleInputs(selectedWidget.style || {});
+    }
+    setIsEditing(false);
+  };
+
+  const handleRefresh = () => {
+    const widget = absMan.getSelectedWidget();
+    console.log("🔄 Refreshing widget:", widget);
+    setSelectedWidget(widget);
+    if (widget) {
+      setStyleInputs(widget.style || {});
     }
   };
 
-  if (!styleData) return null;
-
-  const getStyleCategory = (key: string) => {
-    for (const [category, styles] of Object.entries(styleCategories)) {
-      if (styles.includes(key)) return category;
-    }
-    return "other";
-  };
-
-  const groupedStyles: Record<string, [string, string][]> = {};
-  Object.entries(styleData).forEach(([key, value]) => {
-    const category = getStyleCategory(key);
-    if (!groupedStyles[category]) groupedStyles[category] = [];
-    groupedStyles[category].push([key, value]);
-  });
-
-  const categoryIcons = {
-    colors: <Droplets className="w-3 h-3 mr-2" />,
-    typography: <Type className="w-3 h-3 mr-2" />,
-    layout: <Layout className="w-3 h-3 mr-2" />,
-    borders: <Square className="w-3 h-3 mr-2" />,
-    other: <Eye className="w-3 h-3 mr-2" />
-  };
+  if (!selectedWidget) {
+    return (
+      <div className="h-full flex flex-col items-center justify-center p-8 text-center bg-gray-50 dark:bg-gray-900">
+        <Box className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" />
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+          No Widget Selected
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Click "Select" on any widget in the table
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-2 space-y-3 max-h-[calc(100vh-100px)] overflow-y-auto">
+    <div className="h-full flex flex-col bg-white dark:bg-gray-800">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <Palette className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            CSS Styles
-          </span>
-        </div>
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className={`p-1.5 rounded text-xs ${isEditing
-            ? "bg-green-500 hover:bg-green-600 text-white"
-            : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
-            } transition-colors`}
-          title={isEditing ? "Save styles" : "Edit styles"}
-        >
-          {isEditing ? <Save className="w-3 h-3" /> : <Edit3 className="w-3 h-3" />}
-        </button>
-      </div>
-
-      {/* Color Styles */}
-      <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
-        <button
-          onClick={() => toggleSection('colors')}
-          className="flex items-center justify-between w-full text-left text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-        >
-          <div className="flex items-center">
-            {categoryIcons.colors}
-            <span>Colors ({groupedStyles.colors?.length || 0})</span>
+      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              {selectedWidget.name}
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {selectedWidget.type} • {Object.keys(styleInputs).length} styles
+            </p>
           </div>
-          {expandedSections.colors ?
-            <ChevronDown className="w-3 h-3" /> :
-            <ChevronRight className="w-3 h-3" />
-          }
-        </button>
-
-        {expandedSections.colors && groupedStyles.colors && (
-          <div className="space-y-2 pl-1">
-            {groupedStyles.colors.map(([key, value]) => (
-              <StyleItem
-                key={key}
-                property={key}
-                value={value}
-                isEditing={isEditing}
-                onUpdate={(newValue) => updateStyle(key, newValue)}
-                onRemove={() => removeStyle(key)}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Typography Styles */}
-      <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
-        <button
-          onClick={() => toggleSection('typography')}
-          className="flex items-center justify-between w-full text-left text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-        >
-          <div className="flex items-center">
-            {categoryIcons.typography}
-            <span>Typography ({groupedStyles.typography?.length || 0})</span>
-          </div>
-          {expandedSections.typography ?
-            <ChevronDown className="w-3 h-3" /> :
-            <ChevronRight className="w-3 h-3" />
-          }
-        </button>
-
-        {expandedSections.typography && groupedStyles.typography && (
-          <div className="space-y-2 pl-1">
-            {groupedStyles.typography.map(([key, value]) => (
-              <StyleItem
-                key={key}
-                property={key}
-                value={value}
-                isEditing={isEditing}
-                onUpdate={(newValue) => updateStyle(key, newValue)}
-                onRemove={() => removeStyle(key)}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Layout Styles */}
-      <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
-        <button
-          onClick={() => toggleSection('layout')}
-          className="flex items-center justify-between w-full text-left text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-        >
-          <div className="flex items-center">
-            {categoryIcons.layout}
-            <span>Layout ({groupedStyles.layout?.length || 0})</span>
-          </div>
-          {expandedSections.layout ?
-            <ChevronDown className="w-3 h-3" /> :
-            <ChevronRight className="w-3 h-3" />
-          }
-        </button>
-
-        {expandedSections.layout && groupedStyles.layout && (
-          <div className="space-y-2 pl-1">
-            {groupedStyles.layout.map(([key, value]) => (
-              <StyleItem
-                key={key}
-                property={key}
-                value={value}
-                isEditing={isEditing}
-                onUpdate={(newValue) => updateStyle(key, newValue)}
-                onRemove={() => removeStyle(key)}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Border Styles */}
-      <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
-        <button
-          onClick={() => toggleSection('borders')}
-          className="flex items-center justify-between w-full text-left text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-        >
-          <div className="flex items-center">
-            {categoryIcons.borders}
-            <span>Borders ({groupedStyles.borders?.length || 0})</span>
-          </div>
-          {expandedSections.borders ?
-            <ChevronDown className="w-3 h-3" /> :
-            <ChevronRight className="w-3 h-3" />
-          }
-        </button>
-
-        {expandedSections.borders && groupedStyles.borders && (
-          <div className="space-y-2 pl-1">
-            {groupedStyles.borders.map(([key, value]) => (
-              <StyleItem
-                key={key}
-                property={key}
-                value={value}
-                isEditing={isEditing}
-                onUpdate={(newValue) => updateStyle(key, newValue)}
-                onRemove={() => removeStyle(key)}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Other Styles */}
-      {groupedStyles.other && groupedStyles.other.length > 0 && (
-        <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
-          <div className="flex items-center text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {categoryIcons.other}
-            <span>Other ({groupedStyles.other.length})</span>
-          </div>
-          <div className="space-y-2 pl-1">
-            {groupedStyles.other.map(([key, value]) => (
-              <StyleItem
-                key={key}
-                property={key}
-                value={value}
-                isEditing={isEditing}
-                onUpdate={(newValue) => updateStyle(key, newValue)}
-                onRemove={() => removeStyle(key)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Add New Style Section */}
-      <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
-        <button
-          onClick={() => toggleSection('addNew')}
-          className="flex items-center justify-between w-full text-left text-xs font-medium text-gray-700 dark:text-gray-300 mb-2 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-        >
-          <div className="flex items-center">
-            <Plus className="w-3 h-3 mr-2" />
-            <span>Add New Style</span>
-          </div>
-          {expandedSections.addNew ?
-            <ChevronDown className="w-3 h-3" /> :
-            <ChevronRight className="w-3 h-3" />
-          }
-        </button>
-
-        {expandedSections.addNew && (
-          <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded border border-gray-200 dark:border-gray-600 space-y-3">
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
-                  Property
-                </label>
-                <select
-                  value={newStyleKey}
-                  onChange={(e) => setNewStyleKey(e.target.value)}
-                  className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={handleRefresh}
+              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+              title="Refresh"
+            >
+              <RefreshCw className="w-4 h-4" />
+            </button>
+            
+            {isEditing ? (
+              <>
+                <button
+                  onClick={handleSave}
+                  className="px-3 py-1.5 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center"
                 >
-                  <option value="">Select property</option>
-                  {Object.values(styleCategories).flat().map(style => (
-                    <option key={style} value={style}>
-                      {style}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  value={newStyleKey}
-                  onChange={(e) => setNewStyleKey(e.target.value)}
-                  placeholder="Or enter custom property"
-                  className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 mt-1"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
-                  Value
-                </label>
-                <input
-                  type="text"
-                  value={newStyleValue}
-                  onChange={(e) => setNewStyleValue(e.target.value)}
-                  className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
-                  placeholder="e.g., red, 16px, bold"
-                />
-              </div>
-            </div>
-            <div className="flex gap-2">
+                  <Save className="w-4 h-4 mr-1" />
+                  Save
+                </button>
+                <button
+                  onClick={handleCancel}
+                  className="px-3 py-1.5 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm flex items-center"
+                >
+                  <X className="w-4 h-4 mr-1" />
+                  Cancel
+                </button>
+              </>
+            ) : (
               <button
-                onClick={addNewStyle}
+                onClick={() => setIsEditing(true)}
+                className="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm flex items-center"
+              >
+                <Edit2 className="w-4 h-4 mr-1" />
+                Edit
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto p-4">
+        <div className="space-y-6">
+          {/* Common Styles */}
+          <div className="space-y-4">
+            <h3 className="font-medium text-gray-900 dark:text-white">
+              Common Properties
+            </h3>
+            
+            {/* Background Color */}
+            <div>
+              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+                Background Color
+              </label>
+              <input
+                type="text"
+                value={styleInputs["background-color"] || ""}
+                onChange={(e) => handleStyleChange("background-color", e.target.value)}
+                className={`w-full px-3 py-2 text-sm border rounded ${
+                  isEditing 
+                    ? "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
+                }`}
+                placeholder="#ffffff"
+                disabled={!isEditing}
+                onClick={(e) => isEditing && e.stopPropagation()}
+              />
+            </div>
+
+            {/* Text Color */}
+            <div>
+              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+                Text Color
+              </label>
+              <input
+                type="text"
+                value={styleInputs.color || ""}
+                onChange={(e) => handleStyleChange("color", e.target.value)}
+                className={`w-full px-3 py-2 text-sm border rounded ${
+                  isEditing 
+                    ? "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
+                }`}
+                placeholder="#000000"
+                disabled={!isEditing}
+                onClick={(e) => isEditing && e.stopPropagation()}
+              />
+            </div>
+
+            {/* Font Size */}
+            <div>
+              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+                Font Size
+              </label>
+              <input
+                type="text"
+                value={styleInputs["font-size"] || ""}
+                onChange={(e) => handleStyleChange("font-size", e.target.value)}
+                className={`w-full px-3 py-2 text-sm border rounded ${
+                  isEditing 
+                    ? "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
+                }`}
+                placeholder="14px"
+                disabled={!isEditing}
+                onClick={(e) => isEditing && e.stopPropagation()}
+              />
+            </div>
+
+            {/* Padding */}
+            <div>
+              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+                Padding
+              </label>
+              <input
+                type="text"
+                value={styleInputs.padding || ""}
+                onChange={(e) => handleStyleChange("padding", e.target.value)}
+                className={`w-full px-3 py-2 text-sm border rounded ${
+                  isEditing 
+                    ? "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
+                }`}
+                placeholder="8px 16px"
+                disabled={!isEditing}
+                onClick={(e) => isEditing && e.stopPropagation()}
+              />
+            </div>
+          </div>
+
+          {/* Add New Style */}
+          {isEditing && (
+            <div className="p-4 bg-gray-50 dark:bg-gray-700/30 rounded border">
+              <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Custom Style
+              </h4>
+              <div className="grid grid-cols-2 gap-3 mb-3">
+                <div>
+                  <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
+                    Property
+                  </label>
+                  <input
+                    type="text"
+                    value={newStyleKey}
+                    onChange={(e) => setNewStyleKey(e.target.value)}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800"
+                    placeholder="border-radius"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
+                    Value
+                  </label>
+                  <input
+                    type="text"
+                    value={newStyleValue}
+                    onChange={(e) => setNewStyleValue(e.target.value)}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800"
+                    placeholder="8px"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+              </div>
+              <button
+                onClick={handleAddStyle}
                 disabled={!newStyleKey.trim() || !newStyleValue.trim()}
-                className="flex-1 px-3 py-2 bg-green-500 hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-xs rounded transition-colors"
+                className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               >
                 Add Style
               </button>
-              <button
-                onClick={() => {
-                  setNewStyleKey("");
-                  setNewStyleValue("");
-                  setExpandedSections(prev => ({ ...prev, addNew: false }));
-                }}
-                className="flex-1 px-3 py-2 bg-gray-500 hover:bg-gray-600 text-white text-xs rounded transition-colors"
-              >
-                Cancel
-              </button>
             </div>
-          </div>
-        )}
-      </div>
-
-      {/* Quick Style Presets */}
-      {isEditing && (
-        <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
-          <label className="block text-xs text-gray-500 dark:text-gray-400 mb-2">
-            Quick Presets
-          </label>
-          <div className="flex flex-wrap gap-1">
-            <button
-              onClick={() => {
-                updateStyle("background-color", "#f3f4f6");
-                updateStyle("border", "1px solid #d1d5db");
-              }}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
-            >
-              Light Card
-            </button>
-            <button
-              onClick={() => {
-                updateStyle("background-color", "#1f2937");
-                updateStyle("color", "#f9fafb");
-              }}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
-            >
-              Dark Card
-            </button>
-            <button
-              onClick={() => {
-                updateStyle("border-radius", "0");
-                updateStyle("box-shadow", "none");
-              }}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
-            >
-              Flat
-            </button>
-            <button
-              onClick={() => {
-                updateStyle("border-radius", "12px");
-                updateStyle("box-shadow", "0 4px 6px -1px rgb(0 0 0 / 0.1)");
-              }}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
-            >
-              Rounded Shadow
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Status Bar */}
-      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
-        <span>Styles: {Object.keys(styleData).length}</span>
-        <span className={`px-2 py-0.5 rounded ${isEditing ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"}`}>
-          {isEditing ? "Editing" : "Viewing"}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-// Helper component for individual style items
-interface StyleItemProps {
-  property: string;
-  value: string;
-  isEditing: boolean;
-  onUpdate: (value: string) => void;
-  onRemove: () => void;
-}
-
-function StyleItem({ property, value, isEditing, onUpdate, onRemove }: StyleItemProps) {
-  return (
-    <div className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700/30 rounded border border-gray-200 dark:border-gray-600">
-      <div className="flex-1 min-w-0">
-        <div className="flex justify-between items-start mb-1">
-          <span className="text-xs font-mono text-blue-600 dark:text-blue-400 truncate">
-            {property}
-          </span>
-          {isEditing && (
-            <button
-              onClick={onRemove}
-              className="p-1 text-red-500 hover:text-red-700 ml-2"
-              title="Remove style"
-            >
-              <Trash2 className="w-3 h-3" />
-            </button>
           )}
-        </div>
-        {isEditing ? (
-          <input
-            type="text"
-            value={value}
-            onChange={(e) => onUpdate(e.target.value)}
-            className="w-full p-1.5 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-          />
-        ) : (
-          <div className="p-1.5 text-xs text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-600/50 rounded truncate">
-            {value}
+
+          {/* All Styles List */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-medium text-gray-900 dark:text-white">
+                All Styles ({Object.keys(styleInputs).length})
+              </h3>
+            </div>
+            
+            {Object.keys(styleInputs).length > 0 ? (
+              <div className="space-y-2">
+                {Object.entries(styleInputs).map(([key, value]) => (
+                  <div key={key} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded border">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm font-mono text-blue-600 dark:text-blue-400 truncate">
+                          {key}
+                        </span>
+                        {isEditing && (
+                          <button
+                            onClick={() => handleRemoveStyle(key)}
+                            className="p-1 text-red-500 hover:text-red-700 ml-2"
+                            title="Remove"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={value}
+                          onChange={(e) => handleStyleChange(key, e.target.value)}
+                          className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      ) : (
+                        <div className="px-3 py-1.5 text-sm bg-white dark:bg-gray-800 rounded truncate">
+                          {value}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400 text-sm text-center py-8">
+                No styles defined yet
+              </p>
+            )}
           </div>
-        )}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+        <div className="text-xs text-gray-500 dark:text-gray-400">
+          <div className="flex justify-between">
+            <span>Widget ID: {selectedWidget.id.substring(0, 8)}...</span>
+            <span className={isEditing ? "text-green-600 dark:text-green-400" : ""}>
+              {isEditing ? "Editing Mode" : "View Mode"}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-export default StylePanel;

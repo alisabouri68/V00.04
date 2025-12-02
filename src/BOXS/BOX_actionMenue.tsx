@@ -66,7 +66,7 @@ function BOX_actiomMenue({ children }: { children: ReactNode }) {
       </div> */}
       
       {/* محتوای children */}
-      <div className="flex-1">
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
         {children}
       </div>
     </div>

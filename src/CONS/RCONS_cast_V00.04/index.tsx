@@ -6,7 +6,6 @@ import BOX_assistant from "../../BOXS/BOX_assistant"
 import BOX_assistantMenu from "../../BOXS/BOX_assistantMenu"
 import BOX_assistantContent from "../../BOXS/BOX_assistantContent"
 import { useState } from "react";
-import BOX_actiomMenue from 'BOXS/BOX_actionMenue';
 import MetaPanel from 'COMP/meta';
 import GeoPanel from 'COMP/geo';
 import StylePanel from 'COMP/style';
@@ -34,9 +33,6 @@ function index() {
         </Helmet>
         <div className="w-9/12 h-full bg-white dark:bg-gray-800 overflow-hidden border-b border-gray-200 dark:border-gray-700">
           <BOXAction>
-            <BOX_actiomMenue >
-            actionMenu
-          </BOX_actiomMenue>
             <BOX_actiomContent>
               <WidgetManager /> 
               
@@ -77,7 +73,7 @@ function index() {
     {isTab === "Geo" && <GeoPanel />}
     {isTab === "Logic" && <LogicPanel />}
     {isTab === "Style" && <StylePanel />}
-    {isTab === "Event" && <EventPanel />}
+    {isTab === "Event" && <EventPanel  />}
     {isTab === "Methode" && <MethodPanel />}
   </div>
 </BOX_assistantContent>

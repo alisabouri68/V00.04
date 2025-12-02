@@ -1,8 +1,8 @@
 // COMP/GeoPanel.tsx
 import { useEffect, useState } from "react";
+import { absMan, WidgetData } from "ACTR/RACT_absman_V00.04";
 import {
   Edit3,
-  Save,
   ChevronDown,
   ChevronRight,
   Maximize2,
@@ -10,7 +10,10 @@ import {
   RotateCw,
   Square,
   Minus,
-  Expand
+  Expand,
+  RefreshCw,
+  X,
+  Check
 } from "lucide-react";
 
 interface GeoData {
@@ -25,36 +28,68 @@ interface GeoData {
   rotation?: string;
 }
 
-function GeoPanel() {
+interface GeoPanelProps {
+  widgetId?: string;
+}
+
+function GeoPanel({ widgetId }: GeoPanelProps) {
   const [geoData, setGeoData] = useState<GeoData | null>(null);
+  const [selectedWidget, setSelectedWidget] = useState<WidgetData | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [tempGeoData, setTempGeoData] = useState<GeoData | null>(null);
   const [expandedSections, setExpandedSections] = useState({
     dimensions: true,
     position: false,
     spacing: false
   });
 
+  // گوش دادن به تغییرات ویجت انتخاب شده
   useEffect(() => {
-    setGeoData({
-      width: "100%",
-      height: "auto",
-      position: { x: "0", y: "0" },
-      padding: "0",
-      margin: "0",
-      rotation: "0"
-    });
-    setIsEditing(true);
-  }, []);
+    const loadGeoData = (widget: WidgetData | null) => {
+      if (widget) {
+        console.log("📐 GeoPanel: Loading geo data for:", widget.name);
+        setSelectedWidget(widget);
+        
+        const geo = widget.geo || {};
+        const newGeoData: GeoData = {
+          width: geo.width || "auto",
+          height: geo.height || "auto",
+          position: geo.position || { x: "0", y: "0" },
+          padding: geo.padding || "0",
+          margin: geo.margin || "0",
+          rotation: geo.rotation || "0"
+        };
+        
+        setGeoData(newGeoData);
+        setTempGeoData(newGeoData);
+      } else {
+        setSelectedWidget(null);
+        setGeoData(null);
+        setTempGeoData(null);
+      }
+    };
 
-  const updateGeoData = (field: keyof GeoData, value: any) => {
-    if (geoData) {
-      setGeoData(prev => ({ ...prev!, [field]: value }));
+    if (!widgetId) {
+      const unsubscribe = absMan.subscribeToSelectedWidget((widget) => {
+        loadGeoData(widget);
+      });
+
+      return () => unsubscribe();
+    } else {
+      const widget = absMan.getWidgetById(widgetId);
+      loadGeoData(widget);
+    }
+  }, [widgetId]);
+
+  const updateTempGeoData = (field: keyof GeoData, value: any) => {
+    if (tempGeoData) {
+      setTempGeoData(prev => ({ ...prev!, [field]: value }));
     }
   };
 
-  const updatePosition = (axis: 'x' | 'y', value: string) => {
-    if (geoData) {
-      setGeoData(prev => ({
+  const updateTempPosition = (axis: 'x' | 'y', value: string) => {
+    if (tempGeoData) {
+      setTempGeoData(prev => ({
         ...prev!,
         position: { ...prev?.position!, [axis]: value }
       }));
@@ -68,28 +103,157 @@ function GeoPanel() {
     }));
   };
 
-  if (!geoData) return null;
+  const handleSave = () => {
+    if (!selectedWidget || !tempGeoData) return;
+
+    console.log("💾 Saving geo data:", tempGeoData);
+    
+    const success = absMan.updateWidgetProps(selectedWidget.id, {
+      geo: tempGeoData
+    });
+
+    if (success) {
+      console.log("✅ Geo data saved");
+      setGeoData(tempGeoData);
+      setIsEditing(false);
+      
+      // ویجت آپدیت شده را بگیر
+      setTimeout(() => {
+        const updated = absMan.getWidgetById(selectedWidget.id);
+        if (updated) {
+          setSelectedWidget(updated);
+        }
+      }, 100);
+    }
+  };
+
+  const handleCancel = () => {
+    setTempGeoData(geoData);
+    setIsEditing(false);
+  };
+
+  const handleRefresh = () => {
+    if (!selectedWidget) return;
+    
+    const widget = absMan.getWidgetById(selectedWidget.id);
+    if (widget) {
+      setSelectedWidget(widget);
+      const geo = widget.geo || {};
+      const newGeoData: GeoData = {
+        width: geo.width || "auto",
+        height: geo.height || "auto",
+        position: geo.position || { x: "0", y: "0" },
+        padding: geo.padding || "0",
+        margin: geo.margin || "0",
+        rotation: geo.rotation || "0"
+      };
+      setGeoData(newGeoData);
+      setTempGeoData(newGeoData);
+    }
+  };
+
+  const applyPreset = (preset: 'full-width' | 'half' | 'spaced' | 'rotated') => {
+    if (!tempGeoData) return;
+
+    let newTempData = { ...tempGeoData };
+
+    switch (preset) {
+      case 'full-width':
+        newTempData.width = "100%";
+        newTempData.height = "auto";
+        break;
+      case 'half':
+        newTempData.width = "50%";
+        newTempData.height = "50%";
+        break;
+      case 'spaced':
+        newTempData.padding = "16px";
+        newTempData.margin = "8px";
+        break;
+      case 'rotated':
+        newTempData.rotation = "45";
+        break;
+    }
+
+    setTempGeoData(newTempData);
+  };
+
+  if (!selectedWidget || !geoData || !tempGeoData) {
+    return (
+      <div className="h-full flex flex-col items-center justify-center p-8 text-center">
+        <Maximize2 className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" />
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+          No Widget Selected
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Select a widget to edit geometry properties
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-2 space-y-3 max-h-[calc(100vh-100px)] overflow-y-auto">
+    <div className="p-2 space-y-3 max-h-[calc(100vh-100px)] overflow-y-auto custom-scrollbar">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Maximize2 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
           <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Geometry
+            Geometry Properties
           </span>
         </div>
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className={`p-1.5 rounded text-xs ${isEditing
-            ? "bg-green-500 hover:bg-green-600 text-white"
-            : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
-            } transition-colors`}
-          title={isEditing ? "Save changes" : "Edit geometry"}
-        >
-          {isEditing ? <Save className="w-3 h-3" /> : <Edit3 className="w-3 h-3" />}
-        </button>
+        <div className="flex items-center space-x-1">
+          <button
+            onClick={handleRefresh}
+            className="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+            title="Refresh"
+          >
+            <RefreshCw className="w-3 h-3" />
+          </button>
+          {isEditing ? (
+            <>
+              <button
+                onClick={handleSave}
+                className="p-1.5 bg-green-500 hover:bg-green-600 text-white rounded"
+                title="Save changes"
+              >
+                <Check className="w-3 h-3" />
+              </button>
+              <button
+                onClick={handleCancel}
+                className="p-1.5 bg-gray-500 hover:bg-gray-600 text-white rounded"
+                title="Cancel"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => setIsEditing(true)}
+              className="p-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded"
+              title="Edit geometry"
+            >
+              <Edit3 className="w-3 h-3" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Widget Info Banner */}
+      <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded border border-blue-200 dark:border-blue-800">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+              {selectedWidget.name}
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Editing geometry properties
+            </p>
+          </div>
+          <div className="text-xs text-gray-600 dark:text-gray-400">
+            {tempGeoData.width} × {tempGeoData.height}
+          </div>
+        </div>
       </div>
 
       {/* Dimensions Section - Always Visible */}
@@ -104,14 +268,14 @@ function GeoPanel() {
             {isEditing ? (
               <input
                 type="text"
-                value={geoData.width}
-                onChange={(e) => updateGeoData("width", e.target.value)}
-                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                value={tempGeoData.width}
+                onChange={(e) => updateTempGeoData("width", e.target.value)}
+                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
                 placeholder="e.g., 100px, 50%, auto"
               />
             ) : (
               <div className="p-2 text-xs text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/50 rounded border">
-                {geoData.width}
+                {tempGeoData.width}
               </div>
             )}
           </div>
@@ -125,14 +289,14 @@ function GeoPanel() {
             {isEditing ? (
               <input
                 type="text"
-                value={geoData.height}
-                onChange={(e) => updateGeoData("height", e.target.value)}
-                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                value={tempGeoData.height}
+                onChange={(e) => updateTempGeoData("height", e.target.value)}
+                className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
                 placeholder="e.g., 100px, 50%, auto"
               />
             ) : (
               <div className="p-2 text-xs text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/50 rounded border">
-                {geoData.height}
+                {tempGeoData.height}
               </div>
             )}
           </div>
@@ -170,13 +334,13 @@ function GeoPanel() {
                   {isEditing ? (
                     <input
                       type="text"
-                      value={geoData.position?.x || "0"}
-                      onChange={(e) => updatePosition("x", e.target.value)}
-                      className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                      value={tempGeoData.position?.x || "0"}
+                      onChange={(e) => updateTempPosition("x", e.target.value)}
+                      className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
                     />
                   ) : (
                     <div className="p-2 text-xs text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/50 rounded border">
-                      {geoData.position?.x}
+                      {tempGeoData.position?.x || "0"}
                     </div>
                   )}
                 </div>
@@ -187,13 +351,13 @@ function GeoPanel() {
                   {isEditing ? (
                     <input
                       type="text"
-                      value={geoData.position?.y || "0"}
-                      onChange={(e) => updatePosition("y", e.target.value)}
-                      className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                      value={tempGeoData.position?.y || "0"}
+                      onChange={(e) => updateTempPosition("y", e.target.value)}
+                      className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
                     />
                   ) : (
                     <div className="p-2 text-xs text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/50 rounded border">
-                      {geoData.position?.y}
+                      {tempGeoData.position?.y || "0"}
                     </div>
                   )}
                 </div>
@@ -213,20 +377,20 @@ function GeoPanel() {
                       type="range"
                       min="0"
                       max="360"
-                      value={geoData.rotation || "0"}
-                      onChange={(e) => updateGeoData("rotation", e.target.value)}
+                      value={tempGeoData.rotation || "0"}
+                      onChange={(e) => updateTempGeoData("rotation", e.target.value)}
                       className="flex-1 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer"
                     />
                     <input
                       type="text"
-                      value={geoData.rotation}
-                      onChange={(e) => updateGeoData("rotation", e.target.value)}
+                      value={tempGeoData.rotation}
+                      onChange={(e) => updateTempGeoData("rotation", e.target.value)}
                       className="w-16 p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-center"
                     />
                   </>
                 ) : (
                   <div className="flex-1 p-2 text-xs text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/50 rounded border">
-                    {geoData.rotation}°
+                    {tempGeoData.rotation || "0"}°
                   </div>
                 )}
               </div>
@@ -262,14 +426,14 @@ function GeoPanel() {
               {isEditing ? (
                 <input
                   type="text"
-                  value={geoData.padding}
-                  onChange={(e) => updateGeoData("padding", e.target.value)}
-                  className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                  value={tempGeoData.padding}
+                  onChange={(e) => updateTempGeoData("padding", e.target.value)}
+                  className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
                   placeholder="e.g., 10px 5px"
                 />
               ) : (
                 <div className="p-2 text-xs text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/50 rounded border">
-                  {geoData.padding}
+                  {tempGeoData.padding}
                 </div>
               )}
             </div>
@@ -283,14 +447,14 @@ function GeoPanel() {
               {isEditing ? (
                 <input
                   type="text"
-                  value={geoData.margin}
-                  onChange={(e) => updateGeoData("margin", e.target.value)}
-                  className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                  value={tempGeoData.margin}
+                  onChange={(e) => updateTempGeoData("margin", e.target.value)}
+                  className="w-full p-2 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
                   placeholder="e.g., 10px auto"
                 />
               ) : (
                 <div className="p-2 text-xs text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700/50 rounded border">
-                  {geoData.margin}
+                  {tempGeoData.margin}
                 </div>
               )}
             </div>
@@ -306,45 +470,41 @@ function GeoPanel() {
           </label>
           <div className="flex flex-wrap gap-1">
             <button
-              onClick={() => {
-                updateGeoData("width", "100%");
-                updateGeoData("height", "auto");
-              }}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
+              onClick={() => applyPreset('full-width')}
+              className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 rounded transition-colors"
             >
               Full Width
             </button>
             <button
-              onClick={() => {
-                updateGeoData("width", "50%");
-                updateGeoData("height", "50%");
-              }}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
+              onClick={() => applyPreset('half')}
+              className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800 rounded transition-colors"
             >
-              Half
+              Half Size
             </button>
             <button
-              onClick={() => {
-                updateGeoData("padding", "16px");
-                updateGeoData("margin", "8px");
-              }}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
+              onClick={() => applyPreset('spaced')}
+              className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800 rounded transition-colors"
             >
               Spaced
             </button>
             <button
-              onClick={() => updateGeoData("rotation", "45")}
-              className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded transition-colors"
+              onClick={() => applyPreset('rotated')}
+              className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-800 rounded transition-colors"
             >
-              45°
+              45° Rotation
             </button>
           </div>
         </div>
       )}
 
       {/* Status Bar */}
-      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
-        <span>Size: {geoData.width} × {geoData.height}</span>
+      <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-200 dark:border-gray-700">
+        <div>
+          <span>Size: {tempGeoData.width} × {tempGeoData.height}</span>
+          {tempGeoData.padding !== "0" && (
+            <span className="ml-2">Padding: {tempGeoData.padding}</span>
+          )}
+        </div>
         <span className={`px-2 py-0.5 rounded ${isEditing ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"}`}>
           {isEditing ? "Editing" : "Viewing"}
         </span>
