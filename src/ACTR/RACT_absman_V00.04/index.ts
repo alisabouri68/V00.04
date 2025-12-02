@@ -7,7 +7,6 @@ const getEnvVariable = (key: string, fallback: string = ''): string => {
   }
   return fallback;
 };
-
 interface WidgetData {
   id: string;
   name: string;
@@ -44,10 +43,11 @@ interface WidgetData {
       description: string;
     };
   };
+  // اصلاح این قسمت - handler را optional کنید
   events?: Array<{
     id: string;
     event: string;
-    handler?: string;
+    handler?: string;  // از ? استفاده کنید
     description: string;
     timestamp?: string;
   }>;
@@ -72,11 +72,13 @@ interface WidgetData {
       iconPosition?: 'left' | 'right';
     };
   };
+  // برای پیگیری وضعیت
   isSelected?: boolean;
   isEditing?: boolean;
 }
 
 class AbsMan {
+  // مقدار اولیه امن پروفایل
   private initialProfile = {
     user: {
       id: "",
@@ -115,6 +117,7 @@ class AbsMan {
     temporary: { draftPosts: [], recentSearches: [], formData: {} }
   };
 
+  // مقدار اولیه برای ویجت‌ها
   private initialWidget = {
     widgets: [] as WidgetData[],
     selectedWidgetId: null as string | null,
@@ -132,12 +135,8 @@ class AbsMan {
     lastUpdated: new Date().toISOString()
   };
 
-  private dbName: string = 'WidgetDB';
-  private dbVersion: number = 1;
-  private db: IDBDatabase | null = null;
-  private dbInitialized: boolean = false;
-
   constructor() {
+    // مقدار اولیه امن رو روی DynaMan ست می‌کنیم
     DynaMan.set("ENVI_profile", this.initialProfile);
     DynaMan.set("ENVI_HYB", this.initialHyb);
     DynaMan.set("ENVI_widget", this.initialWidget);
@@ -146,189 +145,11 @@ class AbsMan {
     DynaMan.set("environment.APP_NAME", getEnvVariable('REACT_APP_APP_NAME', 'My App'));
     DynaMan.set("environment.ENVIRONMENT", getEnvVariable('REACT_APP_ENVIRONMENT', 'development'));
 
-    // Initialize IndexedDB
-    this.initIndexedDB().then(() => {
-      console.log("✅ AbsMan initialized with IndexedDB");
-      this.loadWidgetsFromIndexedDB();
-    }).catch(error => {
-      console.error("❌ Failed to initialize IndexedDB:", error);
-      this.dbInitialized = false;
-    });
   }
 
-  // === IndexedDB Methods ===
-  private async initIndexedDB(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (typeof indexedDB === 'undefined') {
-        reject(new Error('IndexedDB is not supported in this browser'));
-        return;
-      }
+  // === متدهای مدیریت ویجت‌ها ===
 
-      const request = indexedDB.open(this.dbName, this.dbVersion);
-
-      request.onerror = () => {
-        console.error('❌ IndexedDB error:', request.error);
-        reject(request.error);
-      };
-
-      request.onsuccess = () => {
-        this.db = request.result;
-        this.dbInitialized = true;
-        console.log('✅ IndexedDB initialized');
-        resolve();
-      };
-
-      request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
-        const db = (event.target as IDBOpenDBRequest).result;
-
-        // Create object stores
-        if (!db.objectStoreNames.contains('widgets')) {
-          const widgetStore = db.createObjectStore('widgets', { keyPath: 'id' });
-          widgetStore.createIndex('name', 'name', { unique: false });
-          widgetStore.createIndex('type', 'type', { unique: false });
-          widgetStore.createIndex('status', 'status', { unique: false });
-          widgetStore.createIndex('lastModified', 'lastModified', { unique: false });
-        }
-
-        if (!db.objectStoreNames.contains('widget_settings')) {
-          db.createObjectStore('widget_settings', { keyPath: 'key' });
-        }
-      };
-    });
-  }
-
-  private async saveToIndexedDB(widget: WidgetData): Promise<void> {
-    if (!this.dbInitialized || !this.db) {
-      console.warn('⚠️ IndexedDB not initialized, skipping save');
-      return;
-    }
-
-    return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['widgets'], 'readwrite');
-      const store = transaction.objectStore('widgets');
-      const request = store.put(widget);
-
-      request.onsuccess = () => {
-        console.log('✅ Widget saved to IndexedDB:', widget.id);
-        resolve();
-      };
-
-      request.onerror = () => {
-        console.error('❌ Error saving to IndexedDB:', request.error);
-        reject(request.error);
-      };
-    });
-  }
-
-  private async loadWidgetsFromIndexedDB(): Promise<void> {
-    if (!this.dbInitialized || !this.db) {
-      console.warn('⚠️ IndexedDB not initialized, using local state only');
-      return;
-    }
-
-    try {
-      const widgets = await this.getAllWidgetsFromIndexedDB();
-      DynaMan.merge("ENVI_widget", {
-        widgets: widgets,
-        stats: this.calculateStats(widgets)
-      });
-      console.log('✅ Widgets loaded from IndexedDB:', widgets.length);
-    } catch (error) {
-      console.error('❌ Error loading widgets from IndexedDB:', error);
-    }
-  }
-
-  private async getAllWidgetsFromIndexedDB(): Promise<WidgetData[]> {
-    if (!this.dbInitialized || !this.db) {
-      return [];
-    }
-
-    return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['widgets'], 'readonly');
-      const store = transaction.objectStore('widgets');
-      const request = store.getAll();
-
-      request.onsuccess = () => {
-        resolve(request.result || []);
-      };
-
-      request.onerror = () => {
-        console.error('❌ Error getting widgets from IndexedDB:', request.error);
-        reject(request.error);
-      };
-    });
-  }
-
-  private async deleteFromIndexedDB(widgetId: string): Promise<void> {
-    if (!this.dbInitialized || !this.db) {
-      console.warn('⚠️ IndexedDB not initialized, skipping delete');
-      return;
-    }
-
-    return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['widgets'], 'readwrite');
-      const store = transaction.objectStore('widgets');
-      const request = store.delete(widgetId);
-
-      request.onsuccess = () => {
-        console.log('✅ Widget deleted from IndexedDB:', widgetId);
-        resolve();
-      };
-
-      request.onerror = () => {
-        console.error('❌ Error deleting from IndexedDB:', request.error);
-        reject(request.error);
-      };
-    });
-  }
-
-  private async saveAllWidgetsToIndexedDB(widgets: WidgetData[]): Promise<void> {
-    if (!this.dbInitialized || !this.db) {
-      console.warn('⚠️ IndexedDB not initialized, skipping save all');
-      return;
-    }
-
-    return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['widgets'], 'readwrite');
-      const store = transaction.objectStore('widgets');
-
-      // Clear existing data
-      const clearRequest = store.clear();
-      clearRequest.onsuccess = () => {
-        // Add all widgets
-        let completed = 0;
-        const total = widgets.length;
-
-        if (total === 0) {
-          resolve();
-          return;
-        }
-
-        const onComplete = () => {
-          completed++;
-          if (completed === total) {
-            console.log(`✅ All ${total} widgets saved to IndexedDB`);
-            resolve();
-          }
-        };
-
-        widgets.forEach(widget => {
-          const request = store.put(widget);
-          request.onsuccess = onComplete;
-          request.onerror = (event) => {
-            console.error('❌ Error saving widget:', (event.target as IDBRequest).error);
-            onComplete();
-          };
-        });
-      };
-
-      clearRequest.onerror = () => {
-        reject(clearRequest.error);
-      };
-    });
-  }
-
-  // === Widget Management Methods ===
+  // اضافه کردن ویجت جدید
   addWidget(widgetData: Omit<WidgetData, 'id' | 'lastModified'>): string {
     const id = `widget_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const widget: WidgetData = {
@@ -340,82 +161,63 @@ class AbsMan {
     const currentWidgets = this.getWidgets();
     const updatedWidgets = [widget, ...currentWidgets];
 
-    // Save to IndexedDB
-    this.saveToIndexedDB(widget).catch(error => {
-      console.error('❌ Failed to save widget to IndexedDB:', error);
-    });
+    this.updateWidgets(updatedWidgets);
 
-    // Update DynaMan
-    this.updateWidgetsInDynaMan(updatedWidgets);
-
-    console.log(`✅ Widget added: ${widget.name} (${id})`);
     return id;
   }
 
+  // به‌روزرسانی ویجت - اصلاح شده
   updateWidget(widgetId: string, updates: Partial<WidgetData>): boolean {
     const widgets = this.getWidgets();
     const index = widgets.findIndex(w => w.id === widgetId);
 
     if (index === -1) {
-      console.warn(`⚠️ Widget not found: ${widgetId}`);
       return false;
     }
 
-    const updatedWidget = {
-      ...widgets[index],
+    // ایجاد یک کپی جدید از آرایه به جای تغییر مستقیم
+    const updatedWidgets = [...widgets];
+    updatedWidgets[index] = {
+      ...updatedWidgets[index],
       ...updates,
       lastModified: new Date().toISOString()
     };
 
-    const updatedWidgets = [...widgets];
-    updatedWidgets[index] = updatedWidget;
+    this.updateWidgets(updatedWidgets);
 
-    // Save to IndexedDB
-    this.saveToIndexedDB(updatedWidget).catch(error => {
-      console.error('❌ Failed to update widget in IndexedDB:', error);
-    });
-
-    // Update DynaMan
-    this.updateWidgetsInDynaMan(updatedWidgets);
-
-    console.log(`✅ Widget updated: ${widgetId}`);
     return true;
   }
 
+  // حذف ویجت
   deleteWidget(widgetId: string): boolean {
     const widgets = this.getWidgets();
     const widgetToDelete = widgets.find(w => w.id === widgetId);
 
     if (!widgetToDelete) {
-      console.warn(`⚠️ Widget not found: ${widgetId}`);
       return false;
     }
 
     const updatedWidgets = widgets.filter(w => w.id !== widgetId);
+    this.updateWidgets(updatedWidgets);
 
-    // Delete from IndexedDB
-    this.deleteFromIndexedDB(widgetId).catch(error => {
-      console.error('❌ Failed to delete widget from IndexedDB:', error);
-    });
-
-    // Update DynaMan
-    this.updateWidgetsInDynaMan(updatedWidgets);
-
-    console.log(`✅ Widget deleted: ${widgetToDelete.name} (${widgetId})`);
     return true;
   }
 
+  // دریافت همه ویجت‌ها - اصلاح شده
   getWidgets(): WidgetData[] {
     const widgetEnv = DynaMan.get("ENVI_widget");
+    // برگرداندن یک کپی از آرایه برای جلوگیری از تغییر مستقیم
     return widgetEnv?.widgets ? [...widgetEnv.widgets] : [];
   }
 
+  // دریافت ویجت بر اساس ID
   getWidgetById(widgetId: string): WidgetData | null {
     const widgets = this.getWidgets();
     const widget = widgets.find(w => w.id === widgetId);
-    return widget ? { ...widget } : null;
+    return widget ? { ...widget } : null; // برگرداندن کپی
   }
 
+  // در absMan.ts - متد getSelectedWidget را اصلاح کنید:
   getSelectedWidget(): WidgetData | null {
     const widgetEnv = DynaMan.get("ENVI_widget");
 
@@ -424,31 +226,121 @@ class AbsMan {
     }
 
     const selectedId = widgetEnv.selectedWidgetId;
+
     const widgets = widgetEnv.widgets || [];
+
     const widget = widgets.find((w: any) => w.id === selectedId);
 
-    return widget ? { ...widget } : null;
+    if (widget) {
+      return { ...widget };
+    } else {
+      return null;
+    }
   }
-
   selectWidget(widgetId: string | null): void {
+
+    // ابتدا مطمئن شویم ویجت وجود دارد
     if (widgetId) {
       const widget = this.getWidgetById(widgetId);
       if (!widget) {
-        console.error(`❌ Widget with ID ${widgetId} not found!`);
         return;
       }
     }
 
-    // const currentWidgetEnv = DynaMan.get("ENVI_widget") || this.initialWidget;
-    
+
     DynaMan.merge("ENVI_widget", {
       selectedWidgetId: widgetId,
       lastUpdated: new Date().toISOString()
     });
 
-    console.log(`✅ Widget ${widgetId || 'null'} selected`);
+
   }
 
+  setWidgetFilters(filters: { searchTerm?: string; type?: string; status?: string }): void {
+    const currentFilters = this.getWidgetFilters();
+    const newFilters = { ...currentFilters, ...filters };
+
+    DynaMan.merge("ENVI_widget.filters", newFilters);
+  }
+
+  // دریافت فیلترها
+  getWidgetFilters() {
+    const widgetEnv = DynaMan.get("ENVI_widget");
+    return widgetEnv?.filters || this.initialWidget.filters;
+  }
+
+  // به‌روزرسانی آمار
+  private updateStats(widgets: WidgetData[]): void {
+    const stats = {
+      total: widgets.length,
+      active: widgets.filter(w => w.status === 'active').length,
+      inactive: widgets.filter(w => w.status === 'inactive').length,
+      draft: widgets.filter(w => w.status === 'draft').length
+    };
+
+    DynaMan.merge("ENVI_widget.stats", stats);
+  }
+
+  // به‌روزرسانی کل ویجت‌ها (همراه با آمار) - اصلاح شده
+  private updateWidgets(widgets: WidgetData[]): void {
+    // ایجاد کپی عمیق از ویجت‌ها
+    const widgetsCopy = widgets.map(widget => ({
+      ...widget,
+      tags: [...(widget.tags || [])],
+      events: widget.events ? [...widget.events] : undefined,
+      methods: widget.methods ? [...widget.methods] : undefined,
+      meta: widget.meta ? { ...widget.meta } : undefined,
+      geo: widget.geo ? { ...widget.geo } : undefined,
+      logic: widget.logic ? { ...widget.logic } : undefined,
+      style: widget.style ? { ...widget.style } : undefined,
+      buttonConfig: widget.buttonConfig ? { ...widget.buttonConfig } : undefined
+    }));
+
+    DynaMan.merge("ENVI_widget", {
+      widgets: widgetsCopy,
+      lastUpdated: new Date().toISOString()
+    });
+
+    this.updateStats(widgetsCopy);
+  }
+
+  // دریافت ویجت‌های فیلتر شده
+  getFilteredWidgets(): WidgetData[] {
+    const widgets = this.getWidgets();
+    const filters = this.getWidgetFilters();
+
+    return widgets.filter(widget => {
+      const matchesSearch = !filters.searchTerm ||
+        widget.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        widget.description.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        widget.tags.some(tag => tag.toLowerCase().includes(filters.searchTerm.toLowerCase()));
+
+      const matchesType = filters.type === "all" || widget.type === filters.type;
+      const matchesStatus = filters.status === "all" || widget.status === filters.status;
+
+      return matchesSearch && matchesType && matchesStatus;
+    });
+  }
+
+  logWidgetEvent(widgetId: string, eventData: { event: string; handler?: string; description: string }): void {
+    const widget = this.getWidgetById(widgetId);
+
+    if (!widget) {
+      return;
+    }
+
+    const newEvent = {
+      id: `event_${Date.now()}`,
+      ...eventData,
+      handler: eventData.handler || "default", // مقدار پیش‌فرض بدهید
+      timestamp: new Date().toISOString()
+    };
+
+    const currentEvents = widget.events || [];
+    const updatedEvents = [newEvent, ...currentEvents.slice(0, 9)];
+    this.updateWidget(widgetId, { events: updatedEvents });
+  }
+  // در absMan.ts - متد updateWidgetProps را اصلاح کنید:
   updateWidgetProps(widgetId: string, props: {
     meta?: any;
     geo?: any;
@@ -458,11 +350,11 @@ class AbsMan {
     methods?: any;
     buttonConfig?: any;
   }): boolean {
-    console.log("🔄 updateWidgetProps called for:", widgetId);
-    
+
+
     const widget = this.getWidgetById(widgetId);
     if (!widget) {
-      console.error("❌ Widget not found:", widgetId);
+
       return false;
     }
 
@@ -483,7 +375,6 @@ class AbsMan {
     if (props.style) {
       updates.style = props.style;
     }
-
     if (props.events !== undefined) {
       updates.events = props.events;
     }
@@ -491,74 +382,20 @@ class AbsMan {
     if (props.methods !== undefined) {
       updates.methods = props.methods;
     }
-
     if (props.buttonConfig) {
       updates.buttonConfig = { ...widget.buttonConfig, ...props.buttonConfig };
     }
+    const success = this.updateWidget(widgetId, updates);
 
-    return this.updateWidget(widgetId, updates);
-  }
+    if (success) {
 
-  private updateWidgetsInDynaMan(widgets: WidgetData[]): void {
-    const widgetsCopy = widgets.map(widget => ({
-      ...widget,
-      tags: [...(widget.tags || [])],
-      events: widget.events ? [...widget.events] : undefined,
-      methods: widget.methods ? [...widget.methods] : undefined,
-      meta: widget.meta ? { ...widget.meta } : undefined,
-      geo: widget.geo ? { ...widget.geo } : undefined,
-      logic: widget.logic ? { ...widget.logic } : undefined,
-      style: widget.style ? { ...widget.style } : undefined,
-      buttonConfig: widget.buttonConfig ? { ...widget.buttonConfig } : undefined
-    }));
 
-    DynaMan.merge("ENVI_widget", {
-      widgets: widgetsCopy,
-      lastUpdated: new Date().toISOString(),
-      stats: this.calculateStats(widgetsCopy)
-    });
-  }
 
-  private calculateStats(widgets: WidgetData[]): {
-    total: number;
-    active: number;
-    inactive: number;
-    draft: number;
-  } {
-    return {
-      total: widgets.length,
-      active: widgets.filter(w => w.status === 'active').length,
-      inactive: widgets.filter(w => w.status === 'inactive').length,
-      draft: widgets.filter(w => w.status === 'draft').length
-    };
-  }
+    } else {
 
-  setWidgetFilters(filters: { searchTerm?: string; type?: string; status?: string }): void {
-    const currentFilters = this.getWidgetFilters();
-    const newFilters = { ...currentFilters, ...filters };
-    DynaMan.merge("ENVI_widget.filters", newFilters);
-  }
+    }
 
-  getWidgetFilters() {
-    const widgetEnv = DynaMan.get("ENVI_widget");
-    return widgetEnv?.filters || this.initialWidget.filters;
-  }
-
-  getFilteredWidgets(): WidgetData[] {
-    const widgets = this.getWidgets();
-    const filters = this.getWidgetFilters();
-
-    return widgets.filter(widget => {
-      const matchesSearch = !filters.searchTerm ||
-        widget.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        widget.description.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        widget.tags.some(tag => tag.toLowerCase().includes(filters.searchTerm.toLowerCase()));
-
-      const matchesType = filters.type === "all" || widget.type === filters.type;
-      const matchesStatus = filters.status === "all" || widget.status === filters.status;
-
-      return matchesSearch && matchesType && matchesStatus;
-    });
+    return success;
   }
 
   getWidgetStats() {
@@ -566,66 +403,6 @@ class AbsMan {
     return widgetEnv?.stats || this.initialWidget.stats;
   }
 
-  logWidgetEvent(widgetId: string, eventData: { event: string; handler?: string; description: string }): void {
-    const widget = this.getWidgetById(widgetId);
-
-    if (!widget) {
-      console.warn(`⚠️ Widget not found for event: ${widgetId}`);
-      return;
-    }
-
-    const newEvent = {
-      id: `event_${Date.now()}`,
-      ...eventData,
-      handler: eventData.handler || "default",
-      timestamp: new Date().toISOString()
-    };
-
-    const currentEvents = widget.events || [];
-    const updatedEvents = [newEvent, ...currentEvents.slice(0, 9)];
-    this.updateWidget(widgetId, { events: updatedEvents });
-  }
-
-  // === Sync Methods ===
-  async syncWithIndexedDB(): Promise<void> {
-    if (!this.dbInitialized) {
-      console.warn('⚠️ IndexedDB not initialized, cannot sync');
-      return;
-    }
-
-    try {
-      const indexedDBWidgets = await this.getAllWidgetsFromIndexedDB();
-      const currentWidgets = this.getWidgets();
-      
-      // If IndexedDB has data, use it
-      if (indexedDBWidgets.length > 0) {
-        this.updateWidgetsInDynaMan(indexedDBWidgets);
-        console.log(`✅ Synced ${indexedDBWidgets.length} widgets from IndexedDB`);
-      } 
-      // If local state has data but IndexedDB doesn't, save to IndexedDB
-      else if (currentWidgets.length > 0) {
-        await this.saveAllWidgetsToIndexedDB(currentWidgets);
-        console.log(`✅ Saved ${currentWidgets.length} widgets to IndexedDB`);
-      }
-    } catch (error) {
-      console.error('❌ Error syncing with IndexedDB:', error);
-    }
-  }
-
-  clearWidgets(): void {
-    if (this.dbInitialized && this.db) {
-      // Clear from IndexedDB
-      const transaction = this.db.transaction(['widgets'], 'readwrite');
-      const store = transaction.objectStore('widgets');
-      store.clear();
-    }
-
-    // Clear from DynaMan
-    DynaMan.merge("ENVI_widget", this.initialWidget);
-    console.log("✅ Widgets cleared from both IndexedDB and local state");
-  }
-
-  // === Existing Methods ===
   saveUserData(userData: any, token: string): void {
     const userProfile = {
       ...userData,
@@ -641,7 +418,6 @@ class AbsMan {
     DynaMan.merge("ENVI_profile", { user: userProfile });
     DynaMan.merge("ENVI_HYB", { auth: authData });
 
-    console.log("✅ User data saved via AbsMan");
   }
 
   updateUserProfile(updates: any) {
@@ -662,20 +438,22 @@ class AbsMan {
     window.dispatchEvent(new Event("userLoggedOut"));
   }
 
+
+  clearWidgets() {
+    DynaMan.merge("ENVI_widget", this.initialWidget);
+  }
   subscribeToWidgets(callback: (widgets: WidgetData[]) => void): () => void {
     return DynaMan.subscribe((state: any) => {
       const widgets = state?.ENVI_widget?.widgets || [];
       callback([...widgets]);
     }, "ENVI_widget.widgets");
   }
-
   subscribeToSelectedWidget(callback: (widget: WidgetData | null) => void): () => void {
     return DynaMan.subscribe((fullState: any) => {
       if (!fullState || !fullState.ENVI_widget) {
         callback(null);
         return;
       }
-
       const widgetEnv = fullState.ENVI_widget;
       const selectedId = widgetEnv.selectedWidgetId;
 
@@ -685,6 +463,7 @@ class AbsMan {
       }
 
       const widgets = widgetEnv.widgets || [];
+
       const widget = widgets.find((w: WidgetData) => w.id === selectedId);
 
       if (widget) {
@@ -697,4 +476,5 @@ class AbsMan {
 }
 
 export const absMan = new AbsMan();
+
 export type { WidgetData };
