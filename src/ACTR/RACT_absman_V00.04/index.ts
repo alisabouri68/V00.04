@@ -1,12 +1,7 @@
 // managers/absMan.ts
 import { DynaMan } from "../RACT_dynaMan_V00.04";
 
-const getEnvVariable = (key: string, fallback: string = ''): string => {
-  if (typeof process !== 'undefined' && process.env) {
-    return (process.env as any)[key] || fallback;
-  }
-  return fallback;
-};
+
 interface WidgetData {
   id: string;
   name: string;
@@ -135,18 +130,17 @@ class AbsMan {
     lastUpdated: new Date().toISOString()
   };
 
-  constructor() {
-    // مقدار اولیه امن رو روی DynaMan ست می‌کنیم
+constructor() {
+  if (!DynaMan.get("ENVI_profile")) {
     DynaMan.set("ENVI_profile", this.initialProfile);
-    DynaMan.set("ENVI_HYB", this.initialHyb);
-    DynaMan.set("ENVI_widget", this.initialWidget);
-
-    DynaMan.set("environment.API_URL", getEnvVariable('REACT_APP_API_URL', 'http://localhost:3000/api'));
-    DynaMan.set("environment.APP_NAME", getEnvVariable('REACT_APP_APP_NAME', 'My App'));
-    DynaMan.set("environment.ENVIRONMENT", getEnvVariable('REACT_APP_ENVIRONMENT', 'development'));
-
-    console.log("✅ AbsMan initialized with DynaMan");
   }
+  if (!DynaMan.get("ENVI_HYB")) {
+    DynaMan.set("ENVI_HYB", this.initialHyb);
+  }
+  if (!DynaMan.get("ENVI_widget")) {
+    DynaMan.set("ENVI_widget", this.initialWidget);
+  }
+}
 
   // === متدهای مدیریت ویجت‌ها ===
 
