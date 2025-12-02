@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { absMan, WidgetData } from "ACTR/RACT_absman_V00.04";
 import {
   Edit3,
-  Save,
   Plus,
   ChevronDown,
   ChevronRight,
@@ -65,7 +64,7 @@ function EventPanel({ widgetId }: EventPanelProps) {
       if (widget) {
         console.log("🎯 EventPanel: Loading events for:", widget.name);
         setSelectedWidget(widget);
-        
+
         // تبدیل events array
         const eventsArray: EventHandler[] = [];
         if (widget.events) {
@@ -79,7 +78,7 @@ function EventPanel({ widgetId }: EventPanelProps) {
             });
           });
         }
-        
+
         setEventHandlers(eventsArray);
         setTempEventHandlers(eventsArray);
       } else {
@@ -122,7 +121,7 @@ function EventPanel({ widgetId }: EventPanelProps) {
   };
 
   const updateEventHandler = (id: string, field: keyof EventHandler, value: string) => {
-    setTempEventHandlers(prev => prev.map(handler => 
+    setTempEventHandlers(prev => prev.map(handler =>
       handler.id === id ? { ...handler, [field]: value } : handler
     ));
   };
@@ -140,7 +139,7 @@ function EventPanel({ widgetId }: EventPanelProps) {
     if (!selectedWidget) return;
 
     console.log("💾 Saving event handlers...");
-    
+
     const success = absMan.updateWidgetProps(selectedWidget.id, {
       events: tempEventHandlers
     });
@@ -149,14 +148,14 @@ function EventPanel({ widgetId }: EventPanelProps) {
       console.log("✅ Event handlers saved");
       setEventHandlers(tempEventHandlers);
       setIsEditing(false);
-      
+
       // ثبت event log
       absMan.logWidgetEvent(selectedWidget.id, {
         event: "event_handlers_updated",
         handler: "EventPanel.save",
         description: `Updated ${tempEventHandlers.length} event handlers`
       });
-      
+
       // ویجت آپدیت شده را بگیر
       setTimeout(() => {
         const updated = absMan.getWidgetById(selectedWidget.id);
@@ -174,11 +173,11 @@ function EventPanel({ widgetId }: EventPanelProps) {
 
   const handleRefresh = () => {
     if (!selectedWidget) return;
-    
+
     const widget = absMan.getWidgetById(selectedWidget.id);
     if (widget) {
       setSelectedWidget(widget);
-      
+
       const eventsArray: EventHandler[] = [];
       if (widget.events) {
         widget.events.forEach((event: any) => {
@@ -191,7 +190,7 @@ function EventPanel({ widgetId }: EventPanelProps) {
           });
         });
       }
-      
+
       setEventHandlers(eventsArray);
       setTempEventHandlers(eventsArray);
     }
